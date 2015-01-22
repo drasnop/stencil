@@ -1,6 +1,6 @@
 #overlay {
 	background-color:black;
-	opacity:.4;
+	opacity:.5;
 
 	position:fixed;
 	top:0;
@@ -8,6 +8,10 @@
 	left:0;
 	right:0;
 	z-index:1000000;
+}
+
+.dimmed {
+	-webkit-filter: grayscale(70%);
 }
 
 .customizable{
