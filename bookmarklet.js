@@ -13,10 +13,14 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		a.documentElement.childNodes[0].appendChild(c)
 	}
 })(window,document,"2.1.0",function($,L){
+
 	$.getScript("https://localhost:8888/main.js");
-	$('<link/>', {
-		rel: 'stylesheet',
-		type: 'text/css',
-		href: 'https://localhost:8888/style.css'
-	}).appendTo('head');
+
+	if ($("link[href='https://localhost:8888/style.css']").length===0){
+		$('<link/>', {
+			rel: 'stylesheet',
+			type: 'text/css',
+			href: 'https://localhost:8888/style.css'
+		}).appendTo('head');
+	}
 });

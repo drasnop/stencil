@@ -8,8 +8,8 @@ var customizableElementsSelectors = [
 	".taskItem-star .wundercon.starred",
 	".taskItem-checkboxWrapper .checkBox",
 	".filters-collection .sidebarItem a .title",
-	".stream-counts",
-	".actionBar"
+	".wundercon.bell-medium",
+	"div.tab.more"
 ];
 
 var customizableElements = $(customizableElementsSelectors.join());
