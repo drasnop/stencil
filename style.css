@@ -1,7 +1,8 @@
 
 #overlay {
 	background-color:black;
-	opacity:.5;
+	/*transition: opacity 1s;*/
+	opacity:.5;	/* should be animated */
 
 	position:fixed;
 	top:0;
@@ -18,11 +19,14 @@
 
 .customizable{
 	z-index: 1000001!important;
+	position: absolute!important;
+	
 	background-color: #eee;
 	color: #333;
+	
+	/*transition: box-shadow .5s;*/
 	box-shadow: 0 0 3px 2px rgb(97, 255, 237)!important;
 	border: 1px solid #ccc;
-	position: absolute!important;
 
 	cursor: pointer;
 }
@@ -30,15 +34,3 @@
 .customizable:hover{
 	box-shadow: 0 0 3px 3px yellow!important;
 }
-
-
-/*background-image: url("//d2hkcehpyog59.cloudfront.net/4bbe54ea1bd582cdb87e2a35f3f2a0f7d0dcc10d/images/backgrounds/2048/15.jpg") !important;
-background-size: cover;
-background-repeat: no-repeat;
-background-position: center top;
-position: fixed;
-top: 0;
-bottom: 0;
-left: 0;
-right: 0;
-z-index: -100;*/

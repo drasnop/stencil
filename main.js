@@ -1,8 +1,3 @@
-console.log("jQuery version: ", jQuery.fn.jquery)
-
-// I don't understand why jQuery is not associated with $...
-$=jQuery;
-
 var customizableElementsSelectors = [
 	".taskItem-star .icon.task-starred",
 	".taskItem-star .wundercon.starred",
@@ -25,15 +20,23 @@ if(customizationModeOn === undefined){
 	$("body").children().wrapAll("<div id='webpage-body'></div>");
 	$("#webpage-body")
 		.css(getAllCSS($("body")))
-		.css("overflow","visible")
+		.css({
+			position: "absolute",
+			bottom: "0",
+			right: "0",
+			top: "0",
+			left: "0"
+		})
 		.addClass("dimmed")
+
+	$("body").append("<div id='overlay'></div>");
+	/*$("#overlay").css("opacity",".4");   transitions are too slow, alas*/
 
 	// super annoying workaround because of the way they defined the background image
 	$("head").append("<style id='special-style'> #wunderlist-base::before{"+
 	"-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
 	// add some structure for the customization mode
-	$("body").append("<div id='overlay'></div>");
 	$("body").append("<div id='hooks'></div>");
 
 	// store the current coordinates
@@ -92,7 +95,7 @@ function css2json(css) {
         }
     } else if (typeof css == "string") {
         css = css.split("; ");
-        for (i in css) {
+        for (var i in css) {
             var l = css[i].split(": ");
             s[l[0].toLowerCase()] = (l[1]);
         }

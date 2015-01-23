@@ -14,7 +14,9 @@ javascript:(function(e,a,g,h,f,c,b,d){
 	}else{
 		console.log("jQuery ",g,"already present")
 	}
-})(window,document,"2.1.0",function($,L){
+})(window,document,"2.1.0",function(j,L){
+	window.jQuery=j;
+	window.$=window.jQuery;
 
 	$.getScript("https://localhost:8888/main.js");
 
