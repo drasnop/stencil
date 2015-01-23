@@ -10,18 +10,21 @@ javascript:(function(e,a,g,h,f,c,b,d){
 				f(c).remove()
 			}
 		};
-		a.documentElement.childNodes[0].appendChild(c)
+		a.documentElement.childNodes[0].appendChild(c);
+	}else{
+		console.log("jQuery ",g,"already present")
 	}
 })(window,document,"2.1.0",function($,L){
 
 	$.getScript("https://localhost:8888/main.js");
 
-	if ($("link[href='https://localhost:8888/style.css']").length===0){
-		$('<link/>', {
-			rel: 'stylesheet',
-			type: 'text/css',
-			crossorigin: 'anonymous',
-			href: 'https://localhost:8888/style.css'
-		}).appendTo('head');
-	}
+	if ($("link[href='https://localhost:8888/style.css']").length>0)
+		$("link[href='https://localhost:8888/style.css']").remove();
+
+	$('<link/>', {
+		rel: 'stylesheet',
+		type: 'text/css',
+		crossorigin: 'anonymous',
+		href: 'https://localhost:8888/style.css'
+	}).appendTo('head');
 });

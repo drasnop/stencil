@@ -13,6 +13,7 @@
 
 .dimmed {
 	-webkit-filter: grayscale(70%);
+	filter: grayscale(70%);
 }
 
 .customizable{
@@ -29,3 +30,15 @@
 .customizable:hover{
 	box-shadow: 0 0 3px 3px yellow!important;
 }
+
+
+/*background-image: url("//d2hkcehpyog59.cloudfront.net/4bbe54ea1bd582cdb87e2a35f3f2a0f7d0dcc10d/images/backgrounds/2048/15.jpg") !important;
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center top;
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+z-index: -100;*/

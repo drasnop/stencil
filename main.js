@@ -18,12 +18,19 @@ var customizationModeOn;
 var hooks;
 
 if(customizationModeOn === undefined){
+	console.log("customization mode on");
 	customizationModeOn=true;
 	
 	// wrap the content of the webpage in a div
 	$("body").children().wrapAll("<div id='webpage-body'></div>");
-	$("#webpage-body").css(getAllCSS($("body")));
-	$(".main-interface, #wunderlist-base.background-01:before").addClass("dimmed");
+	$("#webpage-body")
+		.css(getAllCSS($("body")))
+		.css("overflow","visible")
+		.addClass("dimmed")
+
+	// super annoying workaround because of the way they defined the background image
+	$("head").append("<style id='special-style'> #wunderlist-base::before{"+
+	"-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
 	// add some structure for the customization mode
 	$("body").append("<div id='overlay'></div>");
@@ -51,8 +58,11 @@ if(customizationModeOn === undefined){
 	hooks.addClass("customizable");
 }
 else{
+	console.log("customization mode off")
 	customizationModeOn=undefined;
+	hooks.remove();
 	$("#overlay, #hooks").remove();
+	$("#special-style").remove();
 	$("#webpage-body").contents().unwrap();
 }
 
