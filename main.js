@@ -53,7 +53,7 @@ if(customizationModeOn === undefined){
 else{
 	customizationModeOn=undefined;
 	$("#overlay, #hooks").remove();
-	hooks.remove();
+	$("#webpage-body").contents().unwrap();
 }
 
 
@@ -82,7 +82,7 @@ function css2json(css) {
         }
     } else if (typeof css == "string") {
         css = css.split("; ");
-        for (var i in css) {
+        for (i in css) {
             var l = css[i].split(": ");
             s[l[0].toLowerCase()] = (l[1]);
         }

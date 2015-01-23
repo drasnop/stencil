@@ -20,6 +20,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		$('<link/>', {
 			rel: 'stylesheet',
 			type: 'text/css',
+			crossorigin: 'anonymous',
 			href: 'https://localhost:8888/style.css'
 		}).appendTo('head');
 	}
