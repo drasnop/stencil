@@ -6,37 +6,36 @@ var customizableElementsSelectors = [
 	".wundercon.bell-medium",
 	"div.tab.more"
 ];
-
-var customizableElements = $(customizableElementsSelectors.join());
-
-var customizationModeOn;
-var hooks;
-
-if(customizationModeOn === undefined){
-	console.log("customization mode on");
-	customizationModeOn=true;
+var KEYCODE_ESC = 27,
+	customizableElements = $(customizableElementsSelectors.join()),
+	hooks;
 	
-	// wrap the content of the webpage in a div
-	$("body").children().wrapAll("<div id='webpage-body'></div>");
-	$("#webpage-body")
-		.css(getAllCSS($("body")))
-		.css({
-			position: "absolute",
-			bottom: "0",
-			right: "0",
-			top: "0",
-			left: "0"
-		})
-		.addClass("dimmed")
+if(hooks === undefined)
+	enterCustomizationMode();
+else
+	exitCustomizationMode();
+
+$(document).keyup(function(e) {
+	if (e.keyCode == KEYCODE_ESC) {
+        exitCustomizationMode();
+	}
+});
+
+
+function enterCustomizationMode(){
+	console.log("customization mode on");
+	
+	/* dim the background */
 
 	$("body").append("<div id='overlay'></div>");
 	/*$("#overlay").css("opacity",".4");   transitions are too slow, alas*/
-
+	$("body").children().addClass("dimmed");
 	// super annoying workaround because of the way they defined the background image
 	$("head").append("<style id='special-style'> #wunderlist-base::before{"+
 	"-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
-	// add some structure for the customization mode
+	/* create hooks */
+
 	$("body").append("<div id='hooks'></div>");
 
 	// store the current coordinates
@@ -57,19 +56,22 @@ if(customizationModeOn === undefined){
 			"top":$(this).data("coordinates").top+"px"
 		});
 	})
-
 	hooks.addClass("customizable");
 }
-else{
+
+
+function exitCustomizationMode(){
 	console.log("customization mode off")
-	customizationModeOn=undefined;
 	hooks.remove();
+	hooks=undefined;
 	$("#overlay, #hooks").remove();
 	$("#special-style").remove();
-	$("#webpage-body").contents().unwrap();
+	$("body").children().removeClass("dimmed");
 }
 
 
+
+///////////		helper functions		////////////////////
 
 function getAllCSS(a) {
     var sheets = document.styleSheets, o = {};
