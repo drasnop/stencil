@@ -2,14 +2,14 @@ var customizableElementsSelectors = [
 	".taskItem-star .icon.task-starred",
 	".taskItem-star .wundercon.starred",
 	".taskItem-checkboxWrapper .checkBox",
-	".filters-collection .sidebarItem a .title",
+	".filters-collection .sidebarItem[aria-hidden=false] a .title",
 	".wundercon.bell-medium",
 	"div.tab.more"
 ];
 var KEYCODE_ESC = 27,
 	customizableElements = $(customizableElementsSelectors.join()),
 	hooks;
-	
+
 if(hooks === undefined)
 	enterCustomizationMode();
 else
@@ -25,7 +25,7 @@ $(document).keyup(function(e) {
 function enterCustomizationMode(){
 	console.log("customization mode on");
 	
-	/* dim the background */
+	/*------- dim the background --------*/
 
 	$("body").append("<div id='overlay'></div>");
 	/*$("#overlay").css("opacity",".4");   transitions are too slow, alas*/
@@ -34,7 +34,8 @@ function enterCustomizationMode(){
 	$("head").append("<style id='special-style'> #wunderlist-base::before{"+
 	"-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
-	/* create hooks */
+
+	/*-------- create hooks --------*/
 
 	$("body").append("<div id='hooks'></div>");
 
@@ -57,6 +58,12 @@ function enterCustomizationMode(){
 		});
 	})
 	hooks.addClass("customizable");
+
+
+	/*--------	create customization panels	--------*/
+
+	$("body").append("<div id='panels'></div>");
+	$("#panels").append("<a id='show-full-panel'>Other settings...</a>");
 }
 
 
@@ -64,7 +71,7 @@ function exitCustomizationMode(){
 	console.log("customization mode off")
 	hooks.remove();
 	hooks=undefined;
-	$("#overlay, #hooks").remove();
+	$("#overlay, #hooks, #panels").remove();
 	$("#special-style").remove();
 	$("body").children().removeClass("dimmed");
 }

@@ -1,5 +1,6 @@
 
 #overlay {
+	z-index:1000000;
 	background-color:black;
 	/*transition: opacity 1s;*/
 	opacity:.5;	/* should be animated */
@@ -9,7 +10,6 @@
 	bottom:0;
 	left:0;
 	right:0;
-	z-index:1000000;
 }
 
 .dimmed {
@@ -18,19 +18,35 @@
 }
 
 .customizable{
-	z-index: 1000001!important;
-	position: absolute!important;
+	z-index: 1000001;
+	position: absolute;
 	
 	background-color: #eee;
 	color: #333;
 	
 	/*transition: box-shadow .5s;*/
-	box-shadow: 0 0 3px 2px rgb(97, 255, 237)!important;
+	box-shadow: 0 0 3px 2px rgb(97, 255, 237);
 	border: 1px solid #ccc;
 
 	cursor: pointer;
 }
 
 .customizable:hover{
-	box-shadow: 0 0 3px 3px yellow!important;
+	box-shadow: 0 0 3px 3px yellow;
+}
+
+#panels{
+	z-index: 1000002;
+}
+
+#show-full-panel{
+	z-index: inherit;
+	position:fixed;
+	bottom:15px;
+	right:20px;
+	color:white;
+}
+
+#show-full-panel:hover{
+	color:rgb(97, 255, 237);
 }
