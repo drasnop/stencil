@@ -41,7 +41,11 @@ function enterCustomizationMode(){
 
 	// store the current coordinates
 	customizableElements.each(function(){
-		$(this).data("coordinates",$(this).offset());
+		$(this).data("coordinates", $(this).offset());
+		$(this).data("style", getRelevantCSS($(this),parentCSS));
+	})
+	customizableElements.find("*").each(function(){
+		$(this).data("style", getRelevantCSS($(this),childrenCSS));
 	})
 
 	// clone with their data, but remove event binders with .off()
@@ -51,10 +55,13 @@ function enterCustomizationMode(){
 	// position the hooks on top of the elements
 	hooks.each(function(){
 		//$(this).offset($(this).data("coordinates")); doesn't work
-		$(this).removeAttr('style')
+		$(this).css($(this).data("style"))
 		.css({
 			"left":$(this).data("coordinates").left+"px",
 			"top":$(this).data("coordinates").top+"px"
+		});
+		$(this).find("*").each(function(){
+			$(this).css($(this).data("style"));
 		});
 	})
 	hooks.addClass("customizable");
@@ -79,6 +86,23 @@ function exitCustomizationMode(){
 
 
 ///////////		helper functions		////////////////////
+
+var parentCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
+				"box-sizing","width", "height","display",
+				"text-align","font-size"];
+
+var childrenCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
+				"margin-top", "margin-right", "margin-bottom", "margin-left",
+				"box-sizing","width", "height","display",
+				"text-align","font-size"];
+
+function getRelevantCSS(obj, relevantCSS) {
+	var rules={};
+	for(var i in relevantCSS){
+		rules[relevantCSS[i]] = obj.css(relevantCSS[i]);
+	}
+	return rules;
+}
 
 function getAllCSS(a) {
     var sheets = document.styleSheets, o = {};
