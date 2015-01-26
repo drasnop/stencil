@@ -1,23 +1,63 @@
-var customizableElementsSelectors = [
-	".addTask",
-	".taskItem-star .icon.task-starred",
-	".taskItem-star .wundercon.starred",
-	".detail-star .icon.detail-starred",
-	".detail-star .wundercon.starred",
-	".detail-date .token_0",
-	".detail-checkbox .checkBox",
-	".taskItem-checkboxWrapper .checkBox",
-	".taskItem-duedate",
-	".filters-collection .sidebarItem[aria-hidden=false] a .title",
-	"#main-toolbar .wundercon.bell-medium",
-	".detail-reminder .wundercon.reminder",
-	"#main-toolbar .wundercon.search",
-	".actionBar-bottom div.tab.more",
-	".sidebarActions-addList",
-	".detail-trash .wundercon.trash"
+var mapping = [
+	{
+		"selector":".addTask",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":	".taskItem-star .icon.task-starred, "+
+					".taskItem-star .wundercon.starred, "+
+					".detail-star .icon.detail-starred, "+
+					".detail-star .wundercon.starred",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":	".taskItem-duedate, "+
+					".detail-date .token_0",
+		"option":"",
+		"values":""
+	},
+	
+	{
+		"selector":	".detail-checkbox .checkBox, "+
+					".taskItem-checkboxWrapper .checkBox",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":".filters-collection .sidebarItem[aria-hidden=false] a .title",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":	"#main-toolbar .wundercon.bell-medium, "+
+					".detail-reminder .wundercon.reminder",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":"#main-toolbar .wundercon.search",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":".sidebarActions-addList",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":".actionBar-bottom div.tab.more",
+		"option":"",
+		"values":""
+	},
+	{
+		"selector":".detail-trash .wundercon.trash",
+		"option":"",
+		"values":""
+	}
 ];
 var KEYCODE_ESC = 27,
-	customizableElements = $(customizableElementsSelectors.join()),
 	hooks;
 
 if(hooks === undefined)
@@ -50,37 +90,42 @@ function enterCustomizationMode(){
 	$("body").append("<div id='hooks'></div>");
 
 	// store the current coordinates
-	customizableElements.each(function(){
-		$(this).data("coordinates", $(this).offset());
-		$(this).data("style", getRelevantCSS($(this),parentCSS));
-	})
-	customizableElements.find("*").each(function(){
-		$(this).data("style", getRelevantCSS($(this),childrenCSS));
-		$(this).addClass("customizable-children");
-	})
+	var customizable;
+	mapping.forEach(function(m){
+		customizable=$(m.selector);
 
-	// clone with their data, but remove event binders with .off()
-	hooks=customizableElements.clone(true).off();
-	hooks.appendTo("#hooks");
+		customizable.each(function(){
+			$(this).data("coordinates", $(this).offset());
+			$(this).data("style", getRelevantCSS($(this),parentCSS));
+		})
+		customizable.find("*").each(function(){
+			$(this).data("style", getRelevantCSS($(this),childrenCSS));
+		})
 
-	// position the hooks on top of the elements
-	hooks.each(function(){
-		//$(this).offset($(this).data("coordinates")); doesn't work
-		$(this)
-		.css($(this).data("style"))
-		.attr('disabled', 'disabled')
-		.css({
-			"left":$(this).data("coordinates").left+"px",
-			"top":$(this).data("coordinates").top+"px"
-		});
+		// clone with their data, but remove event binders with .off()
+		hooks=customizable.clone(true).off();
+		hooks.appendTo("#hooks");
 
-		$(this).find("*").each(function(){
+		// position the hooks on top of the elements
+		hooks.each(function(){
+			//$(this).offset($(this).data("coordinates")); doesn't work
 			$(this)
 			.css($(this).data("style"))
 			.attr('disabled', 'disabled')
-		});
-	})
-	hooks.addClass("customizable");
+			.css({
+				"left":$(this).data("coordinates").left+"px",
+				"top":$(this).data("coordinates").top+"px"
+			});
+
+			$(this).find("*").each(function(){
+				$(this)
+				.css($(this).data("style"))
+				.attr('disabled', 'disabled')
+				.addClass("customizable-children");
+			});
+		})
+		hooks.addClass("customizable");
+	});
 
 
 	/*--------	create customization panels	--------*/
