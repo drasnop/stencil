@@ -18,21 +18,27 @@
 }
 
 .customizable{
-	z-index: 1000001;
-	position: absolute;
+	z-index: 1000001		!important;
+	position: absolute 		!important;
+	margin: 0				!important;
 	
-	background-color: #eee;
-	color: #333;
+	background-color: #eee	!important;
+	color: #333				!important;
 	
 	/*transition: box-shadow .5s;*/
-	box-shadow: 0 0 3px 2px rgb(97, 255, 237);
-	border: 1px solid #ccc;
+	box-shadow: 0 0 3px 2px rgb(97, 255, 237)!important;
+	border: 1px solid #ccc	!important;
 
-	cursor: pointer;
+	cursor: pointer 		!important;
 }
 
-.customizable:hover{
-	box-shadow: 0 0 3px 3px yellow;
+.customizable:hover, .customizable.hovered{
+	box-shadow: 0 0 3px 3px yellow!important;
+}
+
+.customizable-children{
+	background-color: #eee	!important;
+	color: #333				!important;
 }
 
 #panels{

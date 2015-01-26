@@ -1,10 +1,20 @@
 var customizableElementsSelectors = [
+	".addTask",
 	".taskItem-star .icon.task-starred",
 	".taskItem-star .wundercon.starred",
+	".detail-star .icon.detail-starred",
+	".detail-star .wundercon.starred",
+	".detail-date .token_0",
+	".detail-checkbox .checkBox",
 	".taskItem-checkboxWrapper .checkBox",
+	".taskItem-duedate",
 	".filters-collection .sidebarItem[aria-hidden=false] a .title",
-	".wundercon.bell-medium",
-	"div.tab.more"
+	"#main-toolbar .wundercon.bell-medium",
+	".detail-reminder .wundercon.reminder",
+	"#main-toolbar .wundercon.search",
+	".actionBar-bottom div.tab.more",
+	".sidebarActions-addList",
+	".detail-trash .wundercon.trash"
 ];
 var KEYCODE_ESC = 27,
 	customizableElements = $(customizableElementsSelectors.join()),
@@ -27,9 +37,9 @@ function enterCustomizationMode(){
 	
 	/*------- dim the background --------*/
 
+	$("body").children().addClass("dimmed");
 	$("body").append("<div id='overlay'></div>");
 	/*$("#overlay").css("opacity",".4");   transitions are too slow, alas*/
-	$("body").children().addClass("dimmed");
 	// super annoying workaround because of the way they defined the background image
 	$("head").append("<style id='special-style'> #wunderlist-base::before{"+
 	"-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
@@ -46,6 +56,7 @@ function enterCustomizationMode(){
 	})
 	customizableElements.find("*").each(function(){
 		$(this).data("style", getRelevantCSS($(this),childrenCSS));
+		$(this).addClass("customizable-children");
 	})
 
 	// clone with their data, but remove event binders with .off()
@@ -55,13 +66,18 @@ function enterCustomizationMode(){
 	// position the hooks on top of the elements
 	hooks.each(function(){
 		//$(this).offset($(this).data("coordinates")); doesn't work
-		$(this).css($(this).data("style"))
+		$(this)
+		.css($(this).data("style"))
+		.attr('disabled', 'disabled')
 		.css({
 			"left":$(this).data("coordinates").left+"px",
 			"top":$(this).data("coordinates").top+"px"
 		});
+
 		$(this).find("*").each(function(){
-			$(this).css($(this).data("style"));
+			$(this)
+			.css($(this).data("style"))
+			.attr('disabled', 'disabled')
 		});
 	})
 	hooks.addClass("customizable");
@@ -88,10 +104,12 @@ function exitCustomizationMode(){
 ///////////		helper functions		////////////////////
 
 var parentCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
+				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
 				"box-sizing","width", "height","display",
 				"text-align","font-size"];
 
 var childrenCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
+				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
 				"margin-top", "margin-right", "margin-bottom", "margin-left",
 				"box-sizing","width", "height","display",
 				"text-align","font-size"];
