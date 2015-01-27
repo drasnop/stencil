@@ -1,7 +1,7 @@
 var mapping = [
 	{
 		"selector":".addTask",
-		"option":"",
+		"option":"shortcut_add_new_task",
 		"values":""
 	},
 	{
@@ -9,20 +9,20 @@ var mapping = [
 					".taskItem-star .wundercon.starred, "+
 					".detail-star .icon.detail-starred, "+
 					".detail-star .wundercon.starred",
-		"option":"",
+		"option":"shortcut_mark_task_starred",
 		"values":""
 	},
 	{
 		"selector":	".taskItem-duedate, "+
 					".detail-date .token_0",
-		"option":"",
-		"values":""
+		"option":"date_format",
+		"values":"DD.MM.YYYY"
 	},
 	
 	{
 		"selector":	".detail-checkbox .checkBox, "+
 					".taskItem-checkboxWrapper .checkBox",
-		"option":"",
+		"option":"shortcut_mark_task_done",
 		"values":""
 	},
 	{
@@ -33,17 +33,17 @@ var mapping = [
 	{
 		"selector":	"#main-toolbar .wundercon.bell-medium, "+
 					".detail-reminder .wundercon.reminder",
-		"option":"",
+		"option":"notifications",
 		"values":""
 	},
 	{
 		"selector":"#main-toolbar .wundercon.search",
-		"option":"",
+		"option":"shortcut_goto_search",
 		"values":""
 	},
 	{
 		"selector":".sidebarActions-addList",
-		"option":"",
+		"option":"shortcut_add_new_list",
 		"values":""
 	},
 	{
@@ -53,7 +53,7 @@ var mapping = [
 	},
 	{
 		"selector":".detail-trash .wundercon.trash",
-		"option":"",
+		"option":"shortcut_delete",
 		"values":""
 	}
 ];
@@ -115,7 +115,8 @@ function enterCustomizationMode(){
 			.css({
 				"left":$(this).data("coordinates").left+"px",
 				"top":$(this).data("coordinates").top+"px"
-			});
+			})
+			.data("option",m.option);
 
 			$(this).find("*").each(function(){
 				$(this)
@@ -125,6 +126,10 @@ function enterCustomizationMode(){
 			});
 		})
 		hooks.addClass("customizable");
+		hooks.hover(function(){
+			console.log($(".customizable[data-option='"+$(this).data("option")+"']").length);
+			$(".customizable").filterByData("option",$(this).data("option")).toggleClass("hovered");
+		})
 	});
 
 
@@ -165,4 +170,11 @@ function getRelevantCSS(obj, relevantCSS) {
 		rules[relevantCSS[i]] = obj.css(relevantCSS[i]);
 	}
 	return rules;
+}
+
+// the data attribute will not be updated in the DOM if it is changed dynamically
+$.fn.filterByData = function(prop, val) {
+    return this.filter(
+        function() { return $(this).data(prop)==val; }
+    );
 }
