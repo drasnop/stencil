@@ -18,6 +18,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 	window.jQuery=j;
 	window.$=window.jQuery;
 
+	$.getScript("https://localhost:8888/data.js");
 	$.getScript("https://localhost:8888/main.js");
 
 	if ($("link[href='https://localhost:8888/style.css']").length>0)

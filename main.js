@@ -1,64 +1,4 @@
-var mapping = [
-	{
-		"selector":".addTask",
-		"option":"shortcut_add_new_task",
-		"values":""
-	},
-	{
-		"selector":	".taskItem-star .icon.task-starred, "+
-					".taskItem-star .wundercon.starred, "+
-					".detail-star .icon.detail-starred, "+
-					".detail-star .wundercon.starred",
-		"option":"shortcut_mark_task_starred",
-		"values":""
-	},
-	{
-		"selector":	".taskItem-duedate, "+
-					".detail-date .token_0",
-		"option":"date_format",
-		"values":"DD.MM.YYYY"
-	},
-	
-	{
-		"selector":	".detail-checkbox .checkBox, "+
-					".taskItem-checkboxWrapper .checkBox",
-		"option":"shortcut_mark_task_done",
-		"values":""
-	},
-	{
-		"selector":".filters-collection .sidebarItem[aria-hidden=false] a .title",
-		"option":"",
-		"values":""
-	},
-	{
-		"selector":	"#main-toolbar .wundercon.bell-medium, "+
-					".detail-reminder .wundercon.reminder",
-		"option":"notifications",
-		"values":""
-	},
-	{
-		"selector":"#main-toolbar .wundercon.search",
-		"option":"shortcut_goto_search",
-		"values":""
-	},
-	{
-		"selector":".sidebarActions-addList",
-		"option":"shortcut_add_new_list",
-		"values":""
-	},
-	{
-		"selector":".actionBar-bottom div.tab.more",
-		"option":"",
-		"values":""
-	},
-	{
-		"selector":".detail-trash .wundercon.trash",
-		"option":"shortcut_delete",
-		"values":""
-	}
-];
-var KEYCODE_ESC = 27,
-	hooks;
+var hooks;
 
 if(hooks === undefined)
 	enterCustomizationMode();
@@ -116,7 +56,7 @@ function enterCustomizationMode(){
 				"left":$(this).data("coordinates").left+"px",
 				"top":$(this).data("coordinates").top+"px"
 			})
-			.data("option",m.option);
+			.data("options",m.options);
 
 			$(this).find("*").each(function(){
 				$(this)
@@ -127,8 +67,7 @@ function enterCustomizationMode(){
 		})
 		hooks.addClass("customizable");
 		hooks.hover(function(){
-			console.log($(".customizable[data-option='"+$(this).data("option")+"']").length);
-			$(".customizable").filterByData("option",$(this).data("option")).toggleClass("hovered");
+			haveCommonOption($(".customizable"),$(this).data("options")).toggleClass("hovered");
 		})
 	});
 
@@ -155,13 +94,14 @@ function exitCustomizationMode(){
 
 var parentCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
 				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
-				"box-sizing","width", "height","display",
+				"box-sizing","width", "height","display","float",
 				"text-align","font-size"];
 
 var childrenCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
 				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
 				"margin-top", "margin-right", "margin-bottom", "margin-left",
-				"box-sizing","width", "height","display",
+				"position","top", "right", "bottom", "left",
+				"box-sizing","width", "height","display","float",
 				"text-align","font-size"];
 
 function getRelevantCSS(obj, relevantCSS) {
@@ -172,9 +112,13 @@ function getRelevantCSS(obj, relevantCSS) {
 	return rules;
 }
 
-// the data attribute will not be updated in the DOM if it is changed dynamically
-$.fn.filterByData = function(prop, val) {
-    return this.filter(
-        function() { return $(this).data(prop)==val; }
-    );
+// return the objects that have at least one option in common with the ones passed in argument
+function haveCommonOption(objects, options) {
+	return objects.filter(function(){
+		var intersection=
+		$(this).data("options").filter(function(n){
+			return options.indexOf(n) != -1;
+		});
+		return intersection.length>0;
+	})
 }
