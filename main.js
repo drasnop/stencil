@@ -1,16 +1,15 @@
-var hooks;
+/*var hooks;
 
 if(hooks === undefined)
 	enterCustomizationMode();
 else
-	exitCustomizationMode();
+	exitCustomizationMode();*/
 
 $(document).keyup(function(e) {
 	if (e.keyCode == KEYCODE_ESC) {
         exitCustomizationMode();
 	}
 });
-
 
 function enterCustomizationMode(){
 	console.log("customization mode on");
@@ -30,7 +29,8 @@ function enterCustomizationMode(){
 	$("body").append("<div id='hooks'></div>");
 
 	// store the current coordinates
-	var customizable;
+	var customizable,
+		hooks;
 	mapping.forEach(function(m){
 		customizable=$(m.selector);
 
@@ -75,15 +75,25 @@ function enterCustomizationMode(){
 	/*--------	create customization panels	--------*/
 
 	$("body").append("<div id='panels'></div>");
-	$("#panels").append("<a id='show-full-panel'>Other settings...</a>");
+	$("#panels")
+	.append("<a id='show-full-panel'>Other settings...</a>")
+	$("#panels").append("<div id='ad-hoc-panel' class='popup'>Blah blah blah</div>")
+
+	$("#ad-hoc-panel").popup({
+		"type": "tooltip",
+		"openelement": ".customizable"
+	});
+
+
 }
 
 
 function exitCustomizationMode(){
 	console.log("customization mode off")
-	hooks.remove();
-	hooks=undefined;
+/*	hooks.remove();
+	hooks=undefined;*/
 	$("#overlay, #hooks, #panels").remove();
+	$("#ad-hoc-panel, #ad-hoc-panel_wrapper").remove();
 	$("#special-style").remove();
 	$("body").children().removeClass("dimmed");
 }

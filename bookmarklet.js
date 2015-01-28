@@ -18,16 +18,24 @@ javascript:(function(e,a,g,h,f,c,b,d){
 	window.jQuery=j;
 	window.$=window.jQuery;
 
-	$.getScript("https://localhost:8888/data.js");
-	$.getScript("https://localhost:8888/main.js");
-
-	if ($("link[href='https://localhost:8888/style.css']").length>0)
-		$("link[href='https://localhost:8888/style.css']").remove();
+	if ($("link[href='//localhost:8888/style.css']").length>0)
+		$("link[href='//localhost:8888/style.css']").remove();
 
 	$('<link/>', {
 		rel: 'stylesheet',
 		type: 'text/css',
 		crossorigin: 'anonymous',
-		href: 'https://localhost:8888/style.css'
+		href: '//localhost:8888/style.css'
 	}).appendTo('head');
+
+	$.when(
+		$.getScript("//localhost:8888/data.js"),
+		$.getScript("//localhost:8888/libs/jquery.popupoverlay.js"),
+		$.getScript("//localhost:8888/main.js"),
+		$.Deferred(function( deferred ){
+			$( deferred.resolve );
+		})
+	).done(function(){
+		enterCustomizationMode();
+	});
 });
