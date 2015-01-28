@@ -1,6 +1,9 @@
 <ul ng-controller="optionsController">
-	<li ng-repeat='(id,option) in options'>
-		<input type="checkbox">
+	<li ng-repeat='(id,option) in options | anchoredOptions:currentOption'>
+		<input type="checkbox" ng-if="option.values.length==0" ng-checked="option.value">
+		<select ng-if="option.values.length>0">
+			<option ng-repeat="value in option.values" value="value">{{value}}</option>
+		</select>
 		<label>{{id}}</label>
 	</li>
 </ul>

@@ -70,3 +70,8 @@
 .popup_wrapper{
 	z-index: 1000003!important;
 }
+
+#ad-hoc-panel li{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}

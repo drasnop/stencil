@@ -6,6 +6,7 @@ $(document).keyup(function(e) {
 
 function initialize(){
 	customizationMode=false;
+	currentOption="smartlist";
 
 	/*--------	create customization panels	--------*/
 
@@ -16,14 +17,25 @@ function initialize(){
 
 	angular.module('myApp', [])
 	.controller('optionsController', ['$scope', function ($scope) {
-		$scope.greetMe = 'World';
 		$scope.options = options;
+		$scope.currentOption = currentOption;
 	}])
 	.directive('adHocPanel', ['$sce', function($sce) {
 		return {
+			// need trustAsResourceUrl since we're loading from another domain
 			templateUrl: $sce.trustAsResourceUrl('//localhost:8888/ad-hoc-panel.html')
 		};
-	}]);
+	}])
+	.filter('anchoredOptions', function(){
+		return function(input,currentOption){
+			var output = {};
+			$.each(input, function(id,option){
+				if(id.indexOf(currentOption)>=0)
+					output[id]=option;
+			});
+			return output;
+		}
+	})
 
 	angular.element(document).ready(function() {
 		console.log("Bootstrapping Angular");
@@ -101,6 +113,9 @@ function enterCustomizationMode(){
 		hooks.addClass("customizable");
 		hooks.hover(function(){
 			haveCommonOption($(".customizable"),$(this).data("options")).toggleClass("hovered");
+		})
+		hooks.click(function() {
+			currentOption=$(this).data("options")[0];
 		})
 	});
 
