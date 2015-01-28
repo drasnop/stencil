@@ -1,17 +1,50 @@
-/*var hooks;
-
-if(hooks === undefined)
-	enterCustomizationMode();
-else
-	exitCustomizationMode();*/
-
 $(document).keyup(function(e) {
 	if (e.keyCode == KEYCODE_ESC) {
         exitCustomizationMode();
 	}
 });
 
+function initialize(){
+	customizationMode=false;
+
+	/*--------	create customization panels	--------*/
+
+	$("body").append("<div id='panels'></div>");
+	$("#panels").append("<div id='ad-hoc-panel' class='popup'>/div>")
+
+	$("#ad-hoc-panel").html("<div ad-hoc-panel></div>")
+
+	angular.module('myApp', [])
+	.controller('optionsController', ['$scope', function ($scope) {
+		$scope.greetMe = 'World';
+		$scope.options = options;
+	}])
+	.directive('adHocPanel', ['$sce', function($sce) {
+		return {
+			templateUrl: $sce.trustAsResourceUrl('//localhost:8888/ad-hoc-panel.html')
+		};
+	}]);
+
+	angular.element(document).ready(function() {
+		console.log("Bootstrapping Angular");
+		angular.bootstrap(document, ['myApp']);
+	});
+}
+
+
+function toggleCustomizationMode(){
+	if(customizationMode===undefined)
+		return;
+
+	if(!customizationMode)
+		enterCustomizationMode();
+	else
+		exitCustomizationMode();
+}
+
+
 function enterCustomizationMode(){
+	customizationMode=true;
 	console.log("customization mode on");
 	
 	/*------- dim the background --------*/
@@ -71,32 +104,21 @@ function enterCustomizationMode(){
 		})
 	});
 
-
-	/*--------	create customization panels	--------*/
-
-	$("body").append("<div id='panels'></div>");
-	$("#panels")
-	.append("<a id='show-full-panel'>Other settings...</a>")
-	$("#panels").append("<div id='ad-hoc-panel' class='popup'>Blah blah blah</div>")
-
+	$("#panels").append("<a id='show-full-panel'>Other settings...</a>")
 	$("#ad-hoc-panel").popup({
 		type: "tooltip",
 		openelement: ".customizable",
 		horizontal: "right",
 		vertical: "center",
 		offsetleft: 10
-	});
-
-
+	})
 }
 
 
 function exitCustomizationMode(){
+	customizationMode=false;
 	console.log("customization mode off")
-/*	hooks.remove();
-	hooks=undefined;*/
-	$("#overlay, #hooks, #panels").remove();
-	$("#ad-hoc-panel, #ad-hoc-panel_wrapper").remove();
+	$("#overlay, #hooks, #show-full-panel").remove();
 	$("#special-style").remove();
 	$("body").children().removeClass("dimmed");
 }
