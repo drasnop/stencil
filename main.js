@@ -80,8 +80,11 @@ function enterCustomizationMode(){
 	$("#panels").append("<div id='ad-hoc-panel' class='popup'>Blah blah blah</div>")
 
 	$("#ad-hoc-panel").popup({
-		"type": "tooltip",
-		"openelement": ".customizable"
+		type: "tooltip",
+		openelement: ".customizable",
+		horizontal: "right",
+		vertical: "center",
+		offsetleft: 10
 	});
 
 

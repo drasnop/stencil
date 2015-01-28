@@ -59,11 +59,14 @@
 
 .popup{
 	min-height: 20px;
-	padding: 19px;
+	padding: 6px 10px;
 	margin-bottom: 20px;
 	background-color: #f5f5f5;
 	border: 1px solid #e3e3e3;
 	border-radius: 4px;
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
-	z-index: 1000003;
+}
+
+.popup_wrapper{
+	z-index: 1000003!important;
 }
