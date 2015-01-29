@@ -6,7 +6,7 @@ $(document).keyup(function(e) {
 
 function initialize(){
 	customizationMode=false;
-	currentOption="smartlist";
+	currentOption="star";
 
 	/*--------	create customization panels	--------*/
 
@@ -19,6 +19,10 @@ function initialize(){
 	.controller('optionsController', ['$scope', function ($scope) {
 		$scope.options = options;
 		$scope.currentOption = currentOption;
+		$scope.updateOption=function(id,value){
+			console.log(id,value)
+			sync.collections.settings.where({key:id})[0].set({value:value})
+		}
 	}])
 	.directive('adHocPanel', ['$sce', function($sce) {
 		return {

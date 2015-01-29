@@ -340,7 +340,7 @@ var options={
 	},
 	"smartlist_visibility_all": {
 		"label": "",
-		"value": "visible",
+		"value": "hidden",
 		"values": ["auto","visible","hidden"]
 	},
 	"smartlist_visibility_assigned_to_me": {
