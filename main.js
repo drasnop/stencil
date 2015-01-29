@@ -8,8 +8,6 @@ function initialize(){
 	customizationMode=false;
 	currentOption="smartlist";
 
-	initializeOptions();
-
 	/*--------	create customization panels	--------*/
 
 	$("body").append("<div id='panels'></div>");
@@ -58,6 +56,8 @@ function initializeOptions(){
 	for(var id in options){
 		options[id].value=sync.collections.settings.where({key:id})[0].get("value");
 	}
+	// notify angular that the current values of options have changed
+	angular.element(document).scope().$apply();
 }
 
 function toggleCustomizationMode(){
