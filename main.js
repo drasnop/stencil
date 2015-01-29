@@ -4,9 +4,11 @@ $(document).keyup(function(e) {
 	}
 });
 
+// global variable to filter options based on which hook is selected
+window.selectedOption="";
+
 function initialize(){
 	customizationMode=false;
-	currentOption="smartlist";
 
 	/*--------	create customization panels	--------*/
 
@@ -18,13 +20,8 @@ function initialize(){
 	angular.module('myApp', [])
 	.controller('optionsController', ['$scope', function ($scope) {
 		$scope.options = options;
-		$scope.currentOption = currentOption;
+		/*$scope.selectedOption = "smartlist";*/
 		$scope.updateOption=function(id,value){
-			/*console.log($scope.options["smartlist_visibility_week"])
-			If the value of window.options is changed outside of Angular,
-			$scope.options contains the new value. 
-			But the popup view isn't updated until one value changes...
-			*/
 			console.log(id,value)
 			sync.collections.settings.where({key:id})[0].set({value:value})
 		}
@@ -36,10 +33,11 @@ function initialize(){
 		};
 	}])
 	.filter('anchoredOptions', function(){
-		return function(input,currentOption){
+		return function(input){
+			console.log("filter with",window.selectedOption)
 			var output = {};
 			$.each(input, function(id,option){
-				if(id.indexOf(currentOption)>=0)
+				if(id.indexOf(window.selectedOption)>=0)
 					output[id]=option;
 			});
 			return output;
@@ -132,7 +130,10 @@ function enterCustomizationMode(){
 			haveCommonOption($(".customizable"),$(this).data("options")).toggleClass("hovered");
 		})
 		hooks.click(function() {
-			currentOption=$(this).data("options")[0];
+			console.log($(this).data("options")[0])
+			// angular.element(document).scope().selectedOption=$(this).data("options")[0];
+			window.selectedOption=$(this).data("options")[0];
+			angular.element(document).scope().$apply();
 		})
 	});
 

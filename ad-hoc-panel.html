@@ -1,5 +1,6 @@
 <ul ng-controller="optionsController">
-	<li ng-repeat='(id,option) in options | anchoredOptions:currentOption'>
+	<li ng-repeat='(id,option) in options | anchoredOptions'>
+		<label ng-if="option.values.length>0">{{id}}</label>
 		<input type="checkbox" 
 			ng-if="option.values.length==0" 
 			ng-model="option.value"
@@ -10,6 +11,6 @@
 			ng-options="value for value in option.values"
 			ng-change="updateOption(id,option.value)">
 		</select>
-		<label>{{id}}</label>
+		<label ng-if="option.values.length==0">{{id}}</label>
 	</li>
 </ul>
