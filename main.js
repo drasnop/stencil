@@ -6,7 +6,9 @@ $(document).keyup(function(e) {
 
 function initialize(){
 	customizationMode=false;
-	currentOption="star";
+	currentOption="smartlist";
+
+	initializeOptions();
 
 	/*--------	create customization panels	--------*/
 
@@ -20,6 +22,11 @@ function initialize(){
 		$scope.options = options;
 		$scope.currentOption = currentOption;
 		$scope.updateOption=function(id,value){
+			/*console.log($scope.options["smartlist_visibility_week"])
+			If the value of window.options is changed outside of Angular,
+			$scope.options contains the new value. 
+			But the popup view isn't updated until one value changes...
+			*/
 			console.log(id,value)
 			sync.collections.settings.where({key:id})[0].set({value:value})
 		}
@@ -47,6 +54,11 @@ function initialize(){
 	});
 }
 
+function initializeOptions(){
+	for(var id in options){
+		options[id].value=sync.collections.settings.where({key:id})[0].get("value");
+	}
+}
 
 function toggleCustomizationMode(){
 	if(customizationMode===undefined)
@@ -62,6 +74,7 @@ function toggleCustomizationMode(){
 function enterCustomizationMode(){
 	customizationMode=true;
 	console.log("customization mode on");
+	initializeOptions();
 	
 	/*------- dim the background --------*/
 
