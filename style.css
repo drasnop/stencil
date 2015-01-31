@@ -71,6 +71,26 @@
 	z-index: 1000003!important;
 }
 
+.row{
+	vertical-align: middle;
+}
+
+.align-left{
+	text-align:left;
+}
+
+.align-right{
+	text-align:right;
+}
+
+td.align-left{
+	padding-left: 10px;
+}
+
+td.align-right [type=checkbox]{
+	margin:0!important;
+}
+
 #ad-hoc-panel li{
 	margin-top: 5px;
 	margin-bottom: 5px;
