@@ -8,47 +8,56 @@ var mapping = [
 					".taskItem-star .wundercon.starred, "+
 					".detail-star .icon.detail-starred, "+
 					".detail-star .wundercon.starred",
-		"options":["shortcut_mark_task_starred"]
+		"options":["behavior_star_tasks_to_top","shortcut_mark_task_starred"]
 	},
 	{
 		"selector":	".taskItem-duedate, "+
 					".detail-date .token_0",
-		"options":["date_format"]
+		"options":["date_format","start_of_week"]
 	},
 	
 	{
 		"selector":	".detail-checkbox .checkBox, "+
 					".taskItem-checkboxWrapper .checkBox",
-		"options":["shortcut_mark_task_done"]
+		"options":["sound_checkoff_enabled","shortcut_mark_task_done"]
+	},
+	{
+		"selector":".filters-collection .sidebarItem a[href='#/lists/inbox']",
+		"options":["shortcut_goto_inbox"]
 	},
 	{
 		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='All']",
-		"options":["smartlist_visibility_all"]
+		"options":["smartlist_visibility_all","shortcut_goto_filter_all"]
 	},
 	{
 		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Assigned to me']",
-		"options":["smartlist_visibility_assigned_to_me"]
+		"options":["smartlist_visibility_assigned_to_me","shortcut_goto_assigned"]
 	},
 	{
 		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Completed']",
-		"options":["smartlist_visibility_done"]
+		"options":["smartlist_visibility_done","shortcut_goto_completed"]
 	},
 	{
 		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Starred']",
-		"options":["smartlist_visibility_starred"]
+		"options":["smartlist_visibility_starred","shortcut_goto_starred"]
 	},
 	{
 		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Today']",
-		"options":["smartlist_visibility_today"]
+		"options":["smartlist_visibility_today","shortcut_goto_today"]
 	},
 	{
 		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Week']",
-		"options":["smartlist_visibility_week"]
+		"options":["smartlist_visibility_week","shortcut_goto_week"]
 	},
 	{
 		"selector":	"#main-toolbar .wundercon.bell-medium, "+
 					".detail-reminder .wundercon.reminder",
-		"options":["notifications"]
+		"options":["notifications_desktop_enabled","notifications_email_enabled",
+					"notifications_push_enabled","sound_notification_enabled"]
+	},
+	{
+		"selector": ".avatar",
+		"options":["shortcut_sync","shortcut_goto_preferences"]
 	},
 	{
 		"selector":"#main-toolbar .wundercon.search",
@@ -64,7 +73,7 @@ var mapping = [
 	},
 	{
 		"selector":".detail-trash .wundercon.trash",
-		"options":["shortcut_delete"]
+		"options":["confirm_delete_entity","shortcut_delete"]
 	}
 ];
 var options={

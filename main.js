@@ -30,12 +30,14 @@ function initialize(){
 		};
 	}])
 	.filter('filterOptions', function(){
-		return function(input,selectedOption){
-			console.log("filter with",selectedOption)
+		return function(input,selectedOptions){
+			console.log("filter with",selectedOptions)
 			var output = {};
-			$.each(input, function(id,option){
-				if(id.indexOf(selectedOption)>=0)
-					output[id]=option;
+			$.each(input, function(name,option){
+				for(var i in selectedOptions){
+					if(selectedOptions[i] == name)
+						output[name]=option;
+				}
 			});
 			return output;
 		}
@@ -127,7 +129,7 @@ function enterCustomizationMode(){
 		})
 		hooks.click(function() {
 			var scope=angular.element(document).scope();
-			scope.selectedOption=$(this).data("options")[0];
+			scope.selectedOptions=$(this).data("options");
 			scope.$apply();
 		})
 	});
@@ -176,8 +178,8 @@ function getRelevantCSS(obj, relevantCSS) {
 }
 
 // return the objects that have at least one option in common with the ones passed in argument
-function haveCommonOption(objects, options) {
-	return objects.filter(function(){
+function haveCommonOption(input, options) {
+	return input.filter(function(){
 		var intersection=
 		$(this).data("options").filter(function(n){
 			return options.indexOf(n) != -1;
