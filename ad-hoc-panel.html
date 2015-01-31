@@ -1,5 +1,5 @@
 <ul ng-controller="optionsController">
-	<li ng-repeat='(id,option) in options | anchoredOptions'>
+	<li ng-repeat='(id,option) in options | filterOptions:selectedOption'>
 		<label ng-if="option.values.length>0">{{id}}</label>
 		<input type="checkbox" 
 			ng-if="option.values.length==0" 

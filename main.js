@@ -4,8 +4,6 @@ $(document).keyup(function(e) {
 	}
 });
 
-// global variable to filter options based on which hook is selected
-window.selectedOption="";
 
 function initialize(){
 	customizationMode=false;
@@ -20,9 +18,8 @@ function initialize(){
 	angular.module('myApp', [])
 	.controller('optionsController', ['$scope', function ($scope) {
 		$scope.options = options;
-		/*$scope.selectedOption = "smartlist";*/
 		$scope.updateOption=function(id,value){
-			console.log(id,value)
+			console.log("updating:",id,value)
 			sync.collections.settings.where({key:id})[0].set({value:value})
 		}
 	}])
@@ -32,12 +29,12 @@ function initialize(){
 			templateUrl: $sce.trustAsResourceUrl('//localhost:8888/ad-hoc-panel.html')
 		};
 	}])
-	.filter('anchoredOptions', function(){
-		return function(input){
-			console.log("filter with",window.selectedOption)
+	.filter('filterOptions', function(){
+		return function(input,selectedOption){
+			console.log("filter with",selectedOption)
 			var output = {};
 			$.each(input, function(id,option){
-				if(id.indexOf(window.selectedOption)>=0)
+				if(id.indexOf(selectedOption)>=0)
 					output[id]=option;
 			});
 			return output;
@@ -89,8 +86,7 @@ function enterCustomizationMode(){
 	$("body").append("<div id='hooks'></div>");
 
 	// store the current coordinates
-	var customizable,
-		hooks;
+	var customizable, hooks;
 	mapping.forEach(function(m){
 		customizable=$(m.selector);
 
@@ -130,10 +126,9 @@ function enterCustomizationMode(){
 			haveCommonOption($(".customizable"),$(this).data("options")).toggleClass("hovered");
 		})
 		hooks.click(function() {
-			console.log($(this).data("options")[0])
-			// angular.element(document).scope().selectedOption=$(this).data("options")[0];
-			window.selectedOption=$(this).data("options")[0];
-			angular.element(document).scope().$apply();
+			var scope=angular.element(document).scope();
+			scope.selectedOption=$(this).data("options")[0];
+			scope.$apply();
 		})
 	});
 
