@@ -30,7 +30,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 
 	$.when(
 		$.getScript("//localhost:8888/data.js"),
-		$.getScript("//localhost:8888/libs/jquery.popupoverlay.js"),
+		$.getScript("//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.js"),
 		$.getScript("//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.js"),
 		$.getScript("//localhost:8888/main.js"),
 		$.Deferred(function( deferred ){

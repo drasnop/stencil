@@ -11,9 +11,7 @@ function initialize(){
 	/*--------	create customization panels	--------*/
 
 	$("body").append("<div id='panels'></div>");
-	$("#panels").append("<div id='ad-hoc-panel' class='popup'>/div>")
-
-	$("#ad-hoc-panel").html("<div ad-hoc-panel></div>")
+	$("#panels").append("<div id='ad-hoc-panel' ad-hoc-panel></div>")
 
 	angular.module('myApp', [])
 	.controller('optionsController', ['$scope', function ($scope) {
@@ -31,7 +29,6 @@ function initialize(){
 	}])
 	.filter('filterOptions', function(){
 		return function(input,selectedOptions){
-			console.log("filter with",selectedOptions)
 			var output = {};
 			$.each(input, function(name,option){
 				for(var i in selectedOptions){
@@ -75,7 +72,7 @@ function enterCustomizationMode(){
 	
 	/*------- dim the background --------*/
 
-	$("body").children().addClass("dimmed");
+	$("body").children(":not(#panels)").addClass("dimmed");
 	$("body").append("<div id='overlay'></div>");
 	/*$("#overlay").css("opacity",".4");   transitions are too slow, alas*/
 	// super annoying workaround because of the way they defined the background image
@@ -91,6 +88,9 @@ function enterCustomizationMode(){
 	var customizable, hooks;
 	mapping.forEach(function(m){
 		customizable=$(m.selector);
+
+		if(customizable.length===0)
+			console.log(m.selector,"failed to match any element for",m.options)
 
 		customizable.each(function(){
 			$(this).data("coordinates", $(this).offset());
@@ -124,24 +124,56 @@ function enterCustomizationMode(){
 			});
 		})
 		hooks.addClass("customizable");
+		
+
+		// highlight all elements that share at least one option with the current one
 		hooks.hover(function(){
 			haveCommonOption($(".customizable"),$(this).data("options")).toggleClass("hovered");
 		})
-		hooks.click(function() {
+
+		// show a panel populated with only the relevant options
+		hooks.click(function(event) {
+			
 			var scope=angular.element(document).scope();
 			scope.selectedOptions=$(this).data("options");
 			scope.$apply();
+
+			var that = $(this);
+
+			$("#ad-hoc-panel").show()
+			$("#ad-hoc-panel").position({
+				my: "left+20 top",
+				at: "right top",
+				of: that,
+				collision: "fit fit",
+				using: function(obj,info){
+
+					console.log(obj, info)
+
+					$(this).css({
+						left: obj.left + 'px',
+						top: obj.top + 'px'
+					});
+				}
+			})
 		})
+
 	});
 
+	$("#overlay").click(function(){
+		$("#ad-hoc-panel").hide();
+	})
+
 	$("#panels").append("<a id='show-full-panel'>Other settings...</a>")
-	$("#ad-hoc-panel").popup({
+	
+
+/*	$("#ad-hoc-panel").popup({
 		type: "tooltip",
 		openelement: ".customizable",
 		horizontal: "right",
 		vertical: "center",
 		offsetleft: 10
-	})
+	})*/
 }
 
 
@@ -159,6 +191,7 @@ function exitCustomizationMode(){
 
 var parentCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
 				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
+				"margin-top", "margin-right", "margin-bottom", "margin-left",
 				"box-sizing","width", "height","display","float",
 				"text-align","font-size"];
 

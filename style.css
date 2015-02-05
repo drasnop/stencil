@@ -21,14 +21,14 @@
 	position: absolute 		!important;
 	margin: 0				!important;
 	
-	background-color: #eee	!important;
-	color: #333				!important;
+	background-color: #eaeaea	!important;
+	color: #333					!important;
 	
 	/*transition: box-shadow .5s;*/
 	box-shadow: 0 0 3px 2px #61FFED!important;
 	/*border: 1px solid #ccc	!important;*/
 
-	cursor: pointer 		!important;
+	cursor: pointer 			!important;
 }
 
 .customizable:hover, .customizable.hovered{
@@ -36,12 +36,14 @@
 }
 
 .customizable-children{
-	background-color: #eee	!important;
-	color: #333				!important;
+	background-color: #eaeaea	!important;
+	color: #333					!important;
 }
 
 #panels{
 	z-index: 1000002;
+	width:1000px;
+	height: 500px;
 }
 
 #show-full-panel{
@@ -57,18 +59,23 @@
 	color:rgb(97, 255, 237);
 }
 
-.popup{
+#ad-hoc-panel{
+	z-index: 1000003;
+	position: absolute;
+
 	min-height: 20px;
 	padding: 6px 10px;
-	margin-bottom: 20px;
-	background-color: #f5f5f5;
-	border: 1px solid #e3e3e3;
+	background-color: rgb(255, 244, 161); /*#f5f5f5*/
 	border-radius: 4px;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
 }
 
 .popup_wrapper{
 	z-index: 1000003!important;
+}
+
+#ad-hoc-panel li{
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .row{
@@ -89,9 +96,4 @@ td.align-left{
 
 td.align-right [type=checkbox]{
 	margin:0!important;
-}
-
-#ad-hoc-panel li{
-	margin-top: 5px;
-	margin-bottom: 5px;
 }

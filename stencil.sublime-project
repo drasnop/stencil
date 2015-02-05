@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"path": "/C/Users/Antoine/programmation/web/stencil",
+			"name":"stencil",
+			"folder_exclude_patterns":[
+				"git",
+				"libs"
+			],
+			"file_exclude_patterns": [
+				".git*",
+				"certificate.pem",
+				"ssl-server.py",
+				"*.sublime*"
+				]
+		}
+	]
+}

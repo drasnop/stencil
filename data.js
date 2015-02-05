@@ -1,6 +1,6 @@
 var mapping = [
 	{
-		"selector":".addTask",
+		"selector":".addTask-input",
 		"options":["shortcut_add_new_task"]
 	},
 	{
