@@ -12,8 +12,9 @@ function initialize(){
 	$("#panels").append("<div id='ad-hoc-panel' ad-hoc-panel></div>")
 
 	angular.module('myApp', [])
-	.controller('optionsController', ['$scope', function ($scope) {
-		$scope.options = options;
+	.controller('optionsController', ['$scope','$window', function ($scope, $window) {
+		$scope.options=$window.options;
+		$scope.test="aaa";
 		$scope.updateOption=function(id,value){
 			console.log("updating:",id,value)
 			sync.collections.settings.where({key:id})[0].set({value:value})
@@ -54,6 +55,7 @@ function enterCustomizationMode(){
 
 	$("body").children(":not(#panels)").addClass("dimmed");
 	$("body").append("<div id='overlay'></div>");
+	$("#panels").show(); //TODO: remove them, and try to recreate popup in enterCM()
 	/*$("#overlay").css("opacity",".4");   transitions are too slow, alas*/
 	// super annoying workaround because of the way they defined the background image
 	$("head").append("<style id='special-style'> #wunderlist-base::before{"+
@@ -182,8 +184,20 @@ $(document).keyup(function(e) {
 });
 
 function initializeOptions(){
+	var value;
 	for(var id in options){
-		options[id].value=sync.collections.settings.where({key:id})[0].get("value");
+		// I am using booleans, but they are storing these options as strings!
+		value=sync.collections.settings.where({key:id})[0].get("value")
+		switch(value){
+			case "true":
+				options[id].value=true;
+				break;
+			case "false":
+				options[id].value=false;
+				break;
+			default:
+				options[id].value=value;
+		}
 	}
 	// notify angular that the current values of options have changed
 	angular.element(document).scope().$apply();
@@ -205,6 +219,8 @@ function exitCustomizationMode(){
 	$("#overlay, #hooks, #show-full-panel").remove();
 	$("#special-style").remove();
 	$("body").children().removeClass("dimmed");
+
+	$("#panels").hide(); //TODO: remove them, and try to recreate popup in enterCM()
 }
 
 

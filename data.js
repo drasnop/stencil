@@ -353,7 +353,7 @@ var options=
 		"label": "Open Preferences",
 		"value": "CTRL + P",
 		"values": [
-		"CTRL + P"
+		"CTRL + P", "CTRL + ."
 		]
 	},
 	"shortcut_goto_search": {
@@ -374,7 +374,7 @@ var options=
 		"label": "Mark Selected Items as 'Starred'",
 		"value": "CTRL + S",
 		"values": [
-		"CTRL + S"
+		"CTRL + S", "CTRL + T"
 		]
 	},
 	"shortcut_paste_tasks": {
