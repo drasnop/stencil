@@ -1,5 +1,5 @@
 <table ng-controller="optionsController">
-	<tr class="row" ng-repeat='(id,option) in options | filterOptions:selectedOptions'>
+	<tr class="row" ng-repeat='(id,option) in options | filterOptions'>
 		<td class="align-right">
 			<input type="checkbox" class="float-right"
 				ng-if="option.values.length==0" 

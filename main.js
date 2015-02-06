@@ -1,9 +1,7 @@
-$(document).keyup(function(e) {
-	if (e.keyCode == KEYCODE_ESC) {
-        exitCustomizationMode();
-	}
-});
-
+/*global global:true*/
+var global={
+	"selectedOptions":[]
+};
 
 function initialize(){
 	customizationMode=false;
@@ -28,11 +26,11 @@ function initialize(){
 		};
 	}])
 	.filter('filterOptions', function(){
-		return function(input,selectedOptions){
+		return function(input){
 			var output = {};
 			$.each(input, function(name,option){
-				for(var i in selectedOptions){
-					if(selectedOptions[i] == name)
+				for(var i in global.selectedOptions){
+					if(global.selectedOptions[i] == name)
 						output[name]=option;
 				}
 			});
@@ -44,24 +42,6 @@ function initialize(){
 		console.log("Bootstrapping Angular");
 		angular.bootstrap(document, ['myApp']);
 	});
-}
-
-function initializeOptions(){
-	for(var id in options){
-		options[id].value=sync.collections.settings.where({key:id})[0].get("value");
-	}
-	// notify angular that the current values of options have changed
-	angular.element(document).scope().$apply();
-}
-
-function toggleCustomizationMode(){
-	if(customizationMode===undefined)
-		return;
-
-	if(!customizationMode)
-		enterCustomizationMode();
-	else
-		exitCustomizationMode();
 }
 
 
@@ -129,19 +109,30 @@ function enterCustomizationMode(){
 		
 
 		// highlight all elements that share at least one option with the current one
-		hooks.hover(function(){
-			haveCommonOption($(".customizable"),$(this).data("options")).toggleClass("hovered");
+		hooks.mouseenter(function(){
+			filterByCommonOption($(".customizable"),$(this).data("options")).addClass("hovered");
+		})
+
+		hooks.mouseleave(function(){
+			if(!nonZeroIntersection($(this).data("options"),global.selectedOptions))
+				filterByCommonOption($(".customizable"),$(this).data("options")).removeClass("hovered");
 		})
 
 		// show a panel populated with only the relevant options
 		hooks.click(function(event) {
 			
-			var scope=angular.element(document).scope();
-			scope.selectedOptions=$(this).data("options");
-			scope.$apply();
+			// update the contenct of the panel
+			global.selectedOptions=$(this).data("options");
+			angular.element(document).scope().$apply();
 
+			// remove previous highlighted hooks, if any
+			$(".customizable").each(function(){
+				if(!nonZeroIntersection($(this).data("options"),global.selectedOptions))
+					filterByCommonOption($(".customizable"),$(this).data("options")).removeClass("hovered");
+			})
+
+			// update the position of the panel
 			var that = $(this);
-
 			$("#ad-hoc-panel").show()
 			$("#ad-hoc-panel").position({
 				my: "left+20 top",
@@ -150,7 +141,7 @@ function enterCustomizationMode(){
 				collision: "fit fit",
 				using: function(obj,info){
 
-					console.log(obj, info)
+					// console.log(obj, info)
 
 					$(this).css({
 						left: obj.left + 'px',
@@ -164,6 +155,8 @@ function enterCustomizationMode(){
 
 	$("#overlay").click(function(){
 		$("#ad-hoc-panel").hide();
+		global.selectedOptions=[];
+		$(".customizable").removeClass("hovered");
 	})
 
 	$("#panels").append("<a id='show-full-panel'>Other settings...</a>")
@@ -179,6 +172,33 @@ function enterCustomizationMode(){
 }
 
 
+///////////		Secondary functions		////////////////////
+
+
+$(document).keyup(function(e) {
+	if (e.keyCode == KEYCODE_ESC) {
+        exitCustomizationMode();
+	}
+});
+
+function initializeOptions(){
+	for(var id in options){
+		options[id].value=sync.collections.settings.where({key:id})[0].get("value");
+	}
+	// notify angular that the current values of options have changed
+	angular.element(document).scope().$apply();
+}
+
+function toggleCustomizationMode(){
+	if(customizationMode===undefined)
+		return;
+
+	if(!customizationMode)
+		enterCustomizationMode();
+	else
+		exitCustomizationMode();
+}
+
 function exitCustomizationMode(){
 	customizationMode=false;
 	console.log("customization mode off")
@@ -190,6 +210,8 @@ function exitCustomizationMode(){
 
 
 ///////////		helper functions		////////////////////
+
+
 
 var parentCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
 				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
@@ -213,12 +235,17 @@ function getRelevantCSS(obj, relevantCSS) {
 }
 
 // return the objects that have at least one option in common with the ones passed in argument
-function haveCommonOption(input, options) {
+function filterByCommonOption(input, options) {
 	return input.filter(function(){
-		var intersection=
-		$(this).data("options").filter(function(n){
-			return options.indexOf(n) != -1;
-		});
-		return intersection.length>0;
-	})
+		return nonZeroIntersection($(this).data("options"), options)
+	});
+}
+
+// returns true if arrays a and b have at least one element in common
+function nonZeroIntersection(a, b){
+	var intersection=
+	a.filter(function(element){
+		return b.indexOf(element) != -1;
+	});
+	return intersection.length>0;
 }
