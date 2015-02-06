@@ -110,6 +110,7 @@ function enterCustomizationMode(){
 			$(this)
 			.css($(this).data("style"))
 			.attr('disabled', 'disabled')
+			.removeAttr('href')
 			.css({
 				"left":$(this).data("coordinates").left+"px",
 				"top":$(this).data("coordinates").top+"px"
@@ -120,6 +121,7 @@ function enterCustomizationMode(){
 				$(this)
 				.css($(this).data("style"))
 				.attr('disabled', 'disabled')
+				.removeAttr('href')
 				.addClass("customizable-children");
 			});
 		})

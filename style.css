@@ -21,7 +21,7 @@
 	position: absolute 		!important;
 	margin: 0				!important;
 	
-	background-color: #eaeaea	!important;
+	background-color: #ededed	!important;
 	color: #333					!important;
 	
 	/*transition: box-shadow .5s;*/
@@ -36,7 +36,7 @@
 }
 
 .customizable-children{
-	background-color: #eaeaea	!important;
+	background-color: #ededed	!important;
 	color: #333					!important;
 }
 
@@ -62,6 +62,7 @@
 #ad-hoc-panel{
 	z-index: 1000003;
 	position: absolute;
+	display: none;
 
 	min-height: 20px;
 	padding: 6px 10px;
