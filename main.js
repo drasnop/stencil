@@ -15,13 +15,13 @@ function initialize(){
 	.controller('optionsController', ['$scope','$window', function ($scope, $window) {
 		$scope.options=$window.options;
 
-		// 0=minimum, 1=linked, 2=highlighted
-		$scope.optionsVisibility=0;
-
 		$scope.updateOption=function(id,value){
 			console.log("updating:",id,value)
 			sync.collections.settings.where({key:id})[0].set({value:value})
 		}
+
+		// 0=minimum, 1=linked, 2=highlighted
+		$scope.optionsVisibility=0;
 	}])
 	.directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
 		function($sce, $http, $templateCache, $compile) {
@@ -150,7 +150,7 @@ function enterCustomizationMode(){
 			
 			// update the contenct of the panel
 			global.selectedOptions=$(this).data("options");
-			angular.element(document).scope().$apply();
+			angular.element($("#ad-hoc-panel")).scope().$apply();
 
 			// remove previous highlighted hooks, if any
 			$(".customizable").each(function(){
@@ -225,7 +225,7 @@ function initializeOptions(){
 		}
 	}
 	// notify angular that the current values of options have changed
-	angular.element(document).scope().$apply();
+	angular.element($("#ad-hoc-panel")).scope().$apply();
 }
 
 function toggleCustomizationMode(){
