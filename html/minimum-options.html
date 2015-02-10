@@ -1,0 +1,19 @@
+<table>
+	<tr class="row" ng-repeat='(id,option) in options | filterOptions'>
+		<td class="align-right">
+			<input type="checkbox" class="float-right"
+				ng-if="option.values.length==0" 
+				ng-model="option.value"
+				ng-change="updateOption(id,option.value)">
+			<select class="float-right"
+				ng-if="option.values.length>0"
+				ng-model="option.value"
+				ng-options="value for value in option.values"
+				ng-change="updateOption(id,option.value)">
+			</select>
+		</td>
+		<td class="align-left">
+			<label>{{option.label}}</label>
+		</td>
+	</tr>
+</table>

@@ -1,6 +1,6 @@
 /*global global:true*/
 var global={
-	"selectedOptions":[]
+	"selectedOptions":[],
 };
 
 function initialize(){
@@ -9,23 +9,48 @@ function initialize(){
 	/*--------	create customization panels	--------*/
 
 	$("body").append("<div id='panels'></div>");
-	$("#panels").append("<div id='ad-hoc-panel' ad-hoc-panel></div>")
+	$("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>")
 
 	angular.module('myApp', [])
 	.controller('optionsController', ['$scope','$window', function ($scope, $window) {
 		$scope.options=$window.options;
-		$scope.test="aaa";
+
+		// 0=minimum, 1=linked, 2=highlighted
+		$scope.optionsVisibility=0;
+
 		$scope.updateOption=function(id,value){
 			console.log("updating:",id,value)
 			sync.collections.settings.where({key:id})[0].set({value:value})
 		}
 	}])
-	.directive('adHocPanel', ['$sce', function($sce) {
-		return {
-			// need trustAsResourceUrl since we're loading from another domain
-			templateUrl: $sce.trustAsResourceUrl('//localhost:8888/ad-hoc-panel.html')
-		};
-	}])
+	.directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
+		function($sce, $http, $templateCache, $compile) {
+
+			return {
+				link: function(scope, element, attrs) {
+					// recompile the template everytime optionsVisibility changes
+					scope.$watch('optionsVisibility', function() {
+
+						var url;
+						switch(scope.optionsVisibility){
+							case 0:
+							case 1:
+								// need trustAsResourceUrl since we're loading from another domain
+								url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
+							break;
+							case 2:
+								url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
+							break;
+						}
+
+						$http.get(url, {cache: $templateCache})
+						.success(function(response){
+							element.html($compile(response)(scope));     
+						})
+					});
+				}
+			};
+		}])
 	.filter('filterOptions', function(){
 		return function(input){
 			var output = {};
@@ -50,7 +75,7 @@ function enterCustomizationMode(){
 	customizationMode=true;
 	console.log("customization mode on");
 	initializeOptions();
-	
+
 	/*------- dim the background --------*/
 
 	$("body").children(":not(#panels)").addClass("dimmed");
@@ -59,7 +84,7 @@ function enterCustomizationMode(){
 	/*$("#overlay").css("opacity",".4");   transitions are too slow, alas*/
 	// super annoying workaround because of the way they defined the background image
 	$("head").append("<style id='special-style'> #wunderlist-base::before{"+
-	"-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
+		"-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
 
 	/*-------- create hooks --------*/
@@ -155,14 +180,14 @@ function enterCustomizationMode(){
 
 	});
 
-	$("#overlay").click(function(){
-		$("#ad-hoc-panel").hide();
-		global.selectedOptions=[];
-		$(".customizable").removeClass("hovered");
-	})
+$("#overlay").click(function(){
+	$("#ad-hoc-panel").hide();
+	global.selectedOptions=[];
+	$(".customizable").removeClass("hovered");
+})
 
-	$("#panels").append("<a id='show-full-panel'>Other settings...</a>")
-	
+$("#panels").append("<a id='show-full-panel'>Other settings...</a>")
+
 
 /*	$("#ad-hoc-panel").popup({
 		type: "tooltip",
@@ -179,7 +204,7 @@ function enterCustomizationMode(){
 
 $(document).keyup(function(e) {
 	if (e.keyCode == KEYCODE_ESC) {
-        exitCustomizationMode();
+		exitCustomizationMode();
 	}
 });
 
@@ -190,13 +215,13 @@ function initializeOptions(){
 		value=sync.collections.settings.where({key:id})[0].get("value")
 		switch(value){
 			case "true":
-				options[id].value=true;
-				break;
+			options[id].value=true;
+			break;
 			case "false":
-				options[id].value=false;
-				break;
+			options[id].value=false;
+			break;
 			default:
-				options[id].value=value;
+			options[id].value=value;
 		}
 	}
 	// notify angular that the current values of options have changed
@@ -211,6 +236,13 @@ function toggleCustomizationMode(){
 		enterCustomizationMode();
 	else
 		exitCustomizationMode();
+}
+
+function toggleOptionsVisibility(){
+	var scope=angular.element($("#ad-hoc-panel")).scope();
+	scope.optionsVisibility= (scope.optionsVisibility+1)%3;
+	console.log("scope.optionsVisibility",scope.optionsVisibility);
+	scope.$apply();
 }
 
 function exitCustomizationMode(){
@@ -230,17 +262,17 @@ function exitCustomizationMode(){
 
 
 var parentCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
-				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
-				"margin-top", "margin-right", "margin-bottom", "margin-left",
-				"box-sizing","width", "height","display","float",
-				"text-align","font-size"];
+"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
+"margin-top", "margin-right", "margin-bottom", "margin-left",
+"box-sizing","width", "height","display","float",
+"text-align","font-size"];
 
 var childrenCSS=["padding-top", "padding-right", "padding-bottom", "padding-left",
-				"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
-				"margin-top", "margin-right", "margin-bottom", "margin-left",
-				"position","top", "right", "bottom", "left",
-				"box-sizing","width", "height","display","float",
-				"text-align","font-size"];
+"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
+"margin-top", "margin-right", "margin-bottom", "margin-left",
+"position","top", "right", "bottom", "left",
+"box-sizing","width", "height","display","float",
+"text-align","font-size"];
 
 function getRelevantCSS(obj, relevantCSS) {
 	var rules={};
