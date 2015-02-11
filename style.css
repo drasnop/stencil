@@ -78,6 +78,7 @@ ul#tabs{
 
 table#options{
 	padding: 8px 10px;
+	width:100%;
 }
 
 .tab{
@@ -110,10 +111,12 @@ table#options{
 
 .align-left{
 	text-align:left;
+	width: 60%;
 }
 
 .align-right{
 	text-align:right;
+	width: 40%;
 }
 
 td.align-left{

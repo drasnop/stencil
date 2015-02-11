@@ -1,6 +1,11 @@
 angular.module('myApp', [])
 .controller('optionsController', ['$scope','$window', function ($scope, $window) {
 	$scope.options=$window.options;
+	$scope.selectedOptions=$window.global.selectedOptions;
+	
+	// 0=minimum, 1=linked, 2=highlighted
+	$scope.optionsVisibility=2;
+
 	$scope.tabs={
 		"general":0,
 		"shortcuts":0,
@@ -8,12 +13,7 @@ angular.module('myApp', [])
 		"smartlists":0,
 		"notifications":0
 	}
-
-	// 0=minimum, 1=linked, 2=highlighted
-	$scope.optionsVisibility=2;
-
 	$scope.currentTab="";
-	$scope.selectedOptions=$window.global.selectedOptions;
 
 	$scope.updateOption=function(id,value){
 		console.log("updating:",id,value)
@@ -41,7 +41,26 @@ angular.module('myApp', [])
 			}
 		}
 	}
-	
+
+	$scope.updateTabs=function(){
+		for(var tab in $scope.tabs){
+			$scope.tabs[tab]=0;
+		}
+		for(var i in $scope.selectedOptions){
+			// a positive value will be treated as true by the filters
+			$scope.tabs[$scope.options[$scope.selectedOptions[i]].tab]++;
+		}
+
+		// determine which tab sould be displayed, but computing which tab has the most highlighted options
+		// in case of equality, the first tab will be chosen
+		var max=0;
+		for(tab in $scope.tabs){
+			if($scope.tabs[tab] > max){
+				max=$scope.tabs[tab];
+				$scope.currentTab=tab;
+			}
+		}
+	}
 }])
 .directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
 	function($sce, $http, $templateCache, $compile) {

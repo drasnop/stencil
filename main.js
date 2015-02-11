@@ -97,12 +97,12 @@ function enterCustomizationMode(){
 		// show a panel populated with only the relevant options
 		hooks.click(function(event) {
 			
-			// update the contenct of the panel
-			global.selectedOptions=$(this).data("options");
-			//angular.element($("#ad-hoc-panel")).scope().selectedOptions=global.selectedOptions;	// ugly...
-			angular.element($("#ad-hoc-panel")).scope().$apply();
-			updateTabs();
-			angular.element($("#ad-hoc-panel")).scope().$apply();
+			// update the content of the panel
+			// deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular $scope.selectedOptions
+			angular.copy($(this).data("options"), global.selectedOptions)
+			var scope=angular.element($("#ad-hoc-panel")).scope();
+			scope.updateTabs();
+			scope.$apply();
 
 			// remove previous highlighted hooks, if any
 			$(".customizable").each(function(){
@@ -218,26 +218,4 @@ function nonZeroIntersection(a, b){
 		return b.indexOf(element) != -1;
 	});
 	return intersection.length>0;
-}
-
-function updateTabs(){
-	var scope=angular.element($("#ad-hoc-panel")).scope();
-
-	for(var tab in scope.tabs){
-		scope.tabs[tab]=0;
-	}
-	for(var i in global.selectedOptions){
-		scope.tabs[options[global.selectedOptions[i]].tab]++;
-	}
-
-	// determine which tab sould be displayed, but computing which tab has the most highlighted options
-	// in case of equality, the first tab will be chosen
-	var max=0;
-	for(tab in scope.tabs){
-		if(scope.tabs[tab] > max){
-			max=scope.tabs[tab];
-			scope.currentTab=tab;
-		}
-	}
-	scope.$apply();
 }
