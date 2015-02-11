@@ -21,7 +21,7 @@
 			</select>
 		</td>
 		<td class="align-left">
-			<label>{{option.label}}</label>
+			<label ng-class="{'highlighted': selectedOptions.indexOf(id)>=0}">{{option.label}}</label>
 		</td>
 	</tr>
 </table>

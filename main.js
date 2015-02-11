@@ -25,7 +25,8 @@ function initialize(){
 		// 0=minimum, 1=linked, 2=highlighted
 		$scope.optionsVisibility=2;
 
-		$scope.currentTab="general";
+		$scope.currentTab="";
+		$scope.selectedOptions=$window.global.selectedOptions;
 
 		$scope.updateOption=function(id,value){
 			console.log("updating:",id,value)
@@ -173,6 +174,7 @@ function enterCustomizationMode(){
 			
 			// update the contenct of the panel
 			global.selectedOptions=$(this).data("options");
+			angular.element($("#ad-hoc-panel")).scope().selectedOptions=global.selectedOptions;	// ugly...
 			updateTabs();
 			angular.element($("#ad-hoc-panel")).scope().$apply();
 
