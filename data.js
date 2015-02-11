@@ -353,7 +353,7 @@ var options=
 		"tab": "shortcuts-more"
 	},
 	"shortcut_goto_filter_completed": {
-		"label": "",
+		"label": "Open 'Completed' Smart List",
 		"value": "CTRL + 6",
 		"values": [
 		"CTRL + 6"

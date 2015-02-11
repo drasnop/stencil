@@ -1,6 +1,6 @@
 /*global global:true*/
 var global={
-	"selectedOptions":[],
+	"selectedOptions":[]
 };
 
 function initialize(){
@@ -14,14 +14,27 @@ function initialize(){
 	angular.module('myApp', [])
 	.controller('optionsController', ['$scope','$window', function ($scope, $window) {
 		$scope.options=$window.options;
+		$scope.tabs={
+			"general":0,
+			"shortcuts":0,
+			"shortcuts-more":0,
+			"smartlists":0,
+			"notifications":0
+		}
+
+		// 0=minimum, 1=linked, 2=highlighted
+		$scope.optionsVisibility=2;
+
+		$scope.currentTab="general";
 
 		$scope.updateOption=function(id,value){
 			console.log("updating:",id,value)
 			sync.collections.settings.where({key:id})[0].set({value:value})
 		}
 
-		// 0=minimum, 1=linked, 2=highlighted
-		$scope.optionsVisibility=0;
+		$scope.onClickTab=function(tab){
+			$scope.currentTab=tab;
+		}
 	}])
 	.directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
 		function($sce, $http, $templateCache, $compile) {
@@ -60,6 +73,16 @@ function initialize(){
 						output[name]=option;
 				}
 			});
+			return output;
+		}
+	})
+	.filter('filterTab', function(){
+		return function(input, currentTab){
+			var output={}
+			for(var id in input){
+				if(input[id].tab == currentTab)
+					output[id]=input[id];
+			}
 			return output;
 		}
 	})
@@ -150,6 +173,7 @@ function enterCustomizationMode(){
 			
 			// update the contenct of the panel
 			global.selectedOptions=$(this).data("options");
+			updateTabs();
 			angular.element($("#ad-hoc-panel")).scope().$apply();
 
 			// remove previous highlighted hooks, if any
@@ -296,4 +320,26 @@ function nonZeroIntersection(a, b){
 		return b.indexOf(element) != -1;
 	});
 	return intersection.length>0;
+}
+
+function updateTabs(){
+	var scope=angular.element($("#ad-hoc-panel")).scope();
+
+	for(var tab in scope.tabs){
+		scope.tabs[tab]=0;
+	}
+	for(var i in global.selectedOptions){
+		scope.tabs[options[global.selectedOptions[i]].tab]++;
+	}
+
+	// determine which tab sould be displayed, but computing which tab has the most highlighted options
+	// in case of equality, the first tab will be chosen
+	var max=0;
+	for(tab in scope.tabs){
+		if(scope.tabs[tab] > max){
+			max=scope.tabs[tab];
+			scope.currentTab=tab;
+		}
+	}
+	scope.$apply();
 }
