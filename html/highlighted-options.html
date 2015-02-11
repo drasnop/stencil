@@ -1,7 +1,7 @@
 <ul id="tabs">
 	<li class="tab"
-		ng-repeat="(tab,highlighted) in tabs"
-		ng-class="{'highlighted': highlighted, 'active': tab==currentTab}"
+		ng-repeat="tab in tabNames"
+		ng-class="{'highlighted': tabs[tab]>0, 'active': tab==currentTab}"
 		ng-click="onClickTab(tab)">
 		<span>{{tab}}</span>
 	</li>

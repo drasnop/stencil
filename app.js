@@ -6,13 +6,14 @@ angular.module('myApp', [])
 	// 0=minimum, 1=linked, 2=highlighted
 	$scope.optionsVisibility=2;
 
+	$scope.tabNames=["General","Shortcuts","Smart Lists","Notifications"];
 	$scope.tabs={
-		"general":0,
-		"shortcuts":0,
-		"shortcuts-more":0,
-		"smartlists":0,
-		"notifications":0
-	}
+		"General":0,
+		"Shortcuts":0,
+		"Shortcuts-more":0,
+		"Smart Lists":0,
+		"Notifications":0
+	};
 	$scope.currentTab="";
 
 	$scope.updateOption=function(id,value){
@@ -106,7 +107,7 @@ angular.module('myApp', [])
 	return function(input, currentTab){
 		var output={}
 		for(var id in input){
-			if(input[id].tab == currentTab)
+			if(input[id].tab.indexOf(currentTab)>=0)
 				output[id]=input[id];
 		}
 		return output;

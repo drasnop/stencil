@@ -142,7 +142,7 @@ var options=
 		"label": "Star moves item to top",
 		"value": true,
 		"values": [],
-		"tab": "general"
+		"tab": "General"
 	},
 	"chrome_app_rating_later": {
 		"label": "",
@@ -164,7 +164,7 @@ var options=
 		"label": "Confirm before deleting items",
 		"value": true,
 		"values": [],
-		"tab": "general"
+		"tab": "General"
 	},
 	"date_format": {
 		"label": "Date Format",
@@ -172,7 +172,7 @@ var options=
 		"values": [
 		"DD.MM.YYYY"
 		],
-		"tab": "general"
+		"tab": "General"
 	},
 	"enable_natural_date_recognition": {
 		"label": "",
@@ -194,7 +194,7 @@ var options=
 		"values": [
 		"en_GB"
 		],
-		"tab": "general"
+		"tab": "General"
 	},
 	"last_open_app_date": {
 		"label": "",
@@ -222,7 +222,7 @@ var options=
 		"values": [
 		"top","bottom"
 		],
-		"tab": "general"
+		"tab": "General"
 	},
 	"newsletter_subscription_enabled": {
 		"label": "",
@@ -234,19 +234,19 @@ var options=
 		"label": "Desktop Notifications",
 		"value": true,
 		"values": [],
-		"tab": "notifications"
+		"tab": "Notifications"
 	},
 	"notifications_email_enabled": {
 		"label": "Email Notifications",
 		"value": true,
 		"values": [],
-		"tab": "notifications"
+		"tab": "Notifications"
 	},
 	"notifications_push_enabled": {
 		"label": "Push Notifications",
 		"value": true,
 		"values": [],
-		"tab": "notifications"
+		"tab": "Notifications"
 	},
 	"onboarding_add_todo": {
 		"label": "",
@@ -270,7 +270,7 @@ var options=
 		"label": "Print completed items",
 		"value": false,
 		"values": [],
-		"tab": "general"
+		"tab": "General"
 	},
 	"pro_trial_limit_assigning": {
 		"label": "",
@@ -302,7 +302,7 @@ var options=
 		"values": [
 		"CTRL + L"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"shortcut_add_new_task": {
 		"label": "Add a New Item",
@@ -310,7 +310,7 @@ var options=
 		"values": [
 		"CTRL + 0"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"shortcut_copy_tasks": {
 		"label": "",
@@ -334,7 +334,7 @@ var options=
 		"values": [
 		"CTRL + BACKSPACE"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"shortcut_goto_filter_all": {
 		"label": "Open 'All' Smart List",
@@ -342,7 +342,7 @@ var options=
 		"values": [
 		"CTRL + 5"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_filter_assigned": {
 		"label": "Open 'Assigned to Me' Smart List",
@@ -350,7 +350,7 @@ var options=
 		"values": [
 		"CTRL + 1"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_filter_completed": {
 		"label": "Open 'Completed' Smart List",
@@ -358,7 +358,7 @@ var options=
 		"values": [
 		"CTRL + 6"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_filter_starred": {
 		"label": "Open 'Starred' Smart List",
@@ -366,7 +366,7 @@ var options=
 		"values": [
 		"CTRL + 2"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_filter_today": {
 		"label": "Open 'Today' Smart List",
@@ -374,7 +374,7 @@ var options=
 		"values": [
 		"CTRL + 3"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_filter_week": {
 		"label": "Open 'Week' Smart List",
@@ -382,7 +382,7 @@ var options=
 		"values": [
 		"CTRL + 4"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_inbox": {
 		"label": "Open Inbox",
@@ -390,7 +390,7 @@ var options=
 		"values": [
 		"CTRL + I"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_preferences": {
 		"label": "Open Preferences",
@@ -398,7 +398,7 @@ var options=
 		"values": [
 		"CTRL + P", "CTRL + ."
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_goto_search": {
 		"label": "Focus Search",
@@ -406,7 +406,7 @@ var options=
 		"values": [
 		"CTRL + F"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"shortcut_mark_task_done": {
 		"label": "Mark Selected Items as 'Completed'",
@@ -414,7 +414,7 @@ var options=
 		"values": [
 		"CTRL + D"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"shortcut_mark_task_starred": {
 		"label": "Mark Selected Items as 'Starred'",
@@ -422,7 +422,7 @@ var options=
 		"values": [
 		"CTRL + S", "CTRL + T"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"shortcut_paste_tasks": {
 		"label": "",
@@ -438,7 +438,7 @@ var options=
 		"values": [
 		"CTRL + A"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"shortcut_send_via_email": {
 		"label": "Email List",
@@ -446,7 +446,7 @@ var options=
 		"values": [
 		"CTRL + E"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_show_notifications": {
 		"label": "Show Activities",
@@ -454,7 +454,7 @@ var options=
 		"values": [
 		"CTRL + SHIFT + A"
 		],
-		"tab": "shortcuts-more"
+		"tab": "Shortcuts-more"
 	},
 	"shortcut_sync": {
 		"label": "Sync",
@@ -462,7 +462,7 @@ var options=
 		"values": [
 		"R"
 		],
-		"tab": "shortcuts"
+		"tab": "Shortcuts"
 	},
 	"show_completed_items": {
 		"label": "",
@@ -486,7 +486,7 @@ var options=
 		"visible",
 		"hidden"
 		],
-		"tab": "smartlists"
+		"tab": "Smart Lists"
 	},
 	"smartlist_visibility_assigned_to_me": {
 		"label": "Assigned to me",
@@ -496,7 +496,7 @@ var options=
 		"visible",
 		"hidden"
 		],
-		"tab": "smartlists"
+		"tab": "Smart Lists"
 	},
 	"smartlist_visibility_done": {
 		"label": "Completed",
@@ -506,7 +506,7 @@ var options=
 		"visible",
 		"hidden"
 		],
-		"tab": "smartlists"
+		"tab": "Smart Lists"
 	},
 	"smartlist_visibility_starred": {
 		"label": "Starred",
@@ -516,7 +516,7 @@ var options=
 		"visible",
 		"hidden"
 		],
-		"tab": "smartlists"
+		"tab": "Smart Lists"
 	},
 	"smartlist_visibility_today": {
 		"label": "Today",
@@ -526,7 +526,7 @@ var options=
 		"visible",
 		"hidden"
 		],
-		"tab": "smartlists"
+		"tab": "Smart Lists"
 	},
 	"smartlist_visibility_week": {
 		"label": "Week",
@@ -536,19 +536,19 @@ var options=
 		"visible",
 		"hidden"
 		],
-		"tab": "smartlists"
+		"tab": "Smart Lists"
 	},
 	"sound_checkoff_enabled": {
 		"label": "Enable sound for checking-off an item",
 		"value": true,
 		"values": [],
-		"tab": "general"
+		"tab": "General"
 	},
 	"sound_notification_enabled": {
 		"label": "Enable sound for new notifications",
 		"value": true,
 		"values": [],
-		"tab": "general"
+		"tab": "General"
 	},
 	"start_of_week": {
 		"label": "Start of the Week",
@@ -556,7 +556,7 @@ var options=
 		"values": [
 		"sun"
 		],
-		"tab": "general"
+		"tab": "General"
 	},
 	"time_format": {
 		"label": "Time Format",
@@ -564,7 +564,7 @@ var options=
 		"values": [
 		"12 hour"
 		],
-		"tab": "general"
+		"tab": "General"
 	},
 	"today_smart_list_visible_tasks": {
 		"label": "Week & Today Settings",
@@ -572,7 +572,7 @@ var options=
 		"values": [
 		"all"
 		],
-		"tab": "smartlists"
+		"tab": "Smart Lists"
 	},
 	"type": {
 		"label": "",
