@@ -4,7 +4,7 @@ angular.module('myApp', [])
 	$scope.selectedOptions=$window.global.selectedOptions;
 	
 	// 0=minimum, 1=linked, 2=highlighted
-	$scope.optionsVisibility=1;
+	$scope.optionsVisibility=2;
 
 	$scope.tabNames=["General","Shortcuts","Smart Lists","Notifications"];
 	$scope.tabCounts={
@@ -52,7 +52,7 @@ angular.module('myApp', [])
 		return $scope.tabNames.indexOf(option.tab);
 	}
 
-	$scope.updateTabs=function(){
+	$scope.computeActiveTab=function(){
 		var tab;
 		for(tab in $scope.tabCounts){
 			$scope.tabCounts[tab]=0;
@@ -63,7 +63,7 @@ angular.module('myApp', [])
 			$scope.tabCounts[tab]++;
 		}
 
-		// determine which tab sould be displayed, but computing which tab has the most highlighted options
+		// determine which tab sould be active, buy computing which tab has the most highlighted options
 		// in case of equality, the first tab will be chosen
 		var max=0;
 		for(i in $scope.tabNames){

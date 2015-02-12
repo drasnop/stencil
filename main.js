@@ -101,7 +101,7 @@ function enterCustomizationMode(){
 			// deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular $scope.selectedOptions
 			angular.copy($(this).data("options"), global.selectedOptions)
 			var scope=angular.element($("#ad-hoc-panel")).scope();
-			scope.updateTabs();
+			scope.computeActiveTab();
 			scope.$apply();
 
 			// remove previous highlighted hooks, if any
@@ -134,7 +134,8 @@ function enterCustomizationMode(){
 
 	$("#overlay").click(function(){
 		$("#ad-hoc-panel").hide();
-		global.selectedOptions=[];
+		// just to be sure, cleanup selectedOptions without deleting the array
+		global.selectedOptions.length=0;
 		$(".customizable").removeClass("hovered");
 	})
 }
