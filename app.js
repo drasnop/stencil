@@ -15,6 +15,8 @@ angular.module('myApp', [])
 		"Notifications":0
 	};
 	$scope.currentTab="";
+	$scope.showMoreShortcuts=false;
+	$scope.test=false;
 
 	$scope.updateOption=function(id,value){
 		console.log("updating:",id,value)
@@ -23,6 +25,10 @@ angular.module('myApp', [])
 
 	$scope.onClickTab=function(tab){
 		$scope.currentTab=tab;
+	}
+
+	$scope.toggleShowMoreShortcuts=function(){
+		$scope.showMoreShortcuts= !$scope.showMoreShortcuts;
 	}
 
 	$scope.initializeOptions=function(){
@@ -77,17 +83,17 @@ angular.module('myApp', [])
 						case 1:
 							// need trustAsResourceUrl since we're loading from another domain
 							url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
-						break;
-						case 2:
+							break;
+							case 2:
 							url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
-						break;
-					}
+							break;
+						}
 
-					$http.get(url, {cache: $templateCache})
-					.success(function(response){
-						element.html($compile(response)(scope));     
-					})
-				});
+						$http.get(url, {cache: $templateCache})
+						.success(function(response){
+							element.html($compile(response)(scope));     
+						})
+					});
 			}
 		};
 	}])
@@ -103,11 +109,13 @@ angular.module('myApp', [])
 		return output;
 	}
 })
-.filter('filterTab', function(){
-	return function(input, currentTab){
+.filter('filterOptionsByTab', function(){
+	return function(input, currentTab, showMoreShortcuts){
+		console.log(currentTab,showMoreShortcuts)
 		var output={}
 		for(var id in input){
-			if(input[id].tab.indexOf(currentTab)>=0)
+			if(input[id].tab.indexOf(currentTab)>=0 &&
+				(input[id].tab!='Shortcuts-more' || showMoreShortcuts))
 				output[id]=input[id];
 		}
 		return output;

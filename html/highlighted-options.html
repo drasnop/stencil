@@ -1,27 +1,40 @@
 <ul id="tabs">
 	<li class="tab"
-		ng-repeat="tab in tabNames"
-		ng-class="{'highlighted': tabs[tab]>0, 'active': tab==currentTab}"
-		ng-click="onClickTab(tab)">
-		<span>{{tab}}</span>
+	ng-repeat="tab in tabNames"
+	ng-class="{'highlighted': tabs[tab]>0, 'active': tab==currentTab}"
+	ng-click="onClickTab(tab)">
+	<span>{{tab}}</span>
 	</li>
 </ul>
-<table id="options">
-	<tr class="row" ng-repeat='(id,option) in options | filterTab:currentTab'>
-		<td class="align-right">
-			<input type="checkbox" class="float-right"
+<div id="options">
+	<table>
+		<tr class="row" ng-repeat='(id,option) in options | filterOptionsByTab:currentTab:showMoreShortcuts'>
+			<td class="align-right">
+				<input type="checkbox" class="float-right"
 				ng-if="option.values.length==0" 
 				ng-model="option.value"
 				ng-change="updateOption(id,option.value)">
-			<select class="float-right"
+				<select class="float-right"
 				ng-if="option.values.length>0"
 				ng-model="option.value"
 				ng-options="value for value in option.values"
 				ng-change="updateOption(id,option.value)">
-			</select>
-		</td>
-		<td class="align-left">
-			<label ng-class="{'highlighted': selectedOptions.indexOf(id)>=0}">{{option.label}}</label>
-		</td>
-	</tr>
-</table>
+			</td>
+			<td class="align-left">
+				<label ng-class="{'highlighted': selectedOptions.indexOf(id)>=0}">{{option.label}}</label>
+			</td>
+		</tr>
+	</table>
+	<button class="wunderlist"
+	ng-if="currentTab=='Shortcuts'"
+	ng-click="toggleShowMoreShortcuts()">
+	{{showMoreShortcuts}}</button>
+	<button class="wunderlist"
+	ng-if="currentTab=='Shortcuts'"
+	ng-click="toggleShowMoreShortcuts()">
+	{{test}}</button>
+	<button class="wunderlist"
+	ng-if="currentTab=='Shortcuts'"
+	ng-click="showMoreShortcuts= !showMoreShortcuts">
+	{{test}}</button>
+</div>
