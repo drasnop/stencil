@@ -77,8 +77,13 @@
 }
 
 #options{
-	padding: 8px 10px;
 	width:100%;
+	box-sizing: border-box;
+	padding: 4px 0;
+}
+
+#options table{
+	padding: 4px 10px;
 }
 
 /* required for the float:right below */
@@ -90,7 +95,8 @@
 
 #options button{
 	float: right;
-	margin-right: 18px;
+	margin-right: 10px;
+	margin-bottom: 5px;
 }
 
 .tab{
@@ -140,7 +146,7 @@ td.align-right [type=checkbox]{
 }
 
 .separator{
-	border-bottom: 1px solid #E0E0DF;
+	border-bottom: 1px solid rgba(189, 189, 189, 0.48); /* #E0E0DF*/
 }
 
 
