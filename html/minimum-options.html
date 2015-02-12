@@ -1,6 +1,8 @@
 <div id="options">
-	<table ng-class="{'separator': !$last}" ng-repeat="tab in tabNames | filterNonEmptyTabs:tabCounts">
-		<tr class="row" id="{{option.id}}" ng-repeat="option in options | filterOptionsByTab:tab | filterOptions | object2Array | orderBy:'index'">
+	<table>
+		<tr class="row" id="{{option.id}}"
+		ng-repeat="option in (filteredOptions = (options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index']))"
+		ng-class="{ 'separator': (filteredOptions[$index].tab != filteredOptions[$index+1].tab) && !$last }">
 			<td class="align-right">
 				<input type="checkbox"
 				ng-if="option.values.length==0" 

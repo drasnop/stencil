@@ -4,7 +4,7 @@ angular.module('myApp', [])
 	$scope.selectedOptions=$window.global.selectedOptions;
 	
 	// 0=minimum, 1=linked, 2=highlighted
-	$scope.optionsVisibility=2;
+	$scope.optionsVisibility=1;
 
 	$scope.tabNames=["General","Shortcuts","Smart Lists","Notifications"];
 	$scope.tabCounts={
@@ -46,6 +46,10 @@ angular.module('myApp', [])
 				options[id].value=value;
 			}
 		}
+	}
+
+	$scope.getTabNameIndex=function(option){
+		return $scope.tabNames.indexOf(option.tab);
 	}
 
 	$scope.updateTabs=function(){

@@ -83,7 +83,12 @@
 }
 
 #options table{
-	padding: 4px 10px;
+	/* to be able to add a border to tr: */
+	border-collapse: collapse; 
+}
+
+#options td{
+	padding:4px;
 }
 
 /* required for the float:right below */
@@ -137,11 +142,17 @@
 	width: 40%;
 }
 
-td.align-left{
-	padding-left: 10px;
+#options td.align-left{
+	padding-left: 5px;
+	padding-right: 10px;
 }
 
-td.align-right [type=checkbox]{
+#options td.align-right{
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+#options td.align-right [type=checkbox]{
 	margin:0!important;
 }
 
