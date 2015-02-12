@@ -7,14 +7,13 @@ angular.module('myApp', [])
 	$scope.optionsVisibility=2;
 
 	$scope.tabNames=["General","Shortcuts","Smart Lists","Notifications"];
-	$scope.tabs={
+	$scope.tabCounts={
 		"General":0,
 		"Shortcuts":0,
-		"Shortcuts-more":0,
 		"Smart Lists":0,
 		"Notifications":0
 	};
-	$scope.currentTab="";
+	$scope.activeTab="";
 	$scope.showMoreShortcuts=false;
 	$scope.test=false;
 
@@ -24,7 +23,7 @@ angular.module('myApp', [])
 	}
 
 	$scope.onClickTab=function(tab){
-		$scope.currentTab=tab;
+		$scope.activeTab=tab;
 	}
 
 	$scope.toggleShowMoreShortcuts=function(){
@@ -50,21 +49,27 @@ angular.module('myApp', [])
 	}
 
 	$scope.updateTabs=function(){
-		for(var tab in $scope.tabs){
-			$scope.tabs[tab]=0;
+		var tab;
+		for(tab in $scope.tabCounts){
+			$scope.tabCounts[tab]=0;
 		}
 		for(var i in $scope.selectedOptions){
+			tab=$scope.options[$scope.selectedOptions[i]].tab;
+			// bundle Shortcuts-more with regular Shortcuts
+			if(tab=="Shortcuts-more")
+				tab="Shortcuts";
 			// a positive value will be treated as true by the filters
-			$scope.tabs[$scope.options[$scope.selectedOptions[i]].tab]++;
+			$scope.tabCounts[tab]++;
 		}
 
 		// determine which tab sould be displayed, but computing which tab has the most highlighted options
 		// in case of equality, the first tab will be chosen
 		var max=0;
-		for(tab in $scope.tabs){
-			if($scope.tabs[tab] > max){
-				max=$scope.tabs[tab];
-				$scope.currentTab=tab;
+		for(i in $scope.tabNames){
+			tab=$scope.tabNames[i];
+			if($scope.tabCounts[tab] > max){
+				max=$scope.tabCounts[tab];
+				$scope.activeTab=tab;
 			}
 		}
 	}
@@ -100,24 +105,33 @@ angular.module('myApp', [])
 .filter('filterOptions', function(){
 	return function(input){
 		var output = {};
-		$.each(input, function(name,option){
+		$.each(input, function(id,option){
 			for(var i in global.selectedOptions){
-				if(global.selectedOptions[i] == name)
-					output[name]=option;
+				if(global.selectedOptions[i] == id)
+					output[id]=option;
 			}
 		});
 		return output;
 	}
 })
 .filter('filterOptionsByTab', function(){
-	return function(input, currentTab, showMoreShortcuts){
+	return function(input, activeTab, showMoreShortcuts){
+		// in minimum-options, showMoreShortcuts is undefined, but we act as if it is true
+		showMoreShortcuts = (typeof showMoreShortcuts !== 'undefined') ? showMoreShortcuts : true;
 		var output={}
 		for(var id in input){
-			if(input[id].tab.indexOf(currentTab)>=0 &&
+			if(input[id].tab.indexOf(activeTab)>=0 &&
 				(input[id].tab!='Shortcuts-more' || showMoreShortcuts))
 				output[id]=input[id];
 		}
 		return output;
+	}
+})
+.filter('filterNonEmptyTabs', function(){
+	return function(tabNames, tabs){
+		return tabNames.filter(function(tab){
+			return tabs[tab]>0;
+		});
 	}
 })
 //http://stackoverflow.com/questions/19387552/angular-cant-make-ng-repeat-orderby-work

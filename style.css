@@ -139,6 +139,10 @@ td.align-right [type=checkbox]{
 	margin:0!important;
 }
 
+.separator{
+	border-bottom: 1px solid #E0E0DF;
+}
+
 
 /* ---------- Wunderlist-specific styles ------------- */
 

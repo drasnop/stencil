@@ -1,20 +1,20 @@
 <ul id="tabs">
 	<li class="tab"
 	ng-repeat="tab in tabNames"
-	ng-class="{'highlighted': tabs[tab]>0, 'active': tab==currentTab}"
+	ng-class="{'highlighted': tabCounts[tab]>0, 'active': tab==activeTab}"
 	ng-click="onClickTab(tab)">
 	<span>{{tab}}</span>
 	</li>
 </ul>
-<div id="options" ng-class="{'clearfix': currentTab=='Shortcuts'}">
+<div id="options" ng-class="{'clearfix': activeTab=='Shortcuts'}">
 	<table>
-		<tr class="row" id="{{option.id}}" ng-repeat="option in options | filterOptionsByTab:currentTab:showMoreShortcuts | object2Array | orderBy:'index'">
+		<tr class="row" id="{{option.id}}" ng-repeat="option in options | filterOptionsByTab:activeTab:showMoreShortcuts | object2Array | orderBy:'index'">
 			<td class="align-right">
-				<input type="checkbox" class="float-right"
+				<input type="checkbox"
 				ng-if="option.values.length==0" 
 				ng-model="option.value"
 				ng-change="updateOption(option.id,option.value)">
-				<select class="float-right"
+				<select
 				ng-if="option.values.length>0"
 				ng-model="option.value"
 				ng-options="value for value in option.values"
@@ -26,7 +26,7 @@
 		</tr>
 	</table>
 	<button class="wunderlist"
-	ng-if="currentTab=='Shortcuts'"
+	ng-if="activeTab=='Shortcuts'"
 	ng-click="toggleShowMoreShortcuts()">
 	{{showMoreShortcuts? "Show Less" : "Show More"}}</button>
 </div>
