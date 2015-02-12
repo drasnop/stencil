@@ -55,9 +55,6 @@ angular.module('myApp', [])
 		}
 		for(var i in $scope.selectedOptions){
 			tab=$scope.options[$scope.selectedOptions[i]].tab;
-			// bundle Shortcuts-more with regular Shortcuts
-			if(tab=="Shortcuts-more")
-				tab="Shortcuts";
 			// a positive value will be treated as true by the filters
 			$scope.tabCounts[tab]++;
 		}
@@ -121,16 +118,16 @@ angular.module('myApp', [])
 		var output={}
 		for(var id in input){
 			if(input[id].tab.indexOf(activeTab)>=0 &&
-				(input[id].tab!='Shortcuts-more' || showMoreShortcuts))
+				(!input[id].more || showMoreShortcuts))
 				output[id]=input[id];
 		}
 		return output;
 	}
 })
 .filter('filterNonEmptyTabs', function(){
-	return function(tabNames, tabs){
+	return function(tabNames, tabCounts){
 		return tabNames.filter(function(tab){
-			return tabs[tab]>0;
+			return tabCounts[tab]>0;
 		});
 	}
 })
