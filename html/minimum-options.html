@@ -1,5 +1,5 @@
 <table id="options">
-	<tr class="row" ng-repeat='(id,option) in options | filterOptions'>
+	<tr class="row" ng-repeat="(id,option) in options | filterOptions | object2Array | orderBy:'index'"">
 		<td class="align-right">
 			<input type="checkbox" class="float-right"
 				ng-if="option.values.length==0" 

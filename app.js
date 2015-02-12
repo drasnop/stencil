@@ -111,7 +111,6 @@ angular.module('myApp', [])
 })
 .filter('filterOptionsByTab', function(){
 	return function(input, currentTab, showMoreShortcuts){
-		console.log(currentTab,showMoreShortcuts)
 		var output={}
 		for(var id in input){
 			if(input[id].tab.indexOf(currentTab)>=0 &&
@@ -119,5 +118,15 @@ angular.module('myApp', [])
 				output[id]=input[id];
 		}
 		return output;
+	}
+})
+//http://stackoverflow.com/questions/19387552/angular-cant-make-ng-repeat-orderby-work
+.filter('object2Array', function() {
+	return function(input) {
+		var out = []; 
+		for(var i in input){
+			out.push(input[i]);
+		}
+		return out;
 	}
 })

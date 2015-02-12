@@ -6,9 +6,9 @@
 	<span>{{tab}}</span>
 	</li>
 </ul>
-<div id="options">
+<div id="options" ng-class="{'clearfix': currentTab=='Shortcuts'}">
 	<table>
-		<tr class="row" ng-repeat='(id,option) in options | filterOptionsByTab:currentTab:showMoreShortcuts'>
+		<tr class="row" ng-repeat="(id,option) in options | filterOptionsByTab:currentTab:showMoreShortcuts | object2Array | orderBy:'index'">
 			<td class="align-right">
 				<input type="checkbox" class="float-right"
 				ng-if="option.values.length==0" 
@@ -28,5 +28,5 @@
 	<button class="wunderlist"
 	ng-if="currentTab=='Shortcuts'"
 	ng-click="toggleShowMoreShortcuts()">
-	{{showMoreShortcuts}}</button>
+	{{showMoreShortcuts? "Show Less" : "Show More"}}</button>
 </div>

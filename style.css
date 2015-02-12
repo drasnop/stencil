@@ -81,6 +81,18 @@
 	width:100%;
 }
 
+/* required for the float:right below */
+.clearfix{
+	content:"";
+	display:table;
+	clear:both;
+}
+
+#options button{
+	float: right;
+	margin-right: 18px;
+}
+
 .tab{
 	display: inline-block;
 	padding: 8px 10px;
@@ -143,7 +155,6 @@ button.wunderlist{
 	border-radius: 4px;
 	border: medium none;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
-	margin-right: 7px;
 }
 
 button.wunderlist:active{
