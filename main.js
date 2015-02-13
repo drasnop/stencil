@@ -1,8 +1,3 @@
-/*global global:true*/
-var global={
-	"selectedOptions":[]
-};
-
 function initialize(){
 	customizationMode=false;
 
@@ -90,7 +85,7 @@ function enterCustomizationMode(){
 		})
 
 		hooks.mouseleave(function(){
-			if(!nonZeroIntersection($(this).data("options"),global.selectedOptions))
+			if(!nonZeroIntersection($(this).data("options"),model.selectedOptions))
 				filterByCommonOption($(".customizable"),$(this).data("options")).removeClass("hovered");
 		})
 
@@ -98,17 +93,18 @@ function enterCustomizationMode(){
 		hooks.click(function(event) {
 			
 			// update the content of the panel
-			// deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular $scope.selectedOptions
-			angular.copy($(this).data("options"), global.selectedOptions)
+			// deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular $scope.model.selectedOptions
+			angular.copy($(this).data("options"), model.selectedOptions)
 			var scope=angular.element($("#ad-hoc-panel")).scope();
 			// specific parameters to set
 			scope.computeActiveTab();
 			scope.fullPanel=false;
+			scope.showMoreShortcuts=false;
 			scope.$apply();
 
 			// remove previous highlighted hooks, if any
 			$(".customizable").each(function(){
-				if(!nonZeroIntersection($(this).data("options"),global.selectedOptions))
+				if(!nonZeroIntersection($(this).data("options"),model.selectedOptions))
 					filterByCommonOption($(".customizable"),$(this).data("options")).removeClass("hovered");
 			})
 
@@ -137,12 +133,13 @@ function enterCustomizationMode(){
 $("#overlay").click(function(){
 	$("#ad-hoc-panel").hide();
 		// just to be sure, cleanup selectedOptions without deleting the array
-		global.selectedOptions.length=0;
+		model.selectedOptions.length=0;
 		$(".customizable").removeClass("hovered");
 
 		// revert back to the minimal panel		
 		var scope=angular.element($("#ad-hoc-panel")).scope();
 		scope.fullPanel=false;
+		scope.showMoreShortcuts=false;
 		scope.$apply();
 	})
 }

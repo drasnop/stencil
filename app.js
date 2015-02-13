@@ -1,15 +1,11 @@
-angular.module('myApp', [])
-.controller('optionsController', ['$scope','$window', function ($scope, $window) {
-	$scope.options=$window.options;
-	$scope.selectedOptions=$window.global.selectedOptions;
-	$scope.model=$window.model;
-
+var model={
 	// Type of ad-hoc panel shown: 0=minimum, 1=linked, 2=highlighted
-	$scope.optionsVisibility=2;
+	"optionsVisibility":2,
 	// For the linked panel, whether the current view is minimal or expanded to full highlighted panel
-	$scope.fullPanel=false;
+	"fullPanel":false,
+	"showMoreShortcuts":false,
 
-	$scope.tabs=[
+	"tabs":[
 		{	"name": "General",
 			"count" :0 		
 		},
@@ -22,11 +18,17 @@ angular.module('myApp', [])
 		{	"name": "Notifications",
 			"count" :0 		
 		}
-	]
+	],
+	"activeTab":"",
 
-	$scope.activeTab="";
-	$scope.showMoreShortcuts=false;
-	$scope.fullPanel=false;
+	"options":options,
+	"selectedOptions":[]
+}
+
+
+angular.module('myApp', [])
+.controller('optionsController', ['$scope','$window', function ($scope, $window) {
+	$scope.model=$window.model;
 
 	$scope.updateOption=function(id,value){
 		console.log("updating:",id,value)
@@ -53,41 +55,41 @@ angular.module('myApp', [])
 
 	// getter used for sorting options according to tab order
 	$scope.getTabNameIndex=function(option){
-		return $scope.tabs.indexOfProperty("name",option.tab);
+		return $scope.model.tabs.indexOfProperty("name",option.tab);
 	}
 
 	$scope.computeActiveTab=function(){
 		// Reset counts and create a lookup object for easier access to counts
 		var lookup={};
-		$scope.tabs.forEach(function(tab){
+		$scope.model.tabs.forEach(function(tab){
 			tab.count=0;
 			lookup[tab.name]=tab;
 		})
 
 		// Increment counts for each highlighted option in each tab
-		$scope.selectedOptions.forEach(function(option_id){
+		$scope.model.selectedOptions.forEach(function(option_id){
 			// a positive value will be treated as true by the filters
-			lookup[$scope.options[option_id].tab].count++;
+			lookup[$scope.model.options[option_id].tab].count++;
 		})
 
 		// Determine which tab sould be active, buy computing which tab has the most highlighted options
 		// in case of equality, the first tab will be chosen
 		var max=0;
-		$scope.tabs.forEach(function(tab){
+		$scope.model.tabs.forEach(function(tab){
 			if(tab.count > max){
 				max=tab.count;
-				$scope.activeTab=tab.name;
+				$scope.model.activeTab=tab.name;
 			}
 		})
 	}
 
 	$scope.showFullPanel=function(tab){
-		$scope.fullPanel=true;
-		$scope.activeTab=tab;
+		$scope.model.fullPanel=true;
+		$scope.model.activeTab=tab;
 	}
 
 	$scope.hideFullPanel=function(){
-		$scope.fullPanel=false;
+		$scope.model.fullPanel=false;
 	}
 }])
 .directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
@@ -100,12 +102,12 @@ angular.module('myApp', [])
 
 					var url;
 					// need trustAsResourceUrl since we're loading from another domain
-					switch($scope.optionsVisibility){
+					switch($scope.model.optionsVisibility){
 						case 0:
 							url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
 						break;
 						case 1:
-							if(!$scope.fullPanel)
+							if(!$scope.model.fullPanel)
 								url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
 							else
 								url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
@@ -127,8 +129,8 @@ angular.module('myApp', [])
 	return function(input){
 		var output = {};
 		$.each(input, function(id,option){
-			for(var i in global.selectedOptions){
-				if(global.selectedOptions[i] == id)
+			for(var i in model.selectedOptions){
+				if(model.selectedOptions[i] == id)
 					output[id]=option;
 			}
 		});
