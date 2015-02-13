@@ -11,7 +11,7 @@ function initialize(){
 	$("body")
 	.append("<div id='panels'></div>")
 	.append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>",
-			"<a id='show-full-panel'>Other settings...</a>")
+		"<a id='show-full-panel'>Other settings...</a>")
 
 	angular.element(document).ready(function() {
 		console.log("Bootstrapping Angular");
@@ -132,8 +132,8 @@ function enterCustomizationMode(){
 
 	});
 
-	$("#overlay").click(function(){
-		$("#ad-hoc-panel").hide();
+$("#overlay").click(function(){
+	$("#ad-hoc-panel").hide();
 		// just to be sure, cleanup selectedOptions without deleting the array
 		global.selectedOptions.length=0;
 		$(".customizable").removeClass("hovered");
@@ -219,4 +219,19 @@ function nonZeroIntersection(a, b){
 		return b.indexOf(element) != -1;
 	});
 	return intersection.length>0;
+}
+
+Object.defineProperty(Array.prototype,"indexOfProperty",{
+	value:function(name,value){
+		for(var i in this){
+			if(this[i][name]===value)
+				return i;
+		}
+		return -1;
+	}
+});
+
+// Debug only
+function getscope(){
+	scope=angular.element($("#ad-hoc-panel")).scope();
 }

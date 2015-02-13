@@ -4,10 +4,10 @@
 			ng-if="linkedPanels">
 	</li>
 	<li class="tab"
-	ng-repeat="tab in tabNames"
-	ng-class="{'highlighted': tabCounts[tab]>0, 'active': tab==activeTab}"
-	ng-click="onClickTab(tab)">
-	<span>{{tab}}</span>
+	ng-repeat="tab in tabs"
+	ng-class="{'highlighted': tab.count>0, 'active': tab.name==activeTab}"
+	ng-click="$parent.activeTab=tab.name">
+	<span>{{tab.name}}</span>
 	</li>
 </ul>
 <div id="options" ng-class="{'clearfix': activeTab=='Shortcuts'}">
@@ -31,6 +31,6 @@
 	</table>
 	<button class="wunderlist"
 	ng-if="activeTab=='Shortcuts'"
-	ng-click="toggleShowMoreShortcuts()">
+	ng-click="$parent.showMoreShortcuts= !$parent.showMoreShortcuts">
 	{{showMoreShortcuts? "Show Less" : "Show More"}}</button>
 </div>

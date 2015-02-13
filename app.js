@@ -7,13 +7,21 @@ angular.module('myApp', [])
 	$scope.optionsVisibility=2;
 	$scope.linkedPanels=true;
 
-	$scope.tabNames=["General","Shortcuts","Smart Lists","Notifications"];
-	$scope.tabCounts={
-		"General":0,
-		"Shortcuts":0,
-		"Smart Lists":0,
-		"Notifications":0
-	};
+	$scope.tabs=[
+		{	"name": "General",
+			"count" :0 		
+		},
+		{	"name": "Shortcuts",
+			"count" :0 		
+		},
+		{	"name": "Smart Lists",
+			"count" :0 		
+		},
+		{	"name": "Notifications",
+			"count" :0 		
+		}
+	]
+
 	$scope.activeTab="";
 	$scope.showMoreShortcuts=false;
 	$scope.test=false;
@@ -21,14 +29,6 @@ angular.module('myApp', [])
 	$scope.updateOption=function(id,value){
 		console.log("updating:",id,value)
 		sync.collections.settings.where({key:id})[0].set({value:value})
-	}
-
-	$scope.onClickTab=function(tab){
-		$scope.activeTab=tab;
-	}
-
-	$scope.toggleShowMoreShortcuts=function(){
-		$scope.showMoreShortcuts= !$scope.showMoreShortcuts;
 	}
 
 	$scope.initializeOptions=function(){
@@ -49,31 +49,34 @@ angular.module('myApp', [])
 		}
 	}
 
+	// getter used for sorting options according to tab order
 	$scope.getTabNameIndex=function(option){
-		return $scope.tabNames.indexOf(option.tab);
+		return $scope.tabs.indexOfProperty("name",option.tab);
 	}
 
 	$scope.computeActiveTab=function(){
-		var tab;
-		for(tab in $scope.tabCounts){
-			$scope.tabCounts[tab]=0;
-		}
-		for(var i in $scope.selectedOptions){
-			tab=$scope.options[$scope.selectedOptions[i]].tab;
-			// a positive value will be treated as true by the filters
-			$scope.tabCounts[tab]++;
-		}
+		// Reset counts and create a lookup object for easier access to counts
+		var lookup={};
+		$scope.tabs.forEach(function(tab){
+			tab.count=0;
+			lookup[tab.name]=tab;
+		})
 
-		// determine which tab sould be active, buy computing which tab has the most highlighted options
+		// Increment counts for each highlighted option in each tab
+		$scope.selectedOptions.forEach(function(option_id){
+			// a positive value will be treated as true by the filters
+			lookup[$scope.options[option_id].tab].count++;
+		})
+
+		// Determine which tab sould be active, buy computing which tab has the most highlighted options
 		// in case of equality, the first tab will be chosen
 		var max=0;
-		for(i in $scope.tabNames){
-			tab=$scope.tabNames[i];
-			if($scope.tabCounts[tab] > max){
-				max=$scope.tabCounts[tab];
-				$scope.activeTab=tab;
+		$scope.tabs.forEach(function(tab){
+			if(tab.count > max){
+				max=tab.count;
+				$scope.activeTab=tab.name;
 			}
-		}
+		})
 	}
 
 	$scope.showFullPanel=function(tab){
@@ -134,13 +137,6 @@ angular.module('myApp', [])
 				output[id]=input[id];
 		}
 		return output;
-	}
-})
-.filter('filterNonEmptyTabs', function(){
-	return function(tabNames, tabCounts){
-		return tabNames.filter(function(tab){
-			return tabCounts[tab]>0;
-		});
 	}
 })
 //http://stackoverflow.com/questions/19387552/angular-cant-make-ng-repeat-orderby-work
