@@ -3,7 +3,7 @@
 		<tr class="row" id="{{option.id}}"
 		ng-repeat="option in (filteredOptions = (options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index']))"
 		ng-class="{ 'separator': (filteredOptions[$index].tab != filteredOptions[$index+1].tab) && !$last }">
-			<td class="align-right">
+			<td class="left-column align-right">
 				<input type="checkbox"
 				ng-if="option.values.length==0" 
 				ng-model="option.value"
@@ -14,7 +14,7 @@
 				ng-options="value for value in option.values"
 				ng-change="updateOption(option.id,option.value)"></select>
 			</td>
-			<td class="align-left">
+			<td class="right-column align-left">
 				<label>{{option.label}}</label>
 			</td>
 		</tr>

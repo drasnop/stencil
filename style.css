@@ -1,3 +1,7 @@
+body{
+	color:#444!important;
+}
+
 #overlay {
 	z-index:1000000;
 	background-color:black;
@@ -70,38 +74,13 @@
 }
 
 #tabs{
-	background-image: linear-gradient(to bottom, #FFF, #F0F0F0);
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
-	border-bottom: 1px solid #BBB;
 	border-radius: 4px 4px 0 0;
 }
 
-#options{
-	width:100%;
-	box-sizing: border-box;
-	padding: 4px 0;
-}
-
-#options table{
-	/* to be able to add a border to tr: */
-	border-collapse: collapse; 
-}
-
-#options td{
-	padding:4px;
-}
-
-/* required for the float:right below */
-.clearfix{
-	content:"";
-	display:table;
-	clear:both;
-}
-
-#options button{
-	float: right;
-	margin-right: 10px;
-	margin-bottom: 5px;
+.grayGradientShadow{
+	background-image: linear-gradient(to bottom, #FFF, #F0F0F0);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid #BBB;
 }
 
 .tab{
@@ -128,28 +107,78 @@
 	font-weight: bold;
 }
 
+.linkToTab{
+	cursor: pointer;
+	padding: 6px 8px;
+	border-radius: 4px;
+}
+
+.linkToTab:hover{
+	box-shadow: 0px 0px 5px rgba(0, 154, 228, 0.3);
+}
+
+
+#options{
+	width:100%;
+	box-sizing: border-box;
+	padding: 6px 0;
+}
+
+#options table{
+	/* to be able to add a border to tr: */
+	border-collapse: collapse; 
+}
+
+#options td{
+	padding:4px;
+}
+
+/* required for the float:right below */
+.clearfix{
+	content:"";
+	display:table;
+	clear:both;
+}
+
+#options button{
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
 .row{
 	vertical-align: middle;
 }
 
 .align-left{
 	text-align:left;
-	width: 60%;
 }
 
 .align-right{
 	text-align:right;
-	width: 40%;
 }
 
-#options td.align-left{
+#options td.left-column{
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+#options td.middle-column{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#options td.right-column{
 	padding-left: 5px;
 	padding-right: 10px;
 }
 
-#options td.align-right{
-	padding-left: 10px;
-	padding-right: 5px;
+#options td.centered.align-left{
+	width: 60%;
+}
+
+#options td.centered.align-right{
+	width: 40%;
 }
 
 #options td.align-right [type=checkbox]{

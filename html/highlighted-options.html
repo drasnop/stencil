@@ -1,4 +1,4 @@
-<ul id="tabs">
+<ul id="tabs" class="grayGradientShadow">
 	<li class="tab"
 	ng-repeat="tab in tabNames"
 	ng-class="{'highlighted': tabCounts[tab]>0, 'active': tab==activeTab}"
@@ -9,7 +9,7 @@
 <div id="options" ng-class="{'clearfix': activeTab=='Shortcuts'}">
 	<table>
 		<tr class="row" id="{{option.id}}" ng-repeat="option in options | filterOptionsByTab:activeTab:showMoreShortcuts | object2Array | orderBy:'index'">
-			<td class="align-right">
+			<td class="left-column align-right centered">
 				<input type="checkbox"
 				ng-if="option.values.length==0" 
 				ng-model="option.value"
@@ -20,7 +20,7 @@
 				ng-options="value for value in option.values"
 				ng-change="updateOption(option.id,option.value)">
 			</td>
-			<td class="align-left">
+			<td class="right-column align-left centered">
 				<label ng-class="{'highlighted': selectedOptions.indexOf(option.id)>=0}">{{option.label}}</label>
 			</td>
 		</tr>

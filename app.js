@@ -74,6 +74,11 @@ angular.module('myApp', [])
 			}
 		}
 	}
+
+	$scope.showFullPanel=function(tab){
+		$scope.optionsVisibility=2;
+		$scope.activeTab=tab;
+	}
 }])
 .directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
 	function($sce, $http, $templateCache, $compile) {
@@ -85,21 +90,23 @@ angular.module('myApp', [])
 
 					var url;
 					switch(scope.optionsVisibility){
+						// need trustAsResourceUrl since we're loading from another domain
 						case 0:
+						url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
+						break;
 						case 1:
-							// need trustAsResourceUrl since we're loading from another domain
-							url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
-							break;
-							case 2:
-							url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
-							break;
-						}
+						url=$sce.trustAsResourceUrl('//localhost:8888/html/linked-options.html');
+						break;
+						case 2:
+						url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
+						break;
+					}
 
-						$http.get(url, {cache: $templateCache})
-						.success(function(response){
-							element.html($compile(response)(scope));     
-						})
-					});
+					$http.get(url, {cache: $templateCache})
+					.success(function(response){
+						element.html($compile(response)(scope));     
+					})
+				});
 			}
 		};
 	}])
