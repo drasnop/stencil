@@ -1,4 +1,8 @@
 <ul id="tabs" class="grayGradientShadow">
+	<li class="tab back-arrow">
+		<img id="back-arrow" src="//localhost:8888/resources/back-arrow.png" alt="Go back to minimal panel"
+			ng-if="linkedPanels">
+	</li>
 	<li class="tab"
 	ng-repeat="tab in tabNames"
 	ng-class="{'highlighted': tabCounts[tab]>0, 'active': tab==activeTab}"

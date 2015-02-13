@@ -5,6 +5,7 @@ angular.module('myApp', [])
 	
 	// 0=minimum, 1=linked, 2=highlighted
 	$scope.optionsVisibility=2;
+	$scope.linkedPanels=true;
 
 	$scope.tabNames=["General","Shortcuts","Smart Lists","Notifications"];
 	$scope.tabCounts={
