@@ -101,7 +101,9 @@ function enterCustomizationMode(){
 			// deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular $scope.selectedOptions
 			angular.copy($(this).data("options"), global.selectedOptions)
 			var scope=angular.element($("#ad-hoc-panel")).scope();
+			// specific parameters to set
 			scope.computeActiveTab();
+			scope.fullPanel=false;
 			scope.$apply();
 
 			// remove previous highlighted hooks, if any
@@ -137,6 +139,11 @@ $("#overlay").click(function(){
 		// just to be sure, cleanup selectedOptions without deleting the array
 		global.selectedOptions.length=0;
 		$(".customizable").removeClass("hovered");
+
+		// revert back to the minimal panel		
+		var scope=angular.element($("#ad-hoc-panel")).scope();
+		scope.fullPanel=false;
+		scope.$apply();
 	})
 }
 
@@ -164,8 +171,9 @@ function toggleCustomizationMode(){
 function toggleOptionsVisibility(){
 	var scope=angular.element($("#ad-hoc-panel")).scope();
 	scope.optionsVisibility= (scope.optionsVisibility+1)%3;
-	console.log("scope.optionsVisibility",scope.optionsVisibility);
+	scope.fullPanel=false;
 	scope.$apply();
+	console.log("scope.optionsVisibility",scope.optionsVisibility);
 }
 
 function exitCustomizationMode(){

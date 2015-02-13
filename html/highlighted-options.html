@@ -1,7 +1,6 @@
 <ul id="tabs" class="grayGradientShadow">
-	<li class="tab back-arrow">
-		<img id="back-arrow" src="//localhost:8888/resources/back-arrow.png" alt="Go back to minimal panel"
-			ng-if="linkedPanels">
+	<li class="tab back-arrow" ng-if="fullPanel" ng-click="hideFullPanel()">
+		<img id="back-arrow" src="//localhost:8888/resources/back-arrow.png" alt="Go back to minimal panel" >
 	</li>
 	<li class="tab"
 	ng-repeat="tab in tabs"

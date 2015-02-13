@@ -2,10 +2,12 @@ angular.module('myApp', [])
 .controller('optionsController', ['$scope','$window', function ($scope, $window) {
 	$scope.options=$window.options;
 	$scope.selectedOptions=$window.global.selectedOptions;
-	
-	// 0=minimum, 1=linked, 2=highlighted
+	$scope.model=$window.model;
+
+	// Type of ad-hoc panel shown: 0=minimum, 1=linked, 2=highlighted
 	$scope.optionsVisibility=2;
-	$scope.linkedPanels=true;
+	// For the linked panel, whether the current view is minimal or expanded to full highlighted panel
+	$scope.fullPanel=false;
 
 	$scope.tabs=[
 		{	"name": "General",
@@ -24,7 +26,7 @@ angular.module('myApp', [])
 
 	$scope.activeTab="";
 	$scope.showMoreShortcuts=false;
-	$scope.test=false;
+	$scope.fullPanel=false;
 
 	$scope.updateOption=function(id,value){
 		console.log("updating:",id,value)
@@ -80,35 +82,42 @@ angular.module('myApp', [])
 	}
 
 	$scope.showFullPanel=function(tab){
-		$scope.optionsVisibility=2;
+		$scope.fullPanel=true;
 		$scope.activeTab=tab;
+	}
+
+	$scope.hideFullPanel=function(){
+		$scope.fullPanel=false;
 	}
 }])
 .directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
 	function($sce, $http, $templateCache, $compile) {
 
 		return {
-			link: function(scope, element, attrs) {
+			link: function($scope, element, attrs) {
 				// recompile the template everytime optionsVisibility changes
-				scope.$watch('optionsVisibility', function() {
+				$scope.$watchGroup(['optionsVisibility','fullPanel'], function() {
 
 					var url;
-					switch(scope.optionsVisibility){
-						// need trustAsResourceUrl since we're loading from another domain
+					// need trustAsResourceUrl since we're loading from another domain
+					switch($scope.optionsVisibility){
 						case 0:
-						url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
+							url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
 						break;
 						case 1:
-						url=$sce.trustAsResourceUrl('//localhost:8888/html/linked-options.html');
+							if(!$scope.fullPanel)
+								url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
+							else
+								url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
 						break;
 						case 2:
-						url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
+							url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
 						break;
 					}
 
 					$http.get(url, {cache: $templateCache})
 					.success(function(response){
-						element.html($compile(response)(scope));     
+						element.html($compile(response)($scope));     
 					})
 				});
 			}
