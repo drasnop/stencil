@@ -1,9 +1,11 @@
 body{
-	color:#444!important;
+
+color:#444!important;
 }
 
 #overlay {
-	z-index:1000000;
+
+z-index:1000000;
 	background-color:black;
 	/*transition: opacity 1s;*/
 	opacity:.5;	/* should be animated */
@@ -42,6 +44,10 @@ body{
 .customizable-children{
 	background-color: #ededed	!important;
 	color: #333					!important;
+}
+
+.customizable.hidden{
+	opacity: .5;
 }
 
 #panels{

@@ -1,162 +1,182 @@
-var model={
-	// Type of ad-hoc panel shown: 0=minimum, 1=linked, 2=highlighted
-	"optionsVisibility":2,
-	// For the linked panel, whether the current view is minimal or expanded to full highlighted panel
-	"fullPanel":false,
-	"showMoreShortcuts":false,
+var model = {
+   // Type of ad-hoc panel shown: 0=minimum, 1=linked, 2=highlighted
+   "optionsVisibility": 2,
+   // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
+   "fullPanel": false,
+   "showMoreShortcuts": false,
 
-	"tabs":[
-		{	"name": "General",
-			"count" :0 		
-		},
-		{	"name": "Shortcuts",
-			"count" :0 		
-		},
-		{	"name": "Smart Lists",
-			"count" :0 		
-		},
-		{	"name": "Notifications",
-			"count" :0 		
-		}
-	],
-	"activeTab":"",
+   "tabs": [{
+      "name": "General",
+      "count": 0
+   }, {
+      "name": "Shortcuts",
+      "count": 0
+   }, {
+      "name": "Smart Lists",
+      "count": 0
+   }, {
+      "name": "Notifications",
+      "count": 0
+   }],
+   "activeTab": "",
 
-	"options":options,
-	"selectedOptions":[]
+   "options": options,
+   "selectedOptions": []
 }
 
-
 angular.module('myApp', [])
-.controller('optionsController', ['$scope','$window', function ($scope, $window) {
-	$scope.model=$window.model;
+   .controller('optionsController', ['$scope', '$window', function($scope, $window) {
+      $scope.model = $window.model;
 
-	$scope.updateOption=function(id,value){
-		console.log("updating:",id,value)
-		sync.collections.settings.where({key:id})[0].set({value:value})
-	}
+      $scope.updateOption = function(id, value) {
+         console.log("updating:", id, value)
+         sync.collections.settings.where({
+            key: id
+         })[0].set({
+            value: value
+         })
+      }
 
-	$scope.initializeOptions=function(){
-		var value;
-		for(var id in options){
-			// I am using booleans, but they are storing these options as strings!
-			value=sync.collections.settings.where({key:id})[0].get("value")
-			switch(value){
-				case "true":
-				options[id].value=true;
-				break;
-				case "false":
-				options[id].value=false;
-				break;
-				default:
-				options[id].value=value;
-			}
-		}
-	}
+      $scope.initializeOptions = function() {
+         var value;
+         for(var id in options) {
+            // I am using booleans, but they are storing these options as strings!
+            value = sync.collections.settings.where({
+               key: id
+            })[0].get("value")
+            switch(value) {
+               case "true":
+                  options[id].value = true;
+                  break;
+               case "false":
+                  options[id].value = false;
+                  break;
+               default:
+                  options[id].value = value;
+            }
 
-	// getter used for sorting options according to tab order
-	$scope.getTabNameIndex=function(option){
-		return $scope.model.tabs.indexOfProperty("name",option.tab);
-	}
+            // Hide the non-visible hooks (somewhat Wunderlist-specific, unfortunately)
+            if(id.indexOf("visibility") >= 0) {
+               switch(options[id].value) {
+                  case "auto":
+                  case "visible":
+                     options[id].hidden = false;
+                     break;
+                  case "hidden":
+                     options[id].hidden = true;
+                     break
+               }
+            }
+         }
+      }
 
-	$scope.computeActiveTab=function(){
-		// Reset counts and create a lookup object for easier access to counts
-		var lookup={};
-		$scope.model.tabs.forEach(function(tab){
-			tab.count=0;
-			lookup[tab.name]=tab;
-		})
+      // getter used for sorting options according to tab order
+      $scope.getTabNameIndex = function(option) {
+         return $scope.model.tabs.indexOfProperty("name", option.tab);
+      }
 
-		// Increment counts for each highlighted option in each tab
-		$scope.model.selectedOptions.forEach(function(option_id){
-			// a positive value will be treated as true by the filters
-			lookup[$scope.model.options[option_id].tab].count++;
-		})
+      $scope.computeActiveTab = function() {
+         // Reset counts and create a lookup object for easier access to counts
+         var lookup = {};
+         $scope.model.tabs.forEach(function(tab) {
+            tab.count = 0;
+            lookup[tab.name] = tab;
+         })
 
-		// Determine which tab sould be active, buy computing which tab has the most highlighted options
-		// in case of equality, the first tab will be chosen
-		var max=0;
-		$scope.model.tabs.forEach(function(tab){
-			if(tab.count > max){
-				max=tab.count;
-				$scope.model.activeTab=tab.name;
-			}
-		})
-	}
+         // Increment counts for each highlighted option in each tab
+         $scope.model.selectedOptions.forEach(function(option_id) {
+            // a positive value will be treated as true by the filters
+            lookup[$scope.model.options[option_id].tab].count++;
+         })
 
-	$scope.showFullPanel=function(tab){
-		$scope.model.fullPanel=true;
-		$scope.model.activeTab=tab;
-	}
+         // Determine which tab sould be active, buy computing which tab has the most highlighted options
+         // in case of equality, the first tab will be chosen
+         var max = 0;
+         $scope.model.tabs.forEach(function(tab) {
+            if(tab.count > max) {
+               max = tab.count;
+               $scope.model.activeTab = tab.name;
+            }
+         })
+      }
 
-	$scope.hideFullPanel=function(){
-		$scope.model.fullPanel=false;
-	}
-}])
-.directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
-	function($sce, $http, $templateCache, $compile) {
+      $scope.showFullPanel = function(tab) {
+         $scope.model.fullPanel = true;
+         $scope.model.activeTab = tab;
+      }
 
-		return {
-			link: function($scope, element, attrs) {
-				// recompile the template everytime optionsVisibility changes
-				$scope.$watchGroup(['optionsVisibility','fullPanel'], function() {
+      $scope.hideFullPanel = function() {
+         $scope.model.fullPanel = false;
+      }
+   }])
+   .directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
+      function($sce, $http, $templateCache, $compile) {
 
-					var url;
-					// need trustAsResourceUrl since we're loading from another domain
-					switch($scope.model.optionsVisibility){
-						case 0:
-							url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
-						break;
-						case 1:
-							if(!$scope.model.fullPanel)
-								url=$sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
-							else
-								url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
-						break;
-						case 2:
-							url=$sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
-						break;
-					}
+         return {
+            link: function($scope, element, attrs) {
+               // recompile the template everytime optionsVisibility changes
+               $scope.$watchGroup(['model.optionsVisibility', 'model.fullPanel'], function() {
 
-					$http.get(url, {cache: $templateCache})
-					.success(function(response){
-						element.html($compile(response)($scope));     
-					})
-				});
-			}
-		};
-	}])
-.filter('filterOptions', function(){
-	return function(input){
-		var output = {};
-		$.each(input, function(id,option){
-			for(var i in model.selectedOptions){
-				if(model.selectedOptions[i] == id)
-					output[id]=option;
-			}
-		});
-		return output;
-	}
-})
-.filter('filterOptionsByTab', function(){
-	return function(input, activeTab, showMoreShortcuts){
-		// in minimum-options, showMoreShortcuts is undefined, but we act as if it is true
-		showMoreShortcuts = (typeof showMoreShortcuts !== 'undefined') ? showMoreShortcuts : true;
-		var output={}
-		for(var id in input){
-			if(input[id].tab.indexOf(activeTab)>=0 &&
-				(!input[id].more || showMoreShortcuts))
-				output[id]=input[id];
-		}
-		return output;
-	}
-})
-//http://stackoverflow.com/questions/19387552/angular-cant-make-ng-repeat-orderby-work
-.filter('object2Array', function() {
-	return function(input) {
-		var out = []; 
-		for(var i in input){
-			out.push(input[i]);
-		}
-		return out;
-	}
-})
+                  var url;
+                  // need trustAsResourceUrl since we're loading from another domain
+                  switch($scope.model.optionsVisibility) {
+                     case 0:
+                        url = $sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
+                        break;
+                     case 1:
+                        if(!$scope.model.fullPanel)
+                           url = $sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
+                        else
+                           url = $sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
+                        break;
+                     case 2:
+                        url = $sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
+                        break;
+                  }
+
+                  $http.get(url, {
+                        cache: $templateCache
+                     })
+                     .success(function(response) {
+                        element.html($compile(response)($scope));
+                     })
+               });
+            }
+         };
+      }
+   ])
+   .filter('filterOptions', function() {
+      return function(input) {
+         var output = {};
+         $.each(input, function(id, option) {
+            for(var i in model.selectedOptions) {
+               if(model.selectedOptions[i] == id)
+                  output[id] = option;
+            }
+         });
+         return output;
+      }
+   })
+   .filter('filterOptionsByTab', function() {
+      return function(input, activeTab, showMoreShortcuts) {
+         // in minimum-options, showMoreShortcuts is undefined, but we act as if it is true
+         showMoreShortcuts = (typeof showMoreShortcuts !== 'undefined') ? showMoreShortcuts : true;
+         var output = {}
+         for(var id in input) {
+            if(input[id].tab.indexOf(activeTab) >= 0 &&
+               (!input[id].more || showMoreShortcuts))
+               output[id] = input[id];
+         }
+         return output;
+      }
+   })
+   //http://stackoverflow.com/questions/19387552/angular-cant-make-ng-repeat-orderby-work
+   .filter('object2Array', function() {
+      return function(input) {
+         var out = [];
+         for(var i in input) {
+            out.push(input[i]);
+         }
+         return out;
+      }
+   })
