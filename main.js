@@ -34,27 +34,32 @@ function enterCustomizationMode() {
 
    $("body").append("<div id='hooks'></div>");
 
-   var customizable, hooks;
+   // elements of the original interface that can serve to anchor (intrinsically or semantically) options
+   var anchors;
+   // clones of the anchors with which users interact in customization mode
+   var hooks;
+
+   // for each selector-options pairs, generate the appropriate hooks
    mappings.forEach(function(mapping) {
 
       /*------------- clone original anchors -------------*/
 
-      customizable = $(mapping.selector);
+      anchors = $(mapping.selector);
 
-      if(customizable.length === 0)
+      if(anchors.length === 0)
          console.log(mapping.selector, "failed to match any element for", mapping.options)
 
       // store the current coordinates
-      customizable.each(function() {
+      anchors.each(function() {
          $(this).data("coordinates", $(this).offset());
          $(this).data("style", getRelevantCSS($(this), parentCSS));
       })
-      customizable.find("*").each(function() {
+      anchors.find("*").each(function() {
          $(this).data("style", getRelevantCSS($(this), childrenCSS));
       })
 
       // clone with their data, but remove event binders with .off()
-      hooks = customizable.clone(true).off();
+      hooks = anchors.clone(true).off();
       hooks.appendTo("#hooks");
 
       /*------------- create hooks -------------*/
@@ -81,8 +86,10 @@ function enterCustomizationMode() {
          });
 
          mapping.options.forEach(function(option_id) {
-            if(options[option_id].hidden)
+            if(options[option_id].hidden){
                $(this).addClass("hidden")
+               // add coordinates to hiddenAnchors
+            }
          });
       })
       hooks.addClass("customizable");
@@ -137,8 +144,11 @@ function enterCustomizationMode() {
             }
          })
       })
-
    });
+
+
+   // TODO: group hiddenAnchors into +
+
 
    $("#overlay").click(function() {
       $("#ad-hoc-panel").hide();
