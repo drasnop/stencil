@@ -3,9 +3,8 @@ function initialize() {
 
    /*--------  create customization panels   --------*/
 
-   $("body")
-      .append("<div id='panels'></div>")
-      .append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>",
+   $("body").append("<div id='panels'></div>")
+   $("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>",
          "<a id='show-full-panel'>Other settings...</a>")
 
    angular.element(document).ready(function() {
@@ -36,14 +35,14 @@ function enterCustomizationMode() {
    $("body").append("<div id='hooks'></div>");
 
    var customizable, hooks;
-   mapping.forEach(function(m) {
+   mappings.forEach(function(mapping) {
 
       /*------------- clone original anchors -------------*/
 
-      customizable = $(m.selector);
+      customizable = $(mapping.selector);
 
       if(customizable.length === 0)
-         console.log(m.selector, "failed to match any element for", m.options)
+         console.log(mapping.selector, "failed to match any element for", mapping.options)
 
       // store the current coordinates
       customizable.each(function() {
@@ -71,7 +70,7 @@ function enterCustomizationMode() {
                "left": $(this).data("coordinates").left + "px",
                "top": $(this).data("coordinates").top + "px"
             })
-            .data("options", m.options);
+            .data("options", mapping.options);
 
          $(this).find("*").each(function() {
             $(this)
@@ -81,7 +80,7 @@ function enterCustomizationMode() {
                .addClass("customizable-children");
          });
 
-         m.options.forEach(function(option_id) {
+         mapping.options.forEach(function(option_id) {
             if(options[option_id].hidden)
                $(this).addClass("hidden")
          });
@@ -110,8 +109,7 @@ function enterCustomizationMode() {
          var scope = angular.element($("#ad-hoc-panel")).scope();
          // specific parameters to set
          scope.computeActiveTab();
-         scope.model.fullPanel = false;
-         scope.model.showMoreShortcuts = false;
+         scope.resetViewParameters();
          scope.$apply();
 
          // remove previous highlighted hooks, if any
@@ -150,8 +148,7 @@ function enterCustomizationMode() {
 
       // revert back to the minimal panel    
       var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.model.fullPanel = false;
-      scope.model.showMoreShortcuts = false;
+      scope.resetViewParameters();
       scope.$apply();
    })
 }
@@ -180,8 +177,7 @@ function toggleCustomizationMode() {
 function toggleOptionsVisibility() {
    var scope = angular.element($("#ad-hoc-panel")).scope();
    scope.model.optionsVisibility = (scope.model.optionsVisibility + 1) % 3;
-   scope.model.fullPanel = false;
-   scope.model.showMoreShortcuts = false;
+   scope.resetViewParameters();
    scope.$apply();
    console.log("scope.model.optionsVisibility", scope.model.optionsVisibility);
 }

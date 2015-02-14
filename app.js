@@ -28,6 +28,11 @@ angular.module('myApp', [])
    .controller('optionsController', ['$scope', '$window', function($scope, $window) {
       $scope.model = $window.model;
 
+      $scope.resetViewParameters = function(){
+         model.fullPanel = false;
+         model.showMoreShortcuts = false;
+      }
+
       $scope.updateOption = function(id, value) {
          console.log("updating:", id, value)
          sync.collections.settings.where({
