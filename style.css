@@ -87,7 +87,14 @@ z-index:1000000;
 
 
 #tabs{
-	border-radius: 4px 4px 0 0;
+	box-sizing: border-box;
+	width: 410px;
+	height: 35px;
+}
+
+#tabs .center-wrapper{
+	width: 360px;
+	margin: auto;
 }
 
 .grayGradientShadow{
@@ -130,15 +137,11 @@ z-index:1000000;
 	color: white;
 }
 
-li.tab.back-arrow{
+div.back-arrow{
 	display: inline-block;
 	cursor: pointer;
 	padding: 0;
 	vertical-align: bottom;
-}
-
-li.tab.back-arrow:hover{
-	background-color: transparent;
 }
 
 #back-arrow{
