@@ -11,7 +11,9 @@
 </ul>
 <div id="options" ng-class="{'clearfix': model.activeTab=='Shortcuts'}">
 	<table>
-		<tr class="row" id="{{option.id}}" ng-repeat="option in model.options | filterOptionsByTab:model.activeTab:model.showMoreShortcuts | object2Array | orderBy:'index'">
+		<tr class="option" id="{{option.id}}"
+		ng-class="{'first-row': $first, 'last-row': $last, 'highlighted':model.selectedOptions.indexOf(option.id)>=0}"
+		ng-repeat="option in model.options | filterOptionsByTab:model.activeTab:model.showMoreShortcuts | object2Array | orderBy:'index'">
 			<td class="left-column align-right centered">
 				<input type="checkbox"
 				ng-if="option.values.length==0" 
@@ -24,7 +26,7 @@
 				ng-change="updateOption(option.id,option.value)">
 			</td>
 			<td class="right-column align-left centered">
-				<label ng-class="{'highlighted': model.selectedOptions.indexOf(option.id)>=0}">{{option.label}}</label>
+				<label>{{option.label}}</label>
 			</td>
 		</tr>
 	</table>

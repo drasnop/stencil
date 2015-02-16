@@ -1,8 +1,8 @@
 <div id="options">
 	<table>
-		<tr class="row" id="{{option.id}}"
-		ng-repeat="option in (filteredOptions = (model.options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index']))"
-		ng-class="{ 'separator': (filteredOptions[$index].tab != filteredOptions[$index+1].tab) && !$last }">
+		<tr class="option yellow" id="{{option.id}}"
+		ng-repeat="option in (filteredOptions = (model.options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index'] | determineAlternateHighlighting))"
+		ng-class="{'highlighted': option.highlighted, 'first-row': $first, 'last-row': $last}">
 		<td class="left-column align-right">
 			<input type="checkbox"
 			ng-if="option.values.length==0" 

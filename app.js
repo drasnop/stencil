@@ -28,7 +28,7 @@ angular.module('myApp', [])
    .controller('optionsController', ['$scope', '$window', function($scope, $window) {
       $scope.model = $window.model;
 
-      $scope.resetViewParameters = function(){
+      $scope.resetViewParameters = function() {
          model.fullPanel = false;
          model.showMoreShortcuts = false;
       }
@@ -183,5 +183,30 @@ angular.module('myApp', [])
             out.push(input[i]);
          }
          return out;
+      }
+   })
+   // This filter doesn't filter anything, but sets a flag for each option
+   .filter('determineAlternateHighlighting', function() {
+      return function(options) {
+         var highlighted = true;
+         var onlyOneTab = true;
+         options[0].highlighted = highlighted;
+
+         for(var i = 1; i < options.length; i++) {
+            if(options[i].tab != options[i - 1].tab) {
+               highlighted = !highlighted;
+               onlyOneTab = false;
+            }
+            options[i].highlighted = highlighted;
+         }
+
+         // this is really not necessary, but it just looks better that way
+         if(onlyOneTab) {
+            options.forEach(function(option) {
+               option.highlighted = false;
+            })
+         }
+
+         return options;
       }
    })
