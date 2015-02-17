@@ -261,8 +261,19 @@ tr.option{
 
 /* ---------- Wunderlist-specific styles ------------- */
 
+button:hover{
+	background-color: #3FB5EC !important; /* rgb(39, 191, 216) */
+	background-image: none !important;
+	color: white !important;
+}
 
-button.wunderlist{
+/* button.highlighted{
+	background-color: rgb(39, 160, 216) !important;
+	background-image: none !important;
+	color: white !important;
+} */
+
+/* button.wunderlist{
 	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
 	position: relative;
 	cursor: pointer;
@@ -272,7 +283,6 @@ button.wunderlist{
 	line-height: 13px;
 	padding: 8px 12px;
 	background-image: linear-gradient(to bottom, #FFF, #F5F5F5);
-	border-radius: 4px;
 	border: medium none;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
 }
@@ -284,4 +294,4 @@ button.wunderlist:active{
 
 button.wunderlist:focus{
 	box-shadow: 0px 0px 5px rgba(0, 154, 228, 0.3), 0px 0px 0px 1px rgba(0, 154, 228, 0.6) inset;
-}
+} */

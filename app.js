@@ -4,6 +4,7 @@ var model = {
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    "fullPanel": false,
    "showMoreShortcuts": false,
+   "highlightShowMoreButton": false,
 
    "tabs": [{
       "name": "General",
@@ -90,8 +91,10 @@ angular.module('myApp', [])
 
          // Increment counts for each highlighted option in each tab
          $scope.model.selectedOptions.forEach(function(option_id) {
+            var option = $scope.model.options[option_id];
             // a positive value will be treated as true by the filters
-            lookup[$scope.model.options[option_id].tab].count++;
+            // if the option is hidden in a "more" section, it counts only as half
+            lookup[option.tab].count += option.more ? 0.5 : 1;
          })
 
          // Determine which tab sould be active, buy computing which tab has the most highlighted options
@@ -164,13 +167,18 @@ angular.module('myApp', [])
    })
    .filter('filterOptionsByTab', function() {
       return function(input, activeTab, showMoreShortcuts) {
-         // in minimum-options, showMoreShortcuts is undefined, but we act as if it is true
-         showMoreShortcuts = (typeof showMoreShortcuts !== 'undefined') ? showMoreShortcuts : true;
-         var output = {}
+         var output = {};
+         model.highlightShowMoreButton = false;
+
          for(var id in input) {
             if(input[id].tab.indexOf(activeTab) >= 0 &&
-               (!input[id].more || showMoreShortcuts))
+               (!input[id].more || showMoreShortcuts)) {
                output[id] = input[id];
+            }
+            // questionable workaround
+            if(input[id].tab.indexOf(activeTab) >= 0 && input[id].more &&
+               model.selectedOptions.indexOf(id) >= 0)
+               model.highlightShowMoreButton = true;
          }
          return output;
       }
@@ -210,3 +218,4 @@ angular.module('myApp', [])
          return options;
       }
    })
+   // This filter

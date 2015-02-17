@@ -16,6 +16,7 @@
 		<tr class="option" id="{{option.id}}"
 		ng-class="{'first-row': $first, 'last-row': $last, 'highlighted':model.selectedOptions.indexOf(option.id)>=0}"
 		ng-repeat="option in model.options | filterOptionsByTab:model.activeTab:model.showMoreShortcuts | object2Array | orderBy:'index'">
+			
 			<td class="left-column align-right centered">
 				<input type="checkbox"
 				ng-if="option.values.length==0" 
@@ -27,13 +28,15 @@
 				ng-options="value for value in option.values"
 				ng-change="updateOption(option.id,option.value)">
 			</td>
+			
 			<td class="right-column align-left centered">
 				<label>{{option.label}}</label>
 			</td>
 		</tr>
 	</table>
-	<button class="wunderlist"
-	ng-if="model.activeTab=='Shortcuts'"
+
+	<button ng-if="model.activeTab=='Shortcuts'"
+	ng-class="{'highlighted': !model.showMoreShortcuts && model.highlightShowMoreButton}"
 	ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">
 	{{model.showMoreShortcuts? "Show Less" : "Show More"}}</button>
 </div>
