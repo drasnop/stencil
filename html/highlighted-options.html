@@ -6,7 +6,7 @@
 		<li class="tab"
 		ng-repeat="tab in model.tabs"
 		ng-class="{'highlighted': tab.count>0, 'active': tab.name==model.activeTab}"
-		ng-click="model.activeTab=tab.name">
+		ng-click="activateTab(tab)">
 		<span>{{tab.name}}</span>
 		</li>
 	</div>
@@ -36,7 +36,6 @@
 	</table>
 
 	<button ng-if="model.activeTab=='Shortcuts'"
-	ng-class="{'highlighted': !model.showMoreShortcuts && model.highlightShowMoreButton}"
 	ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">
 	{{model.showMoreShortcuts? "Show Less" : "Show More"}}</button>
 </div>

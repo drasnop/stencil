@@ -4,7 +4,6 @@ var model = {
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    "fullPanel": false,
    "showMoreShortcuts": false,
-   "highlightShowMoreButton": false,
 
    "tabs": [{
       "name": "General",
@@ -31,7 +30,7 @@ angular.module('myApp', [])
 
       $scope.resetViewParameters = function() {
          model.fullPanel = false;
-         model.showMoreShortcuts = false;
+         /*model.showMoreShortcuts = false;*/
       }
 
       $scope.updateOption = function(id, value) {
@@ -106,6 +105,14 @@ angular.module('myApp', [])
                $scope.model.activeTab = tab.name;
             }
          })
+
+         determineShowMoreShortcuts();
+      }
+
+      $scope.activateTab = function(tab) {
+         $scope.model.activeTab = tab.name;
+
+         determineShowMoreShortcuts();
       }
 
       $scope.showFullPanel = function(tab) {
@@ -115,6 +122,18 @@ angular.module('myApp', [])
 
       $scope.hideFullPanel = function() {
          $scope.model.fullPanel = false;
+      }
+
+      // questionable workaround...
+      function determineShowMoreShortcuts() {
+         console.log("determineShowMoreShortcuts",$scope.model.activeTab,$scope.model.selectedOptions)
+         $scope.model.showMoreShortcuts = false;
+         
+         $.each($scope.model.options, function(id, option) {
+            if(option.tab == $scope.model.activeTab && option.more &&
+               $scope.model.selectedOptions.indexOf(option.id) >= 0)
+               $scope.model.showMoreShortcuts = true;
+         })
       }
    }])
    .directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
@@ -168,17 +187,12 @@ angular.module('myApp', [])
    .filter('filterOptionsByTab', function() {
       return function(input, activeTab, showMoreShortcuts) {
          var output = {};
-         model.highlightShowMoreButton = false;
 
          for(var id in input) {
             if(input[id].tab.indexOf(activeTab) >= 0 &&
                (!input[id].more || showMoreShortcuts)) {
                output[id] = input[id];
             }
-            // questionable workaround
-            if(input[id].tab.indexOf(activeTab) >= 0 && input[id].more &&
-               model.selectedOptions.indexOf(id) >= 0)
-               model.highlightShowMoreButton = true;
          }
          return output;
       }
