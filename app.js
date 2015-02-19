@@ -126,9 +126,9 @@ angular.module('myApp', [])
 
       // questionable workaround...
       function determineShowMoreShortcuts() {
-         console.log("determineShowMoreShortcuts",$scope.model.activeTab,$scope.model.selectedOptions)
+         console.log("determineShowMoreShortcuts", $scope.model.activeTab, $scope.model.selectedOptions)
          $scope.model.showMoreShortcuts = false;
-         
+
          $.each($scope.model.options, function(id, option) {
             if(option.tab == $scope.model.activeTab && option.more &&
                $scope.model.selectedOptions.indexOf(option.id) >= 0)
@@ -142,31 +142,47 @@ angular.module('myApp', [])
          return {
             link: function($scope, element, attrs) {
                // recompile the template everytime optionsVisibility changes
-               $scope.$watchGroup(['model.optionsVisibility', 'model.fullPanel'], function() {
 
-                  var url;
+               function getCompiledTemplate(variable, url) {
                   // need trustAsResourceUrl since we're loading from another domain
-                  switch($scope.model.optionsVisibility) {
-                     case 0:
-                        url = $sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
-                        break;
-                     case 1:
-                        if(!$scope.model.fullPanel)
-                           url = $sce.trustAsResourceUrl('//localhost:8888/html/minimum-options.html');
-                        else
-                           url = $sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
-                        break;
-                     case 2:
-                        url = $sce.trustAsResourceUrl('//localhost:8888/html/highlighted-options.html');
-                        break;
-                  }
-
-                  $http.get(url, {
+                  $http.get($sce.trustAsResourceUrl(url), {
                         cache: $templateCache
                      })
                      .success(function(response) {
-                        element.html($compile(response)($scope));
+                        console.log("success",url)
+                        variable=$compile(response)($scope)
+                        console.log(variable)
                      })
+               }
+
+               var minimumOptionsTemplate, highlightedOptionsTemplate;
+
+               getCompiledTemplate(minimumOptionsTemplate, '//localhost:8888/html/minimum-options.html')
+               getCompiledTemplate(highlightedOptionsTemplate, '//localhost:8888/html/highlighted-options.html')
+
+               console.log(minimumOptionsTemplate, highlightedOptionsTemplate)
+
+               $scope.$watchGroup(['model.optionsVisibility', 'model.fullPanel'], function() {
+
+                  var compiledTemplate;
+                  switch($scope.model.optionsVisibility) {
+                     case 0:
+                        compiledTemplate = minimumOptionsTemplate;
+                        break;
+                     case 1:
+                        if(!$scope.model.fullPanel)
+                           compiledTemplate = minimumOptionsTemplate;
+                        else
+                           compiledTemplate = highlightedOptionsTemplate;
+                        break;
+                     case 2:
+                        compiledTemplate = highlightedOptionsTemplate;
+                        break;
+                  }
+
+                  console.log(minimumOptionsTemplate, highlightedOptionsTemplate, compiledTemplate)
+
+                  element.html(compiledTemplate);
                });
             }
          };
