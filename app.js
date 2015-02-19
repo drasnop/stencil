@@ -118,6 +118,7 @@ angular.module('myApp', [])
       $scope.showFullPanel = function(tab) {
          $scope.model.fullPanel = true;
          $scope.model.activeTab = tab;
+         determineShowMoreShortcuts();
       }
 
       $scope.hideFullPanel = function() {
