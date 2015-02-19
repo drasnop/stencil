@@ -136,58 +136,13 @@ angular.module('myApp', [])
          })
       }
    }])
-   .directive('adHocPanel', ['$sce', '$http', '$templateCache', '$compile',
-      function($sce, $http, $templateCache, $compile) {
 
-         return {
-            link: function($scope, element, attrs) {
-               // recompile the template everytime optionsVisibility changes
+   .directive('adHocPanel', ['$sce', function($sce) {
+      return {
+         templateUrl: $sce.trustAsResourceUrl('//localhost:8888/html/options.html')
+      };
+   }])
 
-               function getCompiledTemplate(variable, url) {
-                  // need trustAsResourceUrl since we're loading from another domain
-                  $http.get($sce.trustAsResourceUrl(url), {
-                        cache: $templateCache
-                     })
-                     .success(function(response) {
-                        console.log("success",url)
-                        variable=$compile(response)($scope)
-                        console.log(variable)
-                     })
-               }
-
-               var minimumOptionsTemplate, highlightedOptionsTemplate;
-
-               getCompiledTemplate(minimumOptionsTemplate, '//localhost:8888/html/minimum-options.html')
-               getCompiledTemplate(highlightedOptionsTemplate, '//localhost:8888/html/highlighted-options.html')
-
-               console.log(minimumOptionsTemplate, highlightedOptionsTemplate)
-
-               $scope.$watchGroup(['model.optionsVisibility', 'model.fullPanel'], function() {
-
-                  var compiledTemplate;
-                  switch($scope.model.optionsVisibility) {
-                     case 0:
-                        compiledTemplate = minimumOptionsTemplate;
-                        break;
-                     case 1:
-                        if(!$scope.model.fullPanel)
-                           compiledTemplate = minimumOptionsTemplate;
-                        else
-                           compiledTemplate = highlightedOptionsTemplate;
-                        break;
-                     case 2:
-                        compiledTemplate = highlightedOptionsTemplate;
-                        break;
-                  }
-
-                  console.log(minimumOptionsTemplate, highlightedOptionsTemplate, compiledTemplate)
-
-                  element.html(compiledTemplate);
-               });
-            }
-         };
-      }
-   ])
    .filter('filterOptions', function() {
       return function(input) {
          var output = {};
@@ -226,6 +181,11 @@ angular.module('myApp', [])
    // This filter doesn't filter anything, but sets a flag for each option
    .filter('determineAlternateHighlighting', function() {
       return function(options) {
+
+         if(options.length===0)
+            return;
+
+         // Higlight odd rows, unless there's only one, in which case it won't be highlighted
          var highlighted = true;
          var onlyOneTab = true;
          options[0].highlighted = highlighted;
