@@ -5,7 +5,7 @@ function initialize() {
 
    $("body").append("<div id='panels'></div>")
    $("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>",
-         "<a id='show-full-panel'>Other settings...</a>")
+      "<a id='show-full-panel'>Other settings...</a>")
 
    angular.element(document).ready(function() {
       console.log("Bootstrapping Angular");
@@ -35,37 +35,37 @@ function enterCustomizationMode() {
    $("body").append("<div id='hooks'></div>");
 
    // elements of the original interface that can serve to anchor (intrinsically or semantically) options
-   var anchors;
+   var mapping_anchors;
    // clones of the anchors with which users interact in customization mode
-   var hooks;
+   var mapping_hooks;
 
    // for each selector-options pairs, generate the appropriate hooks
    mappings.forEach(function(mapping) {
 
       /*------------- clone original anchors -------------*/
 
-      anchors = $(mapping.selector);
+      mapping_anchors = $(mapping.selector);
 
-      if(anchors.length === 0)
+      if(mapping_anchors.length === 0)
          console.log(mapping.selector, "failed to match any element for", mapping.options)
 
       // store the current coordinates
-      anchors.each(function() {
+      mapping_anchors.each(function() {
          $(this).data("coordinates", $(this).offset());
          $(this).data("style", getRelevantCSS($(this), parentCSS));
       })
-      anchors.find("*").each(function() {
+      mapping_anchors.find("*").each(function() {
          $(this).data("style", getRelevantCSS($(this), childrenCSS));
       })
 
       // clone with their data, but remove event binders with .off()
-      hooks = anchors.clone(true).off();
-      hooks.appendTo("#hooks");
+      mapping_hooks = mapping_anchors.clone(true).off();
+      mapping_hooks.appendTo("#hooks");
 
       /*------------- create hooks -------------*/
 
       // position the hooks on top of the elements
-      hooks.each(function() {
+      mapping_hooks.each(function() {
          //$(this).offset($(this).data("coordinates")); doesn't work
          $(this)
             .css($(this).data("style"))
@@ -86,75 +86,80 @@ function enterCustomizationMode() {
          });
 
          mapping.options.forEach(function(option_id) {
-            if(options[option_id].hidden){
+            if(options[option_id].hidden) {
                $(this).addClass("hidden")
-               // add coordinates to hiddenAnchors
+                  // add coordinates to hiddenAnchors
             }
          });
       })
-      hooks.addClass("customizable");
-
-
-      /*------------- bind listeners -------------*/
-
-      // highlight all elements that share at least one option with the current one
-      hooks.mouseenter(function() {
-         filterByCommonOption($(".customizable"), $(this).data("options")).addClass("hovered");
-      })
-
-      hooks.mouseleave(function() {
-         if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
-            filterByCommonOption($(".customizable"), $(this).data("options")).removeClass("hovered");
-      })
-
-      // show a panel populated with only the relevant options
-      hooks.click(function(event) {
-
-         // update the content of the panel
-         // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular $scope.model.selectedOptions
-         angular.copy($(this).data("options"), model.selectedOptions)
-         var scope = angular.element($("#ad-hoc-panel")).scope();
-         // specific parameters to set
-         scope.computeActiveTab();
-         scope.resetViewParameters();
-         scope.$apply();
-
-         // remove previous highlighted hooks, if any
-         $(".customizable").each(function() {
-            if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
-               filterByCommonOption($(".customizable"), $(this).data("options")).removeClass("hovered");
-         })
-
-         // update the position of the panel
-         var that = $(this);
-         $("#ad-hoc-panel").show()
-         $("#ad-hoc-panel").position({
-            my: "left+20 top",
-            at: "right top",
-            of: that,
-            collision: "fit fit",
-            using: function(obj, info) {
-
-               // console.log(obj, info)
-
-               $(this).css({
-                  left: obj.left + 'px',
-                  top: obj.top + 'px'
-               });
-            }
-         })
-      })
+      mapping_hooks.addClass("customizable");
    });
 
 
-   // TODO: group hiddenAnchors into +
+   /*------------- generate clusters -------------*/
 
+   // groups of ghost hooks that are near each other
+   var clusters;
+
+
+
+
+   /*------------- bind listeners -------------*/
+
+   var hooks = $(".customizable");
+
+   // highlight all elements that share at least one option with the current one
+   hooks.mouseenter(function() {
+      filterByCommonOption(hooks, $(this).data("options")).addClass("hovered");
+   })
+
+   hooks.mouseleave(function() {
+         if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
+            filterByCommonOption(hooks, $(this).data("options")).removeClass("hovered");
+      })
+      // show a panel populated with only the relevant options
+   hooks.click(function(event) {
+
+      // update the content of the panel
+      // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular $scope.model.selectedOptions
+      angular.copy($(this).data("options"), model.selectedOptions)
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      // specific parameters to set
+      scope.computeActiveTab();
+      scope.resetViewParameters();
+      scope.$apply();
+
+      // remove previous highlighted hooks, if any
+      hooks.each(function() {
+         if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
+            filterByCommonOption(hooks, $(this).data("options")).removeClass("hovered");
+      })
+
+      // update the position of the panel
+      var that = $(this);
+      $("#ad-hoc-panel").show()
+      $("#ad-hoc-panel").position({
+         my: "left+20 top",
+         at: "right top",
+         of: that,
+         collision: "fit fit",
+         using: function(obj, info) {
+
+            // console.log(obj, info)
+
+            $(this).css({
+               left: obj.left + 'px',
+               top: obj.top + 'px'
+            });
+         }
+      })
+   })
 
    $("#overlay").click(function() {
       $("#ad-hoc-panel").hide();
       // just to be sure, cleanup selectedOptions without deleting the array
       model.selectedOptions.length = 0;
-      $(".customizable").removeClass("hovered");
+      hooks.removeClass("hovered");
 
       // revert back to the minimal panel    
       var scope = angular.element($("#ad-hoc-panel")).scope();
