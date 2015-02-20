@@ -43,6 +43,10 @@ angular.module('myApp', [])
       }
 
       $scope.initializeOptions = function() {
+
+         if(sync.collections===undefined)
+            return;
+
          var value;
          for(var id in options) {
             // I am using booleans, but they are storing these options as strings!
