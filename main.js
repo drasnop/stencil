@@ -205,9 +205,10 @@ function enterCustomizationMode() {
 ///////////    Secondary functions     ////////////////////
 
 
-$(document).keyup(function(e) {
-   if(e.keyCode == KEYCODE_ESC) {
+$(document).keyup(function(event) {
+   if(event.keyCode == KEYCODE_ESC) {
       exitCustomizationMode();
+      event.stopPropagation();
    }
 });
 
