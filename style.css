@@ -1,11 +1,10 @@
 body{
 
-color:#444!important;
+	color:#444!important;
 }
 
 #overlay {
-
-z-index:1000000;
+	z-index:1000000;
 	background-color:black;
 	/*transition: opacity 1s;*/
 	opacity:.5;	/* should be animated */
@@ -271,7 +270,7 @@ button:hover{
 	background-color: rgb(39, 160, 216) !important;
 	background-image: none !important;
 	color: white !important;
-} */
+	} */
 
 /* button.wunderlist{
 	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;

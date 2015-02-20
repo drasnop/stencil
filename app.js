@@ -44,7 +44,7 @@ angular.module('myApp', [])
 
       $scope.initializeOptions = function() {
 
-         if(sync.collections===undefined)
+         if(sync.collections === undefined)
             return;
 
          var value;
@@ -140,15 +140,18 @@ angular.module('myApp', [])
                $scope.model.showMoreShortcuts = true;
          })
       }
+   
+      // For debug purposes
+      toggleCustomizationMode();
    }])
 
-   .directive('adHocPanel', ['$sce', function($sce) {
-      return {
-         templateUrl: $sce.trustAsResourceUrl('//localhost:8888/html/options.html')
-      };
-   }])
+.directive('adHocPanel', ['$sce', function($sce) {
+   return {
+      templateUrl: $sce.trustAsResourceUrl('//localhost:8888/html/options.html')
+   };
+}])
 
-   .filter('filterOptions', function() {
+.filter('filterOptions', function() {
       return function(input) {
          var output = {};
          $.each(input, function(id, option) {
@@ -187,7 +190,7 @@ angular.module('myApp', [])
    .filter('determineAlternateHighlighting', function() {
       return function(options) {
 
-         if(options.length===0)
+         if(options.length === 0)
             return;
 
          // Higlight odd rows, unless there's only one, in which case it won't be highlighted

@@ -44,7 +44,6 @@ javascript:(function(e,a,g,h,f,c,b,d){
 			})
 		).done(function(){
 			initialize();
-			toggleCustomizationMode();
 		})
 	});
 });

@@ -7,10 +7,9 @@ function initialize() {
    $("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>",
       "<a id='show-full-panel'>Other settings...</a>")
 
-   angular.element(document).ready(function() {
-      console.log("Bootstrapping Angular");
-      angular.bootstrap(document, ['myApp']);
-   });
+
+   console.log("Bootstrapping Angular");
+   angular.bootstrap(document, ['myApp']);
 }
 
 
@@ -38,6 +37,8 @@ function enterCustomizationMode() {
    var mapping_anchors;
    // clones of the anchors with which users interact in customization mode
    var mapping_hooks;
+   // list of all the hooks that are currently hidden
+   var ghosts = [];
 
    // for each selector-options pairs, generate the appropriate hooks
    mappings.forEach(function(mapping) {
@@ -85,13 +86,30 @@ function enterCustomizationMode() {
                .addClass("customizable-children");
          });
 
+         // if one option associated with this hook is a show/hide of type hidden
+         var hidden = false;
          mapping.options.forEach(function(option_id) {
-            if(options[option_id].hidden) {
-               $(this).addClass("hidden")
-                  // add coordinates to hiddenAnchors
-            }
+            if(options[option_id].hidden)
+               hidden = true;
          });
+
+         if(hidden) {
+            // store this particular hook for clustering
+
+            //$(this).css("visibility","hidden")
+            $(this).removeClass("animate-up")
+
+            ghosts.push({
+               hook: $(this),
+               options: mapping.options,
+               x: $(this).offset().left,
+               y: $(this).offset().top
+            })
+
+            $(this).addClass("animate-up")
+         }
       })
+
       mapping_hooks.addClass("customizable");
    });
 
@@ -99,7 +117,7 @@ function enterCustomizationMode() {
    /*------------- generate clusters -------------*/
 
    // groups of ghost hooks that are near each other
-   var clusters;
+   var clusters = [];
 
 
 
