@@ -25,27 +25,27 @@ var mappings = [
 		"options":["shortcut_goto_inbox"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='All']",
+		"selector":".filters-collection .sidebarItem a[aria-label='All']",
 		"options":["smartlist_visibility_all","shortcut_goto_filter_all"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Assigned to me']",
+		"selector":".filters-collection .sidebarItem a[aria-label='Assigned to me']",
 		"options":["smartlist_visibility_assigned_to_me","shortcut_goto_filter_assigned"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Completed']",
+		"selector":".filters-collection .sidebarItem a[aria-label='Completed']",
 		"options":["smartlist_visibility_done","shortcut_goto_filter_completed"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Starred']",
+		"selector":".filters-collection .sidebarItem a[aria-label='Starred']",
 		"options":["smartlist_visibility_starred","shortcut_goto_filter_starred"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Today']",
+		"selector":".filters-collection .sidebarItem a[aria-label='Today']",
 		"options":["smartlist_visibility_today","shortcut_goto_filter_today"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem[aria-hidden=false] a[aria-label='Week']",
+		"selector":".filters-collection .sidebarItem a[aria-label='Week']",
 		"options":["smartlist_visibility_week","shortcut_goto_filter_week"]
 	},
 	{
@@ -86,7 +86,7 @@ var options=
 		"values": [
 		"en"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -98,7 +98,7 @@ var options=
 		"values": [
 		"en_GB"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -108,7 +108,7 @@ var options=
 		"label": "",
 		"value": false,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -118,7 +118,7 @@ var options=
 		"label": "",
 		"value": false,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -130,7 +130,7 @@ var options=
 		"values": [
 		"1421913600000"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -142,7 +142,7 @@ var options=
 		"values": [
 		"0"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -154,7 +154,7 @@ var options=
 		"values": [
 		"540"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -166,7 +166,7 @@ var options=
 		"values": [
 		"wlbackground15"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -176,7 +176,7 @@ var options=
 		"label": "Star moves item to top",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 8
@@ -188,7 +188,7 @@ var options=
 		"values": [
 		"undefined"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -200,7 +200,7 @@ var options=
 		"values": [
 		"undefined"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -210,7 +210,7 @@ var options=
 		"label": "Confirm before deleting items",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 7
@@ -222,7 +222,7 @@ var options=
 		"values": [
 		"DD.MM.YYYY"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 1
@@ -232,7 +232,7 @@ var options=
 		"label": "",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -244,7 +244,7 @@ var options=
 		"values": [
 		"userSettings"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -256,7 +256,7 @@ var options=
 		"values": [
 		"en_GB"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 0
@@ -268,7 +268,7 @@ var options=
 		"values": [
 		"0"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -278,7 +278,7 @@ var options=
 		"label": "",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -288,7 +288,7 @@ var options=
 		"label": "",
 		"value": false,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -300,7 +300,7 @@ var options=
 		"values": [
 		"top","bottom"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 6
@@ -310,7 +310,7 @@ var options=
 		"label": "",
 		"value": false,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -320,7 +320,7 @@ var options=
 		"label": "Desktop Notifications",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Notifications",
 		"more": false,
 		"index": 2
@@ -330,7 +330,7 @@ var options=
 		"label": "Email Notifications",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Notifications",
 		"more": false,
 		"index": 0
@@ -340,7 +340,7 @@ var options=
 		"label": "Push Notifications",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Notifications",
 		"more": false,
 		"index": 1
@@ -350,7 +350,7 @@ var options=
 		"label": "",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -360,7 +360,7 @@ var options=
 		"label": "",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -370,7 +370,7 @@ var options=
 		"label": "",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -380,7 +380,7 @@ var options=
 		"label": "Print completed items",
 		"value": false,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 9
@@ -392,7 +392,7 @@ var options=
 		"values": [
 		"3"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -404,7 +404,7 @@ var options=
 		"values": [
 		"10"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -416,7 +416,7 @@ var options=
 		"values": [
 		"3"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -428,7 +428,7 @@ var options=
 		"values": [
 		"CTRL + L"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 1
@@ -440,7 +440,7 @@ var options=
 		"values": [
 		"CTRL + 0"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 0
@@ -452,7 +452,7 @@ var options=
 		"values": [
 		"CTRL + C"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -464,7 +464,7 @@ var options=
 		"values": [
 		"CTRL + X"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -476,7 +476,7 @@ var options=
 		"values": [
 		"CTRL + BACKSPACE"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 5
@@ -488,7 +488,7 @@ var options=
 		"values": [
 		"CTRL + 5"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 15
@@ -500,7 +500,7 @@ var options=
 		"values": [
 		"CTRL + 1"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 11
@@ -512,7 +512,7 @@ var options=
 		"values": [
 		"CTRL + 6"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 16
@@ -524,7 +524,7 @@ var options=
 		"values": [
 		"CTRL + 2"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 12
@@ -536,7 +536,7 @@ var options=
 		"values": [
 		"CTRL + 3"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 13
@@ -548,7 +548,7 @@ var options=
 		"values": [
 		"CTRL + 4"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 14
@@ -560,7 +560,7 @@ var options=
 		"values": [
 		"CTRL + I"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 10
@@ -572,7 +572,7 @@ var options=
 		"values": [
 		"CTRL + P", "CTRL + ."
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 7
@@ -584,7 +584,7 @@ var options=
 		"values": [
 		"CTRL + F"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 6
@@ -596,7 +596,7 @@ var options=
 		"values": [
 		"CTRL + D"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 2
@@ -608,7 +608,7 @@ var options=
 		"values": [
 		"CTRL + S", "CTRL + T"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 3
@@ -620,7 +620,7 @@ var options=
 		"values": [
 		"CTRL + V"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -632,7 +632,7 @@ var options=
 		"values": [
 		"CTRL + A"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 4
@@ -644,7 +644,7 @@ var options=
 		"values": [
 		"CTRL + E"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 8
@@ -656,7 +656,7 @@ var options=
 		"values": [
 		"CTRL + SHIFT + A"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": true,
 		"index": 9
@@ -668,7 +668,7 @@ var options=
 		"values": [
 		"R"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Shortcuts",
 		"more": false,
 		"index": 17
@@ -678,7 +678,7 @@ var options=
 		"label": "",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -690,7 +690,7 @@ var options=
 		"values": [
 		"0"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0
@@ -704,7 +704,7 @@ var options=
 			"visible",
 			"hidden"
 		],
-		"hidden": true,
+		"hideable": true,
 		"tab": "Smart Lists",
 		"more": false,
 		"index": 4
@@ -718,7 +718,7 @@ var options=
 			"visible",
 			"hidden"
 		],
-		"hidden": true,
+		"hideable": true,
 		"tab": "Smart Lists",
 		"more": false,
 		"index": 0
@@ -726,13 +726,13 @@ var options=
 	"smartlist_visibility_done": {
 		"id": "smartlist_visibility_done",
 		"label": "Completed",
-		"value": "visible",
+		"value": "hidden",
 		"values": [
 			"auto",
 			"visible",
 			"hidden"
 		],
-		"hidden": true,
+		"hideable": true,
 		"tab": "Smart Lists",
 		"more": false,
 		"index": 5
@@ -746,7 +746,7 @@ var options=
 			"visible",
 			"hidden"
 		],
-		"hidden": true,
+		"hideable": true,
 		"tab": "Smart Lists",
 		"more": false,
 		"index": 1
@@ -754,13 +754,13 @@ var options=
 	"smartlist_visibility_today": {
 		"id": "smartlist_visibility_today",
 		"label": "Today",
-		"value": "visible",
+		"value": "hidden",
 		"values": [
 			"auto",
 			"visible",
 			"hidden"
 		],
-		"hidden": true,
+		"hideable": true,
 		"tab": "Smart Lists",
 		"more": false,
 		"index": 2
@@ -774,7 +774,7 @@ var options=
 			"visible",
 			"hidden"
 		],
-		"hidden": true,
+		"hideable": true,
 		"tab": "Smart Lists",
 		"more": false,
 		"index": 3
@@ -784,7 +784,7 @@ var options=
 		"label": "Enable sound for checking-off an item",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 4
@@ -794,7 +794,7 @@ var options=
 		"label": "Enable sound for new notifications",
 		"value": true,
 		"values": [],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 5
@@ -806,7 +806,7 @@ var options=
 		"values": [
 		"sun"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 3
@@ -818,7 +818,7 @@ var options=
 		"values": [
 		"12 hour"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "General",
 		"more": false,
 		"index": 2
@@ -830,7 +830,7 @@ var options=
 		"values": [
 		"all"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "Smart Lists",
 		"more": false,
 		"index": 6
@@ -842,7 +842,7 @@ var options=
 		"values": [
 		"userSettings"
 		],
-		"hidden": false,
+		"hideable": false,
 		"tab": "",
 		"more": false,
 		"index": 0

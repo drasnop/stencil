@@ -1,12 +1,10 @@
 function initialize() {
    customizationMode = false;
 
-   /*--------  create customization panels   --------*/
-
+   // create customization panels
    $("body").append("<div id='panels'></div>")
    $("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>",
       "<a id='show-full-panel'>Other settings...</a>")
-
 
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
@@ -38,32 +36,58 @@ function enterCustomizationMode() {
    // clones of the anchors with which users interact in customization mode
    var mapping_hooks;
    // list of all the hooks that are currently hidden
-   var ghosts = [];
+   ghosts = [];
 
    // for each selector-options pairs, generate the appropriate hooks
    mappings.forEach(function(mapping) {
 
-      /*------------- clone original anchors -------------*/
+      /*----------- store style & position of anchors -----------*/
 
       mapping_anchors = $(mapping.selector);
 
       if(mapping_anchors.length === 0)
          console.log(mapping.selector, "failed to match any element for", mapping.options)
 
-      // store the current coordinates
+      // store the current style
       mapping_anchors.each(function() {
-         $(this).data("coordinates", $(this).offset());
          $(this).data("style", getRelevantCSS($(this), parentCSS));
       })
       mapping_anchors.find("*").each(function() {
          $(this).data("style", getRelevantCSS($(this), childrenCSS));
       })
 
+
+      /*------------- handle hidden anchors -------------*/
+
+      // checkif one option associated with this selector is a show/hide of type hidden
+      var hidden = false;
+      mapping.options.forEach(function(option_id) {
+         if(options[option_id].hideable && options[option_id].value == "hidden")
+            hidden = true;
+      });
+
+      mapping_anchors.each(function() {
+         if(hidden) {
+            // briefly show this anchor to measure its position
+            $(this).removeClass("animate-up")
+
+            // store this particular anchor's position for clustering
+            $(this).data("coordinates", $(this).offset());
+
+            // then hide it again
+            $(this).addClass("animate-up")
+         }
+         else {
+            $(this).data("coordinates", $(this).offset());
+         }
+      })
+
+
+      /*------------- create hooks -------------*/
+
       // clone with their data, but remove event binders with .off()
       mapping_hooks = mapping_anchors.clone(true).off();
       mapping_hooks.appendTo("#hooks");
-
-      /*------------- create hooks -------------*/
 
       // position the hooks on top of the elements
       mapping_hooks.each(function() {
@@ -86,27 +110,17 @@ function enterCustomizationMode() {
                .addClass("customizable-children");
          });
 
-         // if one option associated with this hook is a show/hide of type hidden
-         var hidden = false;
-         mapping.options.forEach(function(option_id) {
-            if(options[option_id].hidden)
-               hidden = true;
-         });
-
          if(hidden) {
-            // store this particular hook for clustering
+            $(this).addClass("ghost");
 
-            //$(this).css("visibility","hidden")
-            $(this).removeClass("animate-up")
-
+            // prepare for clustering
             ghosts.push({
                hook: $(this),
                options: mapping.options,
-               x: $(this).offset().left,
-               y: $(this).offset().top
+               x: $(this).data("coordinates").left,
+               y: $(this).data("coordinates").top
             })
 
-            $(this).addClass("animate-up")
          }
       })
 
