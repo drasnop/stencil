@@ -3,7 +3,7 @@
 <div ng-switch-when="minimum">
 	<div id="options">
 		<table>
-			<tr class="option yellow" id="{{option.id}}"
+			<tr class="option gray" id="{{option.id}}"
 			ng-repeat="option in (filteredOptions = (model.options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index'] | determineAlternateHighlighting))"
 			ng-class="{'highlighted': option.highlighted, 'first-row': $first, 'last-row': $last}">
 
@@ -35,13 +35,14 @@
 	<ul id="tabs" class="grayGradientShadow">
 		<div ng-class="{'center-wrapper': model.optionsVisibility==2}">
 			<div class="back-arrow" ng-if="model.fullPanel" ng-click="hideFullPanel()">
-				<img id="back-arrow" src="//localhost:8888/resources/back-arrow.png" alt="Go back to minimal panel" >
+				<img id="back-arrow" src="/resources/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
 			ng-class="{'highlighted': tab.count>0, 'active': tab.name==model.activeTab}"
 			ng-click="activateTab(tab)">
 			<span>{{tab.name}}</span>
+			<span ng-if="tab.count" class="count">{{tab.count}}</span>
 			</li>
 		</div>
 	</ul>
