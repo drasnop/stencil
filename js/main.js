@@ -114,6 +114,7 @@ function enterCustomizationMode() {
 
          if(hidden) {
             $(this).addClass("ghost");
+            $(this).hide();
 
             // prepare for clustering
             ghosts.push({
@@ -167,8 +168,8 @@ function enterCustomizationMode() {
       $("<img class='plus-icon' src='//localhost:8888/img/plus_dark_yellow.png'>")
       .appendTo("#hooks")
       .css({
-         "left": cluster.x + "px",
-         "top": cluster.y + "px"
+         "left": cluster.x - 18 + "px",
+         "top": cluster.y - 18 + "px"
       })
    })
 
@@ -221,6 +222,10 @@ function enterCustomizationMode() {
             });
          }
       })
+   })
+
+   $(".plus-icon").click(function(){
+      $(".ghost").toggle();
    })
 
    $("#overlay").click(function() {
