@@ -73,6 +73,8 @@ function enterCustomizationMode() {
 
             // store this particular anchor's position for clustering
             $(this).data("coordinates", $(this).offset());
+            $(this).data("width",$(this).width());
+            $(this).data("height",$(this).height());
 
             // then hide it again
             $(this).addClass("animate-up")
@@ -117,8 +119,8 @@ function enterCustomizationMode() {
             ghosts.push({
                hook: $(this),
                options: mapping.options,
-               x: $(this).data("coordinates").left,
-               y: $(this).data("coordinates").top
+               x: $(this).data("coordinates").left + $(this).data("width")/2,
+               y: $(this).data("coordinates").top + $(this).data("height")/2
             })
 
          }
@@ -162,7 +164,7 @@ function enterCustomizationMode() {
 
    // Create one plus icon per cluster (even if it contains only one elements)
    clusters.forEach(function(cluster){
-      $("<img class='plus' src='//localhost:8888/img/plus_dark_yellow.png'>")
+      $("<img class='plus-icon' src='//localhost:8888/img/plus_dark_yellow.png'>")
       .appendTo("#hooks")
       .css({
          "left": cluster.x + "px",

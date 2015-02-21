@@ -51,18 +51,20 @@ body{
 	opacity: .5;
 }
 
-.plus{
-	z-index: 1000009		!important;
-	position: absolute 		!important;
-	cursor: pointer 			!important;
+.plus-icon{
+	z-index: 1000009;
+	position: absolute;
+	cursor: pointer;
 
-	transition: transform .2s ease, filter .2s ease;
-	transform: scale(.6);
+	width: 36px;
+	border-radius: 50%;
+
+	box-shadow: 0 0 2px 2px #ededed;
 	filter: grayscale(100);
 }
 
-.plus:hover{
-	transform: scale(.7);
+.plus-icon:hover{
+	box-shadow: 0 0 2px 2px yellow;
 	filter: grayscale(0);
 }
 
