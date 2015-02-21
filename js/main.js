@@ -73,8 +73,8 @@ function enterCustomizationMode() {
 
             // store this particular anchor's position for clustering
             $(this).data("coordinates", $(this).offset());
-            $(this).data("width",$(this).width());
-            $(this).data("height",$(this).height());
+            $(this).data("width", $(this).width());
+            $(this).data("height", $(this).height());
 
             // then hide it again
             $(this).addClass("animate-up")
@@ -120,8 +120,8 @@ function enterCustomizationMode() {
             ghosts.push({
                hook: $(this),
                options: mapping.options,
-               x: $(this).data("coordinates").left + $(this).data("width")/2,
-               y: $(this).data("coordinates").top + $(this).data("height")/2
+               x: $(this).data("coordinates").left + $(this).data("width") / 2,
+               y: $(this).data("coordinates").top + $(this).data("height") / 2
             })
 
          }
@@ -144,7 +144,7 @@ function enterCustomizationMode() {
       };
 
       // Add to this cluster all ghosts that are close to ghost
-      for(var i=0; i<ghosts.length; i++) {
+      for(var i = 0; i < ghosts.length; i++) {
          if(distance(ghost, ghosts[i]) <= parameters.distance) {
             cluster.hooks.push(ghosts[i]);
             ghosts.splice(i, 1);
@@ -153,10 +153,10 @@ function enterCustomizationMode() {
       }
 
       // compute the barycenter of the cluster
-      cluster.x=Math.mean(cluster.hooks.map(function(hook){
+      cluster.x = Math.mean(cluster.hooks.map(function(hook) {
          return hook.x;
       }))
-      cluster.y=Math.mean(cluster.hooks.map(function(hook){
+      cluster.y = Math.mean(cluster.hooks.map(function(hook) {
          return hook.y;
       }))
 
@@ -164,13 +164,13 @@ function enterCustomizationMode() {
    }
 
    // Create one plus icon per cluster (even if it contains only one elements)
-   clusters.forEach(function(cluster){
+   clusters.forEach(function(cluster) {
       $("<img class='plus-icon' src='//localhost:8888/img/plus_dark_yellow.png'>")
-      .appendTo("#hooks")
-      .css({
-         "left": cluster.x - 18 + "px",
-         "top": cluster.y - 18 + "px"
-      })
+         .appendTo("#hooks")
+         .css({
+            "left": cluster.x - 18 + "px",
+            "top": cluster.y - 18 + "px"
+         })
    })
 
    /*------------- bind listeners -------------*/
@@ -179,14 +179,31 @@ function enterCustomizationMode() {
 
    // highlight all elements that share at least one option with the current one
    hooks.mouseenter(function() {
-      filterByCommonOption(hooks, $(this).data("options")).addClass("hovered");
+      filterByCommonOption(hooks, $(this).data("options"))
+      .addClass("hovered")
+      .each(function(){
+         $(this).offset({
+            left: $(this).offset().left - 1,
+            top: $(this).offset().top - 1
+         })
+      })
    })
 
    hooks.mouseleave(function() {
-         if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
-            filterByCommonOption(hooks, $(this).data("options")).removeClass("hovered");
-      })
-      // show a panel populated with only the relevant options
+      if(!nonZeroIntersection($(this).data("options"), model.selectedOptions)){
+         filterByCommonOption(hooks, $(this).data("options"))
+         .removeClass("hovered")
+         .each(function(){
+            $(this).offset({
+               left: $(this).offset().left + 1,
+               top: $(this).offset().top + 1
+            })
+         })
+      }
+   })
+
+
+   // show a panel populated with only the relevant options
    hooks.click(function(event) {
 
       // update the content of the panel
@@ -224,7 +241,7 @@ function enterCustomizationMode() {
       })
    })
 
-   $(".plus-icon").click(function(){
+   $(".plus-icon").click(function() {
       $(".ghost").toggle();
    })
 
@@ -336,11 +353,11 @@ Object.defineProperty(Array.prototype, "indexOfProperty", {
    }
 });
 
-Math.mean=function(array){
-   var sum=0;
+Math.mean = function(array) {
+   var sum = 0;
    for(var i in array)
-      sum+=array[i]
-   return sum/array.length;
+      sum += array[i]
+   return sum / array.length;
 }
 
 // computes the Euclidian distance between two ghost anchors
