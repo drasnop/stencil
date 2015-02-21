@@ -160,6 +160,16 @@ function enterCustomizationMode() {
       clusters.push(cluster);
    }
 
+   // Create one plus icon per cluster (even if it contains only one elements)
+   clusters.forEach(function(cluster){
+      $("<img class='plus' src='//localhost:8888/img/plus_dark_yellow.png'>")
+      .appendTo("#hooks")
+      .css({
+         "left": cluster.x + "px",
+         "top": cluster.y + "px"
+      })
+   })
+
    /*------------- bind listeners -------------*/
 
    var hooks = $(".customizable");

@@ -51,6 +51,21 @@ body{
 	opacity: .5;
 }
 
+.plus{
+	z-index: 1000009		!important;
+	position: absolute 		!important;
+	cursor: pointer 			!important;
+
+	transition: transform .2s ease, filter .2s ease;
+	transform: scale(.6);
+	filter: grayscale(100);
+}
+
+.plus:hover{
+	transform: scale(.7);
+	filter: grayscale(0);
+}
+
 #panels{
 	z-index: 1000002;
 	width:1000px;

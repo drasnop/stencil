@@ -18,14 +18,14 @@ javascript:(function(e,a,g,h,f,c,b,d){
 	window.jQuery=j;
 	window.$=window.jQuery;
 
-	if ($("link[href='//localhost:8888/style.css']").length>0)
-		$("link[href='//localhost:8888/style.css']").remove();
+	if ($("link[href='//localhost:8888/css/style.css']").length>0)
+		$("link[href='//localhost:8888/css/style.css']").remove();
 
 	$('<link/>', {
 		rel: 'stylesheet',
 		type: 'text/css',
 		crossorigin: 'anonymous',
-		href: '//localhost:8888/style.css'
+		href: '//localhost:8888/css/style.css'
 	}).appendTo('head');
 
 	$.when(
@@ -36,9 +36,9 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		})
 	).done(function(){
 		$.when(
-			$.getScript("//localhost:8888/data.js"),
-			$.getScript("//localhost:8888/app.js"),
-			$.getScript("//localhost:8888/main.js"),
+			$.getScript("//localhost:8888/js/data.js"),
+			$.getScript("//localhost:8888/js/app.js"),
+			$.getScript("//localhost:8888/js/main.js"),
 			$.Deferred(function( deferred ){
 				$( deferred.resolve );
 			})

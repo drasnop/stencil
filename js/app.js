@@ -147,7 +147,7 @@ angular.module('myApp', [])
 
 .directive('adHocPanel', ['$sce', function($sce) {
    return {
-      templateUrl: $sce.trustAsResourceUrl('/html/options.html')
+      templateUrl: $sce.trustAsResourceUrl('//localhost:8888/html/options.html')
    };
 }])
 
