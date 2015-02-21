@@ -131,10 +131,34 @@ function enterCustomizationMode() {
    /*------------- generate clusters -------------*/
 
    // groups of ghost hooks that are near each other
-   var clusters = [];
+   clusters = [];
+   var cluster, ghost;
 
+   while(ghosts.length > 0) {
+      ghost = ghosts.pop();
+      cluster = {
+         hooks: [ghost]
+      };
 
+      // Add to this cluster all ghosts that are close to ghost
+      for(var i=0; i<ghosts.length; i++) {
+         if(distance(ghost, ghosts[i]) <= parameters.distance) {
+            cluster.hooks.push(ghosts[i]);
+            ghosts.splice(i, 1);
+            i--;
+         }
+      }
 
+      // compute the barycenter of the cluster
+      cluster.x=Math.mean(cluster.hooks.map(function(hook){
+         return hook.x;
+      }))
+      cluster.y=Math.mean(cluster.hooks.map(function(hook){
+         return hook.y;
+      }))
+
+      clusters.push(cluster);
+   }
 
    /*------------- bind listeners -------------*/
 
@@ -294,6 +318,19 @@ Object.defineProperty(Array.prototype, "indexOfProperty", {
       return -1;
    }
 });
+
+Math.mean=function(array){
+   var sum=0;
+   for(var i in array)
+      sum+=array[i]
+   return sum/array.length;
+}
+
+// computes the Euclidian distance between two ghost anchors
+function distance(ghost1, ghost2) {
+   return Math.sqrt(Math.pow(ghost1.x - ghost2.x, 2) + Math.pow(ghost1.y - ghost2.y, 2));
+}
+
 
 // Debug only
 function getscope() {

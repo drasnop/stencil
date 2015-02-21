@@ -850,3 +850,8 @@ var options=
 };
 
 var KEYCODE_ESC = 27;
+
+var parameters={
+	// distance (in px) below which ghost anchors are bundled in clusters
+	"distance":100
+}
