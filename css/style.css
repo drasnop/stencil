@@ -33,16 +33,18 @@ body{
 	
 	/*transition: box-shadow .5s;*/
 	/* box-shadow: 0 0 2px 2px #61FFED!important; */
-	/*border: 1px solid #ccc	!important;*/
 
 	cursor: pointer 			!important;
 }
 
 .customizable:hover, .customizable.hovered{
 	box-shadow: 0 0 3px 3px yellow!important;
-	border: 1px solid #ccc	!important;
 	z-index: 1000010 !important;
+	
+	border: 1px solid #ccc	!important;
 	box-sizing: border-box !important;
+	margin-top: -1px!important;
+	margin-left: -1px!important;
 }
 
 .customizable-children{

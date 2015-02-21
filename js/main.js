@@ -180,26 +180,13 @@ function enterCustomizationMode() {
    // highlight all elements that share at least one option with the current one
    hooks.mouseenter(function() {
       filterByCommonOption(hooks, $(this).data("options"))
-      .addClass("hovered")
-      .each(function(){
-         $(this).offset({
-            left: $(this).offset().left - 1,
-            top: $(this).offset().top - 1
-         })
-      })
+         .addClass("hovered")
    })
 
    hooks.mouseleave(function() {
-      if(!nonZeroIntersection($(this).data("options"), model.selectedOptions)){
+      if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
          filterByCommonOption(hooks, $(this).data("options"))
-         .removeClass("hovered")
-         .each(function(){
-            $(this).offset({
-               left: $(this).offset().left + 1,
-               top: $(this).offset().top + 1
-            })
-         })
-      }
+            .removeClass("hovered")
    })
 
 
