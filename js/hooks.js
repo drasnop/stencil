@@ -10,7 +10,7 @@ function generateHooks() {
    // for each selector-options pairs, generate the appropriate hooks
    mappings.forEach(function(mapping) {
 
-      /*----------- store style & position of anchors -----------*/
+      /*----------- store style of anchors -----------*/
 
       mapping_anchors = $(mapping.selector);
 
@@ -20,23 +20,24 @@ function generateHooks() {
       // store the current style
       mapping_anchors.each(function() {
          $(this).data("style", getRelevantCSS($(this), parentCSS));
+         $(this).data("parent", $(this))
       })
       mapping_anchors.find("*").each(function() {
          $(this).data("style", getRelevantCSS($(this), childrenCSS));
       })
 
 
-      /*------------- handle hidden anchors -------------*/
+      /*------------- store position of anchors -------------*/
 
-      // checkif one option associated with this selector is a show/hide of type hidden
+      // check if one option associated with this selector is a show/hide of type hidden
       var hidden = false;
       mapping.options.forEach(function(option_id) {
          if(options[option_id].hideable && options[option_id].value == "hidden")
             hidden = true;
       });
 
-      mapping_anchors.each(function() {
-         if(hidden) {
+      if(hidden)
+         mapping_anchors.each(function() {
             // briefly show this anchor to measure its position
             $(this).removeClass("animate-up")
 
@@ -47,11 +48,11 @@ function generateHooks() {
 
             // then hide it again
             $(this).addClass("animate-up")
-         }
-         else {
+         })
+      else
+         mapping_anchors.each(function() {
             $(this).data("coordinates", $(this).offset());
-         }
-      })
+         })
 
 
       /*------------- create hooks -------------*/
@@ -103,7 +104,13 @@ function generateHooks() {
 
 
 
-function updateClusters () {
+function updateHooks () {
+   
+}
+
+
+
+function updateClusters() {
 
    // delete previous clusters
    $("#hooks .plus-icon").remove();
