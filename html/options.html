@@ -42,7 +42,7 @@
 			ng-class="{'highlighted': tab.count>0, 'active': tab.name==model.activeTab}"
 			ng-click="activateTab(tab.name)">
 			<span>{{tab.name}}</span>
-			<span ng-if="tab.count" class="count">{{(tab.count+.5)|number:0}}</span>
+			<span ng-if="tab.count" class="count">{{tab.count|number:0}}</span>
 			</li>
 		</div>
 	</ul>
