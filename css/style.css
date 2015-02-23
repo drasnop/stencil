@@ -9,9 +9,10 @@ z-indexes
 
 
 body{
-	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
+/* Wunderlist-specific
+ 	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
 	font-size: 14px;
-	font-weight: 500;
+	font-weight: 500; */
 	color:#444!important;
 }
 

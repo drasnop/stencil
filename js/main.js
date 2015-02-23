@@ -12,8 +12,6 @@ function initialize() {
    angular.bootstrap(document, ['myApp']);
 
    generateHooks();
-   bindListeners();
-   //updateHooks()?
 
    // hide the newly-created customization layer
    $("#overlay, #hooks, #panels").hide();
@@ -21,8 +19,8 @@ function initialize() {
 
 
 function enterCustomizationMode() {
-   customizationMode = true;
    console.log("customization mode on");
+   customizationMode = true;
 
    // sync angular options with the Wunderlist Backbone model
    angular.element($("#ad-hoc-panel")).scope().initializeOptions();
@@ -34,14 +32,19 @@ function enterCustomizationMode() {
    $("head").append("<style id='special-style'> #wunderlist-base::before{" +
       "-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
+   // update the customization layer
+   //updateHooks()?
+   updateClusters();
+   bindListeners();
+
    // show the customization layer
    $("#overlay, #hooks, #panels").show();
 }
 
 
 function exitCustomizationMode() {
-   customizationMode = false;
    console.log("customization mode off")
+   customizationMode = false;
 
    // hide customization layer
    $("#overlay, #hooks, #panels").hide();

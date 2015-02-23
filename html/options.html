@@ -3,7 +3,7 @@
 <div ng-switch-when="minimum">
 	<div id="options">
 		<table>
-			<tr class="option gray" id="{{option.id}}"
+			<tr class="option yellow" id="{{option.id}}"
 			ng-repeat="option in (filteredOptions = (model.options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index'] | determineAlternateHighlighting))"
 			ng-class="{'highlighted': option.highlighted, 'first-row': $first, 'last-row': $last}">
 

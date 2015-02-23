@@ -99,8 +99,14 @@ function generateHooks() {
       mapping_hooks.addClass("customizable");
    });
 
+}
 
-   /*------------- generate clusters -------------*/
+
+
+function updateClusters () {
+
+   // delete previous clusters
+   $("#hooks .plus-icon").remove();
 
    // groups of ghost hooks that are near each other
    clusters = [];
@@ -141,11 +147,7 @@ function generateHooks() {
             "top": cluster.y - 18 + "px"
          })
    })
-
 }
-
-
-
 
 
 
