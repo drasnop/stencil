@@ -113,15 +113,15 @@ angular.module('myApp', [])
          determineShowMoreShortcuts();
       }
 
-      $scope.activateTab = function(tab) {
-         $scope.model.activeTab = tab.name;
+      $scope.activateTab = function(tabName) {
+         $scope.model.activeTab = tabName;
 
          determineShowMoreShortcuts();
       }
 
-      $scope.showFullPanel = function(tab) {
+      $scope.showFullPanel = function(tabName) {
          $scope.model.fullPanel = true;
-         $scope.model.activeTab = tab;
+         $scope.model.activeTab = tabName;
          determineShowMoreShortcuts();
       }
 
