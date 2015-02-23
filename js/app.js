@@ -21,7 +21,9 @@ var model = {
    "activeTab": "",
 
    "options": options,
-   "selectedOptions": []
+   "selectedOptions": [],
+
+   "showGhosts": false
 }
 
 angular.module('myApp', [])

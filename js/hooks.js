@@ -92,6 +92,11 @@ function updateHooks() {
             "y": offset.top + height / 2
          })
       }
+      else{
+         // for hooks that have just been de-hidden
+         hook.removeClass("ghost")
+         hook.show()
+      }
 
    });
 }
@@ -104,9 +109,9 @@ function updateClusters() {
    $("#hooks .plus-icon").remove();
 
    // groups of ghost hooks that are near each other
-   clusters = [];
-   var cluster, ghost;
+   var clusters = [];
 
+   var cluster, ghost;
    while(ghosts.length > 0) {
       ghost = ghosts.pop();
       cluster = {
@@ -202,7 +207,15 @@ function bindListeners() {
    })
 
    $(".plus-icon").click(function() {
-      $(".ghost").toggle();
+      model.showGhosts= !model.showGhosts;
+      if(model.showGhosts){
+         $(".ghost").show();
+         this.src='//localhost:8888/img/minus_dark_yellow.png';
+      }
+      else{
+         $(".ghost").hide();
+         this.src='//localhost:8888/img/plus_dark_yellow.png';
+      }
    })
 
    $("#overlay").click(function() {

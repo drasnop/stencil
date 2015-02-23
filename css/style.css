@@ -76,7 +76,7 @@ body{
 }
 
 .plus-icon:hover{
-	box-shadow: 0 0 2px 2px yellow;
+	box-shadow: 0 0 1px 2px yellow;
 	filter: grayscale(0);
 }
 
