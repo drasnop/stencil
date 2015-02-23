@@ -1,111 +1,99 @@
-function generateHooks() {
+// list of all the hooks that are currently hidden
+ghosts = [];
 
+function generateHooks() {
    // elements of the original interface that can serve to anchor (intrinsically or semantically) options
    var mapping_anchors;
-   // clones of the anchors with which users interact in customization mode
-   var mapping_hooks;
-   // list of all the hooks that are currently hidden
-   ghosts = [];
 
    // for each selector-options pairs, generate the appropriate hooks
    mappings.forEach(function(mapping) {
 
-      /*----------- store style of anchors -----------*/
-
       mapping_anchors = $(mapping.selector);
-
       if(mapping_anchors.length === 0)
          console.log(mapping.selector, "failed to match any element for", mapping.options)
 
-      // store the current style
-      mapping_anchors.each(function() {
-         $(this).data("style", getRelevantCSS($(this), parentCSS));
-         $(this).data("parent", $(this))
-      })
-      mapping_anchors.find("*").each(function() {
-         $(this).data("style", getRelevantCSS($(this), childrenCSS));
-      })
+      var hook;
+      mapping_anchors.each(function(i, anchor) {
 
+         // deep clone anchor, but remove event binders with .off()
+         hook = $(anchor).clone(true).off();
+         hook.appendTo("#hooks");
+         hook.data("anchor", $(anchor));
+         hook.data("options", mapping.options);
 
-      /*------------- store position of anchors -------------*/
+         hook.addClass("customizable")
 
-      // check if one option associated with this selector is a show/hide of type hidden
-      var hidden = false;
-      mapping.options.forEach(function(option_id) {
-         if(options[option_id].hideable && options[option_id].value == "hidden")
-            hidden = true;
-      });
-
-      if(hidden)
-         mapping_anchors.each(function() {
-            // briefly show this anchor to measure its position
-            $(this).removeClass("animate-up")
-
-            // store this particular anchor's position for clustering
-            $(this).data("coordinates", $(this).offset());
-            $(this).data("width", $(this).width());
-            $(this).data("height", $(this).height());
-
-            // then hide it again
-            $(this).addClass("animate-up")
-         })
-      else
-         mapping_anchors.each(function() {
-            $(this).data("coordinates", $(this).offset());
-         })
-
-
-      /*------------- create hooks -------------*/
-
-      // clone with their data, but remove event binders with .off()
-      mapping_hooks = mapping_anchors.clone(true).off();
-      mapping_hooks.appendTo("#hooks");
-
-      // position the hooks on top of the elements
-      mapping_hooks.each(function() {
-         //$(this).offset($(this).data("coordinates")); doesn't work
-         $(this)
-            .css($(this).data("style"))
+         // make sure the hook and its children are not active
+         hook.find("*").addBack()
             .attr('disabled', 'disabled')
             .removeAttr('href')
-            .css({
-               "left": $(this).data("coordinates").left + "px",
-               "top": $(this).data("coordinates").top + "px"
-            })
-            .data("options", mapping.options);
-
-         $(this).find("*").each(function() {
-            $(this)
-               .css($(this).data("style"))
-               .attr('disabled', 'disabled')
-               .removeAttr('href')
-               .addClass("customizable-children");
-         });
-
-         if(hidden) {
-            $(this).addClass("ghost");
-            $(this).hide();
-
-            // prepare for clustering
-            ghosts.push({
-               hook: $(this),
-               options: mapping.options,
-               x: $(this).data("coordinates").left + $(this).data("width") / 2,
-               y: $(this).data("coordinates").top + $(this).data("height") / 2
-            })
-
-         }
       })
 
-      mapping_hooks.addClass("customizable");
    });
-
 }
 
 
 
-function updateHooks () {
-   
+function updateHooks() {
+
+   var hooks = $(".customizable");
+   ghosts = [];
+
+   hooks.each(function(i, hookElement) {
+      var hook=$(hookElement)
+      var anchor=hook.data("anchor")
+
+      // style hook and its children
+/*      hook.find("*").addBack().each(function() {
+         $(this).css(getRelevantCSS($(this).data("anchor"), parentCSS))
+      })*/
+      hook.css(getRelevantCSS(anchor, parentCSS))
+
+      // check if one option associated with this selector is a show/hide of type hidden
+      var hidden = false;
+      hook.data("options").forEach(function(option_id) {
+         if(options[option_id].hideable && options[option_id].value == "hidden")
+            hidden = true;
+      });
+
+      // retrieve position information of the original anchor
+      var offset, width, height;
+      if(hidden) {
+         // briefly show the original anchor to measure its position
+         anchor.removeClass("animate-up")
+
+         // store this particular anchor's position for clustering
+         offset = anchor.offset();
+         width = anchor.width();
+         height = anchor.height();
+
+         // then hide it again
+         anchor.addClass("animate-up")
+      }
+      else
+         offset = anchor.offset();
+
+      // set the position of this hook (even if it's hidden)
+      hook.css({
+         "top": offset.top + "px",
+         "left": offset.left + "px"
+      })
+
+      // handle hidden hooks
+      if(hidden) {
+         // turn this hook into a ghost
+         hook.addClass("ghost");
+         hook.hide();
+
+         // prepare for clustering
+         ghosts.push({
+            "hook": hook,
+            "x": offset.left + width / 2,
+            "y": offset.top + height / 2
+         })
+      }
+
+   });
 }
 
 
@@ -122,7 +110,7 @@ function updateClusters() {
    while(ghosts.length > 0) {
       ghost = ghosts.pop();
       cluster = {
-         hooks: [ghost]
+         "hooks": [ghost]
       };
 
       // Add to this cluster all ghosts that are close to ghost

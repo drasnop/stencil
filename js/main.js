@@ -33,7 +33,7 @@ function enterCustomizationMode() {
       "-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
    // update the customization layer
-   //updateHooks()?
+   updateHooks();
    updateClusters();
    bindListeners();
 

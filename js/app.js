@@ -35,6 +35,10 @@ angular.module('myApp', [])
 
       $scope.updateOption = function(id, value) {
          console.log("updating:", id, value)
+
+         if(sync.collections === undefined)
+            return;
+
          sync.collections.settings.where({
             key: id
          })[0].set({
@@ -131,7 +135,6 @@ angular.module('myApp', [])
 
       // questionable workaround...
       function determineShowMoreShortcuts() {
-         console.log("determineShowMoreShortcuts", $scope.model.activeTab, $scope.model.selectedOptions)
          $scope.model.showMoreShortcuts = false;
 
          $.each($scope.model.options, function(id, option) {
