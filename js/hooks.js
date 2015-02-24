@@ -40,13 +40,13 @@ function updateHooks() {
    ghosts = [];
 
    hooks.each(function(i, hookElement) {
-      var hook=$(hookElement)
-      var anchor=hook.data("anchor")
+      var hook = $(hookElement)
+      var anchor = hook.data("anchor")
 
       // style hook and its children
-/*      hook.find("*").addBack().each(function() {
-         $(this).css(getRelevantCSS($(this).data("anchor"), parentCSS))
-      })*/
+      /*      hook.find("*").addBack().each(function() {
+               $(this).css(getRelevantCSS($(this).data("anchor"), parentCSS))
+            })*/
       hook.css(getRelevantCSS(anchor, parentCSS))
 
       // check if one option associated with this selector is a show/hide of type hidden
@@ -83,7 +83,6 @@ function updateHooks() {
       if(hidden) {
          // turn this hook into a ghost
          hook.addClass("ghost");
-         hook.hide();
 
          // prepare for clustering
          ghosts.push({
@@ -92,11 +91,12 @@ function updateHooks() {
             "y": offset.top + height / 2
          })
       }
-      else{
+      else {
          // for hooks that have just been de-hidden
          hook.removeClass("ghost")
-         hook.show()
       }
+
+      hook.toggle(!hidden || model.showGhosts)
 
    });
 }
@@ -140,12 +140,13 @@ function updateClusters() {
 
    // Create one plus icon per cluster (even if it contains only one elements)
    clusters.forEach(function(cluster) {
-      $("<img class='plus-icon' src='//localhost:8888/img/plus_dark_yellow.png'>")
+      $("<img class='plus-icon'>")
          .appendTo("#hooks")
          .css({
             "left": cluster.x - 18 + "px",
             "top": cluster.y - 18 + "px"
          })
+         .attr("src", model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
    })
 }
 
@@ -207,14 +208,14 @@ function bindListeners() {
    })
 
    $(".plus-icon").click(function() {
-      model.showGhosts= !model.showGhosts;
-      if(model.showGhosts){
+      model.showGhosts = !model.showGhosts;
+      if(model.showGhosts) {
          $(".ghost").show();
-         this.src='//localhost:8888/img/minus_dark_yellow.png';
+         this.src = '//localhost:8888/img/minus_dark_yellow.png';
       }
-      else{
+      else {
          $(".ghost").hide();
-         this.src='//localhost:8888/img/plus_dark_yellow.png';
+         this.src = '//localhost:8888/img/plus_dark_yellow.png';
       }
    })
 

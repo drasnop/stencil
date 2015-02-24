@@ -38,6 +38,13 @@ angular.module('myApp', [])
       $scope.updateOption = function(id, value) {
          console.log("updating:", id, value)
 
+         if(value=="hidden" || value=="visible" || value=="auto"){
+            updateHooks();
+            updateClusters();
+            bindListeners();
+         }
+
+         // dev mode: not linked with Wunderlist backbone
          if(sync.collections === undefined)
             return;
 
@@ -50,6 +57,7 @@ angular.module('myApp', [])
 
       $scope.initializeOptions = function() {
 
+         // dev mode: not linked with Wunderlist backbone
          if(sync.collections === undefined)
             return;
 
