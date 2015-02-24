@@ -84,11 +84,7 @@ function updateHooks() {
          hook.toggle(model.showGhosts)
 
          // prepare for clustering
-         ghosts.push({
-            "hook": hook,
-            "x": offset.left + width / 2,
-            "y": offset.top + height / 2
-         })
+         ghosts.push(hook);
       }
       else {
          // for hooks that have just been de-hidden
@@ -122,8 +118,7 @@ function generateClusters(ghosts) {
       // Add to this cluster all ghosts that are close to ghost
       for(var i = 0; i < ghosts.length; i++) {
          if(distance(ghost, ghosts[i]) <= parameters.distance) {
-            cluster.ghosts.push(ghosts[i]);
-            ghosts.splice(i, 1);
+            cluster.ghosts.push(ghosts.splice(i, 1)[0]);
             i--;
          }
       }
@@ -133,6 +128,8 @@ function generateClusters(ghosts) {
 
       clusters.push(cluster);
    }
+
+   console.log(clusters)
 
    // Create one plus icon per cluster (even if it contains only one elements)
    clusters.forEach(function(cluster) {
@@ -154,15 +151,17 @@ repositionHooksForCluster = function(cluster, show) {
 
    // first, we need to show/hide all the anchors corresponding to the ghosts
    cluster.ghosts.forEach(function(ghost) {
-      ghost.hook.toggle(show);
-      ghost.hook.data("anchor").toggle(show);
+      ghost.toggle(show);
+      ghost.data("anchor").toggle(show);
    })
 
    // then we update the position of ALL hooks
    $(".customizable").each(function(i, hook) {
       $(hook).css({
          "top": $(hook).data("anchor").offset().top + "px",
-         "left": $(hook).data("anchor").offset().left + "px"
+         "left": $(hook).data("anchor").offset().left + "px",
+         "width": $(hook).data("anchor").width() + "px",
+         "height": $(hook).data("anchor").height() + "px"
       })
    })
 
@@ -225,8 +224,8 @@ function bindListeners() {
             // console.log(obj, info)
 
             $(this).css({
-               left: obj.left + 'px',
-               top: obj.top + 'px'
+               "left": obj.left + 'px',
+               "top": obj.top + 'px'
             });
          }
       })
