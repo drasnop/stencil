@@ -60,23 +60,27 @@ function updateHooks() {
       var offset, width, height;
       if(hidden) {
          // briefly show the original anchor to measure its position
+         anchor.css("transition", "none!important")
          anchor.removeClass("animate-up")
-
-         // store this particular anchor's position for clustering
-         offset = anchor.offset();
-         width = anchor.width();
-         height = anchor.height();
-
-         // then hide it again
-         anchor.addClass("animate-up")
       }
-      else
-         offset = anchor.offset();
+
+      // store this particular anchor's position for clustering
+      offset = anchor.offset();
+      width = anchor.width();
+      height = anchor.height();
+
+      if(hidden) {
+         // hide the original anchor again
+         anchor.addClass("animate-up");
+         // TODO add transitions back
+      }
 
       // set the position of this hook (even if it's hidden)
       hook.css({
          "top": offset.top + "px",
-         "left": offset.left + "px"
+         "left": offset.left + "px",
+         "width": width + "px",
+         "height": height + "px"
       })
 
       // handle hidden hooks
@@ -96,14 +100,15 @@ function updateHooks() {
          hook.removeClass("ghost")
       }
 
-      hook.toggle(!hidden || model.showGhosts)
-
+      hook.toggle(!hidden || model.showGhosts);
+      // annoying necessity with Wunderlist
+      hook.removeClass("animate-up")
    });
 }
 
 
 
-function updateClusters() {
+function generateClusters() {
 
    // delete previous clusters
    $("#hooks .plus-icon").remove();
@@ -115,25 +120,20 @@ function updateClusters() {
    while(ghosts.length > 0) {
       ghost = ghosts.pop();
       cluster = {
-         "hooks": [ghost]
+         "ghosts": [ghost]
       };
 
       // Add to this cluster all ghosts that are close to ghost
       for(var i = 0; i < ghosts.length; i++) {
          if(distance(ghost, ghosts[i]) <= parameters.distance) {
-            cluster.hooks.push(ghosts[i]);
+            cluster.ghosts.push(ghosts[i]);
             ghosts.splice(i, 1);
             i--;
          }
       }
 
-      // compute the barycenter of the cluster
-      cluster.x = Math.mean(cluster.hooks.map(function(hook) {
-         return hook.x;
-      }))
-      cluster.y = Math.mean(cluster.hooks.map(function(hook) {
-         return hook.y;
-      }))
+      // compute the position of the cluster
+      computeBarycenter(cluster);
 
       clusters.push(cluster);
    }
@@ -146,7 +146,9 @@ function updateClusters() {
             "left": cluster.x - 18 + "px",
             "top": cluster.y - 18 + "px"
          })
-         .attr("src", model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
+         .attr("src",
+            model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
+         .data("cluster", cluster)
    })
 }
 
@@ -207,17 +209,6 @@ function bindListeners() {
       })
    })
 
-   $(".plus-icon").click(function() {
-      model.showGhosts = !model.showGhosts;
-      if(model.showGhosts) {
-         $(".ghost").show();
-         this.src = '//localhost:8888/img/minus_dark_yellow.png';
-      }
-      else {
-         $(".ghost").hide();
-         this.src = '//localhost:8888/img/plus_dark_yellow.png';
-      }
-   })
 
    $("#overlay").click(function() {
       $("#ad-hoc-panel").hide();
@@ -231,4 +222,60 @@ function bindListeners() {
       scope.$apply();
    })
 
+
+   $(".plus-icon").click(function() {
+      model.showGhosts = !model.showGhosts;
+      $(this).attr("src",
+         model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
+
+      var cluster = $(this).data("cluster")
+      if(model.showGhosts) {
+
+         // first, we need to display all the anchors corresponding to the ghosts
+         var anchor;
+         cluster.ghosts.forEach(function(ghost) {
+            ghost.hook.show();
+            anchor = ghost.hook.data("anchor")
+            anchor.css("transition", "none!important")
+            anchor.removeClass("animate-up")
+         })
+
+         // then we update the position of ALL hooks
+         $(".customizable").each(function(i, hook) {
+            $(hook).css({
+               "top": $(hook).data("anchor").offset().top + "px",
+               "left": $(hook).data("anchor").offset().left + "px"
+            })
+         })
+
+         // finaly we reposition the cluster
+         computeBarycenter(cluster)
+         $(this).css({
+            "left": cluster.x - 18 + "px",
+            "top": cluster.y - 18 + "px"
+         })
+      }
+      else {
+         // hide the ghosts and anchors of this cluster
+         cluster.ghosts.forEach(function(ghost) {
+            ghost.hook.hide();
+            ghost.hook.data("anchor").addClass("animate-up")
+         })
+
+         // then we update the position of ALL hooks
+         $(".customizable").each(function(i, hook) {
+            $(hook).css({
+               "top": $(hook).data("anchor").offset().top + "px",
+               "left": $(hook).data("anchor").offset().left + "px"
+            })
+         })
+
+         // finaly we reposition the cluster
+         computeBarycenter(cluster)
+         $(this).css({
+            "left": cluster.x - 18 + "px",
+            "top": cluster.y - 18 + "px"
+         })
+      }
+   })
 }

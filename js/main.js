@@ -34,7 +34,7 @@ function enterCustomizationMode() {
 
    // update the customization layer
    updateHooks();
-   updateClusters();
+   generateClusters();
    bindListeners();
 
    // show the customization layer
@@ -91,7 +91,7 @@ function toggleOptionsVisibility() {
 var parentCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left",
    "border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
    "margin-top", "margin-right", "margin-bottom", "margin-left",
-   "box-sizing", "width", "height", "display", "float",
+   "box-sizing", "display", "float",
    "text-align", "font-size"
 ];
 
@@ -99,7 +99,7 @@ var childrenCSS = ["padding-top", "padding-right", "padding-bottom", "padding-le
    "border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
    "margin-top", "margin-right", "margin-bottom", "margin-left",
    "position", "top", "right", "bottom", "left",
-   "box-sizing", "width", "height", "display", "float",
+   "box-sizing", "display", "float",
    "text-align", "font-size"
 ];
 
@@ -149,6 +149,14 @@ function distance(ghost1, ghost2) {
    return Math.sqrt(Math.pow(ghost1.x - ghost2.x, 2) + Math.pow(ghost1.y - ghost2.y, 2));
 }
 
+function computeBarycenter (cluster) {
+   cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
+      return ghost.x;
+   }))
+   cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
+      return ghost.y;
+   }))
+}
 
 // Debug only
 function getscope() {

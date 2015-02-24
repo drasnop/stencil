@@ -21,31 +21,31 @@ var mappings = [
 		"options":["sound_checkoff_enabled","shortcut_mark_task_done"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem a[href='#/lists/inbox']",
+		"selector":".filters-collection .sidebarItem[rel='inbox']",
 		"options":["shortcut_goto_inbox"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem a[aria-label='All']",
+		"selector":".filters-collection .sidebarItem[rel='all']",
 		"options":["smartlist_visibility_all","shortcut_goto_filter_all"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem a[aria-label='Assigned to me']",
+		"selector":".filters-collection .sidebarItem[rel='assigned']",
 		"options":["smartlist_visibility_assigned_to_me","shortcut_goto_filter_assigned"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem a[aria-label='Completed']",
+		"selector":".filters-collection .sidebarItem[rel='completed']",
 		"options":["smartlist_visibility_done","shortcut_goto_filter_completed"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem a[aria-label='Starred']",
+		"selector":".filters-collection .sidebarItem[rel='starred']",
 		"options":["smartlist_visibility_starred","shortcut_goto_filter_starred"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem a[aria-label='Today']",
+		"selector":".filters-collection .sidebarItem[rel='today']",
 		"options":["smartlist_visibility_today","shortcut_goto_filter_today"]
 	},
 	{
-		"selector":".filters-collection .sidebarItem a[aria-label='Week']",
+		"selector":".filters-collection .sidebarItem[rel='week']",
 		"options":["smartlist_visibility_week","shortcut_goto_filter_week"]
 	},
 	{

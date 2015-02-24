@@ -2,8 +2,8 @@
 z-indexes
 1 000 000 overlay
 1 000 001 hooks.customizable
-1 000 002 plus
-1 000 003 hooks:hover
+1 000 002 hooks:hover
+1 000 004 plus
 1 000 005 ad-hoc-panel, show-full-panel 
 */
 
@@ -50,7 +50,7 @@ body{
 
 .customizable:hover, .customizable.hovered{
 	box-shadow: 0 0 3px 3px yellow!important;
-	z-index: 1000003 !important;
+	z-index: 1000002 !important;
 	
 	border: 1px solid #ccc	!important;
 	box-sizing: border-box !important;
@@ -64,7 +64,7 @@ body{
 }
 
 .plus-icon{
-	z-index: 1000002;
+	z-index: 1000004;
 	position: absolute;
 	cursor: pointer;
 
