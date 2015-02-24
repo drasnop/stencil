@@ -27,6 +27,9 @@ function generateHooks() {
          hook.find("*").addBack()
             .attr('disabled', 'disabled')
             .removeAttr('href')
+
+         // a bit of a hack
+         $(anchor).css("transition", "none!important")
       })
 
    });
@@ -71,8 +74,9 @@ function updateHooks() {
 
       if(hidden) {
          // hide the original anchor again
-         anchor.addClass("animate-up");
-         // TODO add transitions back
+         //anchor.addClass("animate-up");
+         // TODO add the class and transitions back when leaving CM...
+         anchor.hide()
       }
 
       // set the position of this hook (even if it's hidden)
@@ -236,8 +240,9 @@ function bindListeners() {
          cluster.ghosts.forEach(function(ghost) {
             ghost.hook.show();
             anchor = ghost.hook.data("anchor")
-            anchor.css("transition", "none!important")
-            anchor.removeClass("animate-up")
+/*            anchor.css("transition", "none!important")
+            anchor.removeClass("animate-up")*/
+            anchor.show();
          })
 
          // then we update the position of ALL hooks
@@ -259,7 +264,8 @@ function bindListeners() {
          // hide the ghosts and anchors of this cluster
          cluster.ghosts.forEach(function(ghost) {
             ghost.hook.hide();
-            ghost.hook.data("anchor").addClass("animate-up")
+            /*ghost.hook.data("anchor").addClass("animate-up")*/
+            ghost.hook.data("anchor").hide();
          })
 
          // then we update the position of ALL hooks

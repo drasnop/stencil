@@ -53,7 +53,7 @@ angular.module('myApp', [])
                updateHooks();
                generateClusters();
                bindListeners();
-            }, 1000)
+            }, 500)
          }
       }
 
