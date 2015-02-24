@@ -51,7 +51,6 @@ angular.module('myApp', [])
          if(value=="hidden" || value=="visible" || value=="auto"){
             setTimeout(function(){
                updateHooks();
-               generateClusters();
                bindListeners();
             }, 500)
          }

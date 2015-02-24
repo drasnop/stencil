@@ -1,6 +1,3 @@
-// list of all the hooks that are currently hidden
-ghosts = [];
-
 function generateHooks() {
    // elements of the original interface that can serve to anchor (intrinsically or semantically) options
    var mapping_anchors;
@@ -39,8 +36,10 @@ function generateHooks() {
 
 function updateHooks() {
 
+   // clones of the anchors with which users interact in customization mode
    var hooks = $(".customizable");
-   ghosts = [];
+   // list of all the hooks that are currently hidden
+   var ghosts = [];
 
    hooks.each(function(i, hookElement) {
       var hook = $(hookElement)
@@ -66,6 +65,7 @@ function updateHooks() {
          // briefly show the original anchor to measure its position
          anchor.css("transition", "none!important")
          anchor.removeClass("animate-up")
+         anchor.show()
       }
 
       // store this particular anchor's position for clustering
@@ -109,11 +109,15 @@ function updateHooks() {
       // annoying necessity with Wunderlist
       hook.removeClass("animate-up")
    });
+
+
+   // group the ghosts into clusters (displayed as +) to reduce clutter
+   generateClusters(ghosts)
 }
 
 
 
-function generateClusters() {
+function generateClusters(ghosts) {
 
    // delete previous clusters
    $("#hooks .plus-icon").remove();
@@ -154,6 +158,33 @@ function generateClusters() {
          .attr("src",
             model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
          .data("cluster", cluster)
+   })
+}
+
+
+
+repositionHooksForCluster = function(cluster, show) {
+
+   // first, we need to show/hide all the anchors corresponding to the ghosts
+   cluster.ghosts.forEach(function(ghost) {
+      ghost.hook.toggle(show);
+      ghost.hook.data("anchor").toggle(show);
+   })
+
+   // then we update the position of ALL hooks
+   $(".customizable").each(function(i, hook) {
+      $(hook).css({
+         "top": $(hook).data("anchor").offset().top + "px",
+         "left": $(hook).data("anchor").offset().left + "px"
+      })
+   })
+
+   // finaly we reposition the cluster
+   // does NOTHING for the moment, because the ghosts.x and y haven't changed!
+   computeBarycenter(cluster)
+   $(this).css({
+      "left": cluster.x - 18 + "px",
+      "top": cluster.y - 18 + "px"
    })
 }
 
@@ -236,31 +267,5 @@ function bindListeners() {
       var cluster = $(this).data("cluster")
 
       repositionHooksForCluster(cluster, model.showGhosts);
-   })
-}
-
-
-repositionHooksForCluster = function(cluster, show) {
-
-   // first, we need to show/hide all the anchors corresponding to the ghosts
-   cluster.ghosts.forEach(function(ghost) {
-      ghost.hook.toggle(show);
-      ghost.hook.data("anchor").toggle(show);
-   })
-
-   // then we update the position of ALL hooks
-   $(".customizable").each(function(i, hook) {
-      $(hook).css({
-         "top": $(hook).data("anchor").offset().top + "px",
-         "left": $(hook).data("anchor").offset().left + "px"
-      })
-   })
-
-   // finaly we reposition the cluster
-   // does NOTHING for the moment, because the ghosts.x and y haven't changed!
-   computeBarycenter(cluster)
-   $(this).css({
-      "left": cluster.x - 18 + "px",
-      "top": cluster.y - 18 + "px"
    })
 }

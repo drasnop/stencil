@@ -34,7 +34,6 @@ function enterCustomizationMode() {
 
    // update the customization layer
    updateHooks();
-   generateClusters();
    bindListeners();
 
    // show the customization layer
