@@ -24,9 +24,6 @@ function generateHooks() {
          hook.find("*").addBack()
             .attr('disabled', 'disabled')
             .removeAttr('href')
-
-         // a bit of a hack
-         $(anchor).css("transition", "none!important")
       })
 
    });
@@ -59,26 +56,18 @@ function updateHooks() {
             hidden = true;
       });
 
-      // retrieve position information of the original anchor
-      var offset, width, height;
-      if(hidden) {
-         // briefly show the original anchor to measure its position
-         anchor.css("transition", "none!important")
-         anchor.removeClass("animate-up")
+      // briefly show the original anchor to measure its position
+      if(hidden)
          anchor.show()
-      }
 
-      // store this particular anchor's position for clustering
-      offset = anchor.offset();
-      width = anchor.width();
-      height = anchor.height();
+      // store the original anchor's position information for clustering
+      var offset = anchor.offset();
+      var width = anchor.width();
+      var height = anchor.height();
 
-      if(hidden) {
-         // hide the original anchor again
-         //anchor.addClass("animate-up");
-         // TODO add the class and transitions back when leaving CM...
+      // hide the original anchor again
+      if(hidden)
          anchor.hide()
-      }
 
       // set the position of this hook (even if it's hidden)
       hook.css({
@@ -88,10 +77,11 @@ function updateHooks() {
          "height": height + "px"
       })
 
-      // handle hidden hooks
+      // manage hidden hooks
       if(hidden) {
          // turn this hook into a ghost
          hook.addClass("ghost");
+         hook.toggle(model.showGhosts)
 
          // prepare for clustering
          ghosts.push({
@@ -103,11 +93,8 @@ function updateHooks() {
       else {
          // for hooks that have just been de-hidden
          hook.removeClass("ghost")
+         hook.show();
       }
-
-      hook.toggle(!hidden || model.showGhosts);
-      // annoying necessity with Wunderlist
-      hook.removeClass("animate-up")
    });
 
 

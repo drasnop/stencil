@@ -29,8 +29,12 @@ function enterCustomizationMode() {
    $("body").children(":not(#overlay, #hooks, #panels)").addClass("dimmed");
    // $("#overlay").css("opacity",".4");   transitions are too slow, alas
    // super annoying workaround because of the way they defined the background image
-   $("head").append("<style id='special-style'> #wunderlist-base::before{" +
+   $("head").append("<style class='special-style'> #wunderlist-base::before{" +
       "-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
+
+   // Wunderlist-specific: remove the animation class (use show/hide instead of height 0)
+   $("head").append("<style class='special-style'> .sidebarItem.animate-up{" +
+      "height: auto !important; transition: none !important} </style>");
 
    // update the customization layer
    updateHooks();
@@ -50,7 +54,7 @@ function exitCustomizationMode() {
 
    // return interface to its normal state
    $("body").children().removeClass("dimmed");
-   $("#special-style").remove();
+   $(".special-style").remove();
 }
 
 

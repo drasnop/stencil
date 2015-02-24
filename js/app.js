@@ -1,6 +1,6 @@
 var model = {
    // Type of ad-hoc panel shown: 0=minimum, 1=linked, 2=highlighted
-   "optionsVisibility": 2,
+   "optionsVisibility": 1,
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    "fullPanel": false,
    "showMoreShortcuts": false,
@@ -38,21 +38,18 @@ angular.module('myApp', [])
       $scope.updateOption = function(id, value) {
          console.log("updating:", id, value)
 
-         // dev mode: not linked with Wunderlist backbone
-         if(sync.collections === undefined)
-            return;
+         // dev mode possible: not linked with Wunderlist backbone
+         if(sync.collections !== undefined) {
+            sync.collections.settings.where({
+               key: id
+            })[0].set({
+               value: value
+            })
+         }
 
-         sync.collections.settings.where({
-            key: id
-         })[0].set({
-            value: value
-         })
-
-         if(value=="hidden" || value=="visible" || value=="auto"){
-            setTimeout(function(){
-               updateHooks();
-               bindListeners();
-            }, 500)
+         if(value == "hidden" || value == "visible" || value == "auto") {
+            updateHooks();
+            bindListeners();
          }
       }
 
@@ -154,7 +151,7 @@ angular.module('myApp', [])
                $scope.model.showMoreShortcuts = true;
          })
       }
-   
+
       // For debug purposes
       toggleCustomizationMode();
    }])
