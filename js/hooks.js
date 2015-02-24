@@ -50,6 +50,7 @@ function updateHooks() {
       /*      hook.find("*").addBack().each(function() {
                $(this).css(getRelevantCSS($(this).data("anchor"), parentCSS))
             })*/
+      // TODO: probably don't need to update the CSS (only position and size)
       hook.css(getRelevantCSS(anchor, parentCSS))
 
       // check if one option associated with this selector is a show/hide of type hidden
@@ -233,55 +234,33 @@ function bindListeners() {
          model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
 
       var cluster = $(this).data("cluster")
-      if(model.showGhosts) {
 
-         // first, we need to display all the anchors corresponding to the ghosts
-         var anchor;
-         cluster.ghosts.forEach(function(ghost) {
-            ghost.hook.show();
-            anchor = ghost.hook.data("anchor")
-/*            anchor.css("transition", "none!important")
-            anchor.removeClass("animate-up")*/
-            anchor.show();
-         })
+      repositionHooksForCluster(cluster, model.showGhosts);
+   })
+}
 
-         // then we update the position of ALL hooks
-         $(".customizable").each(function(i, hook) {
-            $(hook).css({
-               "top": $(hook).data("anchor").offset().top + "px",
-               "left": $(hook).data("anchor").offset().left + "px"
-            })
-         })
 
-         // finaly we reposition the cluster
-         computeBarycenter(cluster)
-         $(this).css({
-            "left": cluster.x - 18 + "px",
-            "top": cluster.y - 18 + "px"
-         })
-      }
-      else {
-         // hide the ghosts and anchors of this cluster
-         cluster.ghosts.forEach(function(ghost) {
-            ghost.hook.hide();
-            /*ghost.hook.data("anchor").addClass("animate-up")*/
-            ghost.hook.data("anchor").hide();
-         })
+repositionHooksForCluster = function(cluster, show) {
 
-         // then we update the position of ALL hooks
-         $(".customizable").each(function(i, hook) {
-            $(hook).css({
-               "top": $(hook).data("anchor").offset().top + "px",
-               "left": $(hook).data("anchor").offset().left + "px"
-            })
-         })
+   // first, we need to show/hide all the anchors corresponding to the ghosts
+   cluster.ghosts.forEach(function(ghost) {
+      ghost.hook.toggle(show);
+      ghost.hook.data("anchor").toggle(show);
+   })
 
-         // finaly we reposition the cluster
-         computeBarycenter(cluster)
-         $(this).css({
-            "left": cluster.x - 18 + "px",
-            "top": cluster.y - 18 + "px"
-         })
-      }
+   // then we update the position of ALL hooks
+   $(".customizable").each(function(i, hook) {
+      $(hook).css({
+         "top": $(hook).data("anchor").offset().top + "px",
+         "left": $(hook).data("anchor").offset().left + "px"
+      })
+   })
+
+   // finaly we reposition the cluster
+   // does NOTHING for the moment, because the ghosts.x and y haven't changed!
+   computeBarycenter(cluster)
+   $(this).css({
+      "left": cluster.x - 18 + "px",
+      "top": cluster.y - 18 + "px"
    })
 }
