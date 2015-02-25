@@ -132,7 +132,10 @@ function updateHooksStatus() {
       // add or remove .ghost 
       hook.toggleClass("ghost", ghost)
 
-      // ghosts are hidden by default, non-ghosts are always visible      
+      // ghosts are hidden by default, non-ghosts are always visible
+      // TODO When setting an item visible, don't hide ghosts from the same cluster (if any)
+      // TODO When setting an item hidden, don't hide it (=force showGhosts of the cluster it now belongs to)
+      // TODO When modifying an item, don't hide/change ghosts from other clusters, if those are preserved
       updateGhostsVisibility([hook], !ghost)
    });
 }

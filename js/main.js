@@ -148,7 +148,11 @@ Math.mean = function(array) {
 
 // computes the Euclidian distance between two ghost anchors
 function distance(ghost1, ghost2) {
-   return Math.sqrt(Math.pow(parseInt(ghost1.css("left")) - parseInt(ghost2.css("left")), 2) + Math.pow(parseInt(ghost1.css("top")) - parseInt(ghost2.css("top")), 2));
+   var x1 = parseInt(ghost1.css("left")) + ghost1.width() / 2;
+   var x2 = parseInt(ghost2.css("left")) + ghost2.width() / 2;
+   var y1 = parseInt(ghost1.css("top")) + ghost1.height() / 2;
+   var y2 = parseInt(ghost2.css("top")) + ghost2.height() / 2;
+   return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 }
 
 
