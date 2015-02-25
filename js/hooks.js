@@ -87,11 +87,17 @@ function generateHooks() {
       if(mapping_anchors.length === 0)
          console.log(mapping.selector, "failed to match any element for", mapping.options)
 
+
       var hook;
       mapping_anchors.each(function(i, anchor) {
 
-         // deep clone anchor, but remove event binders with .off()
-         hook = $(anchor).clone(true).off();
+         // store the style of this anchor and its children
+         $(anchor).find("*").addBack().each(function() {
+            $(this).data("style", getRelevantCSS($(this), parentCSS))
+         })
+
+         // deep clone anchor, with data, but remove event binders with .off()
+         hook = $(anchor).clone(true, true).off();
          hook.appendTo("#hooks");
          hook.data("anchor", $(anchor));
          hook.data("options", mapping.options);
@@ -104,10 +110,9 @@ function generateHooks() {
             .removeAttr('href')
 
          // style hook and its children
-         /* hook.find("*").addBack().each(function() {
-            $(this).css(getRelevantCSS($(this).data("anchor"), parentCSS))
-         })*/
-         hook.css(getRelevantCSS(hook.data("anchor"), parentCSS))
+         hook.find("*").addBack().each(function() {
+            $(this).css($(this).data("style"))
+         })
       })
 
    });

@@ -63,6 +63,11 @@ body{
 	color: #777 !important;
 }
 
+.customizable *{
+	background-color: inherit !important;
+	color: inherit !important;
+}
+
 .plus-icon{
 	z-index: 1000004;
 	position: absolute;
