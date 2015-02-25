@@ -1,3 +1,57 @@
+/*
+generateHooks()
+   # init
+   - create all hooks [so far hooks are never distroyed]
+   - disable them, add proper css
+
+updateHooksStatus()
+   # init + when the status (visible/hidden) of a hook changes
+   - add/remove .ghost class
+   - updateGhostVisibility
+      # init: all ghosts, false
+      // # set visible: cluster.ghosts, true (alas, this is a bit complicated because we then should pass a don't generate clusters flag)
+      // # set hidden: cluster.ghosts, false (for the moment, because we need to recompute clusters)
+
+updateGhostsVisibility(ghosts, show)
+   - for each ghost
+      - ghost.toggle(show)
+      - anchor.toggle(show)
+
+positionHooks()
+   # updateHooks + expand/collapse a cluster [no change of status]
+   - compute position by showing hidden hooks one by one (the clusters.ghosts may or may not be visible)
+
+computeHookPosition()
+   - if hidden, show then hide anchor to get position
+   - if ghost made visible by cluster, then don't touch anchor (treat as normal)
+
+
+generateClusters()
+   # [after] updateHooksStatus
+   - generate clusters based on position of hooks
+
+positionClusters()
+   # [after] positionHooks
+   - update position of clusters
+
+computeClusterPosition()
+   - barycenter + apply it
+
+
+** init sequence
+generateHooks()
+updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateClusters() -> [all clusters] positionClusters()
+
+** expand/collapse cluster
+updateGhostVisibility(cluster)
+[all hooks] positionHooks([showGhosts]) -> [all clusters] positionClusters()
+
+** change of status [showGhosts]
+updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateClusters() -> [all clusters] positionClusters()
+
+*/
+
+
 function generateHooks() {
    // elements of the original interface that can serve to anchor (intrinsically or semantically) options
    var mapping_anchors;
@@ -24,6 +78,12 @@ function generateHooks() {
          hook.find("*").addBack()
             .attr('disabled', 'disabled')
             .removeAttr('href')
+
+         // style hook and its children
+         /* hook.find("*").addBack().each(function() {
+            $(this).css(getRelevantCSS($(this).data("anchor"), parentCSS))
+         })*/
+         hook.css(getRelevantCSS(hook.data("anchor"), parentCSS))
       })
 
    });
@@ -35,56 +95,26 @@ function updateHooks() {
 
    // clones of the anchors with which users interact in customization mode
    var hooks = $(".customizable");
-   // list of all the hooks that are currently hidden
-   var ghosts = [];
 
    hooks.each(function(i, hookElement) {
       var hook = $(hookElement)
-      var anchor = hook.data("anchor")
 
-      // style hook and its children
-      /*      hook.find("*").addBack().each(function() {
-               $(this).css(getRelevantCSS($(this).data("anchor"), parentCSS))
-            })*/
-      // TODO: probably don't need to update the CSS (only position and size)
-      hook.css(getRelevantCSS(anchor, parentCSS))
+      // set top, left, width, height (by displaying INDIVIDUAL anchors if necessary)
+      computeHookPosition(hook);
 
-      // check if one option associated with this selector is a show/hide of type hidden
+      // TODO remove
+      // check if one option associated with this hook is a show/hide of type hidden
       var hidden = false;
       hook.data("options").forEach(function(option_id) {
          if(options[option_id].hideable && options[option_id].value == "hidden")
             hidden = true;
       });
 
-      // briefly show the original anchor to measure its position
-      if(hidden)
-         anchor.show()
-
-      // store the original anchor's position information for clustering
-      var offset = anchor.offset();
-      var width = anchor.width();
-      var height = anchor.height();
-
-      // hide the original anchor again
-      if(hidden)
-         anchor.hide()
-
-      // set the position of this hook (even if it's hidden)
-      hook.css({
-         "top": offset.top + "px",
-         "left": offset.left + "px",
-         "width": width + "px",
-         "height": height + "px"
-      })
-
       // manage hidden hooks
       if(hidden) {
          // turn this hook into a ghost
          hook.addClass("ghost");
          hook.toggle(model.showGhosts)
-
-         // prepare for clustering
-         ghosts.push(hook);
       }
       else {
          // for hooks that have just been de-hidden
@@ -95,59 +125,54 @@ function updateHooks() {
 
 
    // group the ghosts into clusters (displayed as +) to reduce clutter
-   generateClusters(ghosts)
+   generateClusters()
 }
 
 
 
-function generateClusters(ghosts) {
+function generateClusters() {
 
    // delete previous clusters
    $("#hooks .plus-icon").remove();
 
+   // list of all the hooks that are currently hidden
+   var ghosts = $(".ghost").toArray();
    // groups of ghost hooks that are near each other
    var clusters = [];
 
-   var cluster, ghost;
+   var ghost, cluster;
    while(ghosts.length > 0) {
-      ghost = ghosts.pop();
+      ghost = $(ghosts.pop());
       cluster = {
          "ghosts": [ghost]
       };
 
       // Add to this cluster all ghosts that are close to ghost
       for(var i = 0; i < ghosts.length; i++) {
-         if(distance(ghost, ghosts[i]) <= parameters.distance) {
-            cluster.ghosts.push(ghosts.splice(i, 1)[0]);
+         if(distance(ghost, $(ghosts[i])) <= parameters.distance) {
+            cluster.ghosts.push($(ghosts.splice(i, 1)[0]));
             i--;
          }
       }
 
-      // compute the position of the cluster
-      computeBarycenter(cluster);
-
       clusters.push(cluster);
    }
 
-   console.log(clusters)
-
    // Create one plus icon per cluster (even if it contains only one elements)
    clusters.forEach(function(cluster) {
-      $("<img class='plus-icon'>")
-         .appendTo("#hooks")
-         .css({
-            "left": cluster.x - 18 + "px",
-            "top": cluster.y - 18 + "px"
-         })
-         .attr("src",
+      var icon = $("<img class='plus-icon'>").appendTo("#hooks");
+      icon.attr("src",
             model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
          .data("cluster", cluster)
+
+      // compute the position of the cluster
+      positionCluster(cluster)
    })
 }
 
 
 
-repositionHooksForCluster = function(cluster, show) {
+function repositionHooksForCluster(cluster, show) {
 
    // first, we need to show/hide all the anchors corresponding to the ghosts
    cluster.ghosts.forEach(function(ghost) {
@@ -157,21 +182,58 @@ repositionHooksForCluster = function(cluster, show) {
 
    // then we update the position of ALL hooks
    $(".customizable").each(function(i, hook) {
-      $(hook).css({
-         "top": $(hook).data("anchor").offset().top + "px",
-         "left": $(hook).data("anchor").offset().left + "px",
-         "width": $(hook).data("anchor").width() + "px",
-         "height": $(hook).data("anchor").height() + "px"
-      })
+      computeHookPosition($(hook));
    })
 
    // finaly we reposition the cluster
-   // does NOTHING for the moment, because the ghosts.x and y haven't changed!
+   positionCluster(cluster)
+}
+
+
+function positionCluster(cluster){
    computeBarycenter(cluster)
-   $(this).css({
-      "left": cluster.x - 18 + "px",
-      "top": cluster.y - 18 + "px"
+
+   var icon = cluster.icon;
+   icon.css({
+      "left": cluster.x - icon.width() / 2 + "px",
+      "top": cluster.y - icon.height() / 2 + "px"
    })
+}
+
+
+function computeHookPosition(hook) {
+
+   // check if one option associated with this hook is a show/hide of type hidden
+   var hidden = false;
+   hook.data("options").forEach(function(option_id) {
+      if(options[option_id].hideable && options[option_id].value == "hidden")
+         hidden = true;
+   });
+
+   // however, if a ghost hook has explicitely been set visible, don't touch it
+   if(hidden && hook.is(":visible"))
+      hidden = false;
+
+   // briefly show the original anchor to measure its position
+   if(hidden)
+      hook.data("anchor").show()
+
+   // store the original anchor's position information for clustering
+   var offset = hook.data("anchor").offset();
+   var width = hook.data("anchor").width();
+   var height = hook.data("anchor").height();
+
+   // set the position of this hook (even if it's hidden)
+   hook.css({
+      "top": offset.top + "px",
+      "left": offset.left + "px",
+      "width": width + "px",
+      "height": height + "px"
+   })
+
+   // hide the original anchor again
+   if(hidden)
+      hook.data("anchor").hide()
 }
 
 

@@ -149,18 +149,15 @@ Math.mean = function(array) {
 
 // computes the Euclidian distance between two ghost anchors
 function distance(ghost1, ghost2) {
-   console.log(ghost1, ghost1.offset().top)
-   return Math.sqrt(Math.pow(ghost1.offset().left - ghost2.offset().left, 2) + Math.pow(ghost1.offset().top - ghost2.offset().top, 2));
+   return Math.sqrt(Math.pow(parseInt(ghost1.css("left")) - parseInt(ghost2.css("left")), 2) + Math.pow(parseInt(ghost1.css("top")) - parseInt(ghost2.css("top")), 2));
 }
 
 function computeBarycenter(cluster) {
    cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
-      console.log("x", ghost.offset().left, ghost.css("left"), ghost.width())
-      return ghost.offset().left + ghost.width() / 2;
+      return parseInt(ghost.css("left")) + ghost.width() / 2;
    }))
    cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
-      console.log("y", ghost.offset().top, ghost.css("top"), ghost.height())
-      return ghost.offset().top + ghost.height() / 2;
+      return parseInt(ghost.css("top")) + ghost.height() / 2;
    }))
 }
 
