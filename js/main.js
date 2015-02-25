@@ -37,8 +37,7 @@ function enterCustomizationMode() {
       "height: auto !important; transition: none !important} </style>");
 
    // update the customization layer
-   updateHooks();
-   bindListeners();
+   updateHooksAndClusters();
 
    // show the customization layer
    $("#overlay, #hooks, #panels").show();
@@ -152,14 +151,6 @@ function distance(ghost1, ghost2) {
    return Math.sqrt(Math.pow(parseInt(ghost1.css("left")) - parseInt(ghost2.css("left")), 2) + Math.pow(parseInt(ghost1.css("top")) - parseInt(ghost2.css("top")), 2));
 }
 
-function computeBarycenter(cluster) {
-   cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
-      return parseInt(ghost.css("left")) + ghost.width() / 2;
-   }))
-   cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
-      return parseInt(ghost.css("top")) + ghost.height() / 2;
-   }))
-}
 
 // Debug only
 function getscope() {

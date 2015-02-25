@@ -7,7 +7,7 @@ generateHooks()
 updateHooksStatus()
    # init + when the status (visible/hidden) of a hook changes
    - add/remove .ghost class
-   - updateGhostVisibility
+   - updateGhostsVisibility
       # init: all ghosts, false
       // # set visible: cluster.ghosts, true (alas, this is a bit complicated because we then should pass a don't generate clusters flag)
       // # set hidden: cluster.ghosts, false (for the moment, because we need to recompute clusters)
@@ -41,6 +41,7 @@ computeClusterPosition()
 ** init sequence
 generateHooks()
 updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateClusters() -> [all clusters] positionClusters()
+-> bindListeners()
 
 ** expand/collapse cluster
 updateGhostVisibility(cluster)
@@ -48,8 +49,31 @@ updateGhostVisibility(cluster)
 
 ** change of status [showGhosts]
 updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateClusters() -> [all clusters] positionClusters()
+-> bindListeners()
 
 */
+
+
+/* ----------------    public    ------------------ */
+
+
+function updateHooksAndClusters(){
+   updateHooksStatus();
+   positionHooks();
+   generateClusters();
+   positionClusters();
+   bindListeners();
+}
+
+
+function positionHooksAndClusters(){
+   positionHooks();
+   positionClusters();
+}
+
+
+/* ----------------    hooks    ------------------ */
+
 
 
 function generateHooks() {
@@ -90,43 +114,74 @@ function generateHooks() {
 }
 
 
-
-function updateHooks() {
-
+function updateHooksStatus() {
    // clones of the anchors with which users interact in customization mode
    var hooks = $(".customizable");
 
    hooks.each(function(i, hookElement) {
       var hook = $(hookElement)
 
-      // set top, left, width, height (by displaying INDIVIDUAL anchors if necessary)
-      computeHookPosition(hook);
-
-      // TODO remove
       // check if one option associated with this hook is a show/hide of type hidden
-      var hidden = false;
+      var ghost = false;
       hook.data("options").forEach(function(option_id) {
          if(options[option_id].hideable && options[option_id].value == "hidden")
-            hidden = true;
+            ghost = true;
       });
+      hook.data("ghost", ghost)
 
-      // manage hidden hooks
-      if(hidden) {
-         // turn this hook into a ghost
-         hook.addClass("ghost");
-         hook.toggle(model.showGhosts)
-      }
-      else {
-         // for hooks that have just been de-hidden
-         hook.removeClass("ghost")
-         hook.show();
-      }
+      // add or remove .ghost 
+      hook.toggleClass("ghost", ghost)
+
+      // ghosts are hidden by default, non-ghosts are always visible      
+      updateGhostsVisibility([hook], !ghost)
    });
-
-
-   // group the ghosts into clusters (displayed as +) to reduce clutter
-   generateClusters()
 }
+
+// @param Array of jQuery Objects
+function updateGhostsVisibility(ghosts, show) {
+   ghosts.forEach(function(ghost) {
+      ghost.toggle(show);
+      ghost.data("anchor").toggle(show);
+   })
+}
+
+
+function positionHooks() {
+   $(".customizable").each(function(i, hook) {
+      computeHookPosition($(hook));
+   })
+}
+
+
+function computeHookPosition(hook) {
+   // ghost are by default hidden, so we must account for that
+   var ghost = hook.data("ghost");
+   // however, if a ghost anchor has explicitely been set visible, don't touch it
+   if(ghost && hook.data("anchor").css("display") != "none")
+      ghost = false;
+
+   // briefly show the original anchor to measure its position
+   if(ghost)
+      hook.data("anchor").show()
+
+   // set the position of this hook (even if it's hidden), from the original anchor's position
+   hook.css({
+      "top": hook.data("anchor").offset().top + "px",
+      "left": hook.data("anchor").offset().left + "px",
+      "width": hook.data("anchor").width() + "px",
+      "height": hook.data("anchor").height() + "px"
+   })
+
+   // hide the original anchor again
+   if(ghost)
+      hook.data("anchor").hide()
+}
+
+
+
+
+/* ----------------    clusters    ------------------ */
+
 
 
 
@@ -138,7 +193,7 @@ function generateClusters() {
    // list of all the hooks that are currently hidden
    var ghosts = $(".ghost").toArray();
    // groups of ghost hooks that are near each other
-   var clusters = [];
+   model.clusters = [];
 
    var ghost, cluster;
    while(ghosts.length > 0) {
@@ -155,43 +210,40 @@ function generateClusters() {
          }
       }
 
-      clusters.push(cluster);
+      // for the moment
+      cluster.showGhosts = false;
+
+      model.clusters.push(cluster);
    }
 
    // Create one plus icon per cluster (even if it contains only one elements)
-   clusters.forEach(function(cluster) {
-      var icon = $("<img class='plus-icon'>").appendTo("#hooks");
-      icon.attr("src",
-            model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
-         .data("cluster", cluster)
+   model.clusters.forEach(function(cluster) {
+      var icon = $("<img class='plus-icon'>").appendTo("#hooks")
+         .attr("src", "//localhost:8888/img/plus_dark_yellow.png")
+      
+      icon.data("cluster", cluster);
+      cluster.icon=icon;
+   })
+}
 
-      // compute the position of the cluster
+
+function positionClusters() {
+   model.clusters.forEach(function(cluster) {
       positionCluster(cluster)
    })
 }
 
 
+function positionCluster(cluster) {
+   
+   // compute barycenter
+   cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
+      return parseInt(ghost.css("left")) + ghost.width() / 2;
+   }))
+   cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
+      return parseInt(ghost.css("top")) + ghost.height() / 2;
+   }))
 
-function repositionHooksForCluster(cluster, show) {
-
-   // first, we need to show/hide all the anchors corresponding to the ghosts
-   cluster.ghosts.forEach(function(ghost) {
-      ghost.toggle(show);
-      ghost.data("anchor").toggle(show);
-   })
-
-   // then we update the position of ALL hooks
-   $(".customizable").each(function(i, hook) {
-      computeHookPosition($(hook));
-   })
-
-   // finaly we reposition the cluster
-   positionCluster(cluster)
-}
-
-
-function positionCluster(cluster){
-   computeBarycenter(cluster)
 
    var icon = cluster.icon;
    icon.css({
@@ -201,40 +253,8 @@ function positionCluster(cluster){
 }
 
 
-function computeHookPosition(hook) {
 
-   // check if one option associated with this hook is a show/hide of type hidden
-   var hidden = false;
-   hook.data("options").forEach(function(option_id) {
-      if(options[option_id].hideable && options[option_id].value == "hidden")
-         hidden = true;
-   });
-
-   // however, if a ghost hook has explicitely been set visible, don't touch it
-   if(hidden && hook.is(":visible"))
-      hidden = false;
-
-   // briefly show the original anchor to measure its position
-   if(hidden)
-      hook.data("anchor").show()
-
-   // store the original anchor's position information for clustering
-   var offset = hook.data("anchor").offset();
-   var width = hook.data("anchor").width();
-   var height = hook.data("anchor").height();
-
-   // set the position of this hook (even if it's hidden)
-   hook.css({
-      "top": offset.top + "px",
-      "left": offset.left + "px",
-      "width": width + "px",
-      "height": height + "px"
-   })
-
-   // hide the original anchor again
-   if(hidden)
-      hook.data("anchor").hide()
-}
+/* ----------------    listeners    ------------------ */
 
 
 
@@ -308,12 +328,13 @@ function bindListeners() {
 
 
    $(".plus-icon").click(function() {
-      model.showGhosts = !model.showGhosts;
-      $(this).attr("src",
-         model.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
-
       var cluster = $(this).data("cluster")
 
-      repositionHooksForCluster(cluster, model.showGhosts);
+      cluster.showGhosts = !cluster.showGhosts;
+      $(this).attr("src",
+         cluster.showGhosts ? "//localhost:8888/img/minus_dark_yellow.png" : "//localhost:8888/img/plus_dark_yellow.png")
+
+      updateGhostsVisibility(cluster.ghosts, cluster.showGhosts);
+      positionHooksAndClusters();
    })
 }

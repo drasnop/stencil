@@ -23,7 +23,8 @@ var model = {
    "options": options,
    "selectedOptions": [],
 
-   "showGhosts": false
+   // hooks, x, y, icon, showGhosts
+   "clusters": []
 }
 
 angular.module('myApp', [])
@@ -47,10 +48,8 @@ angular.module('myApp', [])
             })
          }
 
-         if(value == "hidden" || value == "visible" || value == "auto") {
-            updateHooks();
-            bindListeners();
-         }
+         if(value == "hidden" || value == "visible" || value == "auto")
+            updateHooksAndClusters();
       }
 
       $scope.initializeOptions = function() {
@@ -227,4 +226,3 @@ angular.module('myApp', [])
          return options;
       }
    })
-   // This filter
