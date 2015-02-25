@@ -139,14 +139,14 @@ body{
 	border-bottom: 1px solid #BBB;
 }
 
-.tab{
+#tabs .tab{
 	display: inline-block;
 	padding: 8px 10px;
 	font-size: 15px;
 	cursor: pointer;
 }
 
-.tab.highlighted .count{
+#tabs .tab.highlighted .count{
 	display: inline-block;
 	position: relative;
 	top: -0.7em;
@@ -162,12 +162,12 @@ body{
 	line-height: 13px;
 }
 
-.tab:hover{
+#tabs .tab:hover{
 	background-color: #3FB5EC; /* rgb(39, 191, 216) */
 	color: white;
 }
 
-.tab.active{
+#tabs .tab.active{
 	background-color: rgb(39, 160, 216); /* #2E95D7 */
 	color: white;
 }
