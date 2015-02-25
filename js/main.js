@@ -110,6 +110,7 @@ function getRelevantCSS(obj, relevantCSS) {
    for(var i in relevantCSS) {
       rules[relevantCSS[i]] = obj.css(relevantCSS[i]);
    }
+   rules["box-sizing"]="content-box";
    return rules;
 }
 
@@ -139,6 +140,24 @@ Object.defineProperty(Array.prototype, "indexOfProperty", {
    }
 });
 
+jQuery.fn.extend({
+   robustHeight: function(){
+      if(this.css("box-sizing")=="border-box")
+         return this.outerHeight();
+      else
+         return this.height();
+   }
+})
+
+jQuery.fn.extend({
+   robustWidth: function(){
+      if(this.css("box-sizing")=="border-box")
+         return this.outerWidth();
+      else
+         return this.width() ;
+   }
+})
+
 Math.mean = function(array) {
    var sum = 0;
    for(var i in array)
@@ -148,10 +167,10 @@ Math.mean = function(array) {
 
 // computes the Euclidian distance between two ghost anchors
 function distance(ghost1, ghost2) {
-   var x1 = parseInt(ghost1.css("left")) + ghost1.width() / 2;
-   var x2 = parseInt(ghost2.css("left")) + ghost2.width() / 2;
-   var y1 = parseInt(ghost1.css("top")) + ghost1.height() / 2;
-   var y2 = parseInt(ghost2.css("top")) + ghost2.height() / 2;
+   var x1 = parseInt(ghost1.css("left")) + ghost1.robustWidth()  / 2;
+   var x2 = parseInt(ghost2.css("left")) + ghost2.robustWidth()  / 2;
+   var y1 = parseInt(ghost1.css("top")) + ghost1.robustHeight() / 2;
+   var y2 = parseInt(ghost2.css("top")) + ghost2.robustHeight() / 2;
    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 }
 

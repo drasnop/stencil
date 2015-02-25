@@ -173,10 +173,11 @@ function computeHookPosition(hook) {
       hook.data("anchor").show()
 
    // set the position of this hook (even if it's hidden), from the original anchor's position
+   // we take the regular ("content") width and height, because we will force hooks to content-box
    hook.css({
       "top": hook.data("anchor").offset().top + "px",
       "left": hook.data("anchor").offset().left + "px",
-      "width": hook.data("anchor").width() + "px",
+      "width": hook.data("anchor").width()  + "px",
       "height": hook.data("anchor").height() + "px"
    })
 
@@ -246,17 +247,17 @@ function positionCluster(cluster) {
    
    // compute barycenter
    cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
-      return parseInt(ghost.css("left")) + ghost.width() / 2;
+      return parseInt(ghost.css("left")) + ghost.robustWidth()  / 2;
    }))
    cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
-      return parseInt(ghost.css("top")) + ghost.height() / 2;
+      return parseInt(ghost.css("top")) + ghost.robustHeight() / 2;
    }))
 
 
    var icon = cluster.icon;
    icon.css({
-      "left": cluster.x - icon.width() / 2 + "px",
-      "top": cluster.y - icon.height() / 2 + "px"
+      "left": cluster.x - icon.robustWidth()  / 2 + "px",
+      "top": cluster.y - icon.robustHeight() / 2 + "px"
    })
 }
 
