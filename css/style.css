@@ -71,16 +71,16 @@ z-indexes
 	cursor: pointer;
 
 	width: 36px;
+	height: 36px;
 	border-radius: 50%;
 
 	box-shadow: 0 0 2px 2px #ededed;
-	-webkit-filter: grayscale(100%);
-	filter: grayscale(100%);
+	background-position: 0px 0px;
 }
 
 .plus-icon:hover{
 	box-shadow: 0 0 1px 2px #FFCC39;
-	filter: grayscale(0);
+	background-position: -36px 0px;
 }
 
 #panels{
