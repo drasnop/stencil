@@ -3,9 +3,9 @@
 <div ng-switch-when="minimum">
 	<div id="options">
 		<table>
-			<tr class="option yellow" id="{{option.id}}"
+			<tr class="option highlighted" id="{{option.id}}"
 			ng-repeat="option in (filteredOptions = (model.options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index'] | determineAlternateHighlighting))"
-			ng-class="{'highlighted': option.highlighted, 'first-row': $first, 'last-row': $last}">
+			ng-class="{'first-row': $first, 'last-row': $last}">
 
 				<td class="left-column align-right">
 					<input type="checkbox"
@@ -24,7 +24,7 @@
 				</td>
 				
 				<td class="right-column" ng-if="model.optionsVisibility==1">
-					<div class="linkToTab grayGradientShadow" ng-click="showFullPanel(option.tab)">{{option.tab}}...</div>
+					<div class="linkToTab grayGradientShadow blue-button" ng-click="showFullPanel(option.tab)">{{option.tab}}...</div>
 				</td>
 			</tr>
 		</table>
@@ -37,7 +37,7 @@
 			<div class="back-arrow" ng-if="model.fullPanel" ng-click="hideFullPanel()">
 				<img id="back-arrow" src="//localhost:8888/img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
-			<li class="tab"
+			<li class="tab blue-button"
 			ng-repeat="tab in model.tabs"
 			ng-class="{'highlighted': tab.count>0, 'active': tab.name==model.activeTab}"
 			ng-click="activateTab(tab.name)">
@@ -70,8 +70,8 @@
 		</tr>
 	</table>
 
-	<button ng-if="model.activeTab=='Shortcuts'"
+	<div class="wunderlist-button blue-button" ng-if="model.activeTab=='Shortcuts'"
 	ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">
-	{{model.showMoreShortcuts? "Show Less" : "Show More"}}</button>
+	{{model.showMoreShortcuts? "Show Less" : "Show More"}}</div>
 	</div>
 </div>
