@@ -108,6 +108,7 @@ function generateHooks() {
          hook.find("*").addBack()
             .attr('disabled', 'disabled')
             .removeAttr('href')
+            .removeClass('animate-up')
 
          // style hook and its children
          hook.find("*").addBack().each(function() {
