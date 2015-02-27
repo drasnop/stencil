@@ -79,7 +79,7 @@ z-indexes
 	box-shadow: 0 0 2px 2px #ededed;
 	background-position: 0px 0px;
 
- 	transition: top 0.5s linear, left 0.5s linear; 
+ 	transition: top 0.4s linear, left 0.4s linear; 
 }
 
 .plus-icon:hover{

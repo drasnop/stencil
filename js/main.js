@@ -118,20 +118,24 @@ function getRelevantCSS(obj, relevantCSS) {
    return rules;
 }
 
-// return the objects that have at least one option in common with the ones passed in argument
-function filterByCommonOption(input, options) {
-   return input.filter(function() {
-      return nonZeroIntersection($(this).data("options"), options)
-   });
+// return the objects that have the same options that the ones passed in argument
+function haveSameOptions(input, options){
+   return input.filter(function(){
+      return sameElements($(this).data("options"), options)
+   })
 }
 
-// returns true if arrays a and b have at least one element in common
-function nonZeroIntersection(a, b) {
-   var intersection =
-      a.filter(function(element) {
-         return b.indexOf(element) != -1;
-      });
-   return intersection.length > 0;
+// return true if arrays a and b have the same elements (not necessarily in order)
+function sameElements(a, b) {
+   // assuming each element appears only once
+   if(a.length != b.length)
+      return false;
+
+   for(var i in a){
+      if(b.indexOf(a[i]) < 0)
+         return false;
+   }
+   return true;
 }
 
 Object.defineProperty(Array.prototype, "indexOfProperty", {

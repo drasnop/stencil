@@ -283,13 +283,14 @@ function bindListeners() {
 
    // highlight all elements that share at least one option with the current one
    hooks.mouseenter(function() {
-      filterByCommonOption(hooks, $(this).data("options"))
+      haveSameOptions(hooks, $(this).data("options"))
          .addClass("hovered")
    })
 
+   // remove highlighting for all similar hooks, unless we are leaving a selected hook
    hooks.mouseleave(function() {
-      if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
-         filterByCommonOption(hooks, $(this).data("options"))
+      if(!sameElements($(this).data("options"), model.selectedOptions))
+         haveSameOptions(hooks, $(this).data("options"))
          .removeClass("hovered")
    })
 
@@ -308,8 +309,8 @@ function bindListeners() {
 
       // remove previous highlighted hooks, if any
       hooks.each(function() {
-         if(!nonZeroIntersection($(this).data("options"), model.selectedOptions))
-            filterByCommonOption(hooks, $(this).data("options")).removeClass("hovered");
+         if(!sameElements($(this).data("options"), model.selectedOptions))
+            haveSameOptions(hooks, $(this).data("options")).removeClass("hovered");
       })
 
       // update the position of the panel

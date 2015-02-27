@@ -42,11 +42,11 @@ var mappings = [
 	},
 	{
 		"selector":".filters-collection .sidebarItem[rel='today']",
-		"options":["smartlist_visibility_today","shortcut_goto_filter_today"]
+		"options":["smartlist_visibility_today","shortcut_goto_filter_today","today_smart_list_visible_tasks"]
 	},
 	{
 		"selector":".filters-collection .sidebarItem[rel='week']",
-		"options":["smartlist_visibility_week","shortcut_goto_filter_week"]
+		"options":["smartlist_visibility_week","shortcut_goto_filter_week","today_smart_list_visible_tasks"]
 	},
 	{
 		"selector":	"#main-toolbar .wundercon.bell-medium, "+
@@ -828,7 +828,7 @@ var options=
 		"label": "Week & Today Settings",
 		"value": "all",
 		"values": [
-		"all"
+		"all", "current_user"
 		],
 		"hideable": false,
 		"tab": "Smart Lists",
