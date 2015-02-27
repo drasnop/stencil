@@ -42,6 +42,8 @@ z-indexes
 	/*transition: box-shadow .5s;*/
 	/* box-shadow: 0 0 2px 2px #61FFED!important; */
 
+ 	transition: top 0.5s linear, left 0.5s linear; 
+
 	cursor: pointer 			!important;
 }
 
@@ -76,6 +78,8 @@ z-indexes
 
 	box-shadow: 0 0 2px 2px #ededed;
 	background-position: 0px 0px;
+
+ 	transition: top 0.5s linear, left 0.5s linear; 
 }
 
 .plus-icon:hover{
@@ -169,7 +173,7 @@ z-indexes
 
 .linkToTab{
 	cursor: pointer;
-	padding: 6px 8px;
+	padding: 6px 8px;  /* 3px 6px to make them less salient + use opacity .7 in the gradient*/
 	border-radius: 4px;
 }
 

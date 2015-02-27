@@ -149,8 +149,12 @@ function updateHooksStatus() {
 // @param Array of jQuery Objects
 function updateGhostsVisibility(ghosts, show) {
    ghosts.forEach(function(ghost) {
-      ghost.toggle(show);
       ghost.data("anchor").toggle(show);
+/*      ghost.toggle(show);*/
+      if(show)
+         ghost.slideDown(400, "linear");
+      else
+         ghost.slideUp(600, "linear");
    })
 }
 
@@ -175,12 +179,17 @@ function computeHookPosition(hook) {
 
    // set the position of this hook (even if it's hidden), from the original anchor's position
    // we take the regular ("content") width and height, because we will force hooks to content-box
-   hook.css({
+   var position={
       "top": hook.data("anchor").offset().top + "px",
       "left": hook.data("anchor").offset().left + "px",
       "width": hook.data("anchor").width()  + "px",
       "height": hook.data("anchor").height() + "px"
-   })
+   }
+
+   hook.css(position)
+
+   // store the position so that the cluster algorithm can access it without waiting for the end of the animation
+   hook.data("position",position)
 
    // hide the original anchor again
    if(ghost)
@@ -248,10 +257,10 @@ function positionCluster(cluster) {
    
    // compute barycenter
    cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
-      return parseInt(ghost.css("left")) + ghost.robustWidth()  / 2;
+      return parseInt(ghost.data("position").left) + parseInt(ghost.data("position").width)  / 2;
    }))
    cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
-      return parseInt(ghost.css("top")) + ghost.robustHeight() / 2;
+      return parseInt(ghost.data("position").top) + parseInt(ghost.data("position").height) / 2;
    }))
 
 
