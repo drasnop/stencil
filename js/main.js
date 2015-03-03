@@ -10,8 +10,6 @@ function initialize() {
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
 
-   generateHooks();
-
    // hide the newly-created customization layer
    $("#overlay, #hooks, #panels").hide();
 
@@ -40,6 +38,7 @@ function enterCustomizationMode() {
       "height: auto !important; transition: none !important} </style>");
 
    // update the customization layer
+   generateHooks();
    updateHooksAndClusters();
 
    // show the customization layer
@@ -51,6 +50,7 @@ function exitCustomizationMode() {
    console.log("customization mode off")
    customizationMode = false;
 
+   $(".customizable").remove();
    // hide customization layer
    $("#overlay, #hooks, #panels").hide();
 
