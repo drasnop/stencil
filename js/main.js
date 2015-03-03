@@ -82,9 +82,12 @@ function toggleCustomizationMode() {
 
 function toggleOptionsVisibility() {
    var scope = angular.element($("#ad-hoc-panel")).scope();
+
+   // cycle through the different options
    scope.model.optionsVisibility = (scope.model.optionsVisibility + 1) % 3;
    scope.resetViewParameters();
    scope.$apply();
+
    console.log("scope.model.optionsVisibility", scope.model.optionsVisibility);
 }
 
@@ -95,18 +98,18 @@ function toggleOptionsVisibility() {
 
 
 var parentCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left",
-   "border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
-   "margin-top", "margin-right", "margin-bottom", "margin-left",
-   "box-sizing", "display", "float",
-   "text-align", "font-size"
+"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
+"margin-top", "margin-right", "margin-bottom", "margin-left",
+"box-sizing", "display", "float",
+"text-align", "font-size"
 ];
 
 var childrenCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left",
-   "border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
-   "margin-top", "margin-right", "margin-bottom", "margin-left",
-   "position", "top", "right", "bottom", "left",
-   "box-sizing", "display", "float",
-   "text-align", "font-size"
+"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
+"margin-top", "margin-right", "margin-bottom", "margin-left",
+"position", "top", "right", "bottom", "left",
+"box-sizing", "display", "float",
+"text-align", "font-size"
 ];
 
 function getRelevantCSS(obj, relevantCSS) {

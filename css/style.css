@@ -48,16 +48,17 @@ z-indexes
 }
 
 .customizable:hover, .customizable.hovered{
-	box-shadow: 0 0 3px 3px #FFCC39!important;
 	z-index: 1000002 !important;
 	
+	/*box-shadow: 0 0 3px 3px #FFCC39!important;
 	border: 1px solid #ccc	!important;
-	/*box-sizing: border-box !important;*/
 	margin-top: -1px!important;
-	margin-left: -1px!important;
+	margin-left: -1px!important; */
+
+	background-color: #FFD5A1!important;
 }
 
-.customizable.ghost{
+.ghost{
 	background-color: #D5D5D5 !important;
 	color: #777 !important;
 }
@@ -242,6 +243,18 @@ div.back-arrow{
 	margin-bottom: 10px;
 }
 
+#options.highlighted{
+	background-color: #FFD5A1;
+}
+
+#options a.hyperlink{
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 5px;
+
+	color: #00F;
+	text-decoration: underline;
+}
 
 tr.option{
 	vertical-align: middle;

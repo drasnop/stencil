@@ -1,8 +1,18 @@
 var model = {
    // Type of ad-hoc panel shown: 0=minimum, 1=linked, 2=highlighted
-   "optionsVisibility": 1,
+   "optionsVisibility": 0,
+   // Turn highlighting in the full panel view off in minimum
+   highlighting: function(){
+      var highlighting=[false, true, true];
+      return highlighting[model.optionsVisibility];
+   },
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
-   "fullPanel": false,
+   fullPanel: function(){
+      var fullPanel=[false, false, true];
+      return model.panelExpanded || fullPanel[model.optionsVisibility];
+   },
+   "panelExpanded":true,
+   // Whether to show the full list of shortcuts
    "showMoreShortcuts": false,
 
    "tabs": [{
@@ -32,7 +42,7 @@ angular.module('myApp', [])
       $scope.model = $window.model;
 
       $scope.resetViewParameters = function() {
-         model.fullPanel = false;
+         model.panelExpanded = false;
          /*model.showMoreShortcuts = false;*/
       }
 
@@ -131,13 +141,18 @@ angular.module('myApp', [])
       }
 
       $scope.showFullPanel = function(tabName) {
-         $scope.model.fullPanel = true;
+         $scope.model.panelExpanded = true;
          $scope.model.activeTab = tabName;
          determineShowMoreShortcuts();
       }
 
       $scope.hideFullPanel = function() {
-         $scope.model.fullPanel = false;
+         $scope.model.panelExpanded = false;
+      }
+
+      $scope.showBaselinePanel = function(){
+         $scope.model.panelExpanded = true;
+         $scope.model.activeTab = $scope.model.tabs[0].name;
       }
 
       // questionable workaround...
