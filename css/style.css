@@ -4,7 +4,7 @@ z-indexes
 1 000 001 hooks.customizable
 1 000 002 hooks:hover
 1 000 004 plus
-1 000 005 ad-hoc-panel, show-full-panel
+1 000 005 ad-hoc-panel
 
 #FFCC39 orange halo
 #FFD5A1 light orange background color
@@ -93,19 +93,6 @@ z-indexes
 	width:1000px;
 	height: 500px;
 	color:#444;
-}
-
-#show-full-panel{
-	z-index: inherit;
-	position:fixed;
-	bottom:15px;
-	right:20px;
-	color:white;
-	font-size: 110%;
-}
-
-#show-full-panel:hover{
-	color:rgb(97, 255, 237);
 }
 
 #ad-hoc-panel{

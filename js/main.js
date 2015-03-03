@@ -5,8 +5,7 @@ function initialize() {
    $("body").append("<div id='overlay'></div>");
    $("body").append("<div id='hooks'></div>");
    $("body").append("<div id='panels'></div>")
-   $("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div>",
-      "<a id='show-full-panel'>Other settings...</a>")
+   $("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div")
 
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
