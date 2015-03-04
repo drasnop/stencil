@@ -36,7 +36,7 @@ function enterCustomizationMode() {
    $("head").append("<style class='special-style'> .sidebarItem.animate-up{" +
       "height: auto !important; transition: none !important} </style>");
 
-   // update the customization layer
+   // (re)create hooks and clusters for the customization layer
    generateHooks();
    updateHooksAndClusters();
 
@@ -49,7 +49,11 @@ function exitCustomizationMode() {
    console.log("customization mode off")
    customizationMode = false;
 
+   // delete all hooks (they will be recreated later)
    $(".customizable").remove();
+
+   closeAdHocPanel();
+
    // hide customization layer
    $("#overlay, #hooks, #panels").hide();
 
@@ -58,6 +62,18 @@ function exitCustomizationMode() {
    $(".special-style").remove();
 }
 
+
+function closeAdHocPanel () {
+   $("#ad-hoc-panel").hide();
+
+   // just to be sure, cleanup selectedOptions without deleting the array
+   model.selectedOptions.length = 0;
+
+   // revert back to the minimal panel    
+   var scope = angular.element($("#ad-hoc-panel")).scope();
+   scope.resetViewParameters();
+   scope.$apply();
+}
 
 $(document).keyup(function(event) {
    if(event.keyCode == KEYCODE_ESC) {

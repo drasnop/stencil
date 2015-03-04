@@ -10,6 +10,7 @@ z-indexes
 #FFD5A1 light orange background color
 #FF9900 number of highlighted options
 #27A0D8 blue
+#2755D8 hyperlink blue
 
 */
 
@@ -55,12 +56,12 @@ z-indexes
 	margin-top: -1px!important;
 	margin-left: -1px!important; */
 
-	background-color: #FFD5A1!important;
+	background-color: #FFD5A1 !important;
 }
 
 .ghost{
 	background-color: #D5D5D5 !important;
-	color: #777 !important;
+	color: rgba(68,68,68,.6) !important;
 }
 
 .customizable *{
@@ -239,7 +240,7 @@ div.back-arrow{
 	margin-right: 10px;
 	margin-bottom: 5px;
 
-	color: #00F;
+	color: #2755D8;
 	text-decoration: underline;
 }
 

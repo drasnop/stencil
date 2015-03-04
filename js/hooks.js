@@ -335,15 +335,7 @@ function bindListeners() {
 
 
    $("#overlay").click(function() {
-      $("#ad-hoc-panel").hide();
-      // just to be sure, cleanup selectedOptions without deleting the array
-      model.selectedOptions.length = 0;
-      hooks.removeClass("hovered");
-
-      // revert back to the minimal panel    
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.resetViewParameters();
-      scope.$apply();
+      closeAdHocPanel();
    })
 
 
