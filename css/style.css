@@ -115,12 +115,12 @@ z-indexes
 
 #tabs{
 	box-sizing: border-box;
-	/* width: 410px; */
+	width: 440px;
 	height: 35px;
 }
 
 #tabs .center-wrapper{
-	/* width: 360px; */
+	width: 392px;
 	margin: auto;
 }
 

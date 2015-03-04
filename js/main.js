@@ -14,8 +14,7 @@ function initialize() {
    $("#overlay, #hooks, #panels").hide();
 
    // pre-load images
-   jQuery.get("//localhost:8888/img/minus_dark_orange.png")
-   jQuery.get("//localhost:8888/img/plus.png")
+/*   jQuery.get("//localhost:8888/img/plus.png")*/
 }
 
 

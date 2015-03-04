@@ -238,7 +238,7 @@ function generateClusters() {
    // Create one plus icon per cluster (even if it contains only one elements)
    model.clusters.forEach(function(cluster) {
       var icon = $("<div class='plus-icon'>").appendTo("#hooks")
-      .css("background-image","url(//localhost:8888/img/plus.png)")
+      .css("background-image","url(//localhost:8888/img/plus_blue.png)")
 
       icon.data("cluster", cluster);
       cluster.icon=icon;
@@ -352,7 +352,7 @@ function bindListeners() {
 
       cluster.showGhosts = !cluster.showGhosts;
       $(this).css("background-image",
-         cluster.showGhosts ? "url(//localhost:8888/img/minus.png)" : "url(//localhost:8888/img/plus.png)")
+         cluster.showGhosts ? "url(//localhost:8888/img/minus_blue.png)" : "url(//localhost:8888/img/plus_blue.png)")
       updateGhostsVisibility(cluster.ghosts, cluster.showGhosts);
       positionHooksAndClusters();
    })
