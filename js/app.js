@@ -1,26 +1,9 @@
 var app = angular.module('myApp', []);
 
-app.controller('optionsController', ['$scope', '$window', '$http', function($scope, $window, $http) {
+app.controller('optionsController', ['$scope', '$window', '$location', '$http', function($scope, $window, $location, $http) {
    $scope.model = $window.model;
 
-   $http.get('//localhost:8888/data/mappings_wunderlist.json').success(function(data) {
-      console.log("Retrieved mappings")
-      $scope.model.mappings = data;
-
-      // For debug purposes
-      if($scope.model.options.length > 0)
-         enterCustomizationMode();
-   });
-
-   $http.get('//localhost:8888/data/options_wunderlist.json').success(function(data) {
-      console.log("Retrieved options list")
-      $scope.model.options = data;
-
-      // For debug purposes
-      if($scope.model.mappings.length > 0)
-         enterCustomizationMode();
-   });
-
+   loadOptionsAndMappings();
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
@@ -138,6 +121,7 @@ app.controller('optionsController', ['$scope', '$window', '$http', function($sco
       $scope.model.activeTab = $scope.model.tabs[0].name;
    }
 
+
    // questionable workaround...
    function determineShowMoreShortcuts() {
       $scope.model.showMoreShortcuts = false;
@@ -147,6 +131,39 @@ app.controller('optionsController', ['$scope', '$window', '$http', function($sco
             $scope.model.selectedOptions.indexOf(option.id) >= 0)
             $scope.model.showMoreShortcuts = true;
       })
+   }
+
+   // load the appropriate data based on the url
+   function loadOptionsAndMappings(){
+      if($location.absUrl().indexOf("wunderlist") != -1)
+         loadData("wunderlist")
+      else if($location.absUrl().indexOf("gmail") != -1)
+         loadData("gmail")
+      else
+         console.log("No options and mappings found for this website.")
+   }
+
+   // retrieves the correct json files, populates the model and (so far) enterCustomizationMode
+   function loadData(applicationName) {
+      console.log("Loading " + applicationName + " options and mappings...")
+
+      $http.get('//localhost:8888/data/mappings_'+ applicationName +'.json').success(function(data) {
+         console.log("Retrieved mappings")
+         $scope.model.mappings = data;
+
+         // For debug purposes
+         if($scope.model.options.length > 0)
+            enterCustomizationMode();
+      });
+
+      $http.get('//localhost:8888/data/options_'+ applicationName +'.json').success(function(data) {
+         console.log("Retrieved options list")
+         $scope.model.options = data;
+
+         // For debug purposes
+         if($scope.model.mappings.length > 0)
+            enterCustomizationMode();
+      });
    }
 }])
 
