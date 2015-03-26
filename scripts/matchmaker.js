@@ -3,13 +3,15 @@ $('body').append("<div id='selector-panel'></div>")
 $("#selector-panel").text("waiting for selector")
 
 selector = '';
+target = false;
 mapping = [];
 
 // remove all events binding, to operate on a static page
 $("*").off();
 
 $('body').mousemove(function (e) {
-   updateView(getSelector(e.target));
+   target=e.target;
+   updateView(getSelector(target));
 });
 
 
@@ -37,13 +39,15 @@ $("body").keypress(function(e){
       console.log("decrease specificity")
       updateView(newSelector);
    }
+
+   // e: expand to parent
+   if(e.which==101){
+      newSelector=target.parentNode.tagName.toLowerCase() + getSelector(target.parentNode);
+      console.log("expand to parent node: "+target.parentNode.tagName.toLowerCase())
+      updateView(newSelector);
+   }
 })
 
-/*
-   other exploration functions:
-   decrease specificity= remove the last class in the list
-   select parent (with same specificity)
-*/
 
 function getSelector(elm){
    if(!elm.className)
