@@ -81,7 +81,7 @@ function generateHooks() {
    var mapping_anchors;
 
    // for each selector-options pairs, generate the appropriate hooks
-   mappings.forEach(function(mapping) {
+   model.mappings.forEach(function(mapping) {
 
       mapping_anchors = $(mapping.selector);
       if(mapping_anchors.length === 0)
@@ -130,7 +130,7 @@ function updateHooksStatus() {
       // check if one option associated with this hook is a show/hide of type hidden
       var ghost = false;
       hook.data("options").forEach(function(option_id) {
-         if(options[option_id].hideable && options[option_id].value == "hidden")
+         if(model.options[option_id].hideable && model.options[option_id].value == "hidden")
             ghost = true;
       });
       hook.data("ghost", ghost)
