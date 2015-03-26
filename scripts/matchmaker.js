@@ -15,15 +15,7 @@ $('body').mousemove(function(e) {
 });
 
 
-$("body").click(function() {
-   if(selector === "")
-      return;
-   console.log("saving: ", selector)
-   mappings.push({
-      "selector": selector,
-      "options": selector /* temporary fix */
-   })
-})
+$("body").click(saveCurrentSelection);
 
 $("body").keypress(function(e) {
    console.log(e.which);
@@ -46,6 +38,10 @@ $("body").keypress(function(e) {
       console.log("expand to parent node: " + target.parentNode.tagName.toLowerCase())
       updateView(newSelector);
    }
+
+   //s: save
+   if(e.which == 115)
+      saveCurrentSelection()
 })
 
 
@@ -80,4 +76,14 @@ function updateView(newSelector) {
       // highlight all similar elements
       $(selector).addClass("highlighted")
    }
+}
+
+function saveCurrentSelection(){
+   if(selector === "")
+      return;
+   console.log("saving: ", selector)
+   mappings.push({
+      "selector": selector,
+      "options": selector /* temporary fix */
+   })
 }

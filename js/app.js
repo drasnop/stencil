@@ -31,7 +31,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       console.log("Syncing options with underlying app...")
 
       // dev mode: not linked with Wunderlist backbone
-      if(sync.collections === undefined)
+      if(typeof sync == "undefined")
          return;
 
       var value;

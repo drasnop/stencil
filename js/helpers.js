@@ -7,14 +7,6 @@ var parentCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left
 "text-align", "font-size"
 ];
 
-var childrenCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left",
-"border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
-"margin-top", "margin-right", "margin-bottom", "margin-left",
-"position", "top", "right", "bottom", "left",
-"box-sizing", "display", "float",
-"text-align", "font-size"
-];
-
 function getRelevantCSS(obj, relevantCSS) {
    var rules = {};
    for(var i in relevantCSS) {
