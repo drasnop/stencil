@@ -163,7 +163,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          $scope.model.mappings = data;
 
          // For debug purposes
-         if($scope.model.options.length > 0)
+         if($scope.model.options.length > 0 && $scope.model.tabs.length > 0)
             enterCustomizationMode();
       });
 
@@ -172,7 +172,16 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          $scope.model.options = data;
 
          // For debug purposes
-         if($scope.model.mappings.length > 0)
+         if($scope.model.mappings.length > 0 && $scope.model.tabs.length > 0)
+            enterCustomizationMode();
+      });
+
+      $http.get('//localhost:8888/data/tabs_' + applicationName + '.json').success(function(data) {
+         console.log("Retrieved tabs")
+         $scope.model.tabs = data;
+
+         // For debug purposes
+         if($scope.model.options.length > 0 && $scope.model.mappings.length > 0)
             enterCustomizationMode();
       });
    }

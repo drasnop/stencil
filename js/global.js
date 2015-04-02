@@ -1,6 +1,8 @@
 var model = {
    // all options, indexed by their option_ID
    "options": {},
+   // all tabs, in order, each containing an ordered list of option_ID
+   "tabs": [],
    // mappings between (multiple) options and (multiple) jQuery selectors
    "mappings": [],
    // Type of ad-hoc panel shown: 0=minimum, 1=linked, 2=highlighted
@@ -22,19 +24,6 @@ var model = {
    // Whether to show the full list of shortcuts
    "showMoreShortcuts": false,
 
-   "tabs": [{
-      "name": "General",
-      "count": 0
-   }, {
-      "name": "Shortcuts",
-      "count": 0
-   }, {
-      "name": "Smart Lists",
-      "count": 0
-   }, {
-      "name": "Notifications",
-      "count": 0
-   }],
    "activeTab": "",
 
    // set of options mapped with the selected anchor
