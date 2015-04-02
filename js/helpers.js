@@ -17,10 +17,15 @@ function getRelevantCSS(obj, relevantCSS) {
 }
 
 // return the objects that have the same options that the ones passed in argument
-function haveSameOptions(input, options){
+function haveSameOptions(input, options, reverse){
    return input.filter(function(){
-      return sameElements($(this).data("options"), options)
+      return !reverse != !sameElements($(this).data("options"), options);
    })
+}
+
+// return the objects that have the same options that the ones passed in argument
+function dontHaveSameOptions(input, options){
+   return haveSameOptions(input, options, true);
 }
 
 // return true if arrays a and b have the same elements (not necessarily in order)

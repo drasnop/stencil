@@ -99,7 +99,6 @@ z-indexes
 #ad-hoc-panel{
 	z-index: 1000006;
 	position: absolute;
-	display: none;
 
 	min-height: 20px;
 	border-radius: 4px;

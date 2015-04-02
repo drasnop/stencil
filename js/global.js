@@ -15,6 +15,9 @@ var model = {
       var fullPanel = [false, false, true];
       return model.panelExpanded || fullPanel[model.optionsVisibility];
    },
+   // Show options panel in customization mode
+   "showPanel": false,
+   // Whether the user has expanded the panel to show all the options
    "panelExpanded": true,
    // Whether to show the full list of shortcuts
    "showMoreShortcuts": false,

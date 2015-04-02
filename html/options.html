@@ -1,10 +1,10 @@
-<div ng-switch="model.fullPanel() ? 'full' : 'minimum' ">
+<div id='ad-hoc-panel' ng-show='model.showPanel' ng-switch="model.fullPanel() ? 'full' : 'minimum' ">
 
 <div ng-switch-when="minimum">
 	<div id="options" class="highlighted" ng-class="{'clearfix': model.optionsVisibility==0}">
 		<table>
 			<tr class="option" id="{{option.id}}"
-			ng-repeat="option in (filteredOptions = (model.options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index'] | determineAlternateHighlighting))"
+			ng-repeat="option in (filteredOptions = (model.options | filterOptions | object2Array | orderBy:[getTabNameIndex,'index']))"
 			ng-class="{'first-row': $first, 'last-row': $last}">
 
 				<td class="left-column align-right">

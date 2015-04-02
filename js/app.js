@@ -5,25 +5,36 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    loadOptionsAndMappings();
 
+   $scope.closeAdHocPanel = function() {
+      model.showPanel = false;
+
+      // just to be sure, cleanup selectedOptions without deleting the array
+      model.selectedOptions.length = 0;
+
+      // revert back to the minimal panel    
+      $scope.resetViewParameters();
+   }
+
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
       /*model.showMoreShortcuts = false;*/
    }
 
    $scope.updateOption = function(id, value) {
-      console.log("updating:", id, value)
 
       // dev mode possible: not linked with Wunderlist backbone
-      if(sync.collections !== undefined) {
+      if(typeof sync != "undefined" && typeof sync.collections != "undefined") {
+         console.log("updating:", id, value)
+
          sync.collections.settings.where({
             key: id
          })[0].set({
             value: value
          })
-      }
 
-      if(value == "hidden" || value == "visible" || value == "auto")
-         updateHooksAndClusters();
+         if(value == "hidden" || value == "visible" || value == "auto")
+            updateHooksAndClusters();
+      }
    }
 
    $scope.initializeOptions = function() {
@@ -31,7 +42,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       console.log("Syncing options with underlying app...")
 
       // dev mode: not linked with Wunderlist backbone
-      if(typeof sync == "undefined")
+      if(typeof sync == "undefined" || typeof sync.collections == "undefined")
          return;
 
       var value;
@@ -134,7 +145,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    }
 
    // load the appropriate data based on the url
-   function loadOptionsAndMappings(){
+   function loadOptionsAndMappings() {
       if($location.absUrl().indexOf("wunderlist") != -1)
          loadData("wunderlist")
       else if($location.absUrl().indexOf("gmail") != -1)
@@ -147,7 +158,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    function loadData(applicationName) {
       console.log("Loading " + applicationName + " options and mappings...")
 
-      $http.get('//localhost:8888/data/mappings_'+ applicationName +'.json').success(function(data) {
+      $http.get('//localhost:8888/data/mappings_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved mappings")
          $scope.model.mappings = data;
 
@@ -156,7 +167,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
             enterCustomizationMode();
       });
 
-      $http.get('//localhost:8888/data/options_'+ applicationName +'.json').success(function(data) {
+      $http.get('//localhost:8888/data/options_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved options list")
          $scope.model.options = data;
 
@@ -208,37 +219,5 @@ app.filter('object2Array', function() {
          out.push(input[i]);
       }
       return out;
-   }
-})
-
-// This filter doesn't filter anything, but sets a flag for each option\
-// DEPRECATED
-app.filter('determineAlternateHighlighting', function() {
-   return function(options) {
-
-      if(options.length === 0)
-         return;
-
-      // Higlight odd rows, unless there's only one, in which case it won't be highlighted
-      var highlighted = true;
-      var onlyOneTab = true;
-      options[0].highlighted = highlighted;
-
-      for(var i = 1; i < options.length; i++) {
-         if(options[i].tab != options[i - 1].tab) {
-            highlighted = !highlighted;
-            onlyOneTab = false;
-         }
-         options[i].highlighted = highlighted;
-      }
-
-      // this is really not necessary, but it just looks better that way
-      if(onlyOneTab) {
-         options.forEach(function(option) {
-            option.highlighted = false;
-         })
-      }
-
-      return options;
    }
 })

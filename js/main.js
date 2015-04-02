@@ -5,7 +5,7 @@ function initialize() {
    $("body").append("<div id='overlay'></div>");
    $("body").append("<div id='hooks'></div>");
    $("body").append("<div id='panels'></div>")
-   $("#panels").append("<div id='ad-hoc-panel' ng-controller='optionsController' ad-hoc-panel></div")
+   $("#panels").append("<div ng-controller='optionsController'  ad-hoc-panel></div")
 
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
@@ -49,10 +49,12 @@ function exitCustomizationMode() {
    console.log("customization mode off")
    customizationMode = false;
 
+   // close panel and reset views in angular
+   var scope = angular.element($("#ad-hoc-panel")).scope();
+   scope.$apply(scope.closeAdHocPanel);
+
    // delete all hooks (they will be recreated later)
    $(".customizable").remove();
-
-   closeAdHocPanel();
 
    // hide customization layer
    $("#overlay, #hooks, #panels").hide();
@@ -62,18 +64,6 @@ function exitCustomizationMode() {
    $(".special-style").remove();
 }
 
-
-function closeAdHocPanel() {
-   $("#ad-hoc-panel").hide();
-
-   // just to be sure, cleanup selectedOptions without deleting the array
-   model.selectedOptions.length = 0;
-
-   // revert back to the minimal panel    
-   var scope = angular.element($("#ad-hoc-panel")).scope();
-   scope.resetViewParameters();
-   scope.$apply();
-}
 
 $(document).keyup(function(event) {
    if(event.keyCode == parameters.KEYCODE_ESC) {

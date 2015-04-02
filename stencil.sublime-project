@@ -6,14 +6,15 @@
 			"name":"stencil",
 			"folder_exclude_patterns":[
 				"git",
-				"libs"
+				"libs",
+				"gmail/inbox_files"
 			],
 			"file_exclude_patterns": [
 				".git*",
 				"certificate.pem",
 				"ssl-server.py",
 				"*.sublime*"
-				]
+				],
 		}
 	]
 }

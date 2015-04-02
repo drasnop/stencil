@@ -197,6 +197,14 @@ function computeHookPosition(hook) {
 }
 
 
+function updateHooksHighlighting(){
+   var hooks=$(".customizable");
+   hooks.each(function() {
+/*      if(!sameElements($(this).data("options"), model.selectedOptions))
+         haveSameOptions(hooks, $(this).data("options")).removeClass("hovered");*/
+      dontHaveSameOptions(hooks, model.selectedOptions).removeClass("hovered");   
+   })
+}
 
 
 /* ----------------    clusters    ------------------ */
@@ -303,19 +311,16 @@ function bindListeners() {
       angular.copy($(this).data("options"), model.selectedOptions)
       var scope = angular.element($("#ad-hoc-panel")).scope();
       // specific parameters to set
+      model.showPanel=true;
       scope.computeActiveTab();
       scope.resetViewParameters();
       scope.$apply();
 
       // remove previous highlighted hooks, if any
-      hooks.each(function() {
-         if(!sameElements($(this).data("options"), model.selectedOptions))
-            haveSameOptions(hooks, $(this).data("options")).removeClass("hovered");
-      })
+      updateHooksHighlighting();
 
       // update the position of the panel
       var that = $(this);
-      $("#ad-hoc-panel").show()
       $("#ad-hoc-panel").position({
          my: "left+20 top",
          at: "right top",
@@ -335,7 +340,9 @@ function bindListeners() {
 
 
    $("#overlay").click(function() {
-      closeAdHocPanel();
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.$apply(scope.closeAdHocPanel);
+      updateHooksHighlighting();
    })
 
 
