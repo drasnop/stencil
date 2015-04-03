@@ -5,9 +5,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":1
+      "more":false
    },
    ".gb_da.gbii": {
       "id": ".gb_da.gbii",
@@ -15,9 +13,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":2
+      "more":false
    },
    ".T-I.J-J5-Ji.nu.T-I-ax7.L3": {
       "id": ".T-I.J-J5-Ji.nu.T-I-ax7.L3",
@@ -25,9 +21,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":3
+      "more":false
    },
    ".aAy.aKe-aLe": {
       "id": ".aAy.aKe-aLe",
@@ -35,9 +29,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":4
+      "more":false
    },
    ".aAy": {
       "id": ".aAy",
@@ -45,9 +37,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":5
+      "more":false
    },
    ".J-Ke.n0": {
       "id": ".J-Ke.n0",
@@ -55,9 +45,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":6
+      "more":false
    },
    ".aXw.T-KT": {
       "id": ".aXw.T-KT",
@@ -65,9 +53,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":7
+      "more":false
    },
    ".WA.xY": {
       "id": ".WA.xY",
@@ -75,9 +61,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":8
+      "more":false
    },
    ".UW.UW-yN": {
       "id": ".UW.UW-yN",
@@ -85,9 +69,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":9
+      "more":false
    },
    ".at": {
       "id": ".at",
@@ -95,9 +77,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":10
+      "more":false
    },
    ".y2": {
       "id": ".y2",
@@ -105,9 +85,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":11
+      "more":false
    },
    ".TN.aY7xie.aze": {
       "id": ".TN.aY7xie.aze",
@@ -115,9 +93,7 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":12
+      "more":false
    },
    ".T0.aND.pp.aj3": {
       "id": ".T0.aND.pp.aj3",
@@ -125,8 +101,6 @@
       "value": false,
       "values":[],
       "hideable":false,
-      "tab":"General",
-      "more":false,
-      "index":13
+      "more":false
    }
 }

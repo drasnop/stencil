@@ -2,7 +2,7 @@ var app = angular.module('myApp', []);
 
 app.controller('optionsController', ['$scope', '$window', '$location', '$http', function($scope, $window, $location, $http) {
    // provides access to model in the html templates
-   $scope.model=$window.model;
+   $scope.model = $window.model;
 
    loadOptionsAndMappings();
 
@@ -67,7 +67,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       // Reset counts
       model.tabs.forEach(function(tab) {
-         tab.count=0;
+         tab.count = 0;
       })
 
       // Increment counts for each highlighted option in each tab
@@ -131,7 +131,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    function determineShowMoreShortcuts() {
       model.showMoreShortcuts = false;
 
-      model.selectedOptions.map(function(id){
+      model.selectedOptions.map(function(id) {
          return model.options[id];
       }).forEach(function(id, option) {
          if(option.tab == model.activeTab && option.more)
@@ -157,42 +157,51 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          console.log("Retrieved mappings")
          model.mappings = data;
 
-         // For debug purposes
-         enterCustomizationModeIfAllLoaded()
+         initializeDataStructuresIfAllLoaded()
       });
 
       $http.get('//localhost:8888/data/options_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved options list")
          model.options = data;
 
-         // For debug purposes
-         enterCustomizationModeIfAllLoaded()
+         initializeDataStructuresIfAllLoaded()
       });
 
       $http.get('//localhost:8888/data/tabs_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved tabs")
          model.tabs = data;
 
-         // add index information for future sorting
+         initializeDataStructuresIfAllLoaded()
+      });
+   }
+
+   function initializeDataStructuresIfAllLoaded() {
+      if(Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0) {
+
+         // add tab name and index to options
+         model.tabs.forEach(function(tab) {
+            tab.options.forEach(function(id, i){
+               model.options[id].tab=tab.name;
+               model.options[id].index=i;
+            })
+         })
+
+         // add tab index information for future sorting
          for(var i = 0, len = model.tabs.length; i < len; i++) {
-            model.tabs[i].index=i;
+            model.tabs[i].index = i;
          }
 
          // creates a lookup object for access by tab name
          model.tabs.lookup = {};
-         model.tabs.forEach(function(tab){
-            model.tabs.lookup[tab.name]=tab;   
+         model.tabs.forEach(function(tab) {
+            model.tabs.lookup[tab.name] = tab;
          })
 
          // For debug purposes
-         enterCustomizationModeIfAllLoaded()
-      });
+         enterCustomizationMode();
+      }
    }
 
-   function enterCustomizationModeIfAllLoaded(){
-      if(Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0 && !customizationMode)
-         enterCustomizationMode();
-   }
 }])
 
 app.directive('adHocPanel', ['$sce', function($sce) {
