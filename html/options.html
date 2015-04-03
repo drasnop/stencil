@@ -3,9 +3,9 @@
 <div ng-switch-when="minimum">
 	<div id="options" class="highlighted" ng-class="{'clearfix': model.optionsVisibility==0}">
 		<table>
-			<tbody ng-repeat="tab in model.tabs" ng-class="{'first-row': $first, 'last-row': $last}">
-				<tr class="option" id="{{option.id}}"
-				ng-repeat="option in (tab.options | filterOptions | getOption)">
+			<tbody>
+				<tr class="option" id="{{option.id}}" ng-class="{'first-row': $first, 'last-row': $last}"
+				ng-repeat="option in (model.selectedOptions | getOptions | orderByTab)">
 
 					<td class="left-column align-right">
 						<input type="checkbox"
@@ -52,7 +52,7 @@
 		<table>
 			<tr class="option" id="{{option.id}}"
 			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0}"
-			ng-repeat="option in (model.tabs.lookup[model.activeTab].options| filterShowMore | getOption)">
+			ng-repeat="option in (model.tabs.lookup[model.activeTab].options| filterShowMore | getOptions)">
 
 			<td class="left-column align-right centered">
 				<input type="checkbox"

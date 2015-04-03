@@ -180,11 +180,16 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          console.log("Retrieved tabs")
          $scope.model.tabs = data;
 
+         // add index information for future sorting
+         for(var i = 0, len = $scope.model.tabs.length; i < len; i++) {
+            $scope.model.tabs[i].index=i;
+         }
+
          // creates a lookup object for access by tab name
          $scope.model.tabs.lookup = {};
-         for (var i = 0, len = $scope.model.tabs.length; i < len; i++) {
-             $scope.model.tabs.lookup[$scope.model.tabs[i].name] = $scope.model.tabs[i];
-         }
+         $scope.model.tabs.forEach(function(tab){
+            $scope.model.tabs.lookup[tab.name]=tab;   
+         })
 
          // For debug purposes
          if($scope.model.options.length > 0 && $scope.model.mappings.length > 0)
@@ -199,32 +204,36 @@ app.directive('adHocPanel', ['$sce', function($sce) {
    };
 }])
 
-// Retain only the selected options
-app.filter('filterOptions', function() {
+// Sort the options according to their tab, and the order they appear in in that tabat
+app.filter('orderByTab', function() {
    return function(input) {
-      return input.filter(function(option_id){
-         return model.selectedOptions.indexOf(option_id)>=0;
+      return input.sort(function(a, b) {
+         var ta = model.tabs.lookup[a.tab].index,
+            tb = model.tabs.lookup[b.tab].index;
+         if(ta != tb)
+            return ta - tb;
+         return a.index - b.index;
       })
    }
 })
 
 // Filters out options in a "more" section if model.showMoreShortcuts or !.more
-app.filter('filterShowMore', function(){
-   return function(input){
+app.filter('filterShowMore', function() {
+   return function(input) {
       if(model.showMoreShortcuts)
          return input;
 
-      return input.filter(function(option_id){
+      return input.filter(function(option_id) {
          return !model.options[option_id].more;
       })
    }
 })
 
 // Simply retrieves the option object from the option_ids
-app.filter('getOption', function() {
+app.filter('getOptions', function() {
    return function(input) {
-      return input.map(function(option_id){
+      return input.map(function(option_id) {
          return model.options[option_id];
-      }) 
+      })
    }
 })
