@@ -199,47 +199,31 @@ app.directive('adHocPanel', ['$sce', function($sce) {
    };
 }])
 
+// Retain only the selected options
 app.filter('filterOptions', function() {
    return function(input) {
-      var output = {};
-      $.each(input, function(id, option) {
-         for(var i in model.selectedOptions) {
-            if(model.selectedOptions[i] == id)
-               output[id] = option;
-         }
-      });
-      return output;
+      return input.filter(function(option_id){
+         return model.selectedOptions.indexOf(option_id)>=0;
+      })
    }
 })
 
-app.filter('filterOptionsByTab', function() {
-   return function(input, activeTab, showMoreShortcuts) {
-      var output = {};
+// Filters out options in a "more" section if model.showMoreShortcuts or !.more
+app.filter('filterShowMore', function(){
+   return function(input){
+      if(model.showMoreShortcuts)
+         return input;
 
-      for(var id in input) {
-         if(input[id].tab.indexOf(activeTab) >= 0 &&
-            (!input[id].more || showMoreShortcuts)) {
-            output[id] = input[id];
-         }
-      }
-      return output;
+      return input.filter(function(option_id){
+         return !model.options[option_id].more;
+      })
    }
 })
 
-//http://stackoverflow.com/questions/19387552/angular-cant-make-ng-repeat-orderby-work
-app.filter('object2Array', function() {
-   return function(input) {
-      var out = [];
-      for(var i in input) {
-         out.push(input[i]);
-      }
-      return out;
-   }
-})
-
+// Simply retrieves the option object from the option_ids
 app.filter('getOption', function() {
-   return function(option_ids) {
-      return option_ids.map(function(option_id){
+   return function(input) {
+      return input.map(function(option_id){
          return model.options[option_id];
       }) 
    }
