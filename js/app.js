@@ -1,7 +1,8 @@
 var app = angular.module('myApp', []);
 
 app.controller('optionsController', ['$scope', '$window', '$location', '$http', function($scope, $window, $location, $http) {
-   $scope.model = $window.model;
+   // provides access to model in the html templates
+   $scope.model=$window.model;
 
    loadOptionsAndMappings();
 
@@ -14,31 +15,31 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          return;
 
       var value;
-      for(var id in $scope.model.options) {
+      for(var id in model.options) {
          // I am using booleans, but they are storing these options as strings!
          value = sync.collections.settings.where({
             key: id
          })[0].get("value")
          switch(value) {
             case "true":
-               $scope.model.options[id].value = true;
+               model.options[id].value = true;
                break;
             case "false":
-               $scope.model.options[id].value = false;
+               model.options[id].value = false;
                break;
             default:
-               $scope.model.options[id].value = value;
+               model.options[id].value = value;
          }
 
          // Hide the non-visible hooks (somewhat Wunderlist-specific, unfortunately)
          if(id.indexOf("visibility") >= 0) {
-            switch($scope.model.options[id].value) {
+            switch(model.options[id].value) {
                case "auto":
                case "visible":
-                  $scope.model.options[id].hidden = false;
+                  model.options[id].hidden = false;
                   break;
                case "hidden":
-                  $scope.model.options[id].hidden = true;
+                  model.options[id].hidden = true;
                   break
             }
          }
@@ -65,25 +66,25 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    $scope.computeActiveTab = function() {
 
       // Reset counts
-      $scope.model.tabs.forEach(function(tab) {
+      model.tabs.forEach(function(tab) {
          tab.count=0;
       })
 
       // Increment counts for each highlighted option in each tab
-      $scope.model.selectedOptions.forEach(function(option_id) {
-         var option = $scope.model.options[option_id];
+      model.selectedOptions.forEach(function(option_id) {
+         var option = model.options[option_id];
          // a positive value will be treated as true by the filters
          // if the option is hidden in a "more" section, it counts only as half
-         $scope.model.tabs.lookup[option.tab].count += option.more ? 0.5 : 1;
+         model.tabs.lookup[option.tab].count += option.more ? 0.5 : 1;
       })
 
       // Determine which tab sould be active, buy computing which tab has the most highlighted options
       // in case of equality, the first tab will be chosen
       var max = 0;
-      $scope.model.tabs.forEach(function(tab) {
+      model.tabs.forEach(function(tab) {
          if(tab.count > max) {
             max = tab.count;
-            $scope.model.activeTab = tab.name;
+            model.activeTab = tab.name;
          }
       })
 
@@ -91,23 +92,23 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    }
 
    $scope.activateTab = function(tabName) {
-      $scope.model.activeTab = tabName;
+      model.activeTab = tabName;
       determineShowMoreShortcuts();
    }
 
    $scope.showFullPanel = function(tabName) {
-      $scope.model.panelExpanded = true;
-      $scope.model.activeTab = tabName;
+      model.panelExpanded = true;
+      model.activeTab = tabName;
       determineShowMoreShortcuts();
    }
 
    $scope.hideFullPanel = function() {
-      $scope.model.panelExpanded = false;
+      model.panelExpanded = false;
    }
 
    $scope.showBaselinePanel = function() {
-      $scope.model.panelExpanded = true;
-      $scope.model.activeTab = $scope.model.tabs[0].name;
+      model.panelExpanded = true;
+      model.activeTab = model.tabs[0].name;
    }
 
    $scope.closeAdHocPanel = function() {
@@ -128,13 +129,13 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    // questionable workaround...
    function determineShowMoreShortcuts() {
-      $scope.model.showMoreShortcuts = false;
+      model.showMoreShortcuts = false;
 
-      $scope.model.selectedOptions.map(function(id){
-         return $scope.model.options[id];
+      model.selectedOptions.map(function(id){
+         return model.options[id];
       }).forEach(function(id, option) {
-         if(option.tab == $scope.model.activeTab && option.more)
-            $scope.model.showMoreShortcuts = true;
+         if(option.tab == model.activeTab && option.more)
+            model.showMoreShortcuts = true;
       })
    }
 
@@ -154,7 +155,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       $http.get('//localhost:8888/data/mappings_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved mappings")
-         $scope.model.mappings = data;
+         model.mappings = data;
 
          // For debug purposes
          enterCustomizationModeIfAllLoaded()
@@ -162,7 +163,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       $http.get('//localhost:8888/data/options_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved options list")
-         $scope.model.options = data;
+         model.options = data;
 
          // For debug purposes
          enterCustomizationModeIfAllLoaded()
@@ -170,17 +171,17 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       $http.get('//localhost:8888/data/tabs_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved tabs")
-         $scope.model.tabs = data;
+         model.tabs = data;
 
          // add index information for future sorting
-         for(var i = 0, len = $scope.model.tabs.length; i < len; i++) {
-            $scope.model.tabs[i].index=i;
+         for(var i = 0, len = model.tabs.length; i < len; i++) {
+            model.tabs[i].index=i;
          }
 
          // creates a lookup object for access by tab name
-         $scope.model.tabs.lookup = {};
-         $scope.model.tabs.forEach(function(tab){
-            $scope.model.tabs.lookup[tab.name]=tab;   
+         model.tabs.lookup = {};
+         model.tabs.forEach(function(tab){
+            model.tabs.lookup[tab.name]=tab;   
          })
 
          // For debug purposes
@@ -189,7 +190,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    }
 
    function enterCustomizationModeIfAllLoaded(){
-      if(Object.keys($scope.model.options).length > 0 && $scope.model.mappings.length > 0 && $scope.model.tabs.length > 0 && !customizationMode)
+      if(Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0 && !customizationMode)
          enterCustomizationMode();
    }
 }])
