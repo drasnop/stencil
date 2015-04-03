@@ -180,6 +180,12 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          console.log("Retrieved tabs")
          $scope.model.tabs = data;
 
+         // creates a lookup object for access by tab name
+         $scope.model.tabs.lookup = {};
+         for (var i = 0, len = $scope.model.tabs.length; i < len; i++) {
+             $scope.model.tabs.lookup[$scope.model.tabs[i].name] = $scope.model.tabs[i];
+         }
+
          // For debug purposes
          if($scope.model.options.length > 0 && $scope.model.mappings.length > 0)
             enterCustomizationMode();
@@ -228,5 +234,13 @@ app.filter('object2Array', function() {
          out.push(input[i]);
       }
       return out;
+   }
+})
+
+app.filter('getOption', function() {
+   return function(option_ids) {
+      return option_ids.map(function(option_id){
+         return model.options[option_id];
+      }) 
    }
 })

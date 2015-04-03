@@ -36,7 +36,7 @@
 	<ul id="tabs" class="grayGradientShadow">
 		<div ng-class="{'center-wrapper': model.optionsVisibility!=1}">
 			<div class="back-arrow" ng-if="model.optionsVisibility==1" ng-click="hideFullPanel()">
-				<img id="back-arrow" src="//localhost:8888/img/back-arrow.png" alt="Go back to minimal panel" >
+				<img id="back-arrow" src="../img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab blue-button"
 			ng-repeat="tab in model.tabs"
@@ -51,7 +51,7 @@
 		<table>
 			<tr class="option" id="{{option.id}}"
 			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0}"
-			ng-repeat="option in model.options | filterOptionsByTab:model.activeTab:model.showMoreShortcuts | object2Array | orderBy:'index'">
+			ng-repeat="option in (model.tabs.lookup[model.activeTab].options|getOption)">
 
 			<td class="left-column align-right centered">
 				<input type="checkbox"
