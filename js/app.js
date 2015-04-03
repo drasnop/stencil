@@ -5,38 +5,6 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    loadOptionsAndMappings();
 
-   $scope.closeAdHocPanel = function() {
-      model.showPanel = false;
-
-      // just to be sure, cleanup selectedOptions without deleting the array
-      model.selectedOptions.length = 0;
-
-      // revert back to the minimal panel    
-      $scope.resetViewParameters();
-   }
-
-   $scope.resetViewParameters = function() {
-      model.panelExpanded = false;
-      /*model.showMoreShortcuts = false;*/
-   }
-
-   $scope.updateOption = function(id, value) {
-
-      // dev mode possible: not linked with Wunderlist backbone
-      if(typeof sync != "undefined" && typeof sync.collections != "undefined") {
-         console.log("updating:", id, value)
-
-         sync.collections.settings.where({
-            key: id
-         })[0].set({
-            value: value
-         })
-
-         if(value == "hidden" || value == "visible" || value == "auto")
-            updateHooksAndClusters();
-      }
-   }
-
    $scope.initializeOptions = function() {
 
       console.log("Syncing options with underlying app...")
@@ -77,17 +45,28 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       }
    }
 
-   // getter used for sorting options according to tab order
-   $scope.getTabNameIndex = function(option) {
-      return $scope.model.tabs.indexOfProperty("name", option.tab);
+   $scope.updateOption = function(id, value) {
+
+      // dev mode possible: not linked with Wunderlist backbone
+      if(typeof sync != "undefined" && typeof sync.collections != "undefined") {
+         console.log("updating:", id, value)
+
+         sync.collections.settings.where({
+            key: id
+         })[0].set({
+            value: value
+         })
+
+         if(value == "hidden" || value == "visible" || value == "auto")
+            updateHooksAndClusters();
+      }
    }
 
    $scope.computeActiveTab = function() {
-      // Reset counts and create a lookup object for easier access to counts
-      var lookup = {};
+
+      // Reset counts
       $scope.model.tabs.forEach(function(tab) {
-         tab.count = 0;
-         lookup[tab.name] = tab;
+         tab.count=0;
       })
 
       // Increment counts for each highlighted option in each tab
@@ -95,7 +74,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          var option = $scope.model.options[option_id];
          // a positive value will be treated as true by the filters
          // if the option is hidden in a "more" section, it counts only as half
-         lookup[option.tab].count += option.more ? 0.5 : 1;
+         $scope.model.tabs.lookup[option.tab].count += option.more ? 0.5 : 1;
       })
 
       // Determine which tab sould be active, buy computing which tab has the most highlighted options
@@ -113,7 +92,6 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.activateTab = function(tabName) {
       $scope.model.activeTab = tabName;
-
       determineShowMoreShortcuts();
    }
 
@@ -132,14 +110,30 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       $scope.model.activeTab = $scope.model.tabs[0].name;
    }
 
+   $scope.closeAdHocPanel = function() {
+      model.showPanel = false;
+
+      // just to be sure, cleanup selectedOptions without deleting the array
+      model.selectedOptions.length = 0;
+
+      // revert back to the minimal panel    
+      $scope.resetViewParameters();
+   }
+
+   $scope.resetViewParameters = function() {
+      model.panelExpanded = false;
+      /*model.showMoreShortcuts = false;*/
+   }
+
 
    // questionable workaround...
    function determineShowMoreShortcuts() {
       $scope.model.showMoreShortcuts = false;
 
-      $.each($scope.model.options, function(id, option) {
-         if(option.tab == $scope.model.activeTab && option.more &&
-            $scope.model.selectedOptions.indexOf(option.id) >= 0)
+      $scope.model.selectedOptions.map(function(id){
+         return $scope.model.options[id];
+      }).forEach(function(id, option) {
+         if(option.tab == $scope.model.activeTab && option.more)
             $scope.model.showMoreShortcuts = true;
       })
    }
@@ -163,8 +157,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          $scope.model.mappings = data;
 
          // For debug purposes
-         if($scope.model.options.length > 0 && $scope.model.tabs.length > 0)
-            enterCustomizationMode();
+         enterCustomizationModeIfAllLoaded()
       });
 
       $http.get('//localhost:8888/data/options_' + applicationName + '.json').success(function(data) {
@@ -172,8 +165,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          $scope.model.options = data;
 
          // For debug purposes
-         if($scope.model.mappings.length > 0 && $scope.model.tabs.length > 0)
-            enterCustomizationMode();
+         enterCustomizationModeIfAllLoaded()
       });
 
       $http.get('//localhost:8888/data/tabs_' + applicationName + '.json').success(function(data) {
@@ -192,9 +184,13 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          })
 
          // For debug purposes
-         if($scope.model.options.length > 0 && $scope.model.mappings.length > 0)
-            enterCustomizationMode();
+         enterCustomizationModeIfAllLoaded()
       });
+   }
+
+   function enterCustomizationModeIfAllLoaded(){
+      if(Object.keys($scope.model.options).length > 0 && $scope.model.mappings.length > 0 && $scope.model.tabs.length > 0 && !customizationMode)
+         enterCustomizationMode();
    }
 }])
 

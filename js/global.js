@@ -20,7 +20,7 @@ var model = {
    // Show options panel in customization mode
    "showPanel": false,
    // Whether the user has expanded the panel to show all the options
-   "panelExpanded": true,
+   "panelExpanded": false,
    // Whether to show the full list of shortcuts
    "showMoreShortcuts": false,
 

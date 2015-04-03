@@ -41,6 +41,7 @@ function sameElements(a, b) {
    return true;
 }
 
+// UNUSED
 Object.defineProperty(Array.prototype, "indexOfProperty", {
    value: function(name, value) {
       for(var i in this) {
