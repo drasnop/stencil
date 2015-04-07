@@ -41,7 +41,7 @@ computeClusterPosition()
 ** init sequence
 generateHooks()
 updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateClusters() -> [all clusters] positionClusters()
--> bindListeners()
+-> bindHooksListeners()
 
 ** expand/collapse cluster
 updateGhostVisibility(cluster)
@@ -49,7 +49,7 @@ updateGhostVisibility(cluster)
 
 ** change of status [showGhosts]
 updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateClusters() -> [all clusters] positionClusters()
--> bindListeners()
+-> bindHooksListeners()
 
 */
 
@@ -62,7 +62,7 @@ function updateHooksAndClusters(){
    positionHooks();
    generateClusters();
    positionClusters();
-   bindListeners();
+   bindHooksListeners();
 }
 
 
@@ -276,83 +276,5 @@ function positionCluster(cluster) {
    icon.css({
       "left": cluster.x - icon.robustWidth()  / 2 + "px",
       "top": cluster.y - icon.robustHeight() / 2 + "px"
-   })
-}
-
-
-
-/* ----------------    listeners    ------------------ */
-
-
-
-function bindListeners() {
-
-   var hooks = $(".customizable");
-
-   // highlight all elements that share at least one option with the current one
-   hooks.mouseenter(function() {
-      haveSameOptions(hooks, $(this).data("options"))
-         .addClass("hovered")
-   })
-
-   // remove highlighting for all similar hooks, unless we are leaving a selected hook
-   hooks.mouseleave(function() {
-      if(!sameElements($(this).data("options"), model.selectedOptions))
-         haveSameOptions(hooks, $(this).data("options"))
-         .removeClass("hovered")
-   })
-
-
-   // show a panel populated with only the relevant options
-   hooks.click(function(event) {
-
-      // update the content of the panel
-      // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular model.selectedOptions
-      angular.copy($(this).data("options"), model.selectedOptions)
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      // specific parameters to set
-      model.showPanel=true;
-      scope.computeActiveTab();
-      scope.resetViewParameters();
-      scope.$apply();
-
-      // remove previous highlighted hooks, if any
-      updateHooksHighlighting();
-
-      // update the position of the panel
-      var that = $(this);
-      $("#ad-hoc-panel").position({
-         my: "left+20 top",
-         at: "right top",
-         of: that,
-         collision: "fit fit",
-         using: function(obj, info) {
-
-            console.log(obj, info)
-
-            $(this).css({
-               "left": obj.left + 10 + 'px',
-               "top": obj.top + 'px'
-            });
-         }
-      })
-   })
-
-
-   $("#overlay").click(function() {
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.$apply(scope.closeAdHocPanel);
-      updateHooksHighlighting();
-   })
-
-
-   $(".plus-icon").click(function() {
-      var cluster = $(this).data("cluster")
-
-      cluster.showGhosts = !cluster.showGhosts;
-      $(this).css("background-image",
-         cluster.showGhosts ? "url(//localhost:8888/img/minus_blue.png)" : "url(//localhost:8888/img/plus_blue.png)")
-      updateGhostsVisibility(cluster.ghosts, cluster.showGhosts);
-      positionHooksAndClusters();
    })
 }

@@ -35,8 +35,8 @@
 
 <div ng-switch-when="full">	
 	<ul id="tabs" class="grayGradientShadow">
-		<div ng-class="{'center-wrapper': model.optionsVisibility!=1}">
-			<div class="back-arrow" ng-if="model.optionsVisibility==1" ng-click="hideFullPanel()">
+		<div ng-class="{'center-wrapper': !model.backArrow()}">
+			<div class="back-arrow" ng-if="model.backArrow()" ng-click="hideFullPanel()">
 				<img id="back-arrow" src="../img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab blue-button"

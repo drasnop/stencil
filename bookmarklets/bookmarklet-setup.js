@@ -38,6 +38,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		$.when(
 			$.getScript("//localhost:8888/js/global.js"),
 			$.getScript("//localhost:8888/js/app.js"),
+			$.getScript("//localhost:8888/js/listeners.js"),
 			$.getScript("//localhost:8888/js/hooks.js"),
 			$.getScript("//localhost:8888/js/helpers.js"),
 			$.getScript("//localhost:8888/js/main.js"),

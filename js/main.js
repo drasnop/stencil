@@ -65,14 +65,6 @@ function exitCustomizationMode() {
 }
 
 
-$(document).keyup(function(event) {
-   if(event.keyCode == parameters.KEYCODE_ESC) {
-      exitCustomizationMode();
-      event.stopPropagation();
-   }
-});
-
-
 function toggleCustomizationMode() {
    if(customizationMode === undefined)
       return;

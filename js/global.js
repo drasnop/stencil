@@ -9,13 +9,18 @@ var model = {
    "optionsVisibility": 0,
    // Turn highlighting in the full panel view off in minimum
    highlighting: function() {
-      var highlighting = [false, true, true];
+      var highlighting = [true, true, true];
       return highlighting[model.optionsVisibility];
+   },
+   // Whether the back arrow appears in the expanded panel
+   backArrow: function() {
+      var backArrow = [true, true, false];
+      return backArrow[model.optionsVisibility];
    },
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    fullPanel: function() {
-      var fullPanel = [false, false, true];
-      return model.panelExpanded || fullPanel[model.optionsVisibility];
+      var fullPanelDefault = [false, false, true];
+      return model.panelExpanded || fullPanelDefault[model.optionsVisibility];
    },
    // Show options panel in customization mode
    "showPanel": false,
