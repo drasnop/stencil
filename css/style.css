@@ -234,13 +234,24 @@ div.back-arrow{
 	background-color: #FFD5A1;
 }
 
-#options a.hyperlink{
+.hyperlink{
+	color: #2755D8;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.hyperlink:hover{
+	color: #612B9C;
+}
+
+.right-column .hyperlink{
+	padding: 0 5px;
+}
+
+#show-all{
 	float: right;
 	margin-right: 10px;
 	margin-bottom: 5px;
-
-	color: #2755D8;
-	text-decoration: underline;
 }
 
 tr.option{

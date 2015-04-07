@@ -24,12 +24,12 @@
 					</td>
 					
 					<td class="right-column" ng-if="model.optionsVisibility==1">
-						<div class="linkToTab grayGradientShadow blue-button" ng-click="showFullPanel(option.tab)">{{option.tab}}...</div>
+						<a class="hyperlink" ng-click="showFullPanel(option.tab)">{{option.tab}}</a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<a class="hyperlink" ng-if="model.optionsVisibility==0" ng-click="showBaselinePanel()">show all</a>
+		<a id="show-all" class="hyperlink" ng-if="model.optionsVisibility==0" ng-click="showBaselinePanel()">show all</a>
 	</div>
 </div>
 
