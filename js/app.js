@@ -1,6 +1,6 @@
 var app = angular.module('myApp', ['ngAnimate']);
 
-app.controller('optionsController', ['$scope', '$window', '$location', '$http', function($scope, $window, $location, $http) {
+app.controller('optionsController', ['$scope', '$window', '$location', '$http', '$timeout', function($scope, $window, $location, $http, $timeout) {
    // provides access to model in the html templates
    $scope.model = $window.model;
 
@@ -72,23 +72,27 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       model.showPanel = true;
 
       if(model.fullPanel()) {
+         computeTabCounts();
          computeActiveTab();
          determineShowMoreShortcuts();
-      }
-      else{
-         $scope.prepareEphemeralAnimation();
       }
    }
 
    $scope.showFullPanel = function(tabName) {
+      model.activeTab = "none";
       model.panelExpanded = true;
+      console.log(model.activeTab)
 
-      if(typeof tabName != "undefined")
-         model.activeTab = tabName;
-      else
-         computeActiveTab();
+      $timeout(function() {
+         computeTabCounts();
 
-      determineShowMoreShortcuts();
+         if(typeof tabName != "undefined")
+            model.activeTab = tabName;
+         else
+            computeActiveTab();
+
+         determineShowMoreShortcuts();
+      }, 10)
    }
 
    $scope.hideFullPanel = function() {
@@ -107,6 +111,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
+      $scope.prepareEphemeralAnimation(); // hum... to check
       /*model.showMoreShortcuts = false;*/
    }
 
@@ -115,8 +120,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       model.activeTab = "none";
    }
 
-   function computeActiveTab() {
-
+   function computeTabCounts() {
       // Reset counts
       model.tabs.forEach(function(tab) {
          tab.count = 0;
@@ -129,9 +133,11 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          // if the option is hidden in a "more" section, it counts only as half
          model.tabs.lookup[option.tab].count += option.more ? 0.5 : 1;
       })
+   }
 
-      // Determine which tab sould be active, buy computing which tab has the most highlighted options
-      // in case of equality, the first tab will be chosen
+   // Determine which tab sould be active, buy computing which tab has the most highlighted options
+   // in case of equality, the first tab will be chosen
+   function computeActiveTab() {
       var max = 0;
       model.tabs.forEach(function(tab) {
          if(tab.count > max) {

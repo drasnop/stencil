@@ -45,7 +45,10 @@ function bindHooksListeners() {
       // update the content of the panel
       // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular model.selectedOptions
       angular.copy($(this).data("options"), model.selectedOptions)
-      scope.$apply(scope.showPanel);
+      
+      scope.resetViewParameters();
+      scope.showPanel();
+      scope.$apply();
 
       // remove previous highlighted hooks, if any
       updateHooksHighlighting();
