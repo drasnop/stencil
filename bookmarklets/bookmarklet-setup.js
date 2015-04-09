@@ -36,17 +36,24 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		})
 	).done(function(){
 		$.when(
-			$.getScript("//localhost:8888/js/global.js"),
-			$.getScript("//localhost:8888/js/app.js"),
-			$.getScript("//localhost:8888/js/listeners.js"),
-			$.getScript("//localhost:8888/js/hooks.js"),
-			$.getScript("//localhost:8888/js/helpers.js"),
-			$.getScript("//localhost:8888/js/main.js"),
+			$.getScript("//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-animate.js"),
 			$.Deferred(function( deferred ){
 				$( deferred.resolve );
 			})
 		).done(function(){
-			initialize();
+			$.when(
+				$.getScript("//localhost:8888/js/global.js"),
+				$.getScript("//localhost:8888/js/app.js"),
+				$.getScript("//localhost:8888/js/listeners.js"),
+				$.getScript("//localhost:8888/js/hooks.js"),
+				$.getScript("//localhost:8888/js/helpers.js"),
+				$.getScript("//localhost:8888/js/main.js"),
+				$.Deferred(function( deferred ){
+					$( deferred.resolve );
+				})
+			).done(function(){
+				initialize();
+			})
 		})
 	});
 });
