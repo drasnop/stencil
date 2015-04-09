@@ -51,7 +51,7 @@ function exitCustomizationMode() {
 
    // close panel and reset views in angular
    var scope = angular.element($("#ad-hoc-panel")).scope();
-   scope.$apply(scope.closeAdHocPanel);
+   scope.$apply(scope.closePanel);
 
    // delete all hooks (they will be recreated later)
    $(".customizable").remove();

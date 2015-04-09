@@ -40,17 +40,12 @@ function bindHooksListeners() {
 
       // cleanup the selectedOptions to empty the panel and have entrance animations in ng-repeat
       var scope = angular.element($("#ad-hoc-panel")).scope();
-      model.activeTab="none";
-      scope.$apply();
+      scope.$apply(scope.prepareEphemeralAnimation);
 
       // update the content of the panel
       // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular model.selectedOptions
       angular.copy($(this).data("options"), model.selectedOptions)
-      // specific parameters to set
-      model.showPanel=true;
-      scope.computeActiveTab();
-      scope.resetViewParameters();
-      scope.$apply();
+      scope.$apply(scope.showPanel);
 
       // remove previous highlighted hooks, if any
       updateHooksHighlighting();
@@ -64,7 +59,7 @@ function bindHooksListeners() {
          collision: "fit fit",
          using: function(obj, info) {
 
-            console.log(obj, info)
+            //console.log(obj, info)
 
             $(this).css({
                "left": obj.left + 10 + 'px',
@@ -77,7 +72,7 @@ function bindHooksListeners() {
 
    $("#overlay").click(function() {
       var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.$apply(scope.closeAdHocPanel);
+      scope.$apply(scope.closePanel);
 
       // remove previous highlighted hooks, if any
       updateHooksHighlighting();

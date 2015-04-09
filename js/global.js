@@ -29,7 +29,7 @@ var model = {
    // Whether to show the full list of shortcuts
    "showMoreShortcuts": false,
 
-   "activeTab": "",
+   "activeTab": "none",
 
    // set of options mapped with the selected anchor
    "selectedOptions": [],

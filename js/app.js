@@ -63,7 +63,59 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       }
    }
 
-   $scope.computeActiveTab = function() {
+   $scope.activateTab = function(tabName) {
+      model.activeTab = tabName;
+      determineShowMoreShortcuts();
+   }
+
+   $scope.showPanel = function() {
+      model.showPanel = true;
+
+      if(model.fullPanel()) {
+         computeActiveTab();
+         determineShowMoreShortcuts();
+      }
+      else{
+         $scope.prepareEphemeralAnimation();
+      }
+   }
+
+   $scope.showFullPanel = function(tabName) {
+      model.panelExpanded = true;
+
+      if(typeof tabName != "undefined")
+         model.activeTab = tabName;
+      else
+         computeActiveTab();
+
+      determineShowMoreShortcuts();
+   }
+
+   $scope.hideFullPanel = function() {
+      model.panelExpanded = false;
+   }
+
+   $scope.closePanel = function() {
+      model.showPanel = false;
+
+      // just to be sure, cleanup selectedOptions without deleting the array
+      model.selectedOptions.length = 0;
+
+      // revert back to the minimal panel    
+      $scope.resetViewParameters();
+   }
+
+   $scope.resetViewParameters = function() {
+      model.panelExpanded = false;
+      /*model.showMoreShortcuts = false;*/
+   }
+
+   $scope.prepareEphemeralAnimation = function() {
+      // clean up ng-repeat first, to have nice entrance animations
+      model.activeTab = "none";
+   }
+
+   function computeActiveTab() {
 
       // Reset counts
       model.tabs.forEach(function(tab) {
@@ -87,45 +139,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
             model.activeTab = tab.name;
          }
       })
-
-      determineShowMoreShortcuts();
    }
-
-   $scope.activateTab = function(tabName) {
-      model.activeTab = tabName;
-      determineShowMoreShortcuts();
-   }
-
-   $scope.showFullPanel = function(tabName) {
-      model.panelExpanded = true;
-      model.activeTab = tabName;
-      determineShowMoreShortcuts();
-   }
-
-   $scope.hideFullPanel = function() {
-      model.panelExpanded = false;
-   }
-
-   $scope.showBaselinePanel = function() {
-      model.panelExpanded = true;
-      model.activeTab = model.tabs[0].name;
-   }
-
-   $scope.closeAdHocPanel = function() {
-      model.showPanel = false;
-
-      // just to be sure, cleanup selectedOptions without deleting the array
-      model.selectedOptions.length = 0;
-
-      // revert back to the minimal panel    
-      $scope.resetViewParameters();
-   }
-
-   $scope.resetViewParameters = function() {
-      model.panelExpanded = false;
-      /*model.showMoreShortcuts = false;*/
-   }
-
 
    // questionable workaround...
    function determineShowMoreShortcuts() {
@@ -180,9 +194,9 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
          // add tab name and index to options
          model.tabs.forEach(function(tab) {
-            tab.options.forEach(function(id, i){
-               model.options[id].tab=tab.name;
-               model.options[id].index=i;
+            tab.options.forEach(function(id, i) {
+               model.options[id].tab = tab.name;
+               model.options[id].index = i;
             })
          })
 
@@ -247,7 +261,7 @@ app.filter('filterShowMore', function() {
 app.filter('filterNoneTab', function() {
    return function(input) {
       return input.filter(function(tab) {
-         return tab.index>=0;
+         return tab.index >= 0;
       })
    }
 })
