@@ -38,10 +38,14 @@ function bindHooksListeners() {
    // show a panel populated with only the relevant options
    hooks.click(function(event) {
 
+      // cleanup the selectedOptions to empty the panel and have entrance animations in ng-repeat
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      model.activeTab="none";
+      scope.$apply();
+
       // update the content of the panel
       // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular model.selectedOptions
       angular.copy($(this).data("options"), model.selectedOptions)
-      var scope = angular.element($("#ad-hoc-panel")).scope();
       // specific parameters to set
       model.showPanel=true;
       scope.computeActiveTab();
@@ -74,6 +78,8 @@ function bindHooksListeners() {
    $("#overlay").click(function() {
       var scope = angular.element($("#ad-hoc-panel")).scope();
       scope.$apply(scope.closeAdHocPanel);
+
+      // remove previous highlighted hooks, if any
       updateHooksHighlighting();
    })
 

@@ -1,4 +1,4 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ngAnimate']);
 
 app.controller('optionsController', ['$scope', '$window', '$location', '$http', function($scope, $window, $location, $http) {
    // provides access to model in the html templates
@@ -191,6 +191,14 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
             model.tabs[i].index = i;
          }
 
+         // create an "empty" tab for refreshing the customization panel (for animations)
+         model.tabs.push({
+            name: "none",
+            count: 0,
+            index: -1,
+            options: []
+         })
+
          // creates a lookup object for access by tab name
          model.tabs.lookup = {};
          model.tabs.forEach(function(tab) {
@@ -231,6 +239,15 @@ app.filter('filterShowMore', function() {
 
       return input.filter(function(option_id) {
          return !model.options[option_id].more;
+      })
+   }
+})
+
+// Simply retrieves the option object from the option_ids
+app.filter('filterNoneTab', function() {
+   return function(input) {
+      return input.filter(function(tab) {
+         return tab.index>=0;
       })
    }
 })

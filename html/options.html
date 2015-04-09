@@ -40,8 +40,8 @@
 				<img id="back-arrow" src="../img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab blue-button"
-			ng-repeat="tab in model.tabs"
-			ng-class="{'highlighted': model.highlighting() && tab.count>0, 'active': tab.name==model.activeTab}"
+			ng-repeat="tab in model.tabs | filterNoneTab"
+			ng-class="{'highlighted': model.highlighting() && tab.count>0, 'active': tab.name==model.activeTab, 'delayed-entrance': tab.count==0}"
 			ng-click="activateTab(tab.name)">
 			<span>{{tab.name}}</span>
 			<span ng-if="model.highlighting() && tab.count" class="count">{{tab.count|number:0}}</span>
@@ -51,8 +51,8 @@
 	<div id="options" ng-class="{'clearfix': model.activeTab=='Shortcuts'}">
 		<table>
 			<tr class="option" id="{{option.id}}"
-			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0}"
-			ng-repeat="option in (model.tabs.lookup[model.activeTab].options| filterShowMore | getOptions)">
+			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0, 'delayed-entrance': model.selectedOptions.indexOf(option.id)<0 && model.tabs.lookup[model.activeTab].count>0}"
+			ng-repeat="option in (model.tabs.lookup[model.activeTab].options | filterShowMore | getOptions)">
 
 			<td class="left-column align-right centered">
 				<input type="checkbox"
