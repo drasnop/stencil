@@ -73,26 +73,37 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       if(model.fullPanel()) {
          computeTabCounts();
+
+         var prevActiveTab=model.activeTab;
          computeActiveTab();
+
+         if(model.activeTab==prevActiveTab){
+            // if same tab
+            $scope.playEphemeralAnimation();
+         }
+         else{
+            // if different tab
+            $scope.removeOldElements();
+         }
+
+
          determineShowMoreShortcuts();
       }
    }
 
    $scope.showFullPanel = function(tabName) {
-      model.activeTab = "none";
       model.panelExpanded = true;
-      console.log(model.activeTab)
 
-      $timeout(function() {
-         computeTabCounts();
+      computeTabCounts();
 
-         if(typeof tabName != "undefined")
-            model.activeTab = tabName;
-         else
-            computeActiveTab();
+      if(typeof tabName != "undefined")
+         model.activeTab = tabName;
+      else
+         computeActiveTab();
 
-         determineShowMoreShortcuts();
-      }, 10)
+      determineShowMoreShortcuts();
+    
+      //$scope.playEphemeralAnimation();  
    }
 
    $scope.hideFullPanel = function() {
@@ -111,13 +122,19 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
-      $scope.prepareEphemeralAnimation(); // hum... to check
       /*model.showMoreShortcuts = false;*/
    }
 
-   $scope.prepareEphemeralAnimation = function() {
-      // clean up ng-repeat first, to have nice entrance animations
-      model.activeTab = "none";
+   $scope.removeOldElements=function(){
+      $(".option.delayed-entrance").remove();
+   }
+
+   $scope.playEphemeralAnimation = function(){
+      $(".delayed-entrance").css("opacity",0)
+      console.log("delayed-entrance: ",$(".delayed-entrance").length)
+      $(".delayed-entrance").delay(100).animate({
+         opacity: 1
+      }, 500)
    }
 
    function computeTabCounts() {
@@ -211,14 +228,6 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
             model.tabs[i].index = i;
          }
 
-         // create an "empty" tab for refreshing the customization panel (for animations)
-         model.tabs.push({
-            name: "none",
-            count: 0,
-            index: -1,
-            options: []
-         })
-
          // creates a lookup object for access by tab name
          model.tabs.lookup = {};
          model.tabs.forEach(function(tab) {
@@ -259,15 +268,6 @@ app.filter('filterShowMore', function() {
 
       return input.filter(function(option_id) {
          return !model.options[option_id].more;
-      })
-   }
-})
-
-// Simply retrieves the option object from the option_ids
-app.filter('filterNoneTab', function() {
-   return function(input) {
-      return input.filter(function(tab) {
-         return tab.index >= 0;
       })
    }
 })
