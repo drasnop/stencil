@@ -74,14 +74,14 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       if(model.fullPanel()) {
          computeTabCounts();
 
-         var prevActiveTab=model.activeTab;
+         var prevActiveTab = model.activeTab;
          computeActiveTab();
 
-         if(model.activeTab==prevActiveTab){
+         if(model.activeTab == prevActiveTab) {
             // if same tab
             $scope.playEphemeralAnimation();
          }
-         else{
+         else {
             // if different tab
             $scope.removeOldElements();
          }
@@ -101,7 +101,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          computeActiveTab();
 
       determineShowMoreShortcuts();
-    
+
       //$scope.playEphemeralAnimation();  
    }
 
@@ -124,17 +124,31 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       /*model.showMoreShortcuts = false;*/
    }
 
-   $scope.removeOldElements=function(){
+   $scope.removeOldElements = function() {
       $(".option.delayed-entrance").remove();
    }
 
-   $scope.playEphemeralAnimation = function(){
-      $(".delayed-entrance").css("opacity",0)
-      console.log("delayed-entrance: ",$(".delayed-entrance").length)
+   $scope.playEphemeralAnimation = function() {
+      $(".delayed-entrance").css("opacity", 0)
+      console.log("delayed-entrance: ", $(".delayed-entrance").length)
       $(".delayed-entrance").delay(100).animate({
          opacity: 1
       }, 500)
    }
+
+   $scope.adjustPanelHeightAsync = function() {
+      //console.log("before", $("#options").height())
+      $timeout(function() {
+         //console.log("timeout", $("#options").height())
+         $scope.$eval(adjustPanelHeight());
+      }, 10)
+   }
+
+   $scope.$watch('model.filteredOptions.length', function() {
+      console.log(model.filteredOptions.length,"filteredOptions",$scope.$last)
+      $scope.adjustPanelHeightAsync();
+   })
+
 
    function computeTabCounts() {
       // Reset counts
@@ -234,7 +248,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          })
 
          // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
-         model.activeTab=model.tabs[0];
+         model.activeTab = model.tabs[0];
 
          // For debug purposes
          enterCustomizationMode();

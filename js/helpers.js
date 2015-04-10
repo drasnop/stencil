@@ -43,24 +43,27 @@ function sameElements(a, b) {
 
 // Resize the panel to create a vertical scrollbar instead of overflowing
 function adjustPanelHeight(){
-   console.log("adjustPanelHeight ",$("#ad-hoc-panel").height())
-   // we leave a margin of 30px below the panel
+/*   console.log("adjustPanelHeight ",$("#ad-hoc-panel").height())
+*/   // we leave a margin of 30px below the panel
    var wh=window.innerHeight-30;
    var top=$("#ad-hoc-panel").offset().top;
 
+   $("#options").css("height","");
    // we want to keep the tabs always visible, so resize only the options list
    if(top+$("#ad-hoc-panel").height() > wh){
-   console.log("reduce height")
-      $("#options").height(wh-top-$("#tabs").height());
+/*   console.log("reduce height")
+*/      $("#options").height(wh-top-$("#tabs").height());
    }
-   else{
-      console.log("increase height")
-      $("#options").css("height","");
+/*   else{
+/*      console.log("increase height")
+     $("#options").css("height","");
 
       // the height has changed, so we must redo the computation
       if(top+$("#ad-hoc-panel").height() > wh)
          $("#options").height(wh-top-$("#tabs").height());
-   }
+   }*/
+
+   console.log("after", $("#options").height())
 }
 
 
