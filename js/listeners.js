@@ -11,6 +11,7 @@ $(document).keyup(function(event) {
 
 $(window).resize(function(){
    positionHooksAndClusters();
+   adjustPanelHeight();
 });
 
 

@@ -6,7 +6,7 @@ var model = {
    // mappings between (multiple) options and (multiple) jQuery selectors
    "mappings": [],
    // Type of ad-hoc panel shown: 0=minimal, 1=mixed, 2=full
-   "optionsVisibility": 0,
+   "optionsVisibility": 2,
    // Turn highlighting in the full panel view off in minimum
    highlighting: function() {
       var highlighting = [true, true, true];
