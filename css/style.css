@@ -139,16 +139,19 @@ z-indexes
 	cursor: pointer;
 
 	margin-bottom: -1px;
+	margin-top: 8px;
 	border-left: 1px solid transparent;
 	border-right: 1px solid transparent;
 }
 
 .tab:hover{
-	border-top: 8px solid #27A0D8;
+/* 	border-top: 8px solid #27A0D8; */
+	box-shadow: 0px -8px 0px 0px #27A0D8;
 }
 
 .tab.active{
-	border-top: 8px solid #27A0D8;
+/* 	border-top: 8px solid #27A0D8; */
+	box-shadow: 0px -8px 0px 0px #27A0D8;
 	border-left: 1px solid #27A0D8; /* could be #bbb */
 	border-right: 1px solid #27A0D8;
 	border-bottom: 1px solid transparent;
