@@ -34,17 +34,16 @@
 </div>
 
 <div id="full-panel" ng-switch-when="full">	
-	<ul id="tabs" class="grayGradientShadow">
+	<ul id="tabs">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">
 			<div class="back-arrow" ng-if="model.backArrow()" ng-click="hideFullPanel()">
 				<img id="back-arrow" src="../img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
-			<li class="tab blue-button"
+			<li class="tab"
 			ng-repeat="tab in model.tabs"
 			ng-class="{'highlighted': model.highlighting() && tab.count>0, 'active': tab.name==model.activeTab, 'delayed-entrance': tab.count==0}"
 			ng-click="removeOldElements(); activateTab(tab.name);">
 			<span>{{tab.name}}</span>
-			<span ng-if="model.highlighting() && tab.count" class="count">{{tab.count|number:0}}</span>
 			</li>
 		</div>
 	</ul>

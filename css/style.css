@@ -116,7 +116,9 @@ z-indexes
 #tabs{
 	box-sizing: border-box;
 	width: 440px;
-	height: 35px;
+
+	background-color: #f3f3f3;
+	border-bottom: 1px solid #BBB;
 }
 
 #tabs .center-wrapper{
@@ -130,27 +132,32 @@ z-indexes
 	border-bottom: 1px solid #BBB;
 }
 
-#tabs .tab{
+.tab{
 	display: inline-block;
 	padding: 8px 10px;
 	font-size: 15px;
 	cursor: pointer;
+
+	margin-bottom: -1px;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
 }
 
-#tabs .tab.highlighted .count{
-	display: inline-block;
-	position: relative;
-	top: -0.7em;
+.tab:hover{
+	border-top: 8px solid #27A0D8;
+}
 
-	border-radius: 50%;
-	background-color: darkorange;
-	color: white;
-	
-	text-align: center;
-	font-size: 80%;
-	width: 15px;
-	height: 15px;
-	line-height: 13px;
+.tab.active{
+	border-top: 8px solid #27A0D8;
+	border-left: 1px solid #27A0D8; /* could be #bbb */
+	border-right: 1px solid #27A0D8;
+	border-bottom: 1px solid transparent;
+	background-color: white;
+}
+
+.tab.highlighted{
+	background-color: #FFD5A1;
+	background-image: none;
 }
 
 .blue-button:hover, .blue-button.active{
@@ -285,11 +292,11 @@ tr.option{
 }
 
 #options tr.first-row>td{
-	padding-top:8px;
+	padding-top: 12px;
 }
 
 #options tr.last-row>td{
-	padding-bottom:8px;
+	padding-bottom: 12px;
 }
 
 #options td.left-column{
