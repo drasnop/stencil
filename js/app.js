@@ -86,12 +86,11 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
             $scope.removeOldElements();
          }
 
-
          determineShowMoreShortcuts();
       }
    }
 
-   $scope.showFullPanel = function(tabName) {
+   $scope.expandToFullPanel = function(tabName) {
       model.panelExpanded = true;
 
       computeTabCounts();
@@ -106,7 +105,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       //$scope.playEphemeralAnimation();  
    }
 
-   $scope.hideFullPanel = function() {
+   $scope.contractFullPanel = function() {
       model.panelExpanded = false;
    }
 
@@ -170,7 +169,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       model.selectedOptions.map(function(id) {
          return model.options[id];
-      }).forEach(function(id, option) {
+      }).forEach(function(option) {
          if(option.tab == model.activeTab && option.more)
             model.showMoreShortcuts = true;
       })
@@ -234,6 +233,9 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
             model.tabs.lookup[tab.name] = tab;
          })
 
+         // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
+         model.activeTab=model.tabs[0];
+
          // For debug purposes
          enterCustomizationMode();
       }
@@ -263,6 +265,9 @@ app.filter('orderByTab', function() {
 // Filters out options in a "more" section if model.showMoreShortcuts or !.more
 app.filter('filterShowMore', function() {
    return function(input) {
+      if(typeof input == "undefined")
+         return;
+
       if(model.showMoreShortcuts)
          return input;
 
@@ -275,6 +280,9 @@ app.filter('filterShowMore', function() {
 // Simply retrieves the option object from the option_ids
 app.filter('getOptions', function() {
    return function(input) {
+      if(typeof input == "undefined")
+         return;
+
       return input.map(function(option_id) {
          return model.options[option_id];
       })

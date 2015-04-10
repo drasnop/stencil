@@ -24,19 +24,19 @@
 					</td>
 					
 					<td class="right-column" ng-if="model.optionsVisibility==1">
-						<div class="linkToTab grayGradientShadow blue-button" ng-click="showFullPanel(option.tab)">{{option.tab}}</div>
+						<div class="linkToTab grayGradientShadow blue-button" ng-click="expandToFullPanel(option.tab)">{{option.tab}} > </div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<a id="show-all" class="hyperlink" ng-if="model.optionsVisibility==0" ng-click="showFullPanel()">show all</a>
+		<a id="show-all" class="hyperlink" ng-if="model.optionsVisibility==0" ng-click="expandToFullPanel()">show all</a>
 	</div>
 </div>
 
 <div id="full-panel" ng-switch-when="full">	
 	<ul id="tabs">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">
-			<div class="back-arrow" ng-if="model.backArrow()" ng-click="hideFullPanel()">
+			<div class="back-arrow" ng-if="model.backArrow()" ng-click="contractFullPanel()">
 				<img id="back-arrow" src="../img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab"
