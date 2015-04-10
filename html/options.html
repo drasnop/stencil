@@ -51,7 +51,7 @@
 		<table>
 			<tr class="option" id="{{option.id}}"
 			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0, 'delayed-entrance': model.selectedOptions.indexOf(option.id)<0 && model.tabs.lookup[model.activeTab].count>0}"
-			ng-repeat="option in (model.filteredOptions = (model.tabs.lookup[model.activeTab].options | filterShowMore | getOptions))" ng-init="$last ? lastRepeat() : null">
+			ng-repeat="option in (model.filteredOptions = (model.tabs.lookup[model.activeTab].options | filterShowMore | getOptions))">
 
 			<td class="left-column align-right centered">
 				<input type="checkbox"

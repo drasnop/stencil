@@ -130,7 +130,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.playEphemeralAnimation = function() {
       $(".delayed-entrance").css("opacity", 0)
-      console.log("delayed-entrance: ", $(".delayed-entrance").length)
+      //console.log("delayed-entrance: ", $(".delayed-entrance").length)
       $(".delayed-entrance").delay(100).animate({
          opacity: 1
       }, 500)
@@ -145,18 +145,9 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    }
 
    $scope.$watch('model.filteredOptions.length', function() {
-      whenReady($scope.adjustPanelHeightAsync);
+      //console.log(model.filteredOptions.length,"filteredOptions",$(".option").length)
+      $scope.adjustPanelHeightAsync();
    })
-
-   function whenReady(callback){
-      console.log(model.filteredOptions.length,"filteredOptions",$(".option").length)
-      
-      if(model.filteredOptions.length != $(".option").length){
-         $timeout(whenReady(callback),10);
-      }
-      else
-         callback();
-   }
 
    $scope.lastRepeat=function(){
       console.log("lastRepeat")

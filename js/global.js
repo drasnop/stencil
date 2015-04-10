@@ -30,6 +30,7 @@ var model = {
    "showMoreShortcuts": false,
 
    "activeTab": "",
+   "filteredOptions": [],
 
    // set of options mapped with the selected anchor
    "selectedOptions": [],
