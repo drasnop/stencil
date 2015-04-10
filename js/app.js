@@ -145,10 +145,22 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    }
 
    $scope.$watch('model.filteredOptions.length', function() {
-      console.log(model.filteredOptions.length,"filteredOptions",$scope.$last)
-      $scope.adjustPanelHeightAsync();
+      whenReady($scope.adjustPanelHeightAsync);
    })
 
+   function whenReady(callback){
+      console.log(model.filteredOptions.length,"filteredOptions",$(".option").length)
+      
+      if(model.filteredOptions.length != $(".option").length){
+         $timeout(whenReady(callback),10);
+      }
+      else
+         callback();
+   }
+
+   $scope.lastRepeat=function(){
+      console.log("lastRepeat")
+   }
 
    function computeTabCounts() {
       // Reset counts
