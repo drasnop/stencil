@@ -211,14 +211,14 @@ div.back-arrow{
 	overflow-y: auto;
 }
 
-tr.option.highlighted{
+.row.option.highlighted{
 	background-color: #FFD5A1;
 }
 
-.highlightedTab tr.option:not(.highlighted){
+/* .highlightedTab tr.option:not(.highlighted){
 	background-color: lightblue;
 }
-
+ */
 .delayed-entrance {
 	-webkit-animation: fade .5s;
 	animation: fade .5s;
@@ -238,13 +238,13 @@ opacity: 0; */
     to {opacity: 1}
 }
 
-#options table{
-	/* to be able to add a border to tr: */
+/* #options table{
+	to be able to add a border to tr:
 	border-collapse: collapse; 
 	width: 100%;
-}
+} */
 
-/* required for the float:right below */
+/* required for the float:right below. DEPRECATED? */
 .clearfix{
 	content:"";
 	display:table;
@@ -282,7 +282,7 @@ opacity: 0; */
 	margin-bottom: 5px;
 }
 
-tr.option{
+.row.option{
 	vertical-align: middle;
 }
 
@@ -294,42 +294,49 @@ tr.option{
 	text-align:right;
 }
 
-#options td{
+#options .cell{
+	display: inline-block;
+	box-sizing: border-box;
 	padding:5px;
 }
 
-#options tr.first-row>td{
+#options .row.first-row>.cell{
 	padding-top: 12px;
 }
 
-#options tr.last-row>td{
+#options .row.last-row>.cell{
 	padding-bottom: 12px;
 }
 
-#options td.left-column{
+#options .cell.left-column{
 	padding-left: 10px;
 	padding-right: 5px;
 }
 
-#options td.middle-column{
+#options .cell.middle-column{
 	padding-left: 5px;
 	padding-right: 5px;
 }
 
-#options td.right-column{
+#options .cell.right-column{
 	padding-left: 5px;
 	padding-right: 10px;
 }
 
-#options td.centered.align-left{
-	width: 60%;
+#options .column-25{
+	width: 25%;
 }
 
-#options td.centered.align-right{
+#options .column-40{
 	width: 40%;
 }
 
-#options td.align-right [type=checkbox]{
+#options .column-50{
+	width: 50%;
+}
+
+
+#options .cell.align-right [type=checkbox]{
 	margin:0!important;
 }
 
