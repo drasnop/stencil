@@ -130,7 +130,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.playEphemeralAnimation = function() {
       $(".delayed-entrance").css("opacity", 0)
-      //console.log("delayed-entrance: ", $(".delayed-entrance").length)
+         //console.log("delayed-entrance: ", $(".delayed-entrance").length)
       $(".delayed-entrance").delay(100).animate({
          opacity: 1
       }, 500)
@@ -149,7 +149,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       $scope.adjustPanelHeightAsync();
    })
 
-   $scope.lastRepeat=function(){
+   $scope.lastRepeat = function() {
       console.log("lastRepeat")
    }
 
@@ -266,6 +266,16 @@ app.directive('adHocPanel', ['$sce', function($sce) {
    };
 }])
 
+// TEMPORARY: Retain only the selected options
+app.filter('filterOptions', function() {
+   return function(input) {
+      if(model.fullPanel())
+         return input;
+
+      return model.selectedOptions;
+   }
+})
+
 // Sort the options according to their tab, and the order they appear in in that tabat
 app.filter('orderByTab', function() {
    return function(input) {
@@ -283,7 +293,7 @@ app.filter('orderByTab', function() {
 app.filter('filterShowMore', function() {
    return function(input) {
       if(typeof input == "undefined")
-         return;
+         return [];
 
       if(model.showMoreShortcuts)
          return input;
@@ -297,9 +307,6 @@ app.filter('filterShowMore', function() {
 // Simply retrieves the option object from the option_ids
 app.filter('getOptions', function() {
    return function(input) {
-      if(typeof input == "undefined")
-         return;
-
       return input.map(function(option_id) {
          return model.options[option_id];
       })
