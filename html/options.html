@@ -5,7 +5,7 @@
 		<div class="row option" id="{{option.id}}" ng-class="{'first-row': $first, 'last-row': $last}"
 		ng-repeat="option in (model.selectedOptions | getOptions | orderByTab)">
 
-			<div class="cell left-column align-right" ng-class="model.optionsVisibility==0 ? 'column-40' : 'column-25'">
+			<div class="cell left-column align-right">
 				<input type="checkbox"
 				ng-if="option.values.length==0" 
 				ng-model="option.value"
@@ -17,11 +17,11 @@
 				ng-change="updateOption(option.id,option.value)"></select>
 			</div>
 
-			<div class="cell align-left" ng-class="model.optionsVisibility==0 ? 'right-column column-50' : 'middle-column column-40'">
+			<div class="cell align-left" ng-class="model.optionsVisibility==0 ? 'right-column' : 'middle-column'">
 				<label>{{option.label}}</label>
 			</div>
 			
-			<div class="cell right-column column-25" ng-if="model.optionsVisibility==1">
+			<div class="cell right-column" ng-if="model.optionsVisibility==1">
 				<div class="linkToTab grayGradientShadow blue-button" ng-click="expandToFullPanel(option.tab)">{{option.tab}} > </div>
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 		ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0, 'delayed-entrance': model.selectedOptions.indexOf(option.id)<0 && model.tabs.lookup[model.activeTab].count>0}"
 		ng-repeat="option in (model.filteredOptions = (model.tabs.lookup[model.activeTab].options | filterShowMore | getOptions))">
 
-			<div class="cell left-column align-right column-40">
+			<div class="cell left-column align-right">
 				<input type="checkbox"
 				ng-if="option.values.length==0" 
 				ng-model="option.value"
@@ -61,7 +61,7 @@
 				</select>
 			</div>
 
-			<div class="cell right-column align-left column-50">
+			<div class="cell right-column align-left">
 				<label>{{option.label}}</label>
 			</div>
 		</div>

@@ -323,25 +323,8 @@ opacity: 0; */
 	padding-right: 10px;
 }
 
-#options .column-25{
-	width: 25%;
-}
-
-#options .column-40{
-	width: 40%;
-}
-
-#options .column-50{
-	width: 50%;
-}
-
-
 #options .cell.align-right [type=checkbox]{
 	margin:0!important;
-}
-
-.separator{
-	border-bottom: 1px solid rgba(189, 189, 189, 0.48); /* #E0E0DF*/
 }
 
 
