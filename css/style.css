@@ -215,49 +215,17 @@ div.back-arrow{
 	background-color: #FFD5A1;
 }
 
-/* .highlightedTab tr.option:not(.highlighted){
-	background-color: lightblue;
-}
- */
-/* .delayed-entrance {
-	-webkit-animation: fade .5s;
-	animation: fade .5s;
--webkit-animation: fade .5s linear .1s;
-animation: fade .5s linear .1s;
--webkit-animation-fill-mode: forwards;
-animation-fill-mode: forwards;
-opacity: 0;
- }
-
-@-webkit-keyframes fade {
-    from {opacity: 0}
-    to {opacity: 1}
-}
-@keyframes fade {
-    from {opacity: 0}
-    to {opacity: 1}
-} */
-
-
-/* #options .tab.highlighted.ng-hide-add .delayed-entrance,
-#options .tab.highlighted.ng-hide-remove .delayed-entrance {
-  this is required as of 1.3x to properly
-     apply all styling in a show/hide animation
-  transition: 0s linear all;
+#options .delayed-entrance.ng-hide-remove-active {
+  transition: opacity .5s linear .2s;
 }
 
-#options .tab.highlighted.ng-hide-remove-active .delayed-entrance {
-  the transition is defined in the active class
-  transition: .5s linear all;
-}
-
-#options .tab.highlighted.ng-hide .delayed-entrance{
+#options .delayed-entrance.ng-hide {
 	opacity: 0;
 }
 
-#options .tab.highlighted .delayed-entrance{
+#options .delayed-entrance{
 	opacity: 1;
-} */
+}
 
 #options .wunderlist-button{
 	float: right;

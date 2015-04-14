@@ -66,7 +66,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    $scope.activateTab = function(tabName) {
       model.activeTab = tabName;
       determineShowMoreShortcuts();
-      $scope.playEphemeralAnimation(false);
+      // $scope.playEphemeralAnimation(false);
    }
 
    $scope.showPanel = function() {
@@ -127,7 +127,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.playEphemeralAnimation = function(animateTabs) {
 
-      $timeout(function() {
+/*      $timeout(function() {
 
          $scope.$eval(function() {
             console.log("playEphemeralAnimation")
@@ -140,7 +140,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
             }, 500)
          })
     
-      }, 10)
+      }, 10)*/
    }
 
    $scope.adjustPanelHeightAsync = function() {
@@ -273,40 +273,15 @@ app.directive('adHocPanel', ['$sce', function($sce) {
 // TEMPORARY: Retain only the selected options
 app.filter('filterOptions', function() {
    return function(input, tabName) {
+      if(typeof input == "undefined")
+         return [];
+
       if(model.fullPanel())
          return input;
 
       return model.selectedOptions.filter(function(option_id) {
          return model.options[option_id].tab == tabName;
       });
-   }
-})
-
-// Sort the options according to their tab, and the order they appear in in that tabat
-app.filter('orderByTab', function() {
-   return function(input) {
-      return input.sort(function(a, b) {
-         var ta = model.tabs.lookup[a.tab].index,
-            tb = model.tabs.lookup[b.tab].index;
-         if(ta != tb)
-            return ta - tb;
-         return a.index - b.index;
-      })
-   }
-})
-
-// Filters out options in a "more" section if model.showMoreShortcuts or !.more
-app.filter('filterShowMore', function() {
-   return function(input) {
-      if(typeof input == "undefined")
-         return [];
-
-      if(model.showMoreShortcuts)
-         return input;
-
-      return input.filter(function(option_id) {
-         return !model.options[option_id].more;
-      })
    }
 })
 
