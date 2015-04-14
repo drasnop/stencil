@@ -84,7 +84,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
          }
          else {
             // if different tab
-            $scope.playEphemeralAnimation(true);
+            //$scope.playEphemeralAnimation(true);
          }
 
          determineShowMoreShortcuts();
