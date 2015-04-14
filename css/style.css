@@ -239,15 +239,15 @@ opacity: 0;
 } */
 
 
-#options .tab.highlighted.ng-hide-add .delayed-entrance,
+/* #options .tab.highlighted.ng-hide-add .delayed-entrance,
 #options .tab.highlighted.ng-hide-remove .delayed-entrance {
-  /* this is required as of 1.3x to properly
-     apply all styling in a show/hide animation */
-  /*transition: 0s linear all;*/
+  this is required as of 1.3x to properly
+     apply all styling in a show/hide animation
+  transition: 0s linear all;
 }
 
 #options .tab.highlighted.ng-hide-remove-active .delayed-entrance {
-  /* the transition is defined in the active class */
+  the transition is defined in the active class
   transition: .5s linear all;
 }
 
@@ -257,7 +257,7 @@ opacity: 0;
 
 #options .tab.highlighted .delayed-entrance{
 	opacity: 1;
-}
+} */
 
 #options .wunderlist-button{
 	float: right;

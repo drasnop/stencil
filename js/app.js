@@ -66,6 +66,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    $scope.activateTab = function(tabName) {
       model.activeTab = tabName;
       determineShowMoreShortcuts();
+      $scope.playEphemeralAnimation(false);
    }
 
    $scope.showPanel = function() {
@@ -79,11 +80,11 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
          if(model.activeTab == prevActiveTab) {
             // if same tab
-            $scope.playEphemeralAnimation();
+            $scope.playEphemeralAnimation(false);
          }
          else {
             // if different tab
-            $scope.removeOldElements();
+            $scope.playEphemeralAnimation(true);
          }
 
          determineShowMoreShortcuts();
@@ -102,7 +103,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       determineShowMoreShortcuts();
 
-      //$scope.playEphemeralAnimation();  
+      $scope.playEphemeralAnimation(true);  
    }
 
    $scope.contractFullPanel = function() {
@@ -124,16 +125,22 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       /*model.showMoreShortcuts = false;*/
    }
 
-   $scope.removeOldElements = function() {
-      $(".option.delayed-entrance").remove();
-   }
+   $scope.playEphemeralAnimation = function(animateTabs) {
 
-   $scope.playEphemeralAnimation = function() {
-      $(".delayed-entrance").css("opacity", 0)
-         //console.log("delayed-entrance: ", $(".delayed-entrance").length)
-      $(".delayed-entrance").delay(100).animate({
-         opacity: 1
-      }, 500)
+      $timeout(function() {
+
+         $scope.$eval(function() {
+            console.log("playEphemeralAnimation")
+
+            var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
+
+            elements.css("opacity", 0)
+            elements.delay(100).animate({
+               opacity: 1
+            }, 500)
+         })
+    
+      }, 10)
    }
 
    $scope.adjustPanelHeightAsync = function() {
@@ -149,9 +156,6 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       $scope.adjustPanelHeightAsync();
    })
 
-   $scope.lastRepeat = function() {
-      console.log("lastRepeat")
-   }
 
    function computeTabCounts() {
       // Reset counts
@@ -272,8 +276,8 @@ app.filter('filterOptions', function() {
       if(model.fullPanel())
          return input;
 
-      return model.selectedOptions.filter(function(option_id){
-         return model.options[option_id].tab==tabName;
+      return model.selectedOptions.filter(function(option_id) {
+         return model.options[option_id].tab == tabName;
       });
    }
 })

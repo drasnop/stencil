@@ -8,7 +8,7 @@
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
 			ng-class="{'highlighted': model.highlighting() && tab.count>0, 'active': tab.name==model.activeTab, 'delayed-entrance': tab.count==0}"
-			ng-click="removeOldElements(); activateTab(tab.name);">
+			ng-click="activateTab(tab.name);">
 			<span>{{tab.name}}</span>
 			</li>
 		</div>
@@ -20,7 +20,7 @@
 		ng-repeat="tab in model.tabs" ng-show="tab.name==model.activeTab || !model.fullPanel()">
 
 			<div class="row option" id="{{option.id}}"
-			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0, 'delayed-entrance': model.selectedOptions.indexOf(option.id)<0 && model.tabs.lookup[model.activeTab].count>0}"
+			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0, 'delayed-entrance': model.selectedOptions.indexOf(option.id)<0 && tab.count>0}"
 			ng-repeat="option in (model.filteredOptions = (tab.options | filterShowMore | filterOptions:tab.name | getOptions ))">
 
 				<div class="cell left-column align-right">
