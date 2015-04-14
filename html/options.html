@@ -1,4 +1,4 @@
-<div id='ad-hoc-panel' ng-show='model.showPanel'>
+<div id='ad-hoc-panel' ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel()}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">

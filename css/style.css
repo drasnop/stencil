@@ -106,8 +106,14 @@ z-indexes
 
 	background-color: white;
 	box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
+
+	transition: width 0.5s ease, max-height 0.5s ease;
 }
 
+#ad-hoc-panel.expanded{
+	width: 450px!important;
+	max-height: 500px!important;
+}
 
 /* ------------------------  tabs ------------------------ */
 
@@ -216,7 +222,7 @@ div.back-arrow{
 }
 
 #options .delayed-entrance.ng-hide-remove-active {
-  transition: opacity .5s linear .2s;
+  transition: opacity .5s linear .1s;
 }
 
 #options .delayed-entrance.ng-hide {

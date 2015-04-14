@@ -92,6 +92,10 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    }
 
    $scope.expandToFullPanel = function(tabName) {
+      // stores current width and height, for animation
+      $("#ad-hoc-panel").css("width", $("#ad-hoc-panel").width()+1+'px')
+      $("#ad-hoc-panel").css("max-height", $("#ad-hoc-panel").height()+'px')
+
       model.panelExpanded = true;
 
       computeTabCounts();
@@ -122,6 +126,8 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
+      $("#ad-hoc-panel").css("width","");
+      $("#ad-hoc-panel").css("max-height","");
       /*model.showMoreShortcuts = false;*/
    }
 
