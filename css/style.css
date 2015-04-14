@@ -219,14 +219,14 @@ div.back-arrow{
 	background-color: lightblue;
 }
  */
-.delayed-entrance {
+/* .delayed-entrance {
 	-webkit-animation: fade .5s;
 	animation: fade .5s;
-/* 	-webkit-animation: fade .5s linear .1s;
+-webkit-animation: fade .5s linear .1s;
 animation: fade .5s linear .1s;
 -webkit-animation-fill-mode: forwards;
 animation-fill-mode: forwards;
-opacity: 0; */
+opacity: 0;
  }
 
 @-webkit-keyframes fade {
@@ -236,19 +236,27 @@ opacity: 0; */
 @keyframes fade {
     from {opacity: 0}
     to {opacity: 1}
-}
-
-/* #options table{
-	to be able to add a border to tr:
-	border-collapse: collapse; 
-	width: 100%;
 } */
 
-/* required for the float:right below. DEPRECATED? */
-.clearfix{
-	content:"";
-	display:table;
-	clear:both;
+
+#options .tab.highlighted.ng-hide-add .delayed-entrance,
+#options .tab.highlighted.ng-hide-remove .delayed-entrance {
+  /* this is required as of 1.3x to properly
+     apply all styling in a show/hide animation */
+  /*transition: 0s linear all;*/
+}
+
+#options .tab.highlighted.ng-hide-remove-active .delayed-entrance {
+  /* the transition is defined in the active class */
+  transition: .5s linear all;
+}
+
+#options .tab.highlighted.ng-hide .delayed-entrance{
+	opacity: 0;
+}
+
+#options .tab.highlighted .delayed-entrance{
+	opacity: 1;
 }
 
 #options .wunderlist-button{

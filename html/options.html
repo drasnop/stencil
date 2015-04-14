@@ -16,7 +16,8 @@
 
 	<div id="options" ng-class="{'highlighted': !model.fullPanel() }">
 
-		<div class="tab" ng-repeat="tab in model.tabs" ng-show="tab.name==model.activeTab || !model.fullPanel()">
+		<div class="tab" ng-class="{'highlighted': model.highlighting() && tab.count>0}"
+		ng-repeat="tab in model.tabs" ng-show="tab.name==model.activeTab || !model.fullPanel()">
 
 			<div class="row option" id="{{option.id}}"
 			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && model.selectedOptions.indexOf(option.id)>=0, 'delayed-entrance': model.selectedOptions.indexOf(option.id)<0 && model.tabs.lookup[model.activeTab].count>0}"
