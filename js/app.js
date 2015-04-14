@@ -268,11 +268,13 @@ app.directive('adHocPanel', ['$sce', function($sce) {
 
 // TEMPORARY: Retain only the selected options
 app.filter('filterOptions', function() {
-   return function(input) {
+   return function(input, tabName) {
       if(model.fullPanel())
          return input;
 
-      return model.selectedOptions;
+      return model.selectedOptions.filter(function(option_id){
+         return model.options[option_id].tab==tabName;
+      });
    }
 })
 
