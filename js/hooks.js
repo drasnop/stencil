@@ -96,13 +96,15 @@ function generateHooks() {
             $(this).data("style", getRelevantCSS($(this), parentCSS))
          })
 
-         // deep clone anchor, with data, but remove event binders with .off()
+         // deep clone anchor, with data (for style), but remove event binders with .off()
          hook = $(anchor).clone(true, true).off();
          hook.appendTo("#hooks");
          hook.data("anchor", $(anchor));
-         hook.data("options", mapping.options);
 
-         hook.addClass("customizable")
+         // associate options (themselves) to hook
+         hook.data("options", mapping.options.map(function(option_id){
+            return model.options[option_id];
+         }));
 
          // make sure the hook and its children are not active
          hook.find("*").addBack()
@@ -111,6 +113,7 @@ function generateHooks() {
             .removeClass('animate-up')
 
          // style hook and its children
+         hook.addClass("customizable")
          hook.find("*").addBack().each(function() {
             $(this).css($(this).data("style"))
          })
@@ -129,8 +132,8 @@ function updateHooksStatus() {
 
       // check if one option associated with this hook is a show/hide of type hidden
       var ghost = false;
-      hook.data("options").forEach(function(option_id) {
-         if(model.options[option_id].hideable && model.options[option_id].value == "hidden")
+      hook.data("options").forEach(function(option) {
+         if(option.hideable && option.value == "hidden")
             ghost = true;
       });
       hook.data("ghost", ghost)
@@ -200,8 +203,6 @@ function computeHookPosition(hook) {
 function updateHooksHighlighting(){
    var hooks=$(".customizable");
    hooks.each(function() {
-/*      if(!sameElements($(this).data("options"), model.selectedOptions))
-         haveSameOptions(hooks, $(this).data("options")).removeClass("hovered");*/
       dontHaveSameOptions(hooks, model.selectedOptions).removeClass("hovered");   
    })
 }

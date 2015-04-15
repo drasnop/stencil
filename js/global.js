@@ -1,7 +1,7 @@
 var model = {
-   // all options, indexed by their option_ID
+   // all options, indexed by their option_id
    "options": {},
-   // all tabs, in order, each containing an ordered list of option_ID
+   // all tabs, in order, each containing an ordered list of option_id
    "tabs": [],
    // mappings between (multiple) options and (multiple) jQuery selectors
    "mappings": [],

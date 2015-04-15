@@ -44,15 +44,14 @@ function bindHooksListeners() {
       var scope = angular.element($("#ad-hoc-panel")).scope();
 
       // update the content of the panel
-      // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular model.selectedOptions
-      angular.copy($(this).data("options"), model.selectedOptions)
+      model.selectedOptions=$(this).data("options");
       
       // set .selected flag on options
       Object.keys(model.options).forEach(function(option_id){
          model.options[option_id].selected=false;
       });
-      model.selectedOptions.forEach(function(option_id){
-         model.options[option_id].selected=true;
+      model.selectedOptions.forEach(function(option){
+         option.selected=true;
       });
 
       // update view

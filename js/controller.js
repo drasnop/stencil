@@ -83,8 +83,8 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    $scope.closePanel = function() {
       model.showPanel = false;
 
-      // just to be sure, cleanup selectedOptions without deleting the array
-      model.selectedOptions.length = 0;
+      // cleanup selectedOptions
+      model.selectedOptions=[];
 
       // revert back to the minimal panel    
       $scope.resetViewParameters();
@@ -136,8 +136,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       })
 
       // Increment counts for each highlighted option in each tab
-      model.selectedOptions.forEach(function(option_id) {
-         var option = model.options[option_id];
+      model.selectedOptions.forEach(function(option) {
          // a positive value will be treated as true by the filters
          // if the option is hidden in a "more" section, it counts only as half
          option.tab.count += option.more ? 0.5 : 1;
@@ -160,9 +159,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    function determineShowMoreShortcuts() {
       model.showMoreShortcuts = false;
 
-      model.selectedOptions.map(function(id) {
-         return model.options[id];
-      }).forEach(function(option) {
+      model.selectedOptions.forEach(function(option) {
          if(option.tab == model.activeTab && option.more)
             model.showMoreShortcuts = true;
       })
