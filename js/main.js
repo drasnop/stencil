@@ -23,7 +23,7 @@ function enterCustomizationMode() {
    customizationMode = true;
 
    // sync angular options with the Wunderlist Backbone model
-   angular.element($("#ad-hoc-panel")).scope().initializeOptions();
+   dataManager.initializeOptions();
 
    // dim the interface
    $("body").children(":not(#overlay, #hooks, #panels)").addClass("dimmed");

@@ -3,7 +3,7 @@
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">
 			<div class="back-arrow" ng-if="model.backArrow()" ng-click="contractFullPanel()">
-				<img id="back-arrow" src="../img/back-arrow.png" alt="Go back to minimal panel" >
+				<img id="back-arrow" src="//localhost:8888/img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
@@ -28,12 +28,12 @@
 					<input type="checkbox"
 					ng-if="option.values.length==0" 
 					ng-model="option.value"
-					ng-change="updateOption(option.id,option.value)">
+					ng-change="dataManager.updateOption(option.id,option.value)">
 					<select
 					ng-if="option.values.length>0"
 					ng-model="option.value"
 					ng-options="value for value in option.values"
-					ng-change="updateOption(option.id,option.value)">
+					ng-change="dataManager.updateOption(option.id,option.value)">
 					</select>
 				</div>
 
