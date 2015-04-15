@@ -63,6 +63,25 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
       }
    }
 
+   $scope.isOptionVisible = function(option) {
+
+      // hide option when panel is hidden, to have entrance animation on showPanel
+      if(!model.showPanel)
+         return false;
+
+      // hide options in show more shortcuts
+      if(option.more && !model.showMoreShortcuts)
+         return false;
+
+      // Minimal panel: only selected options are filtered
+      if(!model.fullPanel())
+         return true;
+
+      // Full panel: show only options from one tab (to have entrance effects)
+      if(option.tab == model.activeTab)
+         return true;
+   }
+
    $scope.activateTab = function(tabName) {
       model.activeTab = tabName;
       determineShowMoreShortcuts();
@@ -93,8 +112,8 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.expandToFullPanel = function(tabName) {
       // stores current width and height, for animation
-      $("#ad-hoc-panel").css("width", $("#ad-hoc-panel").width()+1+'px')
-      $("#ad-hoc-panel").css("height", $("#ad-hoc-panel").height()+'px')
+      $("#ad-hoc-panel").css("width", $("#ad-hoc-panel").width() + 1 + 'px')
+      $("#ad-hoc-panel").css("height", $("#ad-hoc-panel").height() + 'px')
 
       model.panelExpanded = true;
 
@@ -109,12 +128,12 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
       determineShowMoreShortcuts();
 
-      $scope.playEphemeralAnimation(true);  
+      $scope.playEphemeralAnimation(true);
    }
 
    $scope.contractFullPanel = function() {
       model.panelExpanded = false;
-      
+
       //positionPanel(); doesn't work
    }
 
@@ -130,35 +149,35 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
-      $("#ad-hoc-panel").css("width","");
-      $("#ad-hoc-panel").css("height","");
+      $("#ad-hoc-panel").css("width", "");
+      $("#ad-hoc-panel").css("height", "");
       /*model.showMoreShortcuts = false;*/
    }
 
    $scope.playEphemeralAnimation = function(animateTabs) {
 
-/*      $timeout(function() {
+      /*      $timeout(function() {
 
-         $scope.$eval(function() {
-            console.log("playEphemeralAnimation")
+               $scope.$eval(function() {
+                  console.log("playEphemeralAnimation")
 
-            var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
+                  var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
 
-            elements.css("opacity", 0)
-            elements.delay(100).animate({
-               opacity: 1
-            }, 500)
-         })
-    
-      }, 10)*/
+                  elements.css("opacity", 0)
+                  elements.delay(100).animate({
+                     opacity: 1
+                  }, 500)
+               })
+          
+            }, 10)*/
    }
 
    $scope.adjustPanelHeightAsync = function() {
       //console.log("before", $("#options").height())
-/*      $timeout(function() {
-         //console.log("timeout", $("#options").height())
-         $scope.$eval(adjustPanelHeight());
-      }, 10)*/
+      /*      $timeout(function() {
+               //console.log("timeout", $("#options").height())
+               $scope.$eval(adjustPanelHeight());
+            }, 10)*/
    }
 
    $scope.$watch('model.filteredOptions.length', function() {
