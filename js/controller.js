@@ -25,8 +25,8 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       }
    }
 
-   $scope.activateTab = function(tabName) {
-      model.activeTab = tabName;
+   $scope.activateTab = function(tab) {
+      model.activeTab = tab;
       determineShowMoreShortcuts();
       // $scope.playEphemeralAnimation(false);
    }
@@ -53,7 +53,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       }
    }
 
-   $scope.expandToFullPanel = function(tabName) {
+   $scope.expandToFullPanel = function(tab) {
       // stores current width and height, for animation
       $("#ad-hoc-panel").css("width", $("#ad-hoc-panel").width() + 1 + 'px')
       $("#ad-hoc-panel").css("height", $("#ad-hoc-panel").height() + 'px')
@@ -65,7 +65,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       computeTabCounts();
 
       if(typeof tabName != "undefined")
-         model.activeTab = tabName;
+         model.activeTab = tab;
       else
          computeActiveTab();
 
@@ -140,7 +140,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
          var option = model.options[option_id];
          // a positive value will be treated as true by the filters
          // if the option is hidden in a "more" section, it counts only as half
-         model.tabs.lookup[option.tab].count += option.more ? 0.5 : 1;
+         option.tab.count += option.more ? 0.5 : 1;
       })
    }
 
@@ -151,7 +151,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       model.tabs.forEach(function(tab) {
          if(tab.count > max) {
             max = tab.count;
-            model.activeTab = tab.name;
+            model.activeTab = tab;
          }
       })
    }

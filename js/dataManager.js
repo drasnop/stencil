@@ -6,7 +6,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // add tab name and index to options
       model.tabs.forEach(function(tab) {
          tab.options.forEach(function(id, i) {
-            model.options[id].tab = tab.name;
+            model.options[id].tab = tab;
             model.options[id].index = i;
          })
       })
@@ -15,12 +15,6 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       for(var i = 0, len = model.tabs.length; i < len; i++) {
          model.tabs[i].index = i;
       }
-
-      // creates a lookup object for access by tab name
-      model.tabs.lookup = {};
-      model.tabs.forEach(function(tab) {
-         model.tabs.lookup[tab.name] = tab;
-      })
 
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];

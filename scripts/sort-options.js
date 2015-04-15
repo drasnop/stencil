@@ -2,6 +2,12 @@
 // If no tab nor index, put option at the end and sort alphabetically
 var temp = [];
 
+// creates a lookup object for access by tab name
+model.tabs.lookup = {};
+model.tabs.forEach(function(tab) {
+   model.tabs.lookup[tab.name] = tab;
+})
+
 $.each(model.options, function(i, o) {
    temp.push(o);
 });

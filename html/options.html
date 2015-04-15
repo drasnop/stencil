@@ -7,8 +7,8 @@
 			</div>
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
-			ng-class="{'highlighted': model.highlighting() && tab.count>0, 'active': tab.name==model.activeTab, 'delayed-entrance': tab.count==0}"
-			ng-click="activateTab(tab.name);">
+			ng-class="{'highlighted': model.highlighting() && tab.count>0, 'active': tab==model.activeTab, 'delayed-entrance': tab.count==0}"
+			ng-click="activateTab(tab);">
 			<span>{{tab.name}}</span>
 			</li>
 		</div>
@@ -17,7 +17,7 @@
 	<div id="options" ng-class="{'highlighted': !model.fullPanel() }">
 
 		<div class="tab" ng-class="{'highlighted': model.highlighting() && tab.count>0}"
-		ng-repeat="tab in model.tabs" ng-show="tab.name==model.activeTab || !model.fullPanel()">
+		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
 
 			<div class="row option" id="{{option.id}}"
 			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected && tab.count>0}"
@@ -42,13 +42,13 @@
 				</div>
 
 				<div class="cell right-column" ng-if="model.optionsVisibility==1 && !model.fullPanel()">
-					<div class="linkToTab grayGradientShadow blue-button" ng-click="expandToFullPanel(option.tab)">{{option.tab}} > </div>
+					<div class="linkToTab grayGradientShadow blue-button" ng-click="expandToFullPanel(option.tab)">{{option.tab.name}} > </div>
 				</div>
 			</div>
 
 		</div>
 
-		<div class="wunderlist-button blue-button" ng-if="model.fullPanel() && model.activeTab=='Shortcuts'"
+		<div class="wunderlist-button blue-button" ng-if="model.fullPanel() && model.activeTab.name=='Shortcuts'"
 		ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">{{model.showMoreShortcuts? "Show Less" : "Show More"}}</div>
 
 		<a id="show-all" class="hyperlink" ng-if="!model.fullPanel() && model.optionsVisibility==0" ng-click="expandToFullPanel()">show all</a>
