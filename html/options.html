@@ -14,15 +14,16 @@
 		</div>
 	</ul>
 
-	<div id="options" ng-class="{'highlighted': !model.fullPanel() }">
+	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: getNumberVisibleOptions()*27+'px'}">
 
 		<div class="tab" ng-class="{'highlighted': model.highlighting() && tab.count>0}"
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
 
 			<div class="row option" id="{{option.id}}"
 			ng-class="{'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected && tab.count>0}"
-			ng-show="isOptionVisible(option)"
-			ng-repeat="option in tab.options">
+			ng-show="isOptionVisible(option, $index)"
+			ng-repeat="option in tab.options"
+			ng-style="{top: (filteredIndex[option.tab.index][$index]-1)*27 + 'px'}">
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"
@@ -50,9 +51,10 @@
 
 		<div class="wunderlist-button blue-button" ng-if="model.fullPanel() && model.activeTab.name=='Shortcuts'"
 		ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">{{model.showMoreShortcuts? "Show Less" : "Show More"}}</div>
-
-		<a id="show-all" class="hyperlink" ng-if="!model.fullPanel() && model.optionsVisibility==0" ng-click="expandToFullPanel()">show all</a>
-
+	
 	</div>
+
+	<a id="show-all" class="hyperlink" ng-if="!model.fullPanel() && model.optionsVisibility==0" ng-click="expandToFullPanel()">show all</a>
+
 
 </div>

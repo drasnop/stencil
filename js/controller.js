@@ -1,33 +1,70 @@
 app.controller('optionsController', ['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
-   
+
    // provides access to model and dataManager in the html templates
    $scope.model = $window.model;
    $scope.dataManager = $window.dataManager;
 
-   $scope.isOptionVisible = function(option) {
+   $scope.filteredIndex = model.tabs.map(function(tab){
+      return [];
+   });
+
+   $scope.isOptionVisible = function(option, index) {
 
       // hide option when panel is hidden, to have entrance animation on showPanel
-      if(!model.showPanel)
+      if(!model.showPanel) {
+         updateIndex(option.tab.index, index, false);
          return false;
+      }
 
       // Minimal panel: only selected options are shown
-      if(!model.fullPanel() && option.selected)
-         return true;
-
-      if(model.fullPanel()){
-         // Full panel: hide options in show more shortcuts
-         if(option.more && !model.showMoreShortcuts)
+      if(!model.fullPanel()){
+         if(option.selected) {
+            updateIndex(option.tab.index, index, true);
+            return true;
+         }
+         else{
+            updateIndex(option.tab.index, index, false);
             return false;
+         }
+      }
+
+      if(model.fullPanel()) {
+         // Full panel: hide options in show more shortcuts
+         if(option.more && !model.showMoreShortcuts) {
+            updateIndex(option.tab.index, index, false);
+            return false;
+         }
 
          // Full panel: show only options from one tab (to have entrance effects)
-         if(option.tab == model.activeTab)
+         if(option.tab == model.activeTab) {
+            updateIndex(option.tab.index, index, true);
             return true;
+         }
       }
    }
+
+   function updateIndex(tab, index, visible) {
+      if(index===0){
+         $scope.filteredIndex[tab][index]= visible? 1 : 0;
+         return;
+      }
+
+      $scope.filteredIndex[tab][index]=$scope.filteredIndex[tab][index-1] + (visible? 1 : 0);
+   }
+
+   $scope.getNumberVisibleOptions=function(){
+      return $scope.filteredIndex.reduce(function(count, tabIndex){
+         return count + tabIndex[tabIndex.length-1];
+      },0)
+   }
+
 
    $scope.activateTab = function(tab) {
       model.activeTab = tab;
       determineShowMoreShortcuts();
+/*      $scope.filteredIndex = model.tabs.map(function(tab){
+         return [];
+      });*/
       // $scope.playEphemeralAnimation(false);
    }
 
@@ -84,7 +121,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       model.showPanel = false;
 
       // cleanup selectedOptions
-      model.selectedOptions=[];
+      model.selectedOptions = [];
 
       // revert back to the minimal panel    
       $scope.resetViewParameters();
