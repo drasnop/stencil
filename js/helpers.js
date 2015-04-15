@@ -62,6 +62,15 @@ function adjustPanelHeight() {
    //console.log("after adjustPanelHeight", $("#ad-hoc-panel").offset().top, $("#options").height())
 }
 
+// position the panel at the top right of the current anchor, if possible; otherwise flipfit it
+function positionPanel(){
+   $("#ad-hoc-panel").position({
+      my: "left+10 top",
+      at: "right top",
+      of: model.selectedAnchor,
+      collision: "flipfit fit"
+   })
+}
 
 // UNUSED
 Object.defineProperty(Array.prototype, "indexOfProperty", {

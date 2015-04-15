@@ -94,9 +94,11 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    $scope.expandToFullPanel = function(tabName) {
       // stores current width and height, for animation
       $("#ad-hoc-panel").css("width", $("#ad-hoc-panel").width()+1+'px')
-      $("#ad-hoc-panel").css("max-height", $("#ad-hoc-panel").height()+'px')
+      $("#ad-hoc-panel").css("height", $("#ad-hoc-panel").height()+'px')
 
       model.panelExpanded = true;
+
+      //positionPanel(); doesn't work
 
       computeTabCounts();
 
@@ -112,6 +114,8 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.contractFullPanel = function() {
       model.panelExpanded = false;
+      
+      //positionPanel(); doesn't work
    }
 
    $scope.closePanel = function() {
@@ -127,7 +131,7 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
       $("#ad-hoc-panel").css("width","");
-      $("#ad-hoc-panel").css("max-height","");
+      $("#ad-hoc-panel").css("height","");
       /*model.showMoreShortcuts = false;*/
    }
 
@@ -151,10 +155,10 @@ app.controller('optionsController', ['$scope', '$window', '$location', '$http', 
 
    $scope.adjustPanelHeightAsync = function() {
       //console.log("before", $("#options").height())
-      $timeout(function() {
+/*      $timeout(function() {
          //console.log("timeout", $("#options").height())
          $scope.$eval(adjustPanelHeight());
-      }, 10)
+      }, 10)*/
    }
 
    $scope.$watch('model.filteredOptions.length', function() {

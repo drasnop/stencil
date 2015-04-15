@@ -107,12 +107,12 @@ z-indexes
 	background-color: white;
 	box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
 
-	transition: width 0.5s ease, max-height 0.5s ease;
+	transition: width 0.5s ease, height 0.5s ease;
 }
 
 #ad-hoc-panel.expanded{
 	width: 450px!important;
-	max-height: 500px!important;
+	height: 340px!important;
 }
 
 /* ------------------------  tabs ------------------------ */

@@ -34,6 +34,8 @@ var model = {
 
    // set of options mapped with the selected anchor
    "selectedOptions": [],
+   // the anchor currently selected (jQuery object)
+   "selectedAnchor": {},
 
    // hooks, x, y, icon, showGhosts
    "clusters": []

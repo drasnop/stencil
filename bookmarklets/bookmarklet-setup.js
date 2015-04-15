@@ -30,7 +30,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 
 	$.when(
 		$.getScript("//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.js"),
-		$.getScript("//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.js"),
+		$.getScript("//code.jquery.com/ui/1.11.4/jquery-ui.js"),
 		$.Deferred(function( deferred ){
 			$( deferred.resolve );
 		})

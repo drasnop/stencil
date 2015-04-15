@@ -39,6 +39,8 @@ function bindHooksListeners() {
    // show a panel populated with only the relevant options
    hooks.click(function(event) {
 
+      model.selectedAnchor=$(this);
+
       var scope = angular.element($("#ad-hoc-panel")).scope();
 
       // update the content of the panel
@@ -52,23 +54,8 @@ function bindHooksListeners() {
       // remove previous highlighted hooks, if any
       updateHooksHighlighting();
 
-      // update the position of the panel
-      var that = $(this);
-      $("#ad-hoc-panel").position({
-         my: "left+20 top",
-         at: "right top",
-         of: that,
-         collision: "fit fit",
-         using: function(obj, info) {
-
-            //console.log(obj, info)
-
-            $(this).css({
-               "left": obj.left + 10 + 'px',
-               "top": obj.top + 'px'
-            });
-         }
-      })
+      // position panel next to this anchor
+      positionPanel();
    })
 
 
