@@ -123,11 +123,6 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
             }, 10)*/
    }
 
-   $scope.$watch('model.filteredOptions.length', function() {
-      //console.log(model.filteredOptions.length,"filteredOptions",$(".option").length)
-      $scope.adjustPanelHeightAsync();
-   })
-
 
    function computeTabCounts() {
       // Reset counts
@@ -166,13 +161,3 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    }
 
 }])
-
-
-// Simply retrieves the option object from the option_ids
-app.filter('getOptions', function() {
-   return function(input) {
-      return input.map(function(option_id) {
-         return model.options[option_id];
-      })
-   }
-})

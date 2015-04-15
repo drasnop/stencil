@@ -3,11 +3,19 @@ var dataManager = {};
 dataManager.initializeDataStructuresIfAllLoaded = function() {
    if(Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0) {
 
-      // add tab name and index to options
+      // replace tab.option_ids by pointers to actual options
       model.tabs.forEach(function(tab) {
-         tab.options.forEach(function(id, i) {
-            model.options[id].tab = tab;
-            model.options[id].index = i;
+         var tabOptions=tab.options.map(function(option_id){
+            return model.options[option_id];
+         })
+         tab.options=tabOptions;
+      })
+
+      // add pointer to tab and index to options
+      model.tabs.forEach(function(tab) {
+         tab.options.forEach(function(option) {
+            option.tab = tab;
+            option.index = i;
          })
       })
 

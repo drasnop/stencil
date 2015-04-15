@@ -220,6 +220,8 @@ div.back-arrow{
 	width:100%;
 	max-height: 296px;
 	overflow-y: auto;
+	padding-top: 7px;
+	padding-bottom: 7px;
 }
 
 .row.option.highlighted{
@@ -285,14 +287,6 @@ div.back-arrow{
 	display: inline-block;
 	box-sizing: border-box;
 	padding:5px;
-}
-
-#options .row.first-row>.cell{
-	padding-top: 12px;
-}
-
-#options .row.last-row>.cell{
-	padding-bottom: 12px;
 }
 
 #options .cell.left-column{

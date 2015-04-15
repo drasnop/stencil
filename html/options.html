@@ -20,9 +20,9 @@
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
 
 			<div class="row option" id="{{option.id}}"
-			ng-class="{'first-row': $first, 'last-row': $last, 'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected && tab.count>0}"
+			ng-class="{'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected && tab.count>0}"
 			ng-show="isOptionVisible(option)"
-			ng-repeat="option in (model.filteredOptions = (tab.options | getOptions ))">
+			ng-repeat="option in tab.options">
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"
