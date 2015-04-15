@@ -89,13 +89,6 @@ z-indexes
 	background-position: -36px 0px;
 }
 
-#panels{
-	z-index: 1000005;
-	width:1000px;
-	height: 500px;
-	color:#444;
-}
-
 #ad-hoc-panel{
 	z-index: 1000006;
 	position: absolute;
@@ -105,6 +98,7 @@ z-indexes
 	overflow: hidden;
 
 	background-color: #FFD5A1;
+	color:#444;
 
 	box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
 
@@ -124,6 +118,7 @@ z-indexes
 	background-color: white;
 	/*margin-top: 10px; would look better, but creates a jump when switching views */
 }
+
 
 /* ------------------------  tabs ------------------------ */
 
@@ -287,6 +282,7 @@ div.back-arrow{
 
 .row.option{
 	position: absolute;
+	width: 100%;
 }
 
 .align-left{

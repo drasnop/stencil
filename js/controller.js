@@ -4,7 +4,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    $scope.model = $window.model;
    $scope.dataManager = $window.dataManager;
 
-   $scope.filteredIndex = model.tabs.map(function(tab){
+   $scope.filteredIndex = model.tabs.map(function(tab) {
       return [];
    });
 
@@ -17,12 +17,12 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       }
 
       // Minimal panel: only selected options are shown
-      if(!model.fullPanel()){
+      if(!model.fullPanel()) {
          if(option.selected) {
             updateIndex(option.tab.index, index, true);
             return true;
          }
-         else{
+         else {
             updateIndex(option.tab.index, index, false);
             return false;
          }
@@ -40,31 +40,43 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
             updateIndex(option.tab.index, index, true);
             return true;
          }
+         else{
+            updateIndex(option.tab.index, index, false);
+            return false;
+         }
       }
    }
 
    function updateIndex(tab, index, visible) {
-      if(index===0){
-         $scope.filteredIndex[tab][index]= visible? 1 : 0;
+      if(index === 0) {
+         $scope.filteredIndex[tab][index] = visible ? 1 : 0;
          return;
       }
 
-      $scope.filteredIndex[tab][index]=$scope.filteredIndex[tab][index-1] + (visible? 1 : 0);
+      $scope.filteredIndex[tab][index] = $scope.filteredIndex[tab][index - 1] + (visible ? 1 : 0);
    }
 
-   $scope.getNumberVisibleOptions=function(){
-      return $scope.filteredIndex.reduce(function(count, tabIndex){
-         return count + tabIndex[tabIndex.length-1];
-      },0)
+   $scope.getTotalNumberVisibleOptions = function() {
+      return $scope.filteredIndex.reduce(function(count, tabIndex) {
+         return count + tabIndex[tabIndex.length - 1];
+      }, 0)
    }
 
+   $scope.getFilteredIndex = function(tabIndex, index) {
+      var filtered = 0;
+      for(var tab = 0; tab < tabIndex; tab++) {
+         filtered += $scope.filteredIndex[tab][$scope.filteredIndex[tab].length - 1];
+      }
+      filtered += $scope.filteredIndex[tabIndex][index] - 1;
+      return filtered;
+   }
 
    $scope.activateTab = function(tab) {
       model.activeTab = tab;
       determineShowMoreShortcuts();
-/*      $scope.filteredIndex = model.tabs.map(function(tab){
-         return [];
-      });*/
+      /*      $scope.filteredIndex = model.tabs.map(function(tab){
+               return [];
+            });*/
       // $scope.playEphemeralAnimation(false);
    }
 

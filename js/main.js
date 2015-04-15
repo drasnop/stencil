@@ -4,14 +4,13 @@ function initialize() {
    // create customization layer
    $("body").append("<div id='overlay'></div>");
    $("body").append("<div id='hooks'></div>");
-   $("body").append("<div id='panels'></div>")
-   $("#panels").append("<div ng-controller='optionsController'  ad-hoc-panel></div")
+   $("body").append("<div ad-hoc-panel></div")
 
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
 
    // hide the newly-created customization layer
-   $("#overlay, #hooks, #panels").hide();
+   $("#overlay, #hooks").hide();
 
    // pre-load images
    /*   jQuery.get("//localhost:8888/img/plus.png")*/
@@ -26,7 +25,7 @@ function enterCustomizationMode() {
    dataManager.initializeOptions();
 
    // dim the interface
-   $("body").children(":not(#overlay, #hooks, #panels)").addClass("dimmed");
+   $("body").children(":not(#overlay, #hooks, #ad-hoc-panel)").addClass("dimmed");
    // $("#overlay").css("opacity",".4");   transitions are too slow, alas
    // super annoying workaround because of the way they defined the background image
    $("head").append("<style class='special-style'> #wunderlist-base::before{" +
@@ -41,7 +40,7 @@ function enterCustomizationMode() {
    updateHooksAndClusters();
 
    // show the customization layer
-   $("#overlay, #hooks, #panels").show();
+   $("#overlay, #hooks").show();
 }
 
 
@@ -57,7 +56,7 @@ function exitCustomizationMode() {
    $(".customizable").remove();
 
    // hide customization layer
-   $("#overlay, #hooks, #panels").hide();
+   $("#overlay, #hooks").hide();
 
    // return interface to its normal state
    $("body").children().removeClass("dimmed");

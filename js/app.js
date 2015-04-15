@@ -48,6 +48,7 @@ app.run(['$location','$http', function($location, $http){
 
 app.directive('adHocPanel', ['$sce', function($sce) {
    return {
+      replace: true,
       templateUrl: $sce.trustAsResourceUrl('//localhost:8888/html/options.html')
    };
 }])
