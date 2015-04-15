@@ -1,4 +1,5 @@
 app.controller('optionsController', ['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
+   
    // provides access to model and dataManager in the html templates
    $scope.model = $window.model;
    $scope.dataManager = $window.dataManager;
@@ -9,17 +10,19 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       if(!model.showPanel)
          return false;
 
-      // hide options in show more shortcuts
-      if(option.more && !model.showMoreShortcuts)
-         return false;
-
-      // Minimal panel: only selected options are filtered
-      if(!model.fullPanel())
+      // Minimal panel: only selected options are shown
+      if(!model.fullPanel() && option.selected)
          return true;
 
-      // Full panel: show only options from one tab (to have entrance effects)
-      if(option.tab == model.activeTab)
-         return true;
+      if(model.fullPanel()){
+         // Full panel: hide options in show more shortcuts
+         if(option.more && !model.showMoreShortcuts)
+            return false;
+
+         // Full panel: show only options from one tab (to have entrance effects)
+         if(option.tab == model.activeTab)
+            return true;
+      }
    }
 
    $scope.activateTab = function(tabName) {
@@ -166,22 +169,6 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    }
 
 }])
-
-
-// TEMPORARY: Retain only the selected options
-app.filter('filterOptions', function() {
-   return function(input, tabName) {
-      if(typeof input == "undefined")
-         return [];
-
-      if(model.fullPanel())
-         return input;
-
-      return model.selectedOptions.filter(function(option_id) {
-         return model.options[option_id].tab == tabName;
-      });
-   }
-})
 
 
 // Simply retrieves the option object from the option_ids

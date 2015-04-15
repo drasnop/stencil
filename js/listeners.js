@@ -47,6 +47,15 @@ function bindHooksListeners() {
       // deep copy in place of the selectedOptions, otherwise we would loose the pointer in angular model.selectedOptions
       angular.copy($(this).data("options"), model.selectedOptions)
       
+      // set .selected flag on options
+      Object.keys(model.options).forEach(function(option_id){
+         model.options[option_id].selected=false;
+      });
+      model.selectedOptions.forEach(function(option_id){
+         model.options[option_id].selected=true;
+      });
+
+      // update view
       scope.resetViewParameters();
       scope.showPanel();
       scope.$apply();
