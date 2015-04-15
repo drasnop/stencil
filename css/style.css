@@ -113,6 +113,9 @@ z-indexes
 #ad-hoc-panel.expanded{
 	width: 450px!important;
 	height: 340px!important;
+	margin-bottom: 10px;
+	
+	/*margin-top: 10px; would look better, but creates a jump when switching views */
 }
 
 /* ------------------------  tabs ------------------------ */
@@ -122,6 +125,7 @@ z-indexes
 #tabs{
 	box-sizing: border-box;
 	width: 450px;
+	height: 44px;
 
 	background-color: #f3f3f3;
 	border-bottom: 1px solid #27A0D8;
@@ -214,6 +218,7 @@ div.back-arrow{
 
 #options{
 	width:100%;
+	max-height: 296px;
 	overflow-y: auto;
 }
 
