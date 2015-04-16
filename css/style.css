@@ -203,7 +203,6 @@ div.back-arrow{
 }
 
 #back-arrow{
-	opacity: 0.8;
 	box-sizing: border-box;
 	width: 80%;
 	height: 80%;
@@ -211,10 +210,13 @@ div.back-arrow{
 	padding-left: 12px;
 }
 
-#back-arrow:hover{
-	opacity: 1;
+.opacityButton{
+	opacity: .8;
 }
 
+.opacityButton:hover{
+	opacity: 1;
+}
 
 /* -------------------- Options ----------------- */
 

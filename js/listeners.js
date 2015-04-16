@@ -22,7 +22,7 @@ function bindHooksListeners() {
 
    var hooks = $(".customizable");
 
-   // highlight all elements that share at least one option with the current one
+   // highlight all elements that have the same options as the current one
    hooks.mouseenter(function() {
       haveSameOptions(hooks, $(this).data("options"))
          .addClass("hovered")

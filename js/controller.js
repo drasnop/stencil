@@ -56,7 +56,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    $scope.getFilteredIndex = function(tabIndex, index) {
       var filtered = 0;
       for(var tab = 0; tab < tabIndex; tab++) {
-         filtered += model.filteredIndex[tab][model.filteredIndex[tab].length - 1] +1 ;
+         filtered += model.filteredIndex[tab][model.filteredIndex[tab].length - 1] + 1;
       }
       filtered += model.filteredIndex[tabIndex][index];
       return filtered;
@@ -132,6 +132,20 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       $("#ad-hoc-panel").css("width", "");
       $("#ad-hoc-panel").css("height", "");
       /*model.showMoreShortcuts = false;*/
+   }
+
+   // highlight all elements that share at least one option with the current one
+   $scope.reverseHighlight = function(option) {
+      $(".customizable").filter(function() {
+         return $(this).data("options").indexOf(option) >= 0;
+      }).addClass("hovered")
+   }
+
+   // remove highlight on mouseleave
+   $scope.removeReverseHighlight = function(option) {
+      $(".customizable").filter(function() {
+         return $(this).data("options").indexOf(option) >= 0;
+      }).removeClass("hovered")
    }
 
    $scope.playEphemeralAnimation = function(animateTabs) {

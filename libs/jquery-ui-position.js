@@ -11,8 +11,6 @@
 
 (function() {
 
-console.log("$.ui")
-
 $.ui = $.ui || {};
 
 var cachedScrollbarWidth, supportsOffsetFractions,
