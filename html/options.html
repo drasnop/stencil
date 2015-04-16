@@ -1,5 +1,5 @@
 <div id='ad-hoc-panel' ng-controller='optionsController'
- ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'minimal': model.optionsVisibility==0 && !model.fullPanel(), 'mixed': model.optionsVisibility==1 && !model.fullPanel()}">
+ ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'minimal': model.optionsVisibility==0 && !model.fullPanel(), 'mixed': model.optionsVisibility==1 && !model.fullPanel()}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">

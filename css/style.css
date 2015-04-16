@@ -231,6 +231,8 @@ div.back-arrow{
 
 	margin-top: 12px;
 	margin-bottom: 12px;
+
+	transition: height 0.5s ease;
 }
 
 #ad-hoc-panel.minimal #options{
@@ -243,19 +245,44 @@ div.back-arrow{
 	min-width: 400px;
 }
 
+.row.option{
+	position: absolute;
+	width: 100%;
+
+	transition: top 0.5s ease;
+}
+
 .row.option.highlighted{
 	background-color: #FFD5A1;
+	opacity: 1;
 }
 
-#options .delayed-entrance.ng-hide-remove-active {
-  transition: opacity .5s linear .1s;
+/* when contracting panel, wait for activeTab's highlighted options to come back in place
+	before showing the options from the other tabs, if any. */
+#ad-hoc-panel.contracted .row.option.highlighted.ng-hide-remove-active{
+	transition: opacity .1s linear .5s;
 }
 
-#options .delayed-entrance.ng-hide {
+#ad-hoc-panel.contracted .row.option.highlighted.ng-hide{
 	opacity: 0;
 }
 
-#options .delayed-entrance{
+/* when expanding panel, wait for activeTab's highlighted options to come into place
+	before showing the non-highlighted options. */
+#ad-hoc-panel.contracted .delayed-entrance.ng-hide-remove-active {
+  transition: opacity .5s linear .5s;
+}
+
+/* simple ephemeral entrance effect for non-highlighted options */
+#ad-hoc-panel.expanded .delayed-entrance.ng-hide-remove-active {
+  transition: opacity .5s linear .1s;
+}
+
+#ad-hoc-panel .delayed-entrance.ng-hide {
+	opacity: 0;
+}
+
+#ad-hoc-panel .delayed-entrance{
 	opacity: 1;
 }
 
@@ -289,11 +316,6 @@ div.back-arrow{
 	position: absolute;
 	bottom: 8px;
 	right: 10px;
-}
-
-.row.option{
-	position: absolute;
-	width: 100%;
 }
 
 .align-left{
