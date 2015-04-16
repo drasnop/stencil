@@ -30,7 +30,6 @@ javascript:(function(e,a,g,h,f,c,b,d){
 
 	$.when(
 		$.getScript("//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.js"),
-		$.getScript("//code.jquery.com/ui/1.11.4/jquery-ui.js"),
 		$.Deferred(function( deferred ){
 			$( deferred.resolve );
 		})
@@ -42,6 +41,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 			})
 		).done(function(){
 			$.when(
+				$.getScript("//localhost:8888/libs/jquery-ui-position.js"),
 				$.getScript("//localhost:8888/js/global.js"),
 				$.getScript("//localhost:8888/js/geometry.js"),
 				$.getScript("//localhost:8888/js/dataManager.js"),
