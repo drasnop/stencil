@@ -134,9 +134,18 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       /*model.showMoreShortcuts = false;*/
    }
 
+   // returns true if this option is anchored and at least one anchor is visible
+   $scope.anchorVisible = function(option){
+      return option.anchored && $(".customizable").filter(function() {
+         return $(this).data("options").indexOf(option) >= 0;
+      }).filter(":visible").length > 0; 
+   }
+
    // highlight all elements that share at least one option with the current one
    $scope.reverseHighlight = function(option) {
-      console.log(option.id)
+      if(!model.fullPanel())
+         return;
+
       $(".customizable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).addClass("blue-highlighted")
@@ -144,6 +153,9 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
    // remove highlight on mouseleave
    $scope.removeReverseHighlight = function(option) {
+      if(!model.fullPanel())
+         return;
+
       $(".customizable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).removeClass("blue-highlighted")
