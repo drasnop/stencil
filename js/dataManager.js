@@ -5,10 +5,10 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
 
       // replace tab.option_ids by pointers to actual options
       model.tabs.forEach(function(tab) {
-         var tabOptions=tab.options.map(function(option_id){
+         var tabOptions = tab.options.map(function(option_id) {
             return model.options[option_id];
          })
-         tab.options=tabOptions;
+         tab.options = tabOptions;
       })
 
       // add pointer to tab and index to options
@@ -23,6 +23,11 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       for(var i = 0, len = model.tabs.length; i < len; i++) {
          model.tabs[i].index = i;
       }
+
+      // creates filteredIndex
+      model.filteredIndex = model.tabs.map(function(tab) {
+         return [];
+      });
 
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];
@@ -87,7 +92,7 @@ dataManager.updateOption = function(id, value) {
       if(value == "hidden" || value == "visible" || value == "auto")
          updateHooksAndClusters();
    }
-   else{
-      console.log("no underlying application settings to update for: ",id)
+   else {
+      console.log("no underlying application settings to update for: ", id)
    }
 }

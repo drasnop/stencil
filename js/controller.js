@@ -4,79 +4,66 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    $scope.model = $window.model;
    $scope.dataManager = $window.dataManager;
 
-   $scope.filteredIndex = model.tabs.map(function(tab) {
-      return [];
-   });
-
+   // Return true if an option is visible 
    $scope.isOptionVisible = function(option, index) {
+      var visible;
 
       // hide option when panel is hidden, to have entrance animation on showPanel
       if(!model.showPanel) {
-         updateIndex(option.tab.index, index, false);
-         return false;
+         visible = false;
       }
 
       // Minimal panel: only selected options are shown
-      if(!model.fullPanel()) {
-         if(option.selected) {
-            updateIndex(option.tab.index, index, true);
-            return true;
-         }
-         else {
-            updateIndex(option.tab.index, index, false);
-            return false;
-         }
+      else if(!model.fullPanel()) {
+         if(option.selected)
+            visible = true;
+         else
+            visible = false;
       }
 
-      if(model.fullPanel()) {
+      else if(model.fullPanel()) {
          // Full panel: hide options in show more shortcuts
-         if(option.more && !model.showMoreShortcuts) {
-            updateIndex(option.tab.index, index, false);
-            return false;
-         }
+         if(option.more && !model.showMoreShortcuts)
+            visible = false;
 
          // Full panel: show only options from one tab (to have entrance effects)
-         if(option.tab == model.activeTab) {
-            updateIndex(option.tab.index, index, true);
-            return true;
-         }
-         else{
-            updateIndex(option.tab.index, index, false);
-            return false;
-         }
+         else if(option.tab == model.activeTab)
+            visible = true;
+         else
+            visible = false;
       }
+
+      updateIndex(option.tab.index, index, visible);
+      return visible;
    }
 
-   function updateIndex(tab, index, visible) {
+   function updateIndex(tabIndex, index, visible) {
       if(index === 0) {
-         $scope.filteredIndex[tab][index] = visible ? 1 : 0;
+         model.filteredIndex[tabIndex][index] = visible ? 0 : -1;
          return;
       }
 
-      $scope.filteredIndex[tab][index] = $scope.filteredIndex[tab][index - 1] + (visible ? 1 : 0);
+      model.filteredIndex[tabIndex][index] = model.filteredIndex[tabIndex][index - 1] + (visible ? 1 : 0);
    }
 
    $scope.getTotalNumberVisibleOptions = function() {
-      return $scope.filteredIndex.reduce(function(count, tabIndex) {
-         return count + tabIndex[tabIndex.length - 1];
+      return model.filteredIndex.reduce(function(count, tabIndexes) {
+         return count + tabIndexes[tabIndexes.length - 1] + 1;
       }, 0)
    }
 
    $scope.getFilteredIndex = function(tabIndex, index) {
       var filtered = 0;
       for(var tab = 0; tab < tabIndex; tab++) {
-         filtered += $scope.filteredIndex[tab][$scope.filteredIndex[tab].length - 1];
+         filtered += model.filteredIndex[tab][model.filteredIndex[tab].length - 1] +1 ;
       }
-      filtered += $scope.filteredIndex[tabIndex][index] - 1;
+      filtered += model.filteredIndex[tabIndex][index];
       return filtered;
    }
 
    $scope.activateTab = function(tab) {
       model.activeTab = tab;
       determineShowMoreShortcuts();
-      /*      $scope.filteredIndex = model.tabs.map(function(tab){
-               return [];
-            });*/
       // $scope.playEphemeralAnimation(false);
    }
 

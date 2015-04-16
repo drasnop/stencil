@@ -31,6 +31,7 @@ var model = {
 
    "activeTab": "",
    "filteredOptions": [],
+   "filteredIndex": [],
 
    // set of options mapped with the selected anchor
    "selectedOptions": [],
