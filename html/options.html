@@ -1,4 +1,5 @@
-<div id='ad-hoc-panel' ng-controller='optionsController' ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel()}">
+<div id='ad-hoc-panel' ng-controller='optionsController'
+ ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'minimal': model.optionsVisibility==0 && !model.fullPanel()}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">
@@ -14,7 +15,7 @@
 		</div>
 	</ul>
 
-	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: getTotalNumberVisibleOptions()*27+'px'}">
+	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: getTotalNumberVisibleOptions()*28+'px'}">
 
 		<div class="tab" ng-class="{'highlighted': model.highlighting() && tab.count>0}"
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
@@ -23,7 +24,7 @@
 			ng-class="{'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected && tab.count>0}"
 			ng-show="isOptionVisible(option, $index)"
 			ng-repeat="option in tab.options"
-			ng-style="{top: getFilteredIndex(option.tab.index, $index)*27 + 'px'}">
+			ng-style="{top: getFilteredIndex(option.tab.index, $index)*28 + 'px'}">
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"
