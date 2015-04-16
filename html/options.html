@@ -31,19 +31,20 @@
 					ng-if="option.values.length==0" 
 					ng-model="option.value"
 					ng-change="dataManager.updateOption(option.id,option.value)"
-					class="blue-highlighting" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+					ng-class="{'blue-highlighting': option.anchored}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					<select
 					ng-if="option.values.length>0"
 					ng-model="option.value"
 					ng-options="value for value in option.values"
 					ng-change="dataManager.updateOption(option.id,option.value)"
-					class="blue-highlighting" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+					ng-class="{'blue-highlighting': option.anchored}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					</select>
 				</div>
 
 				<div class="cell align-left" ng-class="model.optionsVisibility==1 && !model.fullPanel()? 'middle-column' : 'right-column'">
 					<label>{{option.label}}</label>
-					<img src="//localhost:8888/img/eye.png" class="preview blue-highlighting" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+					<img ng-if="option.anchored" src="//localhost:8888/img/eye.png" class="preview blue-highlighting"
+						ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 				</div>
 
 				<div class="cell right-column" ng-if="model.optionsVisibility==1 && !model.fullPanel()">

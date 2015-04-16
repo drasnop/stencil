@@ -29,6 +29,13 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          return [];
       });
 
+      // set option.anchored flag (doesn't take into account flag visible so far)
+      model.mappings.forEach(function(mapping){
+         mapping.options.forEach(function(option_id){
+            model.options[option_id].anchored=true;
+         });
+      })
+
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];
 
