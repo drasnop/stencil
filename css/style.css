@@ -39,13 +39,15 @@ z-indexes
 	
 	background-color: #ededed	!important;
 	color: #333					!important;
-	
-	/*transition: box-shadow .5s;*/
-	/* box-shadow: 0 0 2px 2px #61FFED!important; */
 
  	transition: top 0.5s linear, left 0.5s linear; 
 
 	cursor: pointer 			!important;
+}
+
+.blue-highlighting:hover, .blue-highlighted{
+	z-index: 1000002 !important;
+	box-shadow: 0 0 3px 3px #61FFED!important;
 }
 
 .customizable:hover, .customizable.hovered{
@@ -208,13 +210,10 @@ div.back-arrow{
 	height: 80%;
 	padding-bottom: 2px;
 	padding-left: 12px;
-}
-
-.opacityButton{
 	opacity: .8;
 }
 
-.opacityButton:hover{
+#back-arrow:hover{
 	opacity: 1;
 }
 
@@ -351,6 +350,14 @@ div.back-arrow{
 
 #options .cell.align-right [type=checkbox]{
 	margin:0!important;
+}
+
+.preview{
+	opacity: 0.5;
+}
+
+.preview:hover{
+	opacity: 1;
 }
 
 

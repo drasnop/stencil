@@ -136,16 +136,17 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
    // highlight all elements that share at least one option with the current one
    $scope.reverseHighlight = function(option) {
+      console.log(option.id)
       $(".customizable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
-      }).addClass("hovered")
+      }).addClass("blue-highlighted")
    }
 
    // remove highlight on mouseleave
    $scope.removeReverseHighlight = function(option) {
       $(".customizable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
-      }).removeClass("hovered")
+      }).removeClass("blue-highlighted")
    }
 
    $scope.playEphemeralAnimation = function(animateTabs) {
