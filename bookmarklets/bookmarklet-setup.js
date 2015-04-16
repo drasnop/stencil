@@ -43,6 +43,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		).done(function(){
 			$.when(
 				$.getScript("//localhost:8888/js/global.js"),
+				$.getScript("//localhost:8888/js/geometry.js"),
 				$.getScript("//localhost:8888/js/dataManager.js"),
 				$.getScript("//localhost:8888/js/app.js"),
 				$.getScript("//localhost:8888/js/controller.js"),

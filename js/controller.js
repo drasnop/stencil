@@ -3,6 +3,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    // provides access to model and dataManager in the html templates
    $scope.model = $window.model;
    $scope.dataManager = $window.dataManager;
+   $scope.geometry = $window.geometry;
 
    // Return true if an option is visible 
    $scope.isOptionVisible = function(option, index) {

@@ -112,7 +112,7 @@ z-indexes
 
 #ad-hoc-panel.expanded{
 	width: 450px!important;
-	height: 340px!important;
+	height: 350px!important;
 	margin-bottom: 10px;
 	
 	background-color: white;
@@ -239,6 +239,10 @@ div.back-arrow{
 	margin-bottom: 20px;
 }
 
+#ad-hoc-panel.mixed #options{
+	min-width: 400px;
+}
+
 .row.option.highlighted{
 	background-color: #FFD5A1;
 }
@@ -255,10 +259,11 @@ div.back-arrow{
 	opacity: 1;
 }
 
-#options .wunderlist-button{
-	float: right;
-	margin-right: 10px;
-	margin-bottom: 10px;
+.show-more-shortcuts{
+	position: absolute;
+	right: 17px;
+	bottom: 10px;
+	background-color: inherit;
 }
 
 /* need to highlight the full minimalist panel*/
@@ -329,7 +334,6 @@ div.back-arrow{
 
 .wunderlist-button{
 	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
-	position: relative;
 	cursor: pointer;
 	color: #737272;
 	font-weight: bold;
