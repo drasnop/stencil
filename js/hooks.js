@@ -108,9 +108,9 @@ function generateHooks() {
 
          // make sure the hook and its children are not active
          hook.find("*").addBack()
-            .attr('disabled', 'disabled')
             .removeAttr('href')
             .removeClass('animate-up')
+         // alas, there seem to be no way to disable an <input> while binding my own events on it...
 
          // style hook and its children
          hook.addClass("customizable").addClass("highlightable")
