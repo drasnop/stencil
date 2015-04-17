@@ -3,12 +3,12 @@
 
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">
-			<div class="back-arrow" ng-if="model.backArrow()" ng-click="contractFullPanel()">
+			<div class="back-arrow" ng-if="model.fullPanel() && model.optionsVisibility != 2" ng-click="contractFullPanel()">
 				<img id="back-arrow" src="//localhost:8888/img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
-			ng-class="{'highlighted': model.highlighting() && tab.count>0, 'active': tab==model.activeTab, 'delayed-entrance': tab.count==0}"
+			ng-class="{'highlighted': tab.count>0, 'active': tab==model.activeTab, 'delayed-entrance': tab.count==0}"
 			ng-click="activateTab(tab);">
 			<span>{{tab.name}}</span>
 			</li>
@@ -17,11 +17,11 @@
 
 	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: getTotalNumberVisibleOptions()*geometry.getOptionHeight()+'px'}">
 
-		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0 && model.highlighting()}"
+		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
 
 			<div class="row option" id="{{option.id}}"
-			ng-class="{'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected}"
+			ng-class="{'highlighted': option.selected, 'delayed-entrance': !option.selected}"
 			ng-show="isOptionVisible(option, $index)"
 			ng-repeat="option in tab.options"
 			ng-style="{top: getFilteredIndex(option.tab.index, $index)*geometry.getOptionHeight() + 'px'}">

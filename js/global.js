@@ -7,16 +7,7 @@ var model = {
    "mappings": [],
    // Type of ad-hoc panel shown: 0=minimal, 1=mixed, 2=full
    "optionsVisibility": 2,
-   // Turn highlighting in the full panel view off in minimum
-   highlighting: function() {
-      var highlighting = [true, true, true];
-      return highlighting[model.optionsVisibility];
-   },
-   // Whether the back arrow appears in the expanded panel
-   backArrow: function() {
-      var backArrow = [true, true, false];
-      return backArrow[model.optionsVisibility];
-   },
+
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    fullPanel: function() {
       var fullPanelDefault = [false, false, true];
@@ -30,7 +21,6 @@ var model = {
    "showMoreShortcuts": false,
 
    "activeTab": "",
-   "filteredOptions": [],
    "filteredIndex": [],
 
    // set of options mapped with the selected anchor
