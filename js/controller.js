@@ -69,33 +69,23 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
    /* Manage Panel */
 
+   // called when clicking on a hook
+   $scope.showPanel = function() {
+      if(!model.showPanel)
+         model.showPanel = true;
 
-   $scope.activateTab = function(tab) {
-      model.activeTab = tab;
-      determineShowMoreShortcuts();
-      // $scope.playEphemeralAnimation(false);
+      if(model.fullPanel())
+         $scope.activateTab(computeActiveTab());
    }
 
-   $scope.showPanel = function() {
-      model.showPanel = true;
+   $scope.closePanel = function() {
+      model.showPanel = false;
 
-      if(model.fullPanel()) {
-         computeTabCounts();
+      // cleanup selectedOptions
+      model.selectedOptions = [];
 
-         var prevActiveTab = model.activeTab;
-         computeActiveTab();
-
-         if(model.activeTab == prevActiveTab) {
-            // if same tab
-            $scope.playEphemeralAnimation(false);
-         }
-         else {
-            // if different tab
-            //$scope.playEphemeralAnimation(true);
-         }
-
-         determineShowMoreShortcuts();
-      }
+      // revert back to the minimal panel    
+      $scope.resetViewParameters();
    }
 
    $scope.expandToFullPanel = function(tab) {
@@ -107,32 +97,26 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
       //positionPanel(); doesn't work
 
-      computeTabCounts();
-
-      if(typeof tabName != "undefined")
-         model.activeTab = tab;
+      if(typeof tab == "undefined")
+         $scope.activateTab(computeActiveTab());
       else
-         computeActiveTab();
-
-      determineShowMoreShortcuts();
-
-      $scope.playEphemeralAnimation(true);
+         $scope.activateTab(tab);
    }
 
    $scope.contractFullPanel = function() {
       model.panelExpanded = false;
-
       //positionPanel(); doesn't work
    }
 
-   $scope.closePanel = function() {
-      model.showPanel = false;
+   $scope.activateTab = function(tab) {
+      // If the tab hasn't changed, we simply replay the animation
+/*      if(tab == model.activeTab)
+         $scope.playEphemeralAnimation(false);
+      else*/
+         model.activeTab = tab;
 
-      // cleanup selectedOptions
-      model.selectedOptions = [];
-
-      // revert back to the minimal panel    
-      $scope.resetViewParameters();
+      // determine whether to who additional options or not
+      determineShowMoreShortcuts();
    }
 
    $scope.resetViewParameters = function() {
@@ -147,10 +131,10 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
 
    // returns true if this option is anchored and at least one anchor is visible
-   $scope.anchorVisible = function(option){
+   $scope.anchorVisible = function(option) {
       return option.anchored && $(".highlightable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
-      }).filter(":visible").length > 0; 
+      }).filter(":visible").length > 0;
    }
 
    // highlight all elements that share at least one option with the current one
@@ -176,20 +160,20 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
    $scope.playEphemeralAnimation = function(animateTabs) {
 
-      /*      $timeout(function() {
+/*      $timeout(function() {
 
-               $scope.$eval(function() {
-                  console.log("playEphemeralAnimation")
+         $scope.$eval(function() {
+            console.log("playEphemeralAnimation")
 
-                  var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
+            var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
 
-                  elements.css("opacity", 0)
-                  elements.delay(100).animate({
-                     opacity: 1
-                  }, 500)
-               })
-          
-            }, 10)*/
+            elements.css("opacity", 0)
+            elements.delay(100).animate({
+               opacity: 1
+            }, 500)
+         })
+
+      }, 10)*/
    }
 
    $scope.adjustPanelHeightAsync = function() {
@@ -204,30 +188,18 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    /* helper functions */
 
 
-   function computeTabCounts() {
-      // Reset counts
-      model.tabs.forEach(function(tab) {
-         tab.count = 0;
-      })
-
-      // Increment counts for each highlighted option in each tab
-      model.selectedOptions.forEach(function(option) {
-         // a positive value will be treated as true by the filters
-         // if the option is hidden in a "more" section, it counts only as half
-         option.tab.count += option.more ? 0.5 : 1;
-      })
-   }
-
    // Determine which tab sould be active, buy computing which tab has the most highlighted options
    // in case of equality, the first tab will be chosen
    function computeActiveTab() {
       var max = 0;
+      var argmax;
       model.tabs.forEach(function(tab) {
          if(tab.count > max) {
             max = tab.count;
-            model.activeTab = tab;
+            argmax = tab;
          }
       })
+      return argmax;
    }
 
    // questionable workaround...

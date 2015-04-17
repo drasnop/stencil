@@ -263,7 +263,7 @@ div.back-arrow{
 }
 
 /* when contracting panel, wait for activeTab's highlighted options to come back in place
-	before showing the options from the other tabs, if any. */
+	before showing the options from the other tabs, if any. NEED TO DEACTIVATE THIS FOR SHOW PANEL*/
 #ad-hoc-panel.contracted .row.option.highlighted.ng-hide-remove-active{
 	transition: opacity .1s linear .5s;
 }
@@ -273,13 +273,13 @@ div.back-arrow{
 }
 
 /* when expanding panel, wait for activeTab's highlighted options to come into place
-	before showing the non-highlighted options. */
+	before showing the non-highlighted options. DOESNT WORK */
 #ad-hoc-panel.contracted .delayed-entrance.ng-hide-remove-active {
   transition: opacity .5s linear .5s;
 }
 
-/* simple ephemeral entrance effect for non-highlighted options */
-#ad-hoc-panel.expanded .delayed-entrance.ng-hide-remove-active {
+/* simple ephemeral entrance effect for non-highlighted options in a tab that contains other highlighted options */
+#ad-hoc-panel.expanded .tab.highlighted .delayed-entrance.ng-hide-remove-active {
   transition: opacity .5s linear .1s;
 }
 

@@ -39,14 +39,19 @@ function bindHooksListeners() {
    // show a panel populated with only the relevant options
    hooks.click(function(event) {
 
+      // position panel next to this anchor
       model.selectedAnchor=$(this);
+      positionPanel();
+      
+      // remove previous highlighted hooks, if any
+      updateHooksHighlighting();
 
       var scope = angular.element($("#ad-hoc-panel")).scope();
 
-      // update the content of the panel
+      // Update the content of the panel
       model.selectedOptions=$(this).data("options");
       
-      // set .selected flag on options
+      // Set .selected flag on options
       Object.keys(model.options).forEach(function(option_id){
          model.options[option_id].selected=false;
       });
@@ -54,16 +59,20 @@ function bindHooksListeners() {
          option.selected=true;
       });
 
+      // Compute tab counts
+      model.tabs.forEach(function(tab) {
+         tab.count = 0;
+      })
+      model.selectedOptions.forEach(function(option) {
+         // a positive value will be treated as true by the filters
+         // if the option is hidden in a "more" section, it counts only as half
+         option.tab.count += option.more ? 0.5 : 1;
+      })
+
       // update view
       scope.resetViewParameters();
       scope.showPanel();
       scope.$apply();
-
-      // remove previous highlighted hooks, if any
-      updateHooksHighlighting();
-
-      // position panel next to this anchor
-      positionPanel();
    })
 
 

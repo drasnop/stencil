@@ -17,11 +17,11 @@
 
 	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: getTotalNumberVisibleOptions()*geometry.getOptionHeight()+'px'}">
 
-		<div class="tab" ng-class="{'highlighted': model.highlighting() && tab.count>0}"
+		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0 && model.highlighting()}"
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
 
 			<div class="row option" id="{{option.id}}"
-			ng-class="{'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected && tab.count>0}"
+			ng-class="{'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected}"
 			ng-show="isOptionVisible(option, $index)"
 			ng-repeat="option in tab.options"
 			ng-style="{top: getFilteredIndex(option.tab.index, $index)*geometry.getOptionHeight() + 'px'}">
