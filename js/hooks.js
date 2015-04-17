@@ -113,7 +113,7 @@ function generateHooks() {
          // alas, there seem to be no way to disable an <input> while binding my own events on it...
 
          // style hook and its children
-         hook.addClass("customizable").addClass("highlightable")
+         hook.addClass("hook").addClass("highlightable")
          hook.find("*").addBack().each(function() {
             $(this).css($(this).data("style"))
          })
@@ -131,13 +131,13 @@ function gmailSpecific(){
 
    $("#y6-y2").width($(".y6").offset().left + $(".y6").width())
 
-   $(".customizable.y2").appendTo("#y6-y2");
+   $(".hook.y2").appendTo("#y6-y2");
 }
 
 
 function updateHooksStatus() {
    // clones of the anchors with which users interact in customization mode
-   var hooks = $(".customizable");
+   var hooks = $(".hook");
 
    hooks.each(function(i, hookElement) {
       var hook = $(hookElement)
@@ -175,7 +175,7 @@ function updateGhostsVisibility(ghosts, show) {
 
 
 function positionHooks() {
-   $(".customizable").each(function(i, hook) {
+   $(".hook").each(function(i, hook) {
       computeHookPosition($(hook));
    })
 }
@@ -213,7 +213,7 @@ function computeHookPosition(hook) {
 
 
 function updateHooksHighlighting(){
-   var hooks=$(".customizable");
+   var hooks=$(".hook");
    hooks.each(function() {
       dontHaveSameOptions(hooks, model.selectedOptions).removeClass("hovered");   
    })

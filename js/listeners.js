@@ -20,7 +20,7 @@ $(window).resize(function(){
 
 function bindHooksListeners() {
 
-   var hooks = $(".customizable");
+   var hooks = $(".hook");
 
    // highlight all elements that have the same options as the current one
    hooks.mouseenter(function() {

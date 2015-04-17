@@ -53,7 +53,7 @@ function exitCustomizationMode() {
    scope.$apply(scope.closePanel);
 
    // delete all hooks (they will be recreated later)
-   $(".customizable").remove();
+   $(".hook").remove();
 
    // hide customization layer
    $("#overlay, #hooks").hide();
