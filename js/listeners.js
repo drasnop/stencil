@@ -39,10 +39,7 @@ function bindHooksListeners() {
    // show a panel populated with only the relevant options
    hooks.click(function(event) {
       
-      // remove previous highlighted hooks, if any
-      updateHooksHighlighting();
-
-      var scope = angular.element($("#ad-hoc-panel")).scope();
+      /*    update model     */
 
       // Update the content of the panel
       model.selectedOptions=$(this).data("options");
@@ -65,10 +62,16 @@ function bindHooksListeners() {
          option.tab.count += option.more ? 0.5 : 1;
       })
 
-      // update view
+
+      /*    update view     */
+
+      var scope = angular.element($("#ad-hoc-panel")).scope();
       scope.resetViewParameters();
       scope.showPanel();
       scope.$apply();
+      
+      // remove previous highlighted hooks, if any
+      updateHooksHighlighting();
 
       // position panel next to this anchor
       model.selectedAnchor=$(this);
