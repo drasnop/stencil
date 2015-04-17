@@ -38,10 +38,6 @@ function bindHooksListeners() {
 
    // show a panel populated with only the relevant options
    hooks.click(function(event) {
-
-      // position panel next to this anchor
-      model.selectedAnchor=$(this);
-      positionPanel();
       
       // remove previous highlighted hooks, if any
       updateHooksHighlighting();
@@ -73,6 +69,10 @@ function bindHooksListeners() {
       scope.resetViewParameters();
       scope.showPanel();
       scope.$apply();
+
+      // position panel next to this anchor
+      model.selectedAnchor=$(this);
+      positionPanel();
    })
 
 
