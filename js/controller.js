@@ -5,6 +5,10 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
    $scope.dataManager = $window.dataManager;
    $scope.geometry = $window.geometry;
 
+
+   /* Manage options */
+
+
    // Return true if an option is visible 
    $scope.isOptionVisible = function(option, index) {
       var visible;
@@ -61,6 +65,10 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       filtered += model.filteredIndex[tabIndex][index];
       return filtered;
    }
+
+
+   /* Manage Panel */
+
 
    $scope.activateTab = function(tab) {
       model.activeTab = tab;
@@ -134,9 +142,13 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       /*model.showMoreShortcuts = false;*/
    }
 
+
+   /* Reverse highlighting */
+
+
    // returns true if this option is anchored and at least one anchor is visible
    $scope.anchorVisible = function(option){
-      return option.anchored && $(".customizable").filter(function() {
+      return option.anchored && $(".highlightable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).filter(":visible").length > 0; 
    }
@@ -146,7 +158,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       if(!model.fullPanel())
          return;
 
-      $(".customizable").filter(function() {
+      $(".highlightable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).addClass("blue-highlighted")
    }
@@ -156,10 +168,11 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       if(!model.fullPanel())
          return;
 
-      $(".customizable").filter(function() {
+      $(".highlightable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).removeClass("blue-highlighted")
    }
+
 
    $scope.playEphemeralAnimation = function(animateTabs) {
 
@@ -186,6 +199,9 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
                $scope.$eval(adjustPanelHeight());
             }, 10)*/
    }
+
+
+   /* helper functions */
 
 
    function computeTabCounts() {

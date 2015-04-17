@@ -113,7 +113,7 @@ function generateHooks() {
             .removeClass('animate-up')
 
          // style hook and its children
-         hook.addClass("customizable")
+         hook.addClass("customizable").addClass("highlightable")
          hook.find("*").addBack().each(function() {
             $(this).css($(this).data("style"))
          })
@@ -263,6 +263,12 @@ function generateClusters() {
 
       icon.data("cluster", cluster);
       cluster.icon=icon;
+
+      // allow the plus-icon to be reverse highlighted if one of the options it represents is
+      icon.addClass("highlightable")
+      .data("options", cluster.ghosts.reduce(function(options, ghost){
+         return options.concat(ghost.data("options"));
+      }, []))
    })
 }
 
