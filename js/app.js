@@ -1,6 +1,6 @@
 var app = angular.module('myApp', ['ngAnimate']);
 
-app.run(['$location','$http', function($location, $http){
+app.run(['$location','$http', '$q', function($location, $http, $q){
 
    // sets application flags based on the url, then load the appropriate data
    if($location.absUrl().indexOf("wunderlist") != -1){
@@ -19,27 +19,23 @@ app.run(['$location','$http', function($location, $http){
 
    // retrieves the correct json files, populates the model and (so far) enterCustomizationMode
    function loadData(applicationName) {
-      console.log("Loading " + applicationName + " options and mappings...")
+      console.log("Loading " + applicationName + " options, mappings and tabs...")
 
-      $http.get('//localhost:8888/data/mappings_' + applicationName + '.json').success(function(data) {
-         console.log("Retrieved mappings")
-         model.mappings = data;
-
-         dataManager.initializeDataStructuresIfAllLoaded()
+      var promises = ["options","mappings","tabs"].map(function(objectName){
+         return requestJSON(applicationName, objectName);
       });
 
-      $http.get('//localhost:8888/data/options_' + applicationName + '.json').success(function(data) {
-         console.log("Retrieved options list")
-         model.options = data;
+      $q.all(promises).then(function(data){
+         console.log("All data loaded")
+         dataManager.initializeDataStructuresIfAllLoaded();
+      })
 
-         dataManager.initializeDataStructuresIfAllLoaded()
-      });
+   }
 
-      $http.get('//localhost:8888/data/tabs_' + applicationName + '.json').success(function(data) {
-         console.log("Retrieved tabs")
-         model.tabs = data;
-
-         dataManager.initializeDataStructuresIfAllLoaded()
+   function requestJSON(applicationName, objectName){
+      return  $http.get('//localhost:8888/data/'+objectName + '_' + applicationName + '.json').success(function(data) {
+         console.log("Retrieved ", objectName)
+         model[objectName] = data;
       });
    }
 

@@ -39,6 +39,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];
 
+      console.log("All data pre-processed")
+
       // For debug purposes
       enterCustomizationMode();
    }
