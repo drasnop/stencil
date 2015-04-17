@@ -39,7 +39,10 @@ z-indexes
 	
 	background-color: #ededed	!important;
 	color: #333					!important;
+
+	/* not entirely sure about this... but would keep anchor at a reasonable size */
 	max-width: 300px 			!important;
+	white-space: nowrap 		!important;
 
  	transition: top 0.5s linear, left 0.5s linear; 
 
@@ -425,3 +428,14 @@ button.wunderlist:active{
 button.wunderlist:focus{
 	box-shadow: 0px 0px 5px rgba(0, 154, 228, 0.3), 0px 0px 0px 1px rgba(0, 154, 228, 0.6) inset;
 } */
+
+
+/* ------------ gmail-specific styles ---------------- */
+
+#y6-y2{
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	bottom: 0;
+	left: 0;
+}

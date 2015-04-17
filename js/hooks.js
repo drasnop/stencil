@@ -120,6 +120,18 @@ function generateHooks() {
       })
 
    });
+
+   if(model.gmail)
+      gmailSpecific();
+}
+
+
+function gmailSpecific(){
+   $("#hooks").append("<div id='y6-y2'></div>")
+
+   $("#y6-y2").width($(".y6").offset().left + $(".y6").width())
+
+   $(".customizable.y2").appendTo("#y6-y2");
 }
 
 
