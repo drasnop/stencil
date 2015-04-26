@@ -21,21 +21,21 @@ app.run(['$location','$http', function($location, $http){
    function loadData(applicationName) {
       console.log("Loading " + applicationName + " options and mappings...")
 
-      $http.get('//localhost:8888/data/mappings_' + applicationName + '.json').success(function(data) {
+      $http.get('//' + parameters.serverURL + '/data/mappings_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved mappings")
          model.mappings = data;
 
          dataManager.initializeDataStructuresIfAllLoaded()
       });
 
-      $http.get('//localhost:8888/data/options_' + applicationName + '.json').success(function(data) {
+      $http.get('//' + parameters.serverURL + '/data/options_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved options list")
          model.options = data;
 
          dataManager.initializeDataStructuresIfAllLoaded()
       });
 
-      $http.get('//localhost:8888/data/tabs_' + applicationName + '.json').success(function(data) {
+      $http.get('//' + parameters.serverURL + '/data/tabs_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved tabs")
          model.tabs = data;
 
@@ -49,6 +49,6 @@ app.run(['$location','$http', function($location, $http){
 app.directive('adHocPanel', ['$sce', function($sce) {
    return {
       replace: true,
-      templateUrl: $sce.trustAsResourceUrl('//localhost:8888/html/options.html')
+      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/options.html')
    };
 }])

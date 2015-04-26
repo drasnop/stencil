@@ -2,6 +2,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
    // provides access to model and dataManager in the html templates
    $scope.model = $window.model;
+   $scope.parameters = $window.parameters;
    $scope.dataManager = $window.dataManager;
    $scope.geometry = $window.geometry;
 

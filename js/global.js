@@ -1,10 +1,25 @@
 var model = {
+
+   /* data */
+
    // all options, indexed by their option_id
    "options": {},
    // all tabs, in order, each containing an ordered list of option_id
    "tabs": [],
    // mappings between (multiple) options and (multiple) jQuery selectors
    "mappings": [],
+
+   /* hooks, anchors and clusters */
+
+   // set of options mapped with the selected anchor
+   "selectedOptions": [],
+   // the anchor currently selected (jQuery object)
+   "selectedAnchor": {},
+   // hooks, x, y, icon, showGhosts
+   "clusters": [],
+
+   /* display variables for customization panel */
+
    // Type of ad-hoc panel shown: 0=minimal, 1=mixed, 2=full
    "optionsVisibility": 2,
    // Turn highlighting in the full panel view off in minimum
@@ -28,22 +43,16 @@ var model = {
    "panelExpanded": false,
    // Whether to show the full list of shortcuts
    "showMoreShortcuts": false,
-
+   // Tab current displayed in the full panel
    "activeTab": "",
-   "filteredOptions": [],
-   "filteredIndex": [],
-
-   // set of options mapped with the selected anchor
-   "selectedOptions": [],
-   // the anchor currently selected (jQuery object)
-   "selectedAnchor": {},
-
-   // hooks, x, y, icon, showGhosts
-   "clusters": []
+   // True index of each visible option (discounting the options that are hidden)
+   "filteredIndex": []
 }
 
 
 var parameters = {
+   // server baser url
+   "serverURL": "localhost:8888",
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,
    // clean definition of key codes

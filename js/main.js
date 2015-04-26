@@ -13,7 +13,7 @@ function initialize() {
    $("#overlay, #hooks").hide();
 
    // pre-load images
-   /*   jQuery.get("//localhost:8888/img/plus.png")*/
+   /*   jQuery.get("//" + parameters.serverURL+ "/img/plus.png")*/
 }
 
 

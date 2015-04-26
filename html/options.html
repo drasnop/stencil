@@ -4,7 +4,7 @@
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div ng-class="{'center-wrapper': !model.backArrow()}">
 			<div class="back-arrow" ng-if="model.backArrow()" ng-click="contractFullPanel()">
-				<img id="back-arrow" src="//localhost:8888/img/back-arrow.png" alt="Go back to minimal panel" >
+				<img id="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
@@ -43,7 +43,7 @@
 
 				<div class="cell align-left" ng-class="model.optionsVisibility==1 && !model.fullPanel()? 'middle-column' : 'right-column'">
 					<label>{{option.label}}</label>
-					<img ng-if="anchorVisible(option) && model.fullPanel()" src="//localhost:8888/img/eye.png" class="preview"
+					<img ng-if="anchorVisible(option) && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/eye.png" class="preview"
 						ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 				</div>
 
