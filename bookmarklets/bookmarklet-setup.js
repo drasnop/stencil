@@ -18,11 +18,14 @@ javascript:(function(e,a,g,h,f,c,b,d){
 	window.jQuery=j;
 	window.$=window.jQuery;
 
+	var serverURL='localhost:8888';
+	/*var serverURL='cs.ubc.ca/~aponsard/stencil';*/
+
 	$('<link/>', {
 		rel: 'stylesheet',
 		type: 'text/css',
 		crossorigin: 'anonymous',
-		href: '//localhost:8888/css/style.css'
+		href: '//' + serverURL + '/css/style.css'
 	}).appendTo('head');
 
 	$.when(
@@ -38,16 +41,16 @@ javascript:(function(e,a,g,h,f,c,b,d){
 			})
 		).done(function(){
 			$.when(
-				$.getScript('//localhost:8888/libs/jquery-ui-position.js'),
-				$.getScript('//localhost:8888/js/global.js'),
-				$.getScript('//localhost:8888/js/geometry.js'),
-				$.getScript('//localhost:8888/js/dataManager.js'),
-				$.getScript('//localhost:8888/js/app.js'),
-				$.getScript('//localhost:8888/js/controller.js'),
-				$.getScript('//localhost:8888/js/listeners.js'),
-				$.getScript('//localhost:8888/js/hooks.js'),
-				$.getScript('//localhost:8888/js/helpers.js'),
-				$.getScript('//localhost:8888/js/main.js'),
+				$.getScript('//' + serverURL + '/libs/jquery-ui-position.js'),
+				$.getScript('//' + serverURL + '/js/global.js'),
+				$.getScript('//' + serverURL + '/js/geometry.js'),
+				$.getScript('//' + serverURL + '/js/dataManager.js'),
+				$.getScript('//' + serverURL + '/js/app.js'),
+				$.getScript('//' + serverURL + '/js/controller.js'),
+				$.getScript('//' + serverURL + '/js/listeners.js'),
+				$.getScript('//' + serverURL + '/js/hooks.js'),
+				$.getScript('//' + serverURL + '/js/helpers.js'),
+				$.getScript('//' + serverURL + '/js/main.js'),
 				$.Deferred(function( deferred ){
 					$( deferred.resolve );
 				})
