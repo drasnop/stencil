@@ -388,6 +388,22 @@ div.back-arrow{
 
 /* ---------- Wunderlist-specific styles ------------- */
 
+/* "Show more" button in shortcuts tab */
+
+.wunderlist-button{
+	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
+	cursor: pointer;
+	color: #737272;
+	font-weight: bold;
+	font-size: 13px;
+	line-height: 13px;
+	padding: 8px 12px;
+	/*background-image: linear-gradient(to bottom, #FFF, #F5F5F5);*/
+	border-radius: 4px;
+	border: medium none;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
+}
+
 /* "add item" hook: they are using an !important flag, so I have to match specificity */
 
 #wunderlist-base .chromeless[type="text"].hook{

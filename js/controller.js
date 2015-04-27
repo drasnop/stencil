@@ -29,7 +29,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
       else if(model.fullPanel()) {
          // Full panel: hide options in show more shortcuts
-         if(option.more && !model.showMoreShortcuts)
+         if(typeof option.more !== "undefined" && option.more && !model.showMoreShortcuts)
             visible = false;
 
          // Full panel: show only options from one tab (to have entrance effects)
@@ -208,7 +208,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       model.showMoreShortcuts = false;
 
       model.selectedOptions.forEach(function(option) {
-         if(option.tab == model.activeTab && option.more)
+         if(option.tab == model.activeTab && typeof option.more !== "undefined" && option.more)
             model.showMoreShortcuts = true;
       })
    }

@@ -5,9 +5,7 @@
       "value": "en_GB",
       "values": [
          "en_GB"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "date_format": {
       "id": "date_format",
@@ -15,9 +13,7 @@
       "value": "DD.MM.YYYY", 
       "values": [
          "DD.MM.YYYY", "MM/DD/YYYY", "DD/MM/YYYY", "YYYY/MM/DD", "YYYY-MM-DD"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "time_format": {
       "id": "time_format",
@@ -25,9 +21,7 @@
       "value": "12 hour",
       "values": [
          "12 hour", "24 hour"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "start_of_week": {
       "id": "start_of_week",
@@ -35,25 +29,19 @@
       "value": "sun",
       "values": [
          "sat", "sun", "mon"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "sound_checkoff_enabled": {
       "id": "sound_checkoff_enabled",
       "label": "Enable sound for checking-off an item",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "sound_notification_enabled": {
       "id": "sound_notification_enabled",
       "label": "Enable sound for new notifications",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "new_task_location": {
       "id": "new_task_location",
@@ -62,33 +50,25 @@
       "values": [
          "top",
          "bottom"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "confirm_delete_entity": {
       "id": "confirm_delete_entity",
       "label": "Confirm before deleting items",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "behavior_star_tasks_to_top": {
       "id": "behavior_star_tasks_to_top",
       "label": "Star moves item to top",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "print_completed_items": {
       "id": "print_completed_items",
       "label": "Print completed items",
       "value": false,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "shortcut_add_new_task": {
       "id": "shortcut_add_new_task",
@@ -96,9 +76,7 @@
       "value": "CTRL + N",
       "values": [
          "CTRL + N"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_add_new_list": {
       "id": "shortcut_add_new_list",
@@ -106,9 +84,7 @@
       "value": "CTRL + L",
       "values": [
          "CTRL + L"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_mark_task_done": {
       "id": "shortcut_mark_task_done",
@@ -116,9 +92,7 @@
       "value": "CTRL + D",
       "values": [
          "CTRL + D"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_mark_task_starred": {
       "id": "shortcut_mark_task_starred",
@@ -127,9 +101,7 @@
       "values": [
          "CTRL + S",
          "CTRL + T"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_select_all_tasks": {
       "id": "shortcut_select_all_tasks",
@@ -137,9 +109,7 @@
       "value": "CTRL + A",
       "values": [
          "CTRL + A"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_delete": {
       "id": "shortcut_delete",
@@ -147,9 +117,7 @@
       "value": "CTRL + BACKSPACE",
       "values": [
          "CTRL + BACKSPACE"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_goto_search": {
       "id": "shortcut_goto_search",
@@ -157,9 +125,7 @@
       "value": "CTRL + F",
       "values": [
          "CTRL + F"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_goto_preferences": {
       "id": "shortcut_goto_preferences",
@@ -169,7 +135,6 @@
          "CTRL + P",
          "CTRL + ."
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_send_via_email": {
@@ -179,7 +144,6 @@
       "values": [
          "CTRL + E"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_show_notifications": {
@@ -189,7 +153,6 @@
       "values": [
          "CTRL + SHIFT + A"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_goto_inbox": {
@@ -199,7 +162,6 @@
       "values": [
          "CTRL + I"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_goto_filter_assigned": {
@@ -209,7 +171,6 @@
       "values": [
          "CTRL + 1"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_goto_filter_starred": {
@@ -219,7 +180,6 @@
       "values": [
          "CTRL + 2"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_goto_filter_today": {
@@ -229,7 +189,6 @@
       "values": [
          "CTRL + 3"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_goto_filter_week": {
@@ -239,7 +198,6 @@
       "values": [
          "CTRL + 4"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_goto_filter_all": {
@@ -249,7 +207,6 @@
       "values": [
          "CTRL + 5"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_goto_filter_completed": {
@@ -259,7 +216,6 @@
       "values": [
          "CTRL + 6"
       ],
-      "hideable": false,
       "more": true
    },
    "shortcut_sync": {
@@ -268,9 +224,7 @@
       "value": "R",
       "values": [
          "R"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "smartlist_visibility_assigned_to_me": {
       "id": "smartlist_visibility_assigned_to_me",
@@ -281,8 +235,7 @@
          "visible",
          "hidden"
       ],
-      "hideable": true,
-      "more": false
+      "hideable": true
    },
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",
@@ -293,8 +246,7 @@
          "visible",
          "hidden"
       ],
-      "hideable": true,
-      "more": false
+      "hideable": true
    },
    "smartlist_visibility_today": {
       "id": "smartlist_visibility_today",
@@ -305,8 +257,7 @@
          "visible",
          "hidden"
       ],
-      "hideable": true,
-      "more": false
+      "hideable": true
    },
    "smartlist_visibility_week": {
       "id": "smartlist_visibility_week",
@@ -317,8 +268,7 @@
          "visible",
          "hidden"
       ],
-      "hideable": true,
-      "more": false
+      "hideable": true
    },
    "smartlist_visibility_all": {
       "id": "smartlist_visibility_all",
@@ -329,8 +279,7 @@
          "visible",
          "hidden"
       ],
-      "hideable": true,
-      "more": false
+      "hideable": true
    },
    "smartlist_visibility_done": {
       "id": "smartlist_visibility_done",
@@ -341,8 +290,7 @@
          "visible",
          "hidden"
       ],
-      "hideable": true,
-      "more": false
+      "hideable": true
    },
    "today_smart_list_visible_tasks": {
       "id": "today_smart_list_visible_tasks",
@@ -351,33 +299,25 @@
       "values": [
          "all",
          "current_user"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "notifications_email_enabled": {
       "id": "notifications_email_enabled",
       "label": "Email Notifications",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "notifications_push_enabled": {
       "id": "notifications_push_enabled",
       "label": "Push Notifications",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "notifications_desktop_enabled": {
       "id": "notifications_desktop_enabled",
       "label": "Desktop Notifications",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "_locale": {
       "id": "_locale",
@@ -385,9 +325,7 @@
       "value": "en",
       "values": [
          "en"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "account_locale": {
       "id": "account_locale",
@@ -395,25 +333,19 @@
       "value": "en_GB",
       "values": [
          "en_GB"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "add_to_chrome": {
       "id": "add_to_chrome",
       "label": "",
       "value": false,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "add_to_firefox": {
       "id": "add_to_firefox",
       "label": "",
       "value": false,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "app_first_used": {
       "id": "app_first_used",
@@ -421,9 +353,7 @@
       "value": 1421913600000,
       "values": [
          "1421913600000"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "auto_reminder_noticeperiod": {
       "id": "auto_reminder_noticeperiod",
@@ -431,9 +361,7 @@
       "value": 0,
       "values": [
          "0"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "auto_reminder_timeinterval": {
       "id": "auto_reminder_timeinterval",
@@ -441,9 +369,7 @@
       "value": 540,
       "values": [
          "540"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "background": {
       "id": "background",
@@ -451,9 +377,7 @@
       "value": "wlbackground15",
       "values": [
          "wlbackground15"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "chrome_app_rating_later": {
       "id": "chrome_app_rating_later",
@@ -461,9 +385,7 @@
       "value": "undefined",
       "values": [
          "undefined"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "chrome_rating_later": {
       "id": "chrome_rating_later",
@@ -471,17 +393,13 @@
       "value": "undefined",
       "values": [
          "undefined"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "enable_natural_date_recognition": {
       "id": "enable_natural_date_recognition",
       "label": "",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "id": {
       "id": "id",
@@ -489,9 +407,7 @@
       "value": "userSettings",
       "values": [
          "userSettings"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "last_open_app_date": {
       "id": "last_open_app_date",
@@ -499,57 +415,43 @@
       "value": 0,
       "values": [
          "0"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "migrated_wunderlist_one_user": {
       "id": "migrated_wunderlist_one_user",
       "label": "",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "new_installation": {
       "id": "new_installation",
       "label": "",
       "value": false,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "newsletter_subscription_enabled": {
       "id": "newsletter_subscription_enabled",
       "label": "",
       "value": false,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "onboarding_add_todo": {
       "id": "onboarding_add_todo",
       "label": "",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "onboarding_click_create_list": {
       "id": "onboarding_click_create_list",
       "label": "",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "onboarding_click_share_list": {
       "id": "onboarding_click_share_list",
       "label": "",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "pro_trial_limit_assigning": {
       "id": "pro_trial_limit_assigning",
@@ -557,9 +459,7 @@
       "value": 3,
       "values": [
          "3"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "pro_trial_limit_comments": {
       "id": "pro_trial_limit_comments",
@@ -567,9 +467,7 @@
       "value": 10,
       "values": [
          "10"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "pro_trial_limit_files": {
       "id": "pro_trial_limit_files",
@@ -577,9 +475,7 @@
       "value": 3,
       "values": [
          "3"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_copy_tasks": {
       "id": "shortcut_copy_tasks",
@@ -587,9 +483,7 @@
       "value": "CTRL + C",
       "values": [
          "CTRL + C"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_cut_tasks": {
       "id": "shortcut_cut_tasks",
@@ -597,9 +491,7 @@
       "value": "CTRL + X",
       "values": [
          "CTRL + X"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "shortcut_paste_tasks": {
       "id": "shortcut_paste_tasks",
@@ -607,17 +499,13 @@
       "value": "CTRL + V",
       "values": [
          "CTRL + V"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "show_completed_items": {
       "id": "show_completed_items",
       "label": "",
       "value": true,
-      "values": [],
-      "hideable": false,
-      "more": false
+      "values": []
    },
    "significant_event_count": {
       "id": "significant_event_count",
@@ -625,9 +513,7 @@
       "value": 0,
       "values": [
          "0"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    },
    "type": {
       "id": "type",
@@ -635,8 +521,6 @@
       "value": "userSettings",
       "values": [
          "userSettings"
-      ],
-      "hideable": false,
-      "more": false
+      ]
    }
 }
