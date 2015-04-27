@@ -36,6 +36,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 	).done(function(){
 		$.when(
 			$.getScript('//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-animate.js'),
+			$.getScript('//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-sanitize.js'),
 			$.Deferred(function( deferred ){
 				$( deferred.resolve );
 			})

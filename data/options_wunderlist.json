@@ -5,7 +5,8 @@
       "value": "en_GB",
       "values": [
          "en_GB"
-      ]
+      ],
+      "labels": ["English"]
    },
    "date_format": {
       "id": "date_format",
@@ -29,7 +30,8 @@
       "value": "sun",
       "values": [
          "sat", "sun", "mon"
-      ]
+      ],
+      "labels": ["Saturday", "Sunday", "Monday"]
    },
    "sound_checkoff_enabled": {
       "id": "sound_checkoff_enabled",
@@ -50,7 +52,8 @@
       "values": [
          "top",
          "bottom"
-      ]
+      ],
+      "labels": ["Top of List", "Bottom of List"]
    },
    "confirm_delete_entity": {
       "id": "confirm_delete_entity",
@@ -299,7 +302,8 @@
       "values": [
          "all",
          "current_user"
-      ]
+      ],
+      "labels": ["Show all items", "Only assigned to me & private"]
    },
    "notifications_email_enabled": {
       "id": "notifications_email_enabled",
