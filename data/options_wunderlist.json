@@ -12,9 +12,9 @@
    "date_format": {
       "id": "date_format",
       "label": "Date Format",
-      "value": "DD.MM.YYYY",
+      "value": "DD.MM.YYYY", 
       "values": [
-         "DD.MM.YYYY"
+         "DD.MM.YYYY", "MM/DD/YYYY", "DD/MM/YYYY", "YYYY/MM/DD", "YYYY-MM-DD"
       ],
       "hideable": false,
       "more": false
@@ -24,7 +24,7 @@
       "label": "Time Format",
       "value": "12 hour",
       "values": [
-         "12 hour"
+         "12 hour", "24 hour"
       ],
       "hideable": false,
       "more": false
@@ -34,7 +34,7 @@
       "label": "Start of the Week",
       "value": "sun",
       "values": [
-         "sun"
+         "sat", "sun", "mon"
       ],
       "hideable": false,
       "more": false
@@ -93,9 +93,9 @@
    "shortcut_add_new_task": {
       "id": "shortcut_add_new_task",
       "label": "Add a New Item",
-      "value": "CTRL + 0",
+      "value": "CTRL + N",
       "values": [
-         "CTRL + 0"
+         "CTRL + N"
       ],
       "hideable": false,
       "more": false
@@ -275,7 +275,7 @@
    "smartlist_visibility_assigned_to_me": {
       "id": "smartlist_visibility_assigned_to_me",
       "label": "Assigned to me",
-      "value": "visible",
+      "value": "auto",
       "values": [
          "auto",
          "visible",
@@ -287,7 +287,7 @@
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",
       "label": "Starred",
-      "value": "visible",
+      "value": "auto",
       "values": [
          "auto",
          "visible",
@@ -299,7 +299,7 @@
    "smartlist_visibility_today": {
       "id": "smartlist_visibility_today",
       "label": "Today",
-      "value": "hidden",
+      "value": "auto",
       "values": [
          "auto",
          "visible",
@@ -311,7 +311,7 @@
    "smartlist_visibility_week": {
       "id": "smartlist_visibility_week",
       "label": "Week",
-      "value": "visible",
+      "value": "auto",
       "values": [
          "auto",
          "visible",
