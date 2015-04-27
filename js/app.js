@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngAnimate']);
+var app = angular.module('myApp', ['ngAnimate', 'ngSanitize']);
 
 app.run(['$location','$http', function($location, $http){
 

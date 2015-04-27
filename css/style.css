@@ -270,6 +270,10 @@ div.back-arrow{
 	min-width: 400px;
 }
 
+.tab-description{
+	padding: 0 10px;
+}
+
 .row.option{
 	position: absolute;
 	width: 100%;

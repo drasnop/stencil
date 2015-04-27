@@ -15,16 +15,20 @@
 		</div>
 	</ul>
 
-	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: getTotalNumberVisibleOptions()*geometry.getOptionHeight()+'px'}">
+	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())+'px'}">
 
 		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0 && model.highlighting()}"
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
+
+			<div class="tab-description" ng-bind-html="tab.description"
+			ng-if="model.fullPanel() && tab.description">
+			</div>
 
 			<div class="row option" id="{{option.id}}"
 			ng-class="{'highlighted': model.highlighting() && option.selected, 'delayed-entrance': !option.selected}"
 			ng-show="isOptionVisible(option, $index)"
 			ng-repeat="option in tab.options"
-			ng-style="{top: getFilteredIndex(option.tab.index, $index)*geometry.getOptionHeight() + 'px'}">
+			ng-style="{top: geometry.getOptionTop(getFilteredIndex(option.tab.index, $index)) + 'px'}">
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"
