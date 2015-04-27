@@ -12,8 +12,16 @@ function initialize() {
    // hide the newly-created customization layer
    $("#overlay, #hooks").hide();
 
-   // pre-load images
-   /*   jQuery.get("//" + parameters.serverURL+ "/img/plus.png")*/
+   // hack into Wunderlist menu to create an access point to Customization Mode
+   $("#user, .name.search-hidden").on("click", function(){
+      // replace menu "Account settings" by "Customize", with custom event handler
+      setTimeout(function(){
+         $(".list-menu li a[data-path='preferences/account']")
+         .attr("data-path","")
+         .on("click", enterCustomizationMode)
+         .html("<text>Customize</text>")
+      }, 50)
+   })
 }
 
 

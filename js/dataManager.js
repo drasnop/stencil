@@ -40,7 +40,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       model.activeTab = model.tabs[0];
 
       // For debug purposes
-      enterCustomizationMode();
+      //enterCustomizationMode();
    }
 }
 
