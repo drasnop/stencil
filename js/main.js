@@ -13,15 +13,23 @@ function initialize() {
    $("#overlay, #hooks").hide();
 
    // hack into Wunderlist menu to create an access point to Customization Mode
-   $("#user, .name.search-hidden").on("click", function(){
-      // replace menu "Account settings" by "Customize", with custom event handler
-      setTimeout(function(){
-         $(".list-menu li a[data-path='preferences/account']")
-         .attr("data-path","")
-         .on("click", enterCustomizationMode)
-         .html("<text>Customize</text>")
-      }, 50)
+   $("#user, .name.search-hidden").on("click", function() {
+      // we must do this every time the menu is open, because it is apparently recreated
+      replaceMenuEntryWhenReady();
    })
+}
+
+function replaceMenuEntryWhenReady(){
+   setTimeout(function() {
+      if($(".list-menu li a[data-path='preferences/account']").length < 1)
+         replaceMenuEntryWhenReady();
+      else {
+         // replace menu "Account settings" by "Customize", with custom event handler
+         $(".list-menu li a[data-path='preferences/account']")
+            .attr("data-path", "")
+            .on("click", enterCustomizationMode)
+            .html("<text>Customize</text>")
+      }
 }
 
 
