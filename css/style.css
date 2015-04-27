@@ -5,12 +5,14 @@ z-indexes
 1 000 002 hooks:hover
 1 000 004 plus
 1 000 005 ad-hoc-panel
+1 000 006 close-icon
 
 #FFCC39 orange halo
 #FFD5A1 light orange background color
 #FF9900 number of highlighted options
 #27A0D8 blue
 #2755D8 hyperlink blue
+#61FFED electric blue for highlighting
 
 */
 
@@ -30,6 +32,24 @@ z-indexes
 .dimmed {
 	-webkit-filter: grayscale(70%);
 	filter: grayscale(70%);
+}
+
+#close-icon{
+	z-index: 1000006;
+	position: fixed;
+	top: 0;
+	right: 0;
+
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	box-shadow: 0 0 5px 5px #ededed;
+	background-position: 0px 0px;
+}
+
+#close-icon:hover{
+	box-shadow: 0 0 5px 5px yellow;
+	background-position: -32px 0px;
 }
 
 .hook{

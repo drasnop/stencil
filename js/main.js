@@ -2,15 +2,20 @@ function initialize() {
    customizationMode = false;
 
    // create customization layer
-   $("body").append("<div id='overlay'></div>");
-   $("body").append("<div id='hooks'></div>");
-   $("body").append("<div ad-hoc-panel></div")
+   $("body").append("<div id='customization-layer'></div>")
+   $("#customization-layer").append("<div id='overlay'></div>")
+   .append("<div id='hooks'></div>")
+   .append("<div ad-hoc-panel></div")
+   .append("<div id='close-icon' title='Exit customization mode'></div>")
+   
+   $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
+   .on("click", exitCustomizationMode)
 
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
 
    // hide the newly-created customization layer
-   $("#overlay, #hooks").hide();
+   $("#customization-layer").hide();
 
    // hack into Wunderlist menu to create an access point to Customization Mode
    $("#user, .name.search-hidden").on("click", function() {
@@ -30,6 +35,7 @@ function replaceMenuEntryWhenReady(){
             .on("click", enterCustomizationMode)
             .html("<text>Customize</text>")
       }
+   }, 10)
 }
 
 
@@ -41,7 +47,7 @@ function enterCustomizationMode() {
    dataManager.initializeOptions();
 
    // dim the interface
-   $("body").children(":not(#overlay, #hooks, #ad-hoc-panel)").addClass("dimmed");
+   $("body").children(":not(#customization-layer)").addClass("dimmed");
    // $("#overlay").css("opacity",".4");   transitions are too slow, alas
    // super annoying workaround because of the way they defined the background image
    $("head").append("<style class='special-style'> #wunderlist-base::before{" +
@@ -56,7 +62,7 @@ function enterCustomizationMode() {
    updateHooksAndClusters();
 
    // show the customization layer
-   $("#overlay, #hooks").show();
+   $("#customization-layer").show();
 }
 
 
@@ -72,7 +78,7 @@ function exitCustomizationMode() {
    $(".hook").remove();
 
    // hide customization layer
-   $("#overlay, #hooks").hide();
+   $("#customization-layer").hide();
 
    // return interface to its normal state
    $("body").children().removeClass("dimmed");

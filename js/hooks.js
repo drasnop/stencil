@@ -259,7 +259,7 @@ function generateClusters() {
    // Create one plus icon per cluster (even if it contains only one elements)
    model.clusters.forEach(function(cluster) {
       var icon = $("<div class='plus-icon'>").appendTo("#hooks")
-      .css("background-image","url(//localhost:8888/img/plus_blue.png)")
+      .css("background-image","url(//" + parameters.serverURL + "/img/plus_blue.png)")
 
       icon.data("cluster", cluster);
       cluster.icon=icon;

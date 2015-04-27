@@ -90,7 +90,7 @@ function bindHooksListeners() {
 
       cluster.showGhosts = !cluster.showGhosts;
       $(this).css("background-image",
-         cluster.showGhosts ? "url(//localhost:8888/img/minus_blue.png)" : "url(//localhost:8888/img/plus_blue.png)")
+         cluster.showGhosts ? "url(//" + parameters.serverURL + "/img/minus_blue.png)" : "url(//" + parameters.serverURL + "/img/plus_blue.png)")
       updateGhostsVisibility(cluster.ghosts, cluster.showGhosts);
       positionHooksAndClusters();
    })
