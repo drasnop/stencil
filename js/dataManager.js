@@ -39,13 +39,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // set a pointer to the default value for each option, instead of a string
       Object.keys(model.options).forEach(function(option_id) {
          var option = model.options[option_id];
-         var name = option.value; // the default is stored as a string in JSON
-         for(var i in option.values) {
-            if(option.values[i].name == name) {
-               option.value = option.values[i];
-               break;
-            }
-         }
+         var valueName = option.value; // the default is stored as a string in JSON
+         createPointerToValueObjectFromValueName(option, valueName);
       })
 
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
@@ -57,9 +52,19 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       //enterCustomizationMode();
 
       // FOR THE EXPERIMENT: modify Wunderlist options to match the default ones defined in the file
-      dataManager.initializeAppOptionsFromFile();
+      // dataManager.initializeAppOptionsFromFile();
    }
 }
+
+function createPointerToValueObjectFromValueName(option, valueName) {
+   for(var i in option.values) {
+      if(option.values[i].name == valueName) {
+         option.value = option.values[i];
+         break;
+      }
+   }
+}
+
 
 // UNUSED in the experiment software (instead, load the default options)
 dataManager.initializeOptionsFromApp = function() {
@@ -71,22 +76,31 @@ dataManager.initializeOptionsFromApp = function() {
       return;
 
    var value;
-   for(var id in model.options) {
-      // I am using booleans, but they are storing these options as strings!
+   Object.keys(model.options).forEach(function(option_id) {
+      var option = model.options[option_id];
+
       value = sync.collections.settings.where({
-         key: id
+         key: option.id
       })[0].get("value")
+
+      // I am using booleans, but they are storing these options as strings!
       switch(value) {
          case "true":
-            model.options[id].value = true;
+            if(option.value !== true)
+               console.log("- updating:", option.id, true)
+            option.value = true;
             break;
          case "false":
-            model.options[id].value = false;
+            if(option.value !== false)
+               console.log("- updating:", option.id, false)
+            option.value = false;
             break;
          default:
-            model.options[id].value = value;
+            if(option.value.name !== value)
+               console.log("- updating:", option.id, value)
+            createPointerToValueObjectFromValueName(option, value);
       }
-   }
+   })
 }
 
 dataManager.initializeAppOptionsFromFile = function() {
@@ -109,7 +123,7 @@ dataManager.initializeAppOptionsFromFile = function() {
 }
 
 // Hide the non-visible hooks (somewhat Wunderlist-specific, unfortunately)
-dataManager.updateOptionsHiddenStatus= function() {
+dataManager.updateOptionsHiddenStatus = function() {
    Object.keys(model.options).forEach(function(option_id) {
       var option = model.options[option_id];
 

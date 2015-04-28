@@ -45,6 +45,8 @@ var model = {
 var parameters = {
    // server baser url
    "serverURL": "localhost:8888",
+   // whether the system is currently used to conduct an experiment
+   "experiment": true,
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,
    // clean definition of key codes

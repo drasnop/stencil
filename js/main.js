@@ -47,7 +47,7 @@ function enterCustomizationMode() {
 
    // sync angular options with the Wunderlist Backbone model
    // NOT ANYMORE: instead, the options are initialized from the default values in the JSON file
-   // dataManager.initializeOptionsFromApp();
+   dataManager.initializeOptionsFromApp();
    dataManager.updateOptionsHiddenStatus();
 
    // dim the interface
