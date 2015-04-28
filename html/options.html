@@ -2,7 +2,7 @@
  ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'minimal': model.optionsVisibility==0 && !model.fullPanel(), 'mixed': model.optionsVisibility==1 && !model.fullPanel()}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">
-		<div ng-class="{'center-wrapper': !model.backArrow()}">
+		<div ng-class="{'center-wrapper': model.optionsVisibility==2}">
 			<div class="back-arrow" ng-if="model.fullPanel() && model.optionsVisibility != 2" ng-click="contractFullPanel()">
 				<img id="back-arrow" src="//localhost:8888/img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
@@ -41,15 +41,15 @@
 					</select>
 				</div>
 
-				<div class="cell align-left" ng-class="model.optionsVisibility==1 && !model.fullPanel()? 'middle-column' : 'right-column'">
+				<div class="cell middle-column align-left">
 					<label>{{option.label}}</label>
 					<img ng-if="anchorVisible(option) && model.fullPanel()" src="//localhost:8888/img/eye.png" class="preview"
 						ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 				</div>
 
-				<div class="cell right-column" ng-if="model.optionsVisibility==1 && !model.fullPanel()">
-					<div class="linkToTab grayGradientShadow blue-button" ng-click="expandToFullPanel(option.tab)">{{option.tab.name}} > </div>
-				</div>
+				<div class="linkToTab grayGradientShadow blue-button"
+				ng-if="model.optionsVisibility==1 && !model.fullPanel()"
+				ng-click="expandToFullPanel(option.tab)">{{option.tab.name}}</div>
 			</div>
 
 		</div>
