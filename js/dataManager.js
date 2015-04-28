@@ -30,10 +30,22 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       });
 
       // set option.anchored flag (doesn't take into account flag visible so far)
-      model.mappings.forEach(function(mapping){
-         mapping.options.forEach(function(option_id){
-            model.options[option_id].anchored=true;
+      model.mappings.forEach(function(mapping) {
+         mapping.options.forEach(function(option_id) {
+            model.options[option_id].anchored = true;
          });
+      })
+
+      // set a pointer to the default value for each option, instead of a string
+      Object.keys(model.options).forEach(function(option_id) {
+         var option = model.options[option_id];
+         var name = option.value; // the default is stored as a string in JSON
+         for(var i in option.values) {
+            if(option.values[i].name == name) {
+               option.value = option.values[i];
+               break;
+            }
+         }
       })
 
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
@@ -44,6 +56,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
    }
 }
 
+// UNUSED in the experiment software (instead, load the default options)
 dataManager.initializeOptions = function() {
 
    console.log("Syncing options with underlying app...")

@@ -44,7 +44,8 @@ function enterCustomizationMode() {
    customizationMode = true;
 
    // sync angular options with the Wunderlist Backbone model
-   dataManager.initializeOptions();
+   // NOT ANYMORE: instead, the options are initialized from the default values in the JSON file
+   // dataManager.initializeOptions();
 
    // dim the interface
    $("body").children(":not(#customization-layer)").addClass("dimmed");
