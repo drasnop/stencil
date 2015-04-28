@@ -2,9 +2,9 @@
    "language": {
       "id": "language",
       "label": "Language",
-      "value": "en_GB",
+      "value": "en_US",
       "values": [{
-         "name": "en_GB",
+         "name": "en_US",
          "label": "English"
       }]
    },
@@ -414,10 +414,10 @@
    "account_locale": {
       "id": "account_locale",
       "label": "",
-      "value": "en_GB",
+      "value": "en_US",
       "values": [{
-         "name": "en_GB",
-         "label": "en_GB"
+         "name": "en_US",
+         "label": "en_US"
       }]
    },
    "add_to_chrome": {
@@ -462,10 +462,10 @@
    "background": {
       "id": "background",
       "label": "",
-      "value": "wlbackground15",
+      "value": "wlbackground06",
       "values": [{
-         "name": "wlbackground15",
-         "label": "wlbackground15"
+         "name": "wlbackground06",
+         "label": "wlbackground06"
       }]
    },
    "chrome_app_rating_later": {

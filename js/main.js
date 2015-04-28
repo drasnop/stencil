@@ -1,27 +1,29 @@
 function initialize() {
    customizationMode = false;
 
-   // create customization layer
-   $("body").append("<div id='customization-layer'></div>")
-   $("#customization-layer").append("<div id='overlay'></div>")
-   .append("<div id='hooks'></div>")
-   .append("<div ad-hoc-panel></div")
-   .append("<div id='close-icon' title='Exit customization mode'></div>")
-   
-   $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
-   .on("click", exitCustomizationMode)
-
-   console.log("Bootstrapping Angular");
-   angular.bootstrap(document, ['myApp']);
-
-   // hide the newly-created customization layer
-   $("#customization-layer").hide();
-
    // hack into Wunderlist menu to create an access point to Customization Mode
    $("#user, .name.search-hidden").on("click", function() {
       // we must do this every time the menu is open, because it is apparently recreated
       replaceMenuEntryWhenReady();
    })
+
+   // create customization layer
+   $("body").append("<div id='customization-layer'></div>")
+   $("#customization-layer").append("<div id='overlay'></div>")
+   .append("<div id='hooks'></div>")
+   .append("<div ad-hoc-panel></div")
+   .append("<div id='close-icon' title='Exit customization mode'></div>")   
+   $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
+   .on("click", exitCustomizationMode)
+
+   // hide the newly-created customization layer
+   $("#customization-layer").hide();
+
+   // Setup Angular
+   console.log("Bootstrapping Angular");
+   angular.bootstrap(document, ['myApp']);
+
+   // dataManager.initializeDataStructuresIfAllLoaded will be called
 }
 
 function replaceMenuEntryWhenReady(){
@@ -45,7 +47,8 @@ function enterCustomizationMode() {
 
    // sync angular options with the Wunderlist Backbone model
    // NOT ANYMORE: instead, the options are initialized from the default values in the JSON file
-   // dataManager.initializeOptions();
+   // dataManager.initializeOptionsFromApp();
+   dataManager.updateOptionsHiddenStatus();
 
    // dim the interface
    $("body").children(":not(#customization-layer)").addClass("dimmed");

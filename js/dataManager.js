@@ -53,11 +53,14 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
 
       // For debug purposes
       //enterCustomizationMode();
+
+      // FOR THE EXPERIMENT: modify Wunderlist options to match the default ones defined in the file
+      dataManager.initializeAppOptionsFromFile();
    }
 }
 
 // UNUSED in the experiment software (instead, load the default options)
-dataManager.initializeOptions = function() {
+dataManager.initializeOptionsFromApp = function() {
 
    console.log("Syncing options with underlying app...")
 
@@ -81,25 +84,50 @@ dataManager.initializeOptions = function() {
          default:
             model.options[id].value = value;
       }
-
-      // Hide the non-visible hooks (somewhat Wunderlist-specific, unfortunately)
-      if(id.indexOf("visibility") >= 0) {
-         switch(model.options[id].value) {
-            case "auto":
-            case "visible":
-               model.options[id].hidden = false;
-               break;
-            case "hidden":
-               model.options[id].hidden = true;
-               break
-         }
-      }
    }
 }
 
+dataManager.initializeAppOptionsFromFile = function() {
+
+   console.log("Syncing options of underlying app...")
+
+   // dev mode: not linked with Wunderlist backbone
+   if(typeof sync == "undefined" || typeof sync.collections == "undefined")
+      return;
+
+   Object.keys(model.options).forEach(function(option_id) {
+      var option = model.options[option_id];
+
+      sync.collections.settings.where({
+         key: option_id
+      })[0].set({
+         value: option.values.length > 0 ? option.value.name : option.value
+      })
+   })
+}
+
+// Hide the non-visible hooks (somewhat Wunderlist-specific, unfortunately)
+dataManager.updateOptionsHiddenStatus= function() {
+   Object.keys(model.options).forEach(function(option_id) {
+      var option = model.options[option_id];
+
+      if(option.id.indexOf("visibility") >= 0) {
+         switch(option.value.name) {
+            case "auto":
+            case "visible":
+               option.hidden = false;
+               break;
+            case "hidden":
+               option.hidden = true;
+               break
+         }
+      }
+   })
+}
+
+
 dataManager.updateOption = function(id, value) {
 
-   // dev mode possible: not linked with Wunderlist backbone
    if(typeof sync != "undefined" && typeof sync.collections != "undefined") {
       console.log("updating:", id, value)
 
@@ -113,6 +141,7 @@ dataManager.updateOption = function(id, value) {
          updateHooksAndClusters();
    }
    else {
+      // dev mode: not linked with Wunderlist backbone
       console.log("no underlying application settings to update for: ", id)
    }
 }
