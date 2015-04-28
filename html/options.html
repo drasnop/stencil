@@ -4,7 +4,7 @@
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div ng-class="{'center-wrapper': model.optionsVisibility==2}">
 			<div class="back-arrow" ng-if="model.fullPanel() && model.optionsVisibility != 2" ng-click="contractFullPanel()">
-				<img id="back-arrow" src="//localhost:8888/img/back-arrow.png" alt="Go back to minimal panel" >
+				<img id="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
 			</div>
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
@@ -15,35 +15,39 @@
 		</div>
 	</ul>
 
-	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: getTotalNumberVisibleOptions()*geometry.getOptionHeight()+'px'}">
+	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())+'px'}">
 
 		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
+
+			<div class="tab-description" ng-bind-html="tab.description"
+			ng-if="model.fullPanel() && tab.description">
+			</div>
 
 			<div class="row option" id="{{option.id}}"
 			ng-class="{'highlighted': option.selected, 'delayed-entrance': !option.selected}"
 			ng-show="isOptionVisible(option, $index)"
 			ng-repeat="option in tab.options"
-			ng-style="{top: getFilteredIndex(option.tab.index, $index)*geometry.getOptionHeight() + 'px'}">
+			ng-style="{top: geometry.getOptionTop(getFilteredIndex(option.tab.index, $index)) + 'px'}">
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"
 					ng-if="option.values.length==0" 
 					ng-model="option.value"
-					ng-change="dataManager.updateOption(option.id,option.value)"
+					ng-change="dataManager.updateOption(option.id, option.value)"
 					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					<select
 					ng-if="option.values.length>0"
 					ng-model="option.value"
-					ng-options="value for value in option.values"
-					ng-change="dataManager.updateOption(option.id,option.value)"
+					ng-options="value.label for value in option.values"
+					ng-change="dataManager.updateOption(option.id, option.value.name)"
 					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					</select>
 				</div>
 
 				<div class="cell middle-column align-left">
 					<label>{{option.label}}</label>
-					<img ng-if="anchorVisible(option) && model.fullPanel()" src="//localhost:8888/img/eye.png" class="preview"
+					<img ng-if="anchorVisible(option) && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/eye.png" class="preview"
 						ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 				</div>
 
@@ -58,7 +62,7 @@
 	</div>
 
 	<div class="show-more-shortcuts wunderlist-button blue-button" ng-if="model.fullPanel() && model.activeTab.name=='Shortcuts'"
-	ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">{{model.showMoreShortcuts? "Show Less" : "Show More"}}</div>
+	ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">{{model.showMoreShortcuts? "Hide" : "Show More"}}</div>
 
 	<a id="show-all" class="hyperlink" ng-if="!model.fullPanel() && model.optionsVisibility==0" ng-click="expandToFullPanel()">show all</a>
 

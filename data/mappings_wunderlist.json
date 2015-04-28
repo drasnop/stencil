@@ -1,7 +1,7 @@
 [
    {
       "selector":".addTask-input",
-      "options":["shortcut_add_new_task"]
+      "options":["new_task_location","shortcut_add_new_task"]
    },
    {
       "selector": ".taskItem-star .icon.task-starred, .taskItem-star .wundercon.starred, .detail-star .icon.detail-starred, .detail-star .wundercon.starred",

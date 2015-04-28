@@ -50,6 +50,7 @@
    ]
 }, {
    "name": "Notifications",
+   "description": "<strong>Notify me of important events via:</strong> <br> Stay in sync and get notified when items are added or completed in your shared lists. You can choose which lists you get notifications about, in each list's edit dialog.",
    "count": 0,
    "options": [
       "notifications_email_enabled",

@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngAnimate']);
+var app = angular.module('myApp', ['ngAnimate', 'ngSanitize']);
 
 app.run(['$location','$http', '$q', function($location, $http, $q){
 
@@ -45,6 +45,6 @@ app.run(['$location','$http', '$q', function($location, $http, $q){
 app.directive('adHocPanel', ['$sce', function($sce) {
    return {
       replace: true,
-      templateUrl: $sce.trustAsResourceUrl('//localhost:8888/html/options.html')
+      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/options.html')
    };
 }])

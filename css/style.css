@@ -5,12 +5,14 @@ z-indexes
 1 000 002 hooks:hover
 1 000 004 plus
 1 000 005 ad-hoc-panel
+1 000 006 close-icon
 
 #FFCC39 orange halo
 #FFD5A1 light orange background color
 #FF9900 number of highlighted options
 #27A0D8 blue
 #2755D8 hyperlink blue
+#61FFED electric blue for highlighting
 
 */
 
@@ -30,6 +32,24 @@ z-indexes
 .dimmed {
 	-webkit-filter: grayscale(70%);
 	filter: grayscale(70%);
+}
+
+#close-icon{
+	z-index: 1000006;
+	position: fixed;
+	top: 0;
+	right: 0;
+
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	box-shadow: 0 0 5px 5px #ededed;
+	background-position: 0px 0px;
+}
+
+#close-icon:hover{
+	box-shadow: 0 0 5px 5px yellow;
+	background-position: -32px 0px;
 }
 
 .hook{
@@ -255,6 +275,10 @@ div.back-arrow{
 	min-width: 400px;
 }
 
+.tab-description{
+	padding: 0 10px;
+}
+
 .row.option{
 	position: absolute;
 	width: 100%;
@@ -370,6 +394,8 @@ div.back-arrow{
 
 /* ---------- Wunderlist-specific styles ------------- */
 
+/* "Show more" button in shortcuts tab */
+
 .wunderlist-button{
 	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
 	cursor: pointer;
@@ -383,6 +409,8 @@ div.back-arrow{
 	border: medium none;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
 }
+
+/* "add item" hook: they are using an !important flag, so I have to match specificity */
 
 #wunderlist-base .chromeless[type="text"].hook{
 	background-color: #ededed !important;
@@ -401,6 +429,18 @@ div.back-arrow{
 #wunderlist-base .chromeless[type="text"].hook *{
 	background-color: inherit !important;
 	color: inherit !important;
+}
+
+/* prevent animation of the menu, to avoid delays in replacing the Account Settings link by "Customize" */
+
+body.animate .popover {
+	-webkit-transform: none!important;
+	-ms-transform: none!important;
+	transform: none!important;
+
+	-webkit-animation: none!important;
+	-ms-animation: none!important;
+	animation: none!important;
 }
 
 /* button.highlighted{

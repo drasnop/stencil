@@ -59,7 +59,7 @@ function bindHooksListeners() {
       model.selectedOptions.forEach(function(option) {
          // a positive value will be treated as true by the filters
          // if the option is hidden in a "more" section, it counts only as half
-         option.tab.count += option.more ? 0.5 : 1;
+         option.tab.count += (typeof option.more !== "undefined" && option.more) ? 0.5 : 1;
       })
 
 
@@ -93,7 +93,7 @@ function bindHooksListeners() {
 
       cluster.showGhosts = !cluster.showGhosts;
       $(this).css("background-image",
-         cluster.showGhosts ? "url(//localhost:8888/img/minus_blue.png)" : "url(//localhost:8888/img/plus_blue.png)")
+         cluster.showGhosts ? "url(//" + parameters.serverURL + "/img/minus_blue.png)" : "url(//" + parameters.serverURL + "/img/plus_blue.png)")
       updateGhostsVisibility(cluster.ghosts, cluster.showGhosts);
       positionHooksAndClusters();
    })

@@ -145,7 +145,7 @@ function updateHooksStatus() {
       // check if one option associated with this hook is a show/hide of type hidden
       var ghost = false;
       hook.data("options").forEach(function(option) {
-         if(option.hideable && option.value == "hidden")
+         if(typeof option.hideable !== "undefined" && option.hideable && option.value.name == "hidden")
             ghost = true;
       });
       hook.data("ghost", ghost)
@@ -259,7 +259,7 @@ function generateClusters() {
    // Create one plus icon per cluster (even if it contains only one elements)
    model.clusters.forEach(function(cluster) {
       var icon = $("<div class='plus-icon'>").appendTo("#hooks")
-      .css("background-image","url(//localhost:8888/img/plus_blue.png)")
+      .css("background-image","url(//" + parameters.serverURL + "/img/plus_blue.png)")
 
       icon.data("cluster", cluster);
       cluster.icon=icon;
