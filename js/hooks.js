@@ -194,8 +194,10 @@ function computeHookPosition(hook) {
 
    // set the position of this hook (even if it's hidden), from the original anchor's position
    // we take the regular ("content") width and height, because we will force hooks to content-box
+   // we must use .offset() instead of position(), to get the offset relative to the document
+   // during the experiment, we must account for the presence of the progressBar at the top
    var position={
-      "top": hook.data("anchor").offset().top + "px",
+      "top": hook.data("anchor").offset().top + (experiment.experiment? - parameters.progressBarHeight : 0) + "px",
       "left": hook.data("anchor").offset().left + "px",
       "width": hook.data("anchor").width()  + "px",
       "height": hook.data("anchor").height() + "px"

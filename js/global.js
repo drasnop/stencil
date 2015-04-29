@@ -47,6 +47,8 @@ var parameters = {
    "serverURL": "localhost:8888",
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,
+   // height (in px) of the experiment progress bar, necessary to offset the position of the hooks
+   "progressBarHeight": 45,
    // clean definition of key codes
    "KEYCODE_ESC": 27
 }

@@ -18,6 +18,44 @@ z-indexes
 
 */
 
+
+/* ----------------------  experiment  ---------------------- */
+
+
+#progress-bar{
+	height: 45px;
+	background-color: rgb(68, 68, 68);
+	color: lightgray;
+}
+
+#progress-bar-pusher{
+	position: absolute;
+	top: 45px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+
+#instructions-modal{
+	z-index: 1000008;
+}
+
+.modal-dialog {
+	margin: 45px auto;
+}
+
+.modal-backdrop {
+    z-index: 1000007;
+}
+
+.modal-backdrop.in {
+    opacity: 0.3;
+}
+
+
+/* -------------------  overlay, hooks, ghosts --------------------- */
+
+
 #overlay {
 	z-index:1000000;
 	background-color:black;
@@ -52,18 +90,6 @@ z-indexes
 #close-icon:hover{
 	box-shadow: 0 0 5px 5px yellow;
 	background-position: -32px 0px;
-}
-
-#instructionsModal{
-	z-index: 1000008;
-}
-
-.modal-backdrop {
-    z-index: 1000007;
-}
-
-.modal-backdrop.in {
-    opacity: 0.3;
 }
 
 .hook{

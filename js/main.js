@@ -10,17 +10,21 @@ function initialize() {
    // create customization layer
    $("body").append("<div id='customization-layer'></div>")
    $("#customization-layer").append("<div id='overlay'></div>")
-   .append("<div id='hooks'></div>")
-   .append("<div ad-hoc-panel></div")
-   .append("<div id='close-icon' title='Exit customization mode'></div>")   
+      .append("<div id='hooks'></div>")
+      .append("<div ad-hoc-panel></div")
+      .append("<div id='close-icon' title='Exit customization mode'></div>")
    $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
-   .on("click", exitCustomizationMode)
+      .on("click", exitCustomizationMode)
 
    // hide the newly-created customization layer
    $("#customization-layer").hide();
 
    // add experiment software
-   $("body").append("<div modal></div")
+   if(experiment.experiment) {
+      $("body>*").wrapAll("<div id='progress-bar-pusher'></div")
+      $("body").prepend("<div progress-bar></div")
+      $("body").append("<div instructions-modal></div")
+   }
 
    // Setup Angular
    console.log("Bootstrapping Angular");
@@ -30,7 +34,7 @@ function initialize() {
 }
 
 
-function replaceMenuEntryWhenReady(){
+function replaceMenuEntryWhenReady() {
    setTimeout(function() {
       if($(".list-menu li a[data-path='preferences/account']").length < 1)
          replaceMenuEntryWhenReady();
@@ -54,7 +58,10 @@ function enterCustomizationMode() {
       dataManager.initializeOptionsFromApp();
 
    // dim the interface
-   $("body").children(":not(#customization-layer, #instructionsModal)").addClass("dimmed");
+   if(experiment.experiment)
+      $("#progress-bar-pusher").children(":not(#customization-layer)").addClass("dimmed");
+   else
+      $("body").children(":not(#customization-layer)").addClass("dimmed");
    // $("#overlay").css("opacity",".4");   transitions are too slow, alas
    // super annoying workaround because of the way they defined the background image
    $("head").append("<style class='special-style'> #wunderlist-base::before{" +

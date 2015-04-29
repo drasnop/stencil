@@ -19,4 +19,4 @@ experiment.generateOptionsSequence = function() {
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 }
 
-// $("#instructionsModal").modal('show')
+// $("#instructions-modal").modal('show')

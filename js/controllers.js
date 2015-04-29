@@ -216,6 +216,10 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 }])
 
 
-app.controller('modalController', ['$scope', '$window', function($scope, $window) {
+app.controller('instructionsModalController', ['$scope', '$window', function($scope, $window) {
+   $scope.experiment = $window.experiment;
+}])
+
+app.controller('progressBarController', ['$scope', '$window', function($scope, $window) {
    $scope.experiment = $window.experiment;
 }])

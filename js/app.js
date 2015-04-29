@@ -49,9 +49,16 @@ app.directive('adHocPanel', ['$sce', function($sce) {
    };
 }])
 
-app.directive('modal', ['$sce', function($sce) {
+app.directive('instructionsModal', ['$sce', function($sce) {
    return {
       replace: true,
-      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/modal.html')
+      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/instructions-modal.html')
+   };
+}])
+
+app.directive('progressBar', ['$sce', function($sce) {
+   return {
+      replace: true,
+      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/progress-bar.html')
    };
 }])
