@@ -34,6 +34,30 @@ z-indexes
 	bottom: 0px;
 	left: 0px;
 	right: 0px;
+
+	/* to prevent the white shadow ot the close button from overflowing onto progress bar... */
+	overflow: hidden;
+}
+
+#progress-bar .instructions{
+	text-align: center;
+	padding-top: 12px;
+}
+
+#button-trial-done{
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
+
+.btn-blue{
+	background-color: #27A0D8;
+	color: white;
+}
+
+.btn-blue:hover, .btn-blue:active{
+	background-color: #2392C7;
+	color: white;
 }
 
 #instructions-modal{
@@ -62,7 +86,7 @@ z-indexes
 	/*transition: opacity 1s;*/
 	opacity:.5;	/* should be animated */
 
-	position:fixed;
+	position:absolute;
 	top:0;
 	bottom:0;
 	left:0;
@@ -76,7 +100,7 @@ z-indexes
 
 #close-icon{
 	z-index: 1000006;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	right: 0;
 

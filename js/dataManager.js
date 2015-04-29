@@ -65,6 +65,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       if(experiment.experiment){
          dataManager.initializeAppOptionsFromFile();
          experiment.generateOptionsSequence();
+         experiment.startExperiment();
       }
    }
 }

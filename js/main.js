@@ -95,7 +95,7 @@ function exitCustomizationMode() {
    $("#customization-layer").hide();
 
    // return interface to its normal state
-   $("body").children().removeClass("dimmed");
+   $(".dimmed").removeClass("dimmed");
    $(".special-style").remove();
 }
 
