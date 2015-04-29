@@ -153,10 +153,10 @@ z-indexes
 #tabs{
 	box-sizing: border-box;
 	width: 450px;
-	height: 44px;
+	height: 46px;
 
 	background-color: #f3f3f3;
-	border-bottom: 1px solid #27A0D8;
+	border-bottom: 2px solid #27A0D8;
 }
 
 #tabs .center-wrapper{
@@ -176,35 +176,40 @@ z-indexes
 	font-size: 15px;
 	cursor: pointer;
 
+	margin-top: 8px;
+	margin-left: 1px;
 	margin-right: 8px;
 	border-radius: 8px 8px 0 0;
 
-	margin-bottom: -1px;
-	margin-top: 8px;
 	border-left: 1px solid transparent;
 	border-right: 1px solid transparent;
+	border-top: 1px solid transparent;
 }
 
 #tabs .tab:hover{
-/* 	border-top: 8px solid #27A0D8; */
-	box-shadow: 0px -8px 0px 0px #27A0D8;
-	border-radius: 0;
+	border-color: #27A0D8 #27A0D8 transparent;	
 }
 
 #tabs .tab.active{
 	background-color: white;
-	border-radius: 0;
 
-/* 	border-top: 8px solid #27A0D8; */
-	box-shadow: 0px -8px 0px 0px #27A0D8;
-	border-left: 1px solid #27A0D8;
-	border-right: 1px solid #27A0D8;
-	border-bottom: 1px solid transparent;
+	margin-left: 0;
+	margin-right: 7px;
+	margin-top: 7px;
+
+	border-left: 2px solid #27A0D8;
+	border-right: 2px solid #27A0D8;
+	border-top: 2px solid #27A0D8;
+	border-bottom: 2px solid transparent;
 }
 
 #tabs .tab.highlighted{
 	background-color: #FFD5A1;
 	background-image: none;
+}
+
+#tabs .tab:last-child, #tabs .tab:last-child.active{
+	margin-right: 0;
 }
 
 .blue-button:hover, .blue-button.active{
