@@ -122,26 +122,6 @@ dataManager.initializeAppOptionsFromFile = function() {
    })
 }
 
-// Hide the non-visible hooks (somewhat Wunderlist-specific, unfortunately)
-dataManager.updateOptionsHiddenStatus = function() {
-   Object.keys(model.options).forEach(function(option_id) {
-      var option = model.options[option_id];
-
-      if(option.id.indexOf("visibility") >= 0) {
-         switch(option.value.name) {
-            case "auto":
-            case "visible":
-               option.hidden = false;
-               break;
-            case "hidden":
-               option.hidden = true;
-               break
-         }
-      }
-   })
-}
-
-
 dataManager.updateOption = function(id, value) {
 
    if(typeof sync != "undefined" && typeof sync.collections != "undefined") {
