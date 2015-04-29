@@ -6,6 +6,8 @@ z-indexes
 1 000 004 plus
 1 000 005 ad-hoc-panel
 1 000 006 close-icon
+1 000 007 modal-backdrop
+1 000 008 modal
 
 #FFCC39 orange halo
 #FFD5A1 light orange background color
@@ -50,6 +52,18 @@ z-indexes
 #close-icon:hover{
 	box-shadow: 0 0 5px 5px yellow;
 	background-position: -32px 0px;
+}
+
+#instructionsModal{
+	z-index: 1000008;
+}
+
+.modal-backdrop {
+    z-index: 1000007;
+}
+
+.modal-backdrop.in {
+    opacity: 0.3;
 }
 
 .hook{
@@ -116,7 +130,7 @@ z-indexes
 }
 
 #ad-hoc-panel{
-	z-index: 1000006;
+	z-index: 1000005;
 	position: absolute;
 
 	min-height: 20px;

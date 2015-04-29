@@ -4,7 +4,9 @@ var experiment = {
    // random sequence of 8 numbers and letters used to identify participants
    "email": "lotaculi",
    // list of options that users will be ask to find during the experiment
-   "optionsSequence": []
+   "optionsSequence": [],
+   // index of the current trial
+   "trial": 0
 }
 
 experiment.generateOptionsSequence = function() {
@@ -16,3 +18,5 @@ experiment.generateOptionsSequence = function() {
    shuffleArray(experiment.optionsSequence);
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 }
+
+// $("#instructionsModal").modal('show')

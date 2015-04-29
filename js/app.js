@@ -48,3 +48,10 @@ app.directive('adHocPanel', ['$sce', function($sce) {
       templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/options.html')
    };
 }])
+
+app.directive('modal', ['$sce', function($sce) {
+   return {
+      replace: true,
+      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/modal.html')
+   };
+}])

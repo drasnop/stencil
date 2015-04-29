@@ -25,6 +25,12 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		rel: 'stylesheet',
 		type: 'text/css',
 		crossorigin: 'anonymous',
+		href: '//' + serverURL + '/css/bootstrap.css'
+	}).appendTo('head');
+	$('<link/>', {
+		rel: 'stylesheet',
+		type: 'text/css',
+		crossorigin: 'anonymous',
 		href: '//' + serverURL + '/css/style.css'
 	}).appendTo('head');
 
@@ -43,12 +49,13 @@ javascript:(function(e,a,g,h,f,c,b,d){
 		).done(function(){
 			$.when(
 				$.getScript('//' + serverURL + '/libs/jquery-ui-position.js'),
+				$.getScript('//' + serverURL + '/libs/bootstrap.js'),
 				$.getScript('//' + serverURL + '/js/global.js'),
 				$.getScript('//' + serverURL + '/js/experiment.js'),
 				$.getScript('//' + serverURL + '/js/geometry.js'),
 				$.getScript('//' + serverURL + '/js/dataManager.js'),
 				$.getScript('//' + serverURL + '/js/app.js'),
-				$.getScript('//' + serverURL + '/js/controller.js'),
+				$.getScript('//' + serverURL + '/js/controllers.js'),
 				$.getScript('//' + serverURL + '/js/listeners.js'),
 				$.getScript('//' + serverURL + '/js/hooks.js'),
 				$.getScript('//' + serverURL + '/js/helpers.js'),

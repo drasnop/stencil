@@ -1,0 +1,15 @@
+<div class="modal" id="instructionsModal" data-backdrop="static" data-keyboard="false" ng-controller="modalController">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Please change the following setting:</h4>
+      </div>
+      <div class="modal-body">
+        {{experiment.optionsSequence[experiment.trial].label}}
+      </div>
+      <div class="modal-footer">
+        <div type="button" class="btn btn-primary" data-dismiss="modal">Go!</div>
+      </div>
+    </div>
+  </div>
+</div>

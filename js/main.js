@@ -19,6 +19,9 @@ function initialize() {
    // hide the newly-created customization layer
    $("#customization-layer").hide();
 
+   // add experiment software
+   $("body").append("<div modal></div")
+
    // Setup Angular
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
@@ -51,7 +54,7 @@ function enterCustomizationMode() {
       dataManager.initializeOptionsFromApp();
 
    // dim the interface
-   $("body").children(":not(#customization-layer)").addClass("dimmed");
+   $("body").children(":not(#customization-layer, #instructionsModal)").addClass("dimmed");
    // $("#overlay").css("opacity",".4");   transitions are too slow, alas
    // super annoying workaround because of the way they defined the background image
    $("head").append("<style class='special-style'> #wunderlist-base::before{" +

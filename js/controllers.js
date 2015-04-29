@@ -111,10 +111,10 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
    $scope.activateTab = function(tab) {
       // If the tab hasn't changed, we simply replay the animation
-/*      if(tab == model.activeTab)
-         $scope.playEphemeralAnimation(false);
-      else*/
-         model.activeTab = tab;
+      /*      if(tab == model.activeTab)
+               $scope.playEphemeralAnimation(false);
+            else*/
+      model.activeTab = tab;
 
       // determine whether to who additional options or not
       determineShowMoreShortcuts();
@@ -161,20 +161,20 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
 
    $scope.playEphemeralAnimation = function(animateTabs) {
 
-/*      $timeout(function() {
+      /*      $timeout(function() {
 
-         $scope.$eval(function() {
-            console.log("playEphemeralAnimation")
+               $scope.$eval(function() {
+                  console.log("playEphemeralAnimation")
 
-            var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
+                  var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
 
-            elements.css("opacity", 0)
-            elements.delay(100).animate({
-               opacity: 1
-            }, 500)
-         })
+                  elements.css("opacity", 0)
+                  elements.delay(100).animate({
+                     opacity: 1
+                  }, 500)
+               })
 
-      }, 10)*/
+            }, 10)*/
    }
 
    $scope.adjustPanelHeightAsync = function() {
@@ -213,4 +213,9 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
       })
    }
 
+}])
+
+
+app.controller('modalController', ['$scope', '$window', function($scope, $window) {
+   $scope.experiment = $window.experiment;
 }])
