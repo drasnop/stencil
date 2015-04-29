@@ -10,6 +10,8 @@ var experiment = {
    //
    "complete": false,
    "success": false,
+   // last selected option
+   "selected": ""
 }
 
 experiment.generateOptionsSequence = function() {
@@ -28,7 +30,7 @@ experiment.startExperiment = function() {
 }
 
 experiment.initializeTrial = function() {
-   console.log("Initializing trial " + experiment.trial+$("#instructions-modal").length)
+   console.log("Initializing trial " + experiment.trial + $("#instructions-modal").length)
    $("#instructions-modal").modal('show')
 }
 
@@ -39,9 +41,10 @@ experiment.startTrial = function() {
 
 experiment.endTrial = function() {
    experiment.complete = true;
+
    // check result
-   experiment.success = true;
+   experiment.success = (experiment.selected === experiment.optionsSequence[experiment.trial].id);
 
    experiment.trial++;
-   experiment.initializeTrial();
+   setTimeout(experiment.initializeTrial, 1000);
 }
