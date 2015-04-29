@@ -72,17 +72,6 @@ function positionPanel(){
    })
 }
 
-// UNUSED
-Object.defineProperty(Array.prototype, "indexOfProperty", {
-   value: function(name, value) {
-      for(var i in this) {
-         if(this[i][name] === value)
-            return i;
-      }
-      return -1;
-   }
-});
-
 jQuery.fn.extend({
    robustHeight: function() {
       if(this.css("box-sizing") == "border-box")

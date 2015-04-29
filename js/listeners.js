@@ -45,8 +45,8 @@ function bindHooksListeners() {
       model.selectedOptions=$(this).data("options");
       
       // Set .selected flag on options
-      Object.keys(model.options).forEach(function(option_id){
-         model.options[option_id].selected=false;
+      model.options.forEach(function(option){
+         option.selected=false;
       });
       model.selectedOptions.forEach(function(option){
          option.selected=true;
