@@ -61,8 +61,11 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // For debug purposes
       //enterCustomizationMode();
 
-      // FOR THE EXPERIMENT: modify Wunderlist options to match the default ones defined in the file
-      dataManager.initializeAppOptionsFromFile();
+      // Initialize experiment
+      if(experiment.experiment){
+         dataManager.initializeAppOptionsFromFile();
+         experiment.generateOptionsSequence();
+      }
    }
 }
 
@@ -112,6 +115,7 @@ dataManager.initializeOptionsFromApp = function() {
    })
 }
 
+// FOR THE EXPERIMENT: modify Wunderlist options to match the default ones defined in the file
 dataManager.initializeAppOptionsFromFile = function() {
 
    console.log("Syncing options of underlying app...")

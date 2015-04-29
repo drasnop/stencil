@@ -44,6 +44,7 @@ javascript:(function(e,a,g,h,f,c,b,d){
 			$.when(
 				$.getScript('//' + serverURL + '/libs/jquery-ui-position.js'),
 				$.getScript('//' + serverURL + '/js/global.js'),
+				$.getScript('//' + serverURL + '/js/experiment.js'),
 				$.getScript('//' + serverURL + '/js/geometry.js'),
 				$.getScript('//' + serverURL + '/js/dataManager.js'),
 				$.getScript('//' + serverURL + '/js/app.js'),

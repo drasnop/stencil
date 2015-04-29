@@ -23,8 +23,9 @@ function initialize() {
    console.log("Bootstrapping Angular");
    angular.bootstrap(document, ['myApp']);
 
-   // dataManager.initializeDataStructuresIfAllLoaded will be called
+   // A call to dataManager.initializeDataStructuresIfAllLoaded will happen after Angular bootstraps
 }
+
 
 function replaceMenuEntryWhenReady(){
    setTimeout(function() {
@@ -45,9 +46,9 @@ function enterCustomizationMode() {
    console.log("customization mode on");
    customizationMode = true;
 
-   // sync angular options with the Wunderlist Backbone model
-   // NOT ANYMORE: instead, the options are initialized from the default values in the JSON file
-   // dataManager.initializeOptionsFromApp();
+   // IF NOT EXPERIMENT: sync angular options with the Wunderlist Backbone model
+   if(!experiment.experiment)
+      dataManager.initializeOptionsFromApp();
 
    // dim the interface
    $("body").children(":not(#customization-layer)").addClass("dimmed");
