@@ -62,7 +62,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       //enterCustomizationMode();
 
       // FOR THE EXPERIMENT: modify Wunderlist options to match the default ones defined in the file
-      // dataManager.initializeAppOptionsFromFile();
+      dataManager.initializeAppOptionsFromFile();
    }
 }
 
@@ -122,10 +122,14 @@ dataManager.initializeAppOptionsFromFile = function() {
 
    model.options.forEach(function(option) {
 
+      // don't force sync the "deep" parameters that the app uses internally
+      if(typeof option.notUserAccessible !== "undefined" && option.notUserAccessible)
+         return;
+
       sync.collections.settings.where({
          key: option.id
       })[0].set({
-         value: option.values.length > 0 ? option.value.name : option.value
+         value: option.values.length > 0 ? option.value.name : (option.value? "true" : "false")
       })
    })
 }

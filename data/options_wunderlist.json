@@ -409,28 +409,32 @@
       "values": [{
          "name": "en",
          "label": "en"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "account_locale": {
       "id": "account_locale",
       "label": "",
-      "value": "en_US",
+      "value": "en",
       "values": [{
-         "name": "en_US",
-         "label": "en_US"
-      }]
+         "name": "en",
+         "label": "en"
+      }],
+      "notUserAccessible": true
    },
    "add_to_chrome": {
       "id": "add_to_chrome",
       "label": "",
       "value": false,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "add_to_firefox": {
       "id": "add_to_firefox",
       "label": "",
       "value": false,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "app_first_used": {
       "id": "app_first_used",
@@ -439,7 +443,8 @@
       "values": [{
          "name": "1421913600000",
          "label": "1421913600000"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "auto_reminder_noticeperiod": {
       "id": "auto_reminder_noticeperiod",
@@ -448,7 +453,8 @@
       "values": [{
          "name": "0",
          "label": "0"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "auto_reminder_timeinterval": {
       "id": "auto_reminder_timeinterval",
@@ -457,7 +463,8 @@
       "values": [{
          "name": "540",
          "label": "540"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "background": {
       "id": "background",
@@ -466,7 +473,8 @@
       "values": [{
          "name": "wlbackground06",
          "label": "wlbackground06"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "chrome_app_rating_later": {
       "id": "chrome_app_rating_later",
@@ -475,7 +483,8 @@
       "values": [{
          "name": "undefined",
          "label": "undefined"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "chrome_rating_later": {
       "id": "chrome_rating_later",
@@ -484,13 +493,15 @@
       "values": [{
          "name": "undefined",
          "label": "undefined"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "enable_natural_date_recognition": {
       "id": "enable_natural_date_recognition",
       "label": "",
       "value": true,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "id": {
       "id": "id",
@@ -499,7 +510,8 @@
       "values": [{
          "name": "userSettings",
          "label": "userSettings"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "last_open_app_date": {
       "id": "last_open_app_date",
@@ -508,43 +520,50 @@
       "values": [{
          "name": "0",
          "label": "0"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "migrated_wunderlist_one_user": {
       "id": "migrated_wunderlist_one_user",
       "label": "",
       "value": true,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "new_installation": {
       "id": "new_installation",
       "label": "",
       "value": false,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "newsletter_subscription_enabled": {
       "id": "newsletter_subscription_enabled",
       "label": "",
       "value": false,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "onboarding_add_todo": {
       "id": "onboarding_add_todo",
       "label": "",
       "value": true,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "onboarding_click_create_list": {
       "id": "onboarding_click_create_list",
       "label": "",
       "value": true,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "onboarding_click_share_list": {
       "id": "onboarding_click_share_list",
       "label": "",
       "value": true,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "pro_trial_limit_assigning": {
       "id": "pro_trial_limit_assigning",
@@ -553,7 +572,8 @@
       "values": [{
          "name": "3",
          "label": "3"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "pro_trial_limit_comments": {
       "id": "pro_trial_limit_comments",
@@ -562,7 +582,8 @@
       "values": [{
          "name": "10",
          "label": "10"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "pro_trial_limit_files": {
       "id": "pro_trial_limit_files",
@@ -571,7 +592,8 @@
       "values": [{
          "name": "3",
          "label": "3"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "shortcut_copy_tasks": {
       "id": "shortcut_copy_tasks",
@@ -580,7 +602,8 @@
       "values": [{
          "name": "CTRL + C",
          "label": "CTRL + C"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "shortcut_cut_tasks": {
       "id": "shortcut_cut_tasks",
@@ -589,7 +612,8 @@
       "values": [{
          "name": "CTRL + X",
          "label": "CTRL + X"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "shortcut_paste_tasks": {
       "id": "shortcut_paste_tasks",
@@ -598,13 +622,15 @@
       "values": [{
          "name": "CTRL + V",
          "label": "CTRL + V"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "show_completed_items": {
       "id": "show_completed_items",
       "label": "",
       "value": true,
-      "values": []
+      "values": [],
+      "notUserAccessible": true
    },
    "significant_event_count": {
       "id": "significant_event_count",
@@ -613,7 +639,8 @@
       "values": [{
          "name": "0",
          "label": "0"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "type": {
       "id": "type",
@@ -622,6 +649,7 @@
       "values": [{
          "name": "userSettings",
          "label": "userSettings"
-      }]
+      }],
+      "notUserAccessible": true
    }
 }
