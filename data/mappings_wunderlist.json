@@ -46,7 +46,7 @@
    {
       "selector": "#main-toolbar .wundercon.bell-medium, .detail-reminder .wundercon.reminder",
       "options":["notifications_desktop_enabled","notifications_email_enabled",
-               "notifications_push_enabled","sound_notification_enabled"]
+               "notifications_push_enabled","sound_notification_enabled", "shortcut_show_notifications"]
    },
    {
       "selector": ".avatar",

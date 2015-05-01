@@ -30,7 +30,7 @@ experiment.startExperiment = function() {
 }
 
 experiment.initializeTrial = function() {
-   console.log("Initializing trial " + experiment.trial + $("#instructions-modal").length)
+   console.log("Initializing trial " + experiment.trial)
    $("#instructions-modal").modal('show')
 }
 
