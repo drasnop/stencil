@@ -198,7 +198,7 @@
    "shortcut_send_via_email": {
       "id": "shortcut_send_via_email",
       "label": "Email List",
-      "instructions": "Change shortcut for sharing a list via email",
+      "instructions": "Change shortcut for sharing a list via email to",
       "value": "CTRL + E",
       "values": [{
          "name": "CTRL + E",
@@ -209,7 +209,7 @@
    "shortcut_show_notifications": {
       "id": "shortcut_show_notifications",
       "label": "Show Activities",
-      "instructions": "Change shortcut for showing the notifications panel",
+      "instructions": "Change shortcut for showing the notifications panel to",
       "value": "CTRL + SHIFT + A",
       "values": [{
          "name": "CTRL + SHIFT + A",
@@ -220,7 +220,7 @@
    "shortcut_goto_inbox": {
       "id": "shortcut_goto_inbox",
       "label": "Open Inbox",
-      "instructions": "Change shortcut for going to inbox",
+      "instructions": "Change shortcut for going to inbox to",
       "value": "CTRL + I",
       "values": [{
          "name": "CTRL + I",
@@ -231,7 +231,7 @@
    "shortcut_goto_filter_assigned": {
       "id": "shortcut_goto_filter_assigned",
       "label": "Open 'Assigned to Me' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos assigned to you",
+      "instructions": "Change shortcut for showing a list of all the todos assigned to you to",
       "value": "CTRL + 1",
       "values": [{
          "name": "CTRL + 1",
@@ -242,7 +242,7 @@
    "shortcut_goto_filter_starred": {
       "id": "shortcut_goto_filter_starred",
       "label": "Open 'Starred' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos that are starred",
+      "instructions": "Change shortcut for showing a list of all the todos that are starred to",
       "value": "CTRL + 2",
       "values": [{
          "name": "CTRL + 2",
@@ -253,7 +253,7 @@
    "shortcut_goto_filter_today": {
       "id": "shortcut_goto_filter_today",
       "label": "Open 'Today' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos due today",
+      "instructions": "Change shortcut for showing a list of all the todos due today to",
       "value": "CTRL + 3",
       "values": [{
          "name": "CTRL + 3",
@@ -264,7 +264,7 @@
    "shortcut_goto_filter_week": {
       "id": "shortcut_goto_filter_week",
       "label": "Open 'Week' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos due this week",
+      "instructions": "Change shortcut for showing a list of all the todos due this week to",
       "value": "CTRL + 4",
       "values": [{
          "name": "CTRL + 4",
@@ -275,7 +275,7 @@
    "shortcut_goto_filter_all": {
       "id": "shortcut_goto_filter_all",
       "label": "Open 'All' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos",
+      "instructions": "Change shortcut for showing a list of all the todos to",
       "value": "CTRL + 5",
       "values": [{
          "name": "CTRL + 5",
@@ -286,7 +286,7 @@
    "shortcut_goto_filter_completed": {
       "id": "shortcut_goto_filter_completed",
       "label": "Open 'Completed' Smart List",
-      "instructions": "Change shortcut for showing a list of all the completed todos",
+      "instructions": "Change shortcut for showing a list of all the completed todos to",
       "value": "CTRL + 6",
       "values": [{
          "name": "CTRL + 6",
@@ -297,7 +297,7 @@
    "shortcut_sync": {
       "id": "shortcut_sync",
       "label": "Sync",
-      "instructions": "Change shortcut for syncing with the server",
+      "instructions": "Change shortcut for syncing with the server to",
       "value": "R",
       "values": [{
          "name": "R",
@@ -409,7 +409,7 @@
    "today_smart_list_visible_tasks": {
       "id": "today_smart_list_visible_tasks",
       "label": "Week & Today Settings",
-      "instructions": "",
+      "instructions": "In the lists of tasks due today and this week, show only the todos assigned to me",
       "value": "all",
       "values": [{
          "name": "all",

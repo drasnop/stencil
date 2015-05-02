@@ -68,6 +68,14 @@ z-indexes
 	margin: 45px auto;
 }
 
+.modal-header {
+	border: none;
+}
+
+.modal-footer {
+	border: none;
+}
+
 .modal-backdrop {
     z-index: 1000007;
 }
@@ -76,6 +84,9 @@ z-indexes
     opacity: 0.3;
 }
 
+#button-start-trial{
+	min-width: 100px;
+}
 
 /* -------------------  overlay, hooks, ghosts --------------------- */
 
