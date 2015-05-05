@@ -1,7 +1,7 @@
 <div id="progress-bar" ng-controller="progressBarController">
   <div class="instructions" ng-bind="model.progressBarMessage"></div>
   <div id="background-button-trial-done">
-    <div class="btn" ng-disabled="!experiment.trial.selectedOptionID" ng-click="experiment.endTrial()"
+    <div class="btn" ng-disabled="!experiment.trial.selectedOptionID" ng-click="experiment.endTrial(); contractFullPanel();"
     ng-class="{'btn-blue': !experiment.trial.done, 'btn-green': experiment.trial.done && experiment.trial.success(), 'btn-red': experiment.trial.done && !experiment.trial.success()}" >{{!experiment.trial.done? "Done" : (experiment.trial.success()? "Good job!" : "Wrong selection")}}</div>
   </div>
 </div>

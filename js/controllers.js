@@ -1,4 +1,4 @@
-app.controller('optionsController', ['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
+app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeout', function($scope, $rootScope, $window, $timeout) {
 
    // provides access to model and dataManager in the html templates
    $scope.model = $window.model;
@@ -105,7 +105,7 @@ app.controller('optionsController', ['$scope', '$window', '$timeout', function($
          $scope.activateTab(tab);
    }
 
-   $scope.contractFullPanel = function() {
+   $rootScope.contractFullPanel = function() {
       model.panelExpanded = false;
       //positionPanel(); doesn't work
    }
