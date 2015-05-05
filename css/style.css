@@ -44,20 +44,32 @@ z-indexes
 	padding-top: 12px;
 }
 
-#button-trial-done{
+#background-button-trial-done{
 	position: absolute;
 	top: 5px;
 	right: 10px;
+
+	background-color: white;
+	border-radius: 4px;
 }
 
 .btn-blue{
 	background-color: #27A0D8;
-	color: white;
+	color: white!important;
 }
 
 .btn-blue:hover, .btn-blue:active{
 	background-color: #2392C7;
-	color: white;
+}
+
+.btn-green{
+	background-color: #449D44;
+	color: white!important;
+}
+
+.btn-red{
+	background-color: #C9302C;
+	color: white!important;
 }
 
 #instructions-modal{

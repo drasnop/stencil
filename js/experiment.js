@@ -28,9 +28,9 @@ function Trial(number) {
    // whether the done button has been pressed, marking the end of the trial
    this.done = false;
    // id of the last selected option
-   this.selectedOptionID = "";
+   this.selectedOptionID = false;
    // last selected value of the last selected option
-   this.selectedValue = "";
+   this.selectedValue = false;
 
    this.success = function() {
       return this.selectedOptionID === this.targetOption.id && this.targetValue === this.selectedValue;
