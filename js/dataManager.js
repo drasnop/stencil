@@ -3,6 +3,8 @@ var dataManager = {};
 dataManager.initializeDataStructuresIfAllLoaded = function() {
    if(Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0) {
 
+      /* options */
+
       // creates a convenient enumerating (but non-enumerable!) function
       Object.defineProperty(model.options, "forEach", {
          value: function(callback) {
@@ -12,6 +14,23 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          }
       })
 
+      // convenient accessor for userAccessibleOptions
+      Object.defineProperty(model.options, "getUserAccessibleOptions", {
+         value: function(){
+            var userAccessible={};
+            this.forEach(function(option){
+               if(typeof option.notUserAccessible === "undefined")
+                  userAccessible[option.id]=option;
+            });
+            Object.defineProperty(userAccessible, "forEach", {
+               value: model.options.forEach
+            })
+            return userAccessible;
+         }
+      })
+
+      /* mappings */
+
       // set option.anchored flag (doesn't take into account flag visible so far)
       model.mappings.forEach(function(mapping) {
          mapping.options.forEach(function(option_id) {
@@ -19,6 +38,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          });
       })
 
+      /* tabs */
 
       // replace tab.option_ids by pointers to actual options
       model.tabs.forEach(function(tab) {
@@ -45,6 +65,14 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       model.filteredIndex = model.tabs.map(function(tab) {
          return [];
       });
+
+      // for some participants, use the opposite of the default options
+      // TODO why can't it be above the model.tabs initialization?
+      if(experiment.oppositeDefault) {
+         model.options.getUserAccessibleOptions().forEach(function(option) {
+            option.value = experiment.complementValueOf(option);
+         });
+      }
 
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];

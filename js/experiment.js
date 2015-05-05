@@ -1,6 +1,8 @@
 var experiment = {
    // whether the system is currently used to conduct an experiment
    "experiment": true,
+   // whether to use the opposite values of the default options for this participant
+   "oppositeDefault": true,
    // random sequence of 8 numbers and letters used to identify participants
    "email": "lotaculi",
    // list of options that users will be ask to find during the experiment
@@ -50,7 +52,7 @@ experiment.generateOptionsAndValuesSequences = function() {
       var value = complementValueOf(option);
       if(typeof value === "boolean") {
          experiment.valuesSequence.push(value);
-         experiment.valuesLabelsSequence.push(value? "true":"false");
+         experiment.valuesLabelsSequence.push(value ? "true" : "false");
       }
       else {
          experiment.valuesSequence.push(value.name);
@@ -73,6 +75,12 @@ function complementValueOf(option) {
    }
    index = (index + 1) % option.values.length;
    return option.values[index];
+}
+
+// cleaner return value for use elsewhere
+experiment.complementValueOf = function(option) {
+   var value = complementValueOf(option);
+   return(typeof value === "boolean") ? value : value.name;
 }
 
 
@@ -113,11 +121,11 @@ experiment.endTrial = function() {
 experiment.generateInstructions = function() {
    var instructions = experiment.trial.targetOption.instructions;
    if(experiment.trial.targetOption.values.length > 0)
-      instructions += " " + experiment.trial.targetValue;
-   else{
+      instructions += " " + experiment.trial.targetValueLabel;
+   else {
       // not a great solution but...
       if(!experiment.trial.targetValue)
-         instructions=instructions.replace("Enable","Disable")
+         instructions = instructions.replace("Enable", "Disable")
    }
    return instructions;
 }
