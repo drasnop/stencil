@@ -6,7 +6,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // creates a convenient enumerating (but non-enumerable!) function
       Object.defineProperty(model.options, "forEach", {
          value: function(callback) {
-            Object.keys(this).forEach(function(key){
+            Object.keys(this).forEach(function(key) {
                callback(this[key]);
             }, this)
          }
@@ -55,7 +55,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       //enterCustomizationMode();
 
       // Initialize experiment
-      if(experiment.experiment){
+      if(experiment.experiment) {
          dataManager.initializeAppOptionsFromFile();
          experiment.generateOptionsAndValuesSequences();
          setTimeout(experiment.startExperiment, 1000);
@@ -95,7 +95,7 @@ dataManager.initializeOptionsFromApp = function() {
          default:
             if(option.value !== value)
                console.log("- updating:", option.id, value)
-            createPointerToValueObjectFromValueName(option, value);
+            option.value = value;
       }
    })
 }
@@ -118,8 +118,7 @@ dataManager.initializeAppOptionsFromFile = function() {
       sync.collections.settings.where({
          key: option.id
       })[0].set({
-         // have to do convert boolean into strings for Wunderlist...
-         value: option.values.length > 0 ? option.value : (option.value? "true" : "false")
+         value: formatValue(option.value)
       })
    })
 }
@@ -132,7 +131,7 @@ dataManager.updateOption = function(id, value) {
       sync.collections.settings.where({
          key: id
       })[0].set({
-         value: value
+         value: formatValue(value)
       })
 
       if(value == "hidden" || value == "visible" || value == "auto")
@@ -142,4 +141,13 @@ dataManager.updateOption = function(id, value) {
       // dev mode: not linked with Wunderlist backbone
       console.log("no underlying application settings to update for: ", id)
    }
+}
+
+
+// Must convert boolean into strings for Wunderlist...
+function formatValue(value) {
+   if(typeof value === "boolean")
+      return value ? "true" : "false";
+   else
+      return value;
 }
