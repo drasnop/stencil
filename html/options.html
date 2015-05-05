@@ -39,8 +39,8 @@
 					<select
 					ng-if="option.values.length>0"
 					ng-model="option.value"
-					ng-options="value.label for value in option.values"
-					ng-change="dataManager.updateOption(option.id, option.value.name); experiment.trial.selectedOptionID=option.id; experiment.trial.selectedValue=option.value.name;"
+					ng-options="value.name as value.label for value in option.values"
+					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.selectedOptionID=option.id; experiment.trial.selectedValue=option.value;"
 					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					</select>
 				</div>

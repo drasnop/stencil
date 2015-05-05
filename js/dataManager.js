@@ -12,13 +12,6 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          }
       })
 
-      // set a pointer to the default value for each option, instead of a string
-      model.options.forEach(function(option) {
-         var valueName = option.value; // the default is stored as a string in JSON
-         createPointerToValueObjectFromValueName(option, valueName);
-      })
-
-
       // set option.anchored flag (doesn't take into account flag visible so far)
       model.mappings.forEach(function(mapping) {
          mapping.options.forEach(function(option_id) {
@@ -70,15 +63,6 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
    }
 }
 
-function createPointerToValueObjectFromValueName(option, valueName) {
-   for(var i in option.values) {
-      if(option.values[i].name == valueName) {
-         option.value = option.values[i];
-         break;
-      }
-   }
-}
-
 
 // UNUSED in the experiment software (instead, load the default options)
 dataManager.initializeOptionsFromApp = function() {
@@ -109,7 +93,7 @@ dataManager.initializeOptionsFromApp = function() {
             option.value = false;
             break;
          default:
-            if(option.value.name !== value)
+            if(option.value !== value)
                console.log("- updating:", option.id, value)
             createPointerToValueObjectFromValueName(option, value);
       }
@@ -134,7 +118,8 @@ dataManager.initializeAppOptionsFromFile = function() {
       sync.collections.settings.where({
          key: option.id
       })[0].set({
-         value: option.values.length > 0 ? option.value.name : (option.value? "true" : "false")
+         // have to do convert boolean into strings for Wunderlist...
+         value: option.values.length > 0 ? option.value : (option.value? "true" : "false")
       })
    })
 }

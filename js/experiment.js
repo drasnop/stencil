@@ -48,7 +48,8 @@ experiment.generateOptionsAndValuesSequences = function() {
 }
 
 function complementValueOf(option){
-   return option.value.name;
+   // TODO
+   return option.value;
 }
 
 experiment.startExperiment = function() {
