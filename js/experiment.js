@@ -7,6 +7,8 @@ var experiment = {
    "optionsSequence": [],
    // list of values that the options should be set at during the experiment
    "valuesSequence": [],
+   // list of the labels of the values that the options should be set at during the experiment
+   "valuesLabelsSequence": [],
    // current trial
    "trial": {},
    // list of all the trials completed so far
@@ -21,6 +23,8 @@ function Trial(number) {
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
+   // label of the value that the target opion should be set at (string or "")
+   this.targetValueLabel = experiment.valuesLabelsSequence[this.number];
    // whether the done button has been pressed, marking the end of the trial
    this.done = false;
    // id of the last selected option
@@ -43,13 +47,32 @@ experiment.generateOptionsAndValuesSequences = function() {
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
    experiment.optionsSequence.forEach(function(option) {
-      experiment.valuesSequence.push(complementValueOf(option));
+      var value = complementValueOf(option);
+      if(typeof value === "boolean") {
+         experiment.valuesSequence.push(value);
+         experiment.valuesLabelsSequence.push(value? "true":"false");
+      }
+      else {
+         experiment.valuesSequence.push(value.name);
+         experiment.valuesLabelsSequence.push(value.label);
+      }
    })
 }
 
 function complementValueOf(option) {
-   // TODO
-   return option.value;
+   if(option.values.length === 0)
+      return !option.value;
+
+   // find current index
+   var index;
+   for(var i in option.values) {
+      if(option.values[i].name === option.value) {
+         index = i;
+         break;
+      }
+   }
+   index = (index + 1) % option.values.length;
+   return option.values[index];
 }
 
 
@@ -91,5 +114,10 @@ experiment.generateInstructions = function() {
    var instructions = experiment.trial.targetOption.instructions;
    if(experiment.trial.targetOption.values.length > 0)
       instructions += " " + experiment.trial.targetValue;
+   else{
+      // not a great solution but...
+      if(!experiment.trial.targetValue)
+         instructions=instructions.replace("Enable","Disable")
+   }
    return instructions;
 }
