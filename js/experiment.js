@@ -13,14 +13,14 @@ var experiment = {
    "trials": []
 }
 
-function Trial(number, option, value){
+function Trial(number) {
    // trial number, starting at 0
    this.number = number;
    // target option id
    // target option (Object)
-   this.option = experiment.optionsSequence[this.number];
+   this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
-   this.value = experiment.valuesSequence[this.number];
+   this.targetValue = experiment.valuesSequence[this.number];
    // whether the done button has been pressed, marking the end of the trial
    this.done = false;
    // id of the last selected option
@@ -29,7 +29,7 @@ function Trial(number, option, value){
    this.selectedValue = "";
 
    this.success = function() {
-      return this.selectedOptionID === this.option.id && this.value === this.selectedValue;
+      return this.selectedOptionID === this.targetOption.id && this.targetValue === this.selectedValue;
    };
 }
 
@@ -42,15 +42,16 @@ experiment.generateOptionsAndValuesSequences = function() {
    shuffleArray(experiment.optionsSequence);
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
-   experiment.optionsSequence.forEach(function(option){
+   experiment.optionsSequence.forEach(function(option) {
       experiment.valuesSequence.push(complementValueOf(option));
    })
 }
 
-function complementValueOf(option){
+function complementValueOf(option) {
    // TODO
    return option.value;
 }
+
 
 experiment.startExperiment = function() {
    console.log("Starting experiment")
@@ -60,21 +61,33 @@ experiment.startExperiment = function() {
 experiment.initializeTrial = function(trialNumber) {
    console.log("Initializing trial " + trialNumber)
 
-   experiment.trial=new Trial(trialNumber);
+   experiment.trial = new Trial(trialNumber);
+   model.modalMessage = experiment.generateInstructions();
+   model.progressBarMessage = experiment.generateInstructions();
 
    $("#instructions-modal").modal('show');
    //angular.element($("#ad-hoc-panel")).scope();
 }
 
+// called when the user clicks the "go!" button in the modal
 experiment.startTrial = function() {
    console.log("Starting trial " + experiment.trial.number)
 }
 
+// called when the user clicks the 
 experiment.endTrial = function() {
    experiment.trial.done = true;
 
    experiment.trials.push(experiment.trial);
 
-   // after a brief pause, initialize next trial
-   setTimeout(experiment.initializeTrial, 1000, experiment.trial.number+1);
+   // after a brief pause, initialize next trial (passing it the next trial.number)
+   setTimeout(experiment.initializeTrial, 1000, experiment.trial.number + 1);
+}
+
+
+experiment.generateInstructions = function() {
+   var instructions = experiment.trial.targetOption.instructions;
+   if(experiment.trial.targetOption.values.length > 0)
+      instructions += " " + experiment.trial.targetValue;
+   return instructions;
 }

@@ -1,5 +1,5 @@
 <div id="progress-bar" ng-controller="progressBarController">
-   <div class="instructions">{{experiment.trial.option.instructions}} {{experiment.trial.option.value.label}}</div>
+   <div class="instructions" ng-bind="model.progressBarMessage"></div>
    <div id="button-trial-done" class="btn" ng-class="{'btn-blue': !experiment.trial.done, 'btn-success': experiment.trial.done && experiment.trial.success(), 'btn-danger': experiment.trial.done && !experiment.trial.success()}"
    ng-click="experiment.endTrial()">{{!experiment.trial.done? "Done" : (experiment.trial.success()? "Good job!" : "Wrong selection")}}</div>
 </div>

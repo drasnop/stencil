@@ -4,9 +4,7 @@
       <div class="modal-header">
         <h4 class="modal-title">Please change the following setting:</h4>
       </div>
-      <div class="modal-body">
-        {{experiment.trial.option.instructions}} {{experiment.trial.option.value.label}}
-      </div>
+      <div class="modal-body" ng-bind="model.modalMessage"></div>
       <div class="modal-footer">
         <div type="button" id="button-start-trial" class="btn btn-primary" data-dismiss="modal" ng-click="experiment.startTrial()">Go!</div>
       </div>

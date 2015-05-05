@@ -38,7 +38,12 @@ var model = {
    "activeTab": "",
 
    // True index of each visible option (discounting the options that are hidden)
-   "filteredIndex": []
+   "filteredIndex": [],
+
+   /* other display variables */
+
+   "modalMessage": "",
+   "progressBarMessage": ""
 }
 
 
