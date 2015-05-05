@@ -65,8 +65,10 @@ experiment.initializeTrial = function(trialNumber) {
    model.modalMessage = experiment.generateInstructions();
    model.progressBarMessage = experiment.generateInstructions();
 
-   $("#instructions-modal").modal('show');
-   //angular.element($("#ad-hoc-panel")).scope();
+   // Since the rendering of the modal is blocking, show it at the end of digest
+   angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
+      $("#instructions-modal").modal('show');
+   })
 }
 
 // called when the user clicks the "go!" button in the modal
