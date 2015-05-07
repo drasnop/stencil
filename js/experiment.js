@@ -69,7 +69,7 @@ function complementValueOf(option) {
 
    // find current index
    var index;
-   for(var i=0; i<option.values.length; i++) {
+   for(var i = 0; i < option.values.length; i++) {
       if(option.values[i].name === option.value) {
          index = i;
          break;
@@ -86,8 +86,9 @@ experiment.complementValueOf = function(option) {
 }
 
 
-experiment.startExperiment = function() {
+experiment.start = function() {
    console.log("Starting experiment")
+   model.modalHeader="Please change the following setting:";
    experiment.initializeTrial(0);
 }
 
@@ -121,9 +122,12 @@ experiment.endTrial = function() {
       setTimeout(experiment.initializeTrial, 1000, experiment.trial.number + 1);
    }
    else
-      console.log("experiment completed")
+      experiment.end();
 }
 
+experiment.end = function() {
+   console.log("experiment completed")
+}
 
 experiment.generateInstructions = function() {
    var instructions = experiment.trial.targetOption.instructions;
@@ -138,14 +142,14 @@ experiment.generateInstructions = function() {
 }
 
 
-experiment.trialNotPerformed=function(){
+experiment.trialNotPerformed = function() {
    return !experiment.trial.selectedOptionID;
 }
 
-experiment.trialDone=function(){
+experiment.trialDone = function() {
    return experiment.trial.done;
 }
 
-experiment.trialSuccess=function(){
+experiment.trialSuccess = function() {
    return experiment.trial.success();
 }

@@ -219,10 +219,10 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
 app.controller('instructionsModalController', ['$scope', '$window', function($scope, $window) {
    $scope.model = $window.model;
-   $scope.controller = $window.experiment;
+   $scope.controller = $window.tutorial;
 }])
 
 app.controller('progressBarController', ['$scope', '$window', function($scope, $window) {
    $scope.model = $window.model;
-   $scope.controller = $window.experiment;
+   $scope.controller = $window.tutorial;
 }])

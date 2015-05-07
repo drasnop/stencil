@@ -42,6 +42,7 @@ var model = {
 
    /* other display variables */
 
+   "modalHeader": "",
    "modalMessage": "",
    "progressBarMessage": ""
 }
