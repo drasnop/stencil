@@ -5,6 +5,8 @@ var experiment = {
    "oppositeDefault": true,
    // random sequence of 8 numbers and letters used to identify participants
    "email": "lotaculi",
+   // total number of trials in the experiment (starts at 1...)
+   "numTrials": 8,
    // list of options that users will be ask to find during the experiment
    "optionsSequence": [],
    // list of values that the options should be set at during the experiment
@@ -41,15 +43,18 @@ function Trial(number) {
 
 experiment.generateOptionsAndValuesSequences = function() {
    // so far, simply pick two options out of each tab
-   model.tabs.forEach(function(tab) {
+/*   model.tabs.forEach(function(tab) {
       experiment.optionsSequence.push(randomElementFrom(tab.options));
       experiment.optionsSequence.push(randomElementFrom(tab.options));
-   });
+   });*/
+   experiment.optionsSequence.push(model.options["time_format"])
+   experiment.optionsSequence.push(model.options["new_task_location"])
    shuffleArray(experiment.optionsSequence);
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
    experiment.optionsSequence.forEach(function(option) {
       var value = complementValueOf(option);
+      console.log(option.value, value)
       if(typeof value === "boolean") {
          experiment.valuesSequence.push(value);
          experiment.valuesLabelsSequence.push(value ? "true" : "false");
@@ -67,7 +72,7 @@ function complementValueOf(option) {
 
    // find current index
    var index;
-   for(var i in option.values) {
+   for(var i=0; i<option.values.length; i++) {
       if(option.values[i].name === option.value) {
          index = i;
          break;
@@ -113,8 +118,13 @@ experiment.endTrial = function() {
 
    experiment.trials.push(experiment.trial);
 
-   // after a brief pause, initialize next trial (passing it the next trial.number)
-   setTimeout(experiment.initializeTrial, 1000, experiment.trial.number + 1);
+   // trial.number starts at 0, but numTrials starts at 1
+   if(experiment.trial.number + 1 < Math.min(experiment.numTrials, experiment.optionsSequence.length)) {
+      // after a brief pause, initialize next trial (passing it the next trial.number)
+      setTimeout(experiment.initializeTrial, 1000, experiment.trial.number + 1);
+   }
+   else
+      console.log("experiment completed")
 }
 
 
