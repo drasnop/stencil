@@ -43,18 +43,15 @@ function Trial(number) {
 
 experiment.generateOptionsAndValuesSequences = function() {
    // so far, simply pick two options out of each tab
-/*   model.tabs.forEach(function(tab) {
+   model.tabs.forEach(function(tab) {
       experiment.optionsSequence.push(randomElementFrom(tab.options));
       experiment.optionsSequence.push(randomElementFrom(tab.options));
-   });*/
-   experiment.optionsSequence.push(model.options["time_format"])
-   experiment.optionsSequence.push(model.options["new_task_location"])
+   });
    shuffleArray(experiment.optionsSequence);
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
    experiment.optionsSequence.forEach(function(option) {
       var value = complementValueOf(option);
-      console.log(option.value, value)
       if(typeof value === "boolean") {
          experiment.valuesSequence.push(value);
          experiment.valuesLabelsSequence.push(value ? "true" : "false");
@@ -138,4 +135,17 @@ experiment.generateInstructions = function() {
          instructions = instructions.replace("Enable", "Disable")
    }
    return instructions;
+}
+
+
+experiment.trialNotPerformed=function(){
+   return !experiment.trial.selectedOptionID;
+}
+
+experiment.trialDone=function(){
+   return experiment.trial.done;
+}
+
+experiment.trialSuccess=function(){
+   return experiment.trial.success();
 }
