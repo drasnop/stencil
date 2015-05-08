@@ -44,8 +44,8 @@ var model = {
 
    "modalHeader": "",
    "modalMessage": "",
+   "modalAction": "",
    "progressBarMessage": "Installation successful! Your verification code 3141",
-   "controller": ""
 }
 
 

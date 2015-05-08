@@ -11,15 +11,19 @@ tutorial.steps = [
    "Add a third todo: \"do stuff\"",
    "Click on the star icon to mark it as important.",
    "Return to the Inbox, if you weren't already there.",
-   "Delete todo \"buy milk\": double-click on it to open the right panel, then click the trash icon at the bottom",
-   "Congratulation! You have completed the tutorial. You can now start the experiment."
+   "Delete todo \"buy milk\": double-click on it to open the right panel, then click the trash icon at the bottom"
 ]
 
 /* overwritten methods */
 
 tutorial.end = function() {
    Sequencer.prototype.end.call(this);
-   experiment.start();
+
+   model.progressBarMessage = "";
+   model.modalHeader = "Congratulations!";
+   model.modalMessage = "You have completed the tutorial. You can now start the experiment.";
+   model.modalAction = experiment.start.bind(experiment);
+   showModal();
 }
 
 /* methods that need to be implemented */

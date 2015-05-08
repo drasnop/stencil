@@ -54,7 +54,9 @@ function adjustPanelHeight() {
 
 
       if($("#ad-hoc-panel").offset().top < 30) {
-         $("#ad-hoc-panel").offset({"top": 30});
+         $("#ad-hoc-panel").offset({
+            "top": 30
+         });
          $("#options").height(wh - $("#ad-hoc-panel").offset().top - $("#tabs").height());
       }
    }
@@ -63,7 +65,7 @@ function adjustPanelHeight() {
 }
 
 // position the panel at the top right of the current anchor, if possible; otherwise flipfit it
-function positionPanel(){
+function positionPanel() {
    $("#ad-hoc-panel").position({
       my: "left+10 top",
       at: "right top",
@@ -113,16 +115,22 @@ function getscope() {
 }
 
 
-function randomElementFrom(array){
-   return array[Math.floor(Math.random()*array.length)];
+function randomElementFrom(array) {
+   return array[Math.floor(Math.random() * array.length)];
 }
 
 function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    return;
+   for(var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+   }
+   return;
+}
+
+function showModal() {
+   angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
+      $("#instructions-modal").modal('show');
+   })
 }

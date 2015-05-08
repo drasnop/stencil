@@ -17,7 +17,10 @@ function Step(number) {
 
 Sequencer.prototype.start = function() {
    console.log("Starting " + this.name)
-   model.controller = this;
+
+   angular.element($("#progress-bar")).scope().controller = this;
+   angular.element($("#instructions-modal")).scope().controller = this;
+
    this.initializeTrial(0)
 }
 
@@ -27,19 +30,18 @@ Sequencer.prototype.initializeTrial = function(trialNumber) {
    // creates a new trial, with the appropriate trial.number
    this.trial = new this.trialConstructor(trialNumber);
 
+   model.progressBarMessage = this.getInstructions();
    model.modalHeader = this.getModalHeader();
    model.modalMessage = this.getInstructions();
-   model.progressBarMessage = this.getInstructions();
+   model.modalAction = this.startTrial();
 
    // Since the rendering of the modal is blocking, show it at the end of digest
-   angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
-      $("#instructions-modal").modal('show');
-   })
+   showModal();
 }
 
 // called when the user clicks the "go!" button in the modal
 Sequencer.prototype.startTrial = function() {
-   console.log(this.name + " trial " + this.trial.number)
+   console.log(this.name + " trial " + this.trial.number + " started")
 }
 
 // called when the user clicks the "done" button in the progress bar
