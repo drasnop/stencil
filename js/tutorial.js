@@ -1,4 +1,6 @@
-var tutorial = new Sequencer("tutorial", [
+var tutorial = new Sequencer("tutorial", 500);
+
+tutorial.steps = [
    "Add a new todo: \"buy milk\"",
    "Double-click on the todo to show the details panel on the right",
    "Change the todo due date to tomorrow",
@@ -11,8 +13,7 @@ var tutorial = new Sequencer("tutorial", [
    "Return to the Inbox, if you weren't already there.",
    "Delete todo \"buy milk\": double-click on it to open the right panel, then click the trash icon at the bottom",
    "Congratulation! You have completed the tutorial. You can now start the experiment."
-], 500, Step);
-
+]
 
 tutorial.end = function() {
    Sequencer.prototype.end.call(this)
@@ -21,13 +22,17 @@ tutorial.end = function() {
 
 
 tutorial.getModalHeader = function() {
-   return "Wunderlist tutorial - step " + (this.trial.number + 1) + " / " + this.trials.length;
+   return "Wunderlist tutorial - step " + (this.trial.number + 1) + " / " + this.steps.length;
 }
 
 tutorial.getInstructions = function() {
-   return this.trials[this.trial.number];
+   return this.steps[this.trial.number];
 }
 
 tutorial.trialNotPerformed = function() {
    return false;
+}
+
+tutorial.notEndOfSequence = function() {
+   return this.trial.number + 1 < this.steps.length;
 }

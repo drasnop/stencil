@@ -1,18 +1,21 @@
-function Sequencer(name, trials, trialPause, trialConstructor) {
+function Sequencer(name, trialPause, trialConstructor) {
+   // name used to indentify the Sequencer in log messages
    this.name = name;
+   // current trial
    this.trial = {};
-   this.trials = trials;
+   // duration of the brief pause between end of a trial and start of the next (in ms)
    this.trialPause = trialPause;
-   this.trialConstructor = trialConstructor;
+   // constructor used to create new trials
+   this.trialConstructor = trialConstructor || Step;
 }
 
+// generic trial constructor
 function Step(number) {
    this.number = number;
    this.done = false;
 }
 
 Sequencer.prototype.start = function() {
-   console.log(this)
    console.log("Starting " + this.name)
    model.controller = this;
    this.initializeTrial(0)
@@ -64,6 +67,11 @@ sequencer.getInstructions = function(trialNumber) {
 
 sequencer.trialNotPerformed = function() {
    return false;
+
+// test if the new index will get out of the bounds of the array
+sequencer.notEndOfSequence = function() {
+   return this.trial.number + 1 < this.trials.length;
+}
 }*/
 
 
@@ -73,9 +81,4 @@ Sequencer.prototype.trialDone = function() {
 
 Sequencer.prototype.trialSuccess = function() {
    return true;
-}
-
-// test if the new index will get out of the bounds of the array
-Sequencer.prototype.notEndOfSequence = function() {
-   return this.trial.number + 1 < this.trials.length;
 }
