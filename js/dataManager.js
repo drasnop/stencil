@@ -16,11 +16,11 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
 
       // convenient accessor for userAccessibleOptions
       Object.defineProperty(model.options, "getUserAccessibleOptions", {
-         value: function(){
-            var userAccessible={};
-            this.forEach(function(option){
+         value: function() {
+            var userAccessible = {};
+            this.forEach(function(option) {
                if(typeof option.notUserAccessible === "undefined")
-                  userAccessible[option.id]=option;
+                  userAccessible[option.id] = option;
             });
             Object.defineProperty(userAccessible, "forEach", {
                value: model.options.forEach
@@ -86,7 +86,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       if(experiment.experiment) {
          dataManager.initializeAppOptionsFromFile();
          experiment.generateOptionsAndValuesSequences();
-         setTimeout(tutorial.start.bind(tutorial), 1000);
+         //setTimeout(tutorial.start.bind(tutorial), 1000);
+         setTimeout(experiment.start.bind(experiment), 1000);
       }
    }
 }

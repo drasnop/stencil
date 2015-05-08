@@ -15,11 +15,14 @@ tutorial.steps = [
    "Congratulation! You have completed the tutorial. You can now start the experiment."
 ]
 
+/* overwritten methods */
+
 tutorial.end = function() {
-   Sequencer.prototype.end.call(this)
+   Sequencer.prototype.end.call(this);
    experiment.start();
 }
 
+/* methods that need to be implemented */
 
 tutorial.getModalHeader = function() {
    return "Wunderlist tutorial - step " + (this.trial.number + 1) + " / " + this.steps.length;
@@ -31,6 +34,10 @@ tutorial.getInstructions = function() {
 
 tutorial.trialNotPerformed = function() {
    return false;
+}
+
+tutorial.trialSuccess = function() {
+   return true;
 }
 
 tutorial.notEndOfSequence = function() {

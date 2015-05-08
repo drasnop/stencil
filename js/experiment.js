@@ -1,27 +1,28 @@
-var experiment = {
-   // whether the system is currently used to conduct an experiment
-   "experiment": true,
-   // whether to use the opposite values of the default options for this participant
-   "oppositeDefault": true,
-   // random sequence of 8 numbers and letters used to identify participants
-   "email": "lotaculi",
-   // total number of trials in the experiment (starts at 1...)
-   "numTrials": 8,
-   // list of options that users will be ask to find during the experiment
-   "optionsSequence": [],
-   // list of values that the options should be set at during the experiment
-   "valuesSequence": [],
-   // list of the labels of the values that the options should be set at during the experiment
-   "valuesLabelsSequence": [],
-   // current trial
-   "trial": {},
-   // list of all the trials completed so far
-   "trials": []
-}
+var experiment = new Sequencer("experiment", 1000, Trial);
+
+// whether the system is currently used to conduct an experiment
+experiment.experiment = true;
+// whether to use the opposite values of the default options for this participant
+experiment.oppositeDefault = true;
+// random sequence of 8 numbers and letters used to identify participants
+experiment.email = "lotaculi";
+// total number of trials in the experiment (starts at 1...)
+experiment.numTrials = 8;
+// list of options that users will be ask to find during the experiment
+experiment.optionsSequence = [];
+// list of values that the options should be set at during the experiment
+experiment.valuesSequence = [];
+// list of the labels of the values that the options should be set at during the experiment
+experiment.valuesLabelsSequence = [];
+// list of all the trials completed so far
+experiment.trials = [];
+
 
 function Trial(number) {
    // trial number, starting at 0
    this.number = number;
+   // whether the done button has been pressed, marking the end of the trial
+   this.done = false;
    // target option id
    // target option (Object)
    this.targetOption = experiment.optionsSequence[this.number];
@@ -29,8 +30,6 @@ function Trial(number) {
    this.targetValue = experiment.valuesSequence[this.number];
    // label of the value that the target opion should be set at (string or "")
    this.targetValueLabel = experiment.valuesLabelsSequence[this.number];
-   // whether the done button has been pressed, marking the end of the trial
-   this.done = false;
    // id of the last selected option
    this.selectedOptionID = false;
    // last selected value of the last selected option
@@ -40,6 +39,55 @@ function Trial(number) {
       return this.selectedOptionID === this.targetOption.id && this.targetValue === this.selectedValue;
    };
 }
+
+/* overwritten methods */
+
+experiment.endTrial = function() {
+   experiment.trials.push(experiment.trial);
+   Sequencer.prototype.endTrial.call(this);
+}
+
+experiment.end = function() {
+   Sequencer.prototype.end.call(this);
+   // launch questionnaires
+}
+
+/* methods that need to be implemented */
+
+experiment.getModalHeader = function() {
+   return "Please change the following setting: (" + (this.trial.number + 1) + " / " + this.optionsSequence.length + ")";
+}
+
+experiment.getInstructions = function() {
+   var instructions = experiment.trial.targetOption.instructions;
+   if(experiment.trial.targetOption.values.length > 0)
+      instructions += " " + experiment.trial.targetValueLabel;
+   else {
+      // not a great solution but...
+      if(!experiment.trial.targetValue)
+         instructions = instructions.replace("Enable", "Disable")
+   }
+   return instructions;
+}
+
+experiment.trialNotPerformed = function() {
+   return !experiment.trial.selectedOptionID;
+}
+
+experiment.trialSuccess = function() {
+   return this.trial.success();
+}
+
+experiment.notEndOfSequence = function() {
+   return this.trial.number + 1 < this.optionsSequence.length;
+}
+
+
+
+
+// -------------------------------------------- //
+
+
 
 experiment.generateOptionsAndValuesSequences = function() {
    // so far, simply pick two options out of each tab
@@ -83,74 +131,4 @@ function complementValueOf(option) {
 experiment.complementValueOf = function(option) {
    var value = complementValueOf(option);
    return(typeof value === "boolean") ? value : value.name;
-}
-
-
-experiment.start = function() {
-   console.log("Starting experiment")
-   model.modalHeader="Please change the following setting:";
-   model.controller=experiment;
-   experiment.initializeTrial(0);
-}
-
-experiment.initializeTrial = function(trialNumber) {
-   console.log("Initializing trial " + trialNumber)
-
-   experiment.trial = new Trial(trialNumber);
-   model.modalMessage = experiment.generateInstructions();
-   model.progressBarMessage = experiment.generateInstructions();
-
-   // Since the rendering of the modal is blocking, show it at the end of digest
-   angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
-      $("#instructions-modal").modal('show');
-   })
-}
-
-// called when the user clicks the "go!" button in the modal
-experiment.startTrial = function() {
-   console.log("Starting trial " + experiment.trial.number)
-}
-
-// called when the user clicks the 
-experiment.endTrial = function() {
-   experiment.trial.done = true;
-
-   experiment.trials.push(experiment.trial);
-
-   // trial.number starts at 0, but numTrials starts at 1
-   if(experiment.trial.number + 1 < Math.min(experiment.numTrials, experiment.optionsSequence.length)) {
-      // after a brief pause, initialize next trial (passing it the next trial.number)
-      setTimeout(experiment.initializeTrial, 1000, experiment.trial.number + 1);
-   }
-   else
-      experiment.end();
-}
-
-experiment.end = function() {
-   console.log("experiment completed")
-}
-
-experiment.generateInstructions = function() {
-   var instructions = experiment.trial.targetOption.instructions;
-   if(experiment.trial.targetOption.values.length > 0)
-      instructions += " " + experiment.trial.targetValueLabel;
-   else {
-      // not a great solution but...
-      if(!experiment.trial.targetValue)
-         instructions = instructions.replace("Enable", "Disable")
-   }
-   return instructions;
-}
-
-
-experiment.trialNotPerformed = function() {
-   return !experiment.trial.selectedOptionID;
-}
-
-experiment.trialDone = function() {
-   return experiment.trial.done;
-}
-
-experiment.trialSuccess = function() {
-   return experiment.trial.success();
 }

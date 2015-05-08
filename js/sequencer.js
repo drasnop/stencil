@@ -37,10 +37,12 @@ Sequencer.prototype.initializeTrial = function(trialNumber) {
    })
 }
 
+// called when the user clicks the "go!" button in the modal
 Sequencer.prototype.startTrial = function() {
    console.log(this.name + " trial " + this.trial.number)
 }
 
+// called when the user clicks the "done" button in the progress bar
 Sequencer.prototype.endTrial = function() {
    console.log(this.name + " trial " + this.trial.number + " ended")
    this.trial.done = true;
@@ -53,32 +55,21 @@ Sequencer.prototype.endTrial = function() {
       this.end();
 }
 
-Sequencer.prototype.end = function() {
-   console.log(this.name + " ended");
-}
-
-/*sequencer.getModalHeader = function(trialNumber) {
-   return "";
-}
-
-sequencer.getInstructions = function(trialNumber) {
-   return "";
-}
-
-sequencer.trialNotPerformed = function() {
-   return false;
-
-// test if the new index will get out of the bounds of the array
-sequencer.notEndOfSequence = function() {
-   return this.trial.number + 1 < this.trials.length;
-}
-}*/
-
-
+// just used for display
 Sequencer.prototype.trialDone = function() {
    return this.trial.done;
 }
 
-Sequencer.prototype.trialSuccess = function() {
-   return true;
+Sequencer.prototype.end = function() {
+   console.log(this.name + " ended");
 }
+
+
+/* methods that need to be implemented by instances */
+
+/* getModalHeader
+   getInstructions
+   trialNotPerformed
+   trialSuccess
+   notEndOfSequence
+*/
