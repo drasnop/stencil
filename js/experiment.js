@@ -89,6 +89,7 @@ experiment.complementValueOf = function(option) {
 experiment.start = function() {
    console.log("Starting experiment")
    model.modalHeader="Please change the following setting:";
+   model.controller=experiment;
    experiment.initializeTrial(0);
 }
 
