@@ -18,8 +18,8 @@ function Step(number) {
 Sequencer.prototype.start = function() {
    console.log("Starting " + this.name)
 
-   angular.element($("#progress-bar")).scope().controller = this;
-   angular.element($("#instructions-modal")).scope().controller = this;
+   angular.element($("#progress-bar")).scope().sequencer = this;
+   angular.element($("#instructions-modal")).scope().sequencer = this;
 
    this.initializeTrial(0)
 }
