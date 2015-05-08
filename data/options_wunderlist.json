@@ -116,6 +116,9 @@
       "values": [{
          "name": "CTRL + N",
          "label": "CTRL + N"
+      },{
+         "name": "CTRL + M",
+         "label": "CTRL + M"
       }]
    },
    "shortcut_add_new_list": {
@@ -126,6 +129,9 @@
       "values": [{
          "name": "CTRL + L",
          "label": "CTRL + L"
+      },{
+         "name": "CTRL + K",
+         "label": "CTRL + K"
       }]
    },
    "shortcut_mark_task_done": {
@@ -136,6 +142,9 @@
       "values": [{
          "name": "CTRL + D",
          "label": "CTRL + D"
+      },{
+         "name": "CTRL + H",
+         "label": "CTRL + H"
       }]
    },
    "shortcut_mark_task_starred": {
@@ -159,6 +168,9 @@
       "values": [{
          "name": "CTRL + A",
          "label": "CTRL + A"
+      },{
+         "name": "CTRL + Q",
+         "label": "CTRL + Q"
       }]
    },
    "shortcut_delete": {
@@ -169,6 +181,9 @@
       "values": [{
          "name": "CTRL + BACKSPACE",
          "label": "CTRL + BACKSPACE"
+      },{
+         "name": "CTRL + R",
+         "label": "CTRL + R"
       }]
    },
    "shortcut_goto_search": {
@@ -179,6 +194,9 @@
       "values": [{
          "name": "CTRL + F",
          "label": "CTRL + F"
+      },{
+         "name": "CTRL + G",
+         "label": "CTRL + G"
       }]
    },
    "shortcut_goto_preferences": {
@@ -203,17 +221,23 @@
       "values": [{
          "name": "CTRL + E",
          "label": "CTRL + E"
+      },{
+         "name": "CTRL + ",
+         "label": "CTRL + "
       }],
       "more": true
    },
    "shortcut_show_notifications": {
       "id": "shortcut_show_notifications",
       "label": "Show Activities",
-      "instructions": "Change shortcut for showing the notifications panel to",
+      "instructions": "Change shortcut for showing the activities panel to",
       "value": "CTRL + SHIFT + A",
       "values": [{
          "name": "CTRL + SHIFT + A",
          "label": "CTRL + SHIFT + A"
+      },{
+         "name": "CTRL + SHIFT + N",
+         "label": "CTRL + SHIFT + N"
       }],
       "more": true
    },
@@ -225,6 +249,9 @@
       "values": [{
          "name": "CTRL + I",
          "label": "CTRL + I"
+      },{
+         "name": "CTRL + 0",
+         "label": "CTRL + 0"
       }],
       "more": true
    },
@@ -236,6 +263,9 @@
       "values": [{
          "name": "CTRL + 1",
          "label": "CTRL + 1"
+      },{
+         "name": "CTRL + SHIFT + 1",
+         "label": "CTRL + SHIFT + 1"
       }],
       "more": true
    },
@@ -247,6 +277,9 @@
       "values": [{
          "name": "CTRL + 2",
          "label": "CTRL + 2"
+      },{
+         "name": "CTRL + SHIFT + 2",
+         "label": "CTRL + SHIFT + 2"
       }],
       "more": true
    },
@@ -258,6 +291,9 @@
       "values": [{
          "name": "CTRL + 3",
          "label": "CTRL + 3"
+      },{
+         "name": "CTRL + SHIFT + 3",
+         "label": "CTRL + SHIFT + 3"
       }],
       "more": true
    },
@@ -269,6 +305,9 @@
       "values": [{
          "name": "CTRL + 4",
          "label": "CTRL + 4"
+      },{
+         "name": "CTRL + SHIFT + 4",
+         "label": "CTRL + SHIFT + 4"
       }],
       "more": true
    },
@@ -280,6 +319,9 @@
       "values": [{
          "name": "CTRL + 5",
          "label": "CTRL + 5"
+      },{
+         "name": "CTRL + SHIFT + 5",
+         "label": "CTRL + SHIFT + 5"
       }],
       "more": true
    },
@@ -291,6 +333,9 @@
       "values": [{
          "name": "CTRL + 6",
          "label": "CTRL + 6"
+      },{
+         "name": "CTRL + SHIFT + 6",
+         "label": "CTRL + SHIFT + 6"
       }],
       "more": true
    },
@@ -302,6 +347,9 @@
       "values": [{
          "name": "R",
          "label": "R"
+      },{
+         "name": "CTRL + Y",
+         "label": "CTRL + Y"
       }]
    },
    "smartlist_visibility_assigned_to_me": {
