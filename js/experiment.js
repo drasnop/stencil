@@ -90,11 +90,16 @@ experiment.notEndOfSequence = function() {
 
 
 experiment.generateOptionsAndValuesSequences = function() {
-   // so far, simply pick two options out of each tab
-   model.tabs.forEach(function(tab) {
-      experiment.optionsSequence.push(randomElementFrom(tab.options));
-      experiment.optionsSequence.push(randomElementFrom(tab.options));
-   });
+   // select one third of options per tab, with a maximum of 4
+   var numOptionsPerTab = [3, 4, 2, 1];
+   var firstAllowedIndex = [1, 2, 0, 0];
+   for (var i = 0; i < model.tabs.length; i++) {
+      for (var j = 0; j < numOptionsPerTab[i]; j++) {
+         var allowedOptions = model.tabs[i].options.slice(firstAllowedIndex[i])
+         experiment.optionsSequence.push(randomElementFrom(allowedOptions));
+      }
+   }
+
    shuffleArray(experiment.optionsSequence);
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
