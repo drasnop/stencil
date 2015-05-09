@@ -6,8 +6,6 @@ experiment.experiment = true;
 experiment.oppositeDefault = true;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "lotaculi";
-// total number of trials in the experiment (starts at 1...)
-experiment.numTrials = 8;
 // list of options that users will be ask to find during the experiment
 experiment.optionsSequence = [];
 // list of values that the options should be set at during the experiment
@@ -92,19 +90,32 @@ experiment.notEndOfSequence = function() {
 experiment.generateOptionsAndValuesSequences = function() {
    // select one third of options per tab, with a maximum of 4
    var numOptionsPerTab = [3, 4, 2, 1];
+   var optionsByTab = [];
    var firstAllowedIndex = [1, 2, 0, 0];
+   var numTrials = 0;
+
    for (var i = 0; i < model.tabs.length; i++) {
       // select numOptionsPerTab at random, excluding the forbidden options
       var allowedOptions = model.tabs[i].options.slice(firstAllowedIndex[i])
       shuffleArray(allowedOptions);
 
+      optionsByTab[i] = [];
       for (var j = 0; j < numOptionsPerTab[i]; j++) {
-         experiment.optionsSequence.push(allowedOptions.pop());
+         optionsByTab[i].push(allowedOptions[j]);
+         //optionsByTab[i].push(model.options["date_format"]);
+         //console.log(optionsByTab[i])
       }
+      numTrials += numOptionsPerTab[i];
    }
 
-   // maybe prevent options from the same tab from following each other
-   shuffleArray(experiment.optionsSequence);
+   //console.log(optionsByTab)
+   // prevent options from the same tab from following each other
+   var tabIndex = Math.floor(Math.random() * 4);
+   for (var i = 0; i < numTrials; i++) {
+      //console.log(optionsByTab)
+      experiment.optionsSequence.push(optionsByTab[tabIndex].pop())
+      tabIndex = randomTabIndexExcluding(optionsByTab, tabIndex);
+   }
 
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
@@ -114,6 +125,17 @@ experiment.generateOptionsAndValuesSequences = function() {
       experiment.valuesSequence.push(value);
    })
 }
+
+function randomTabIndexExcluding(optionsByTab, prev) {
+   // add the indexes of the tabs that still have options to pick from, excluding the prev tab
+   var indexes = [];
+   for (var i = 0; i < optionsByTab.length; i++) {
+      if (i != prev && optionsByTab[i].length > 0)
+         indexes.push(i);
+   }
+   return randomElementFrom(indexes);
+}
+
 
 // returns a boolean value or a String (the name of the value)
 // in the case of more than 2 values, the reverse flag is used so that complementValueOf(complementValueOf(option),true)=option.value
