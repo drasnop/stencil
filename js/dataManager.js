@@ -1,7 +1,7 @@
 var dataManager = {};
 
 dataManager.initializeDataStructuresIfAllLoaded = function() {
-   if(Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0) {
+   if (Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0) {
 
       /* options */
 
@@ -19,7 +19,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          value: function() {
             var userAccessible = {};
             this.forEach(function(option) {
-               if(typeof option.notUserAccessible === "undefined")
+               if (typeof option.notUserAccessible === "undefined")
                   userAccessible[option.id] = option;
             });
             Object.defineProperty(userAccessible, "forEach", {
@@ -57,7 +57,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       })
 
       // add tab index information for future sorting
-      for(var i = 0, len = model.tabs.length; i < len; i++) {
+      for (var i = 0, len = model.tabs.length; i < len; i++) {
          model.tabs[i].index = i;
       }
 
@@ -68,7 +68,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
 
       // for some participants, use the opposite of the default options
       // TODO why can't it be above the model.tabs initialization?
-      if(experiment.oppositeDefault) {
+      if (experiment.oppositeDefault) {
          model.options.getUserAccessibleOptions().forEach(function(option) {
             option.value = experiment.complementValueOf(option);
          });
@@ -83,10 +83,11 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       //enterCustomizationMode();
 
       // Initialize experiment
-      if(experiment.experiment) {
+      if (experiment.experiment) {
          dataManager.initializeAppOptionsFromFile();
          experiment.generateOptionsAndValuesSequences();
-         setTimeout(tutorial.start.bind(tutorial), 1000);
+         //setTimeout(tutorial.start.bind(tutorial), 1000);
+         setTimeout(experiment.start.bind(experiment), 1000);
       }
    }
 }
@@ -98,7 +99,7 @@ dataManager.initializeOptionsFromApp = function() {
    console.log("Syncing options with underlying app...")
 
    // dev mode: not linked with Wunderlist backbone
-   if(typeof sync == "undefined" || typeof sync.collections == "undefined")
+   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
       return;
 
    var value;
@@ -109,19 +110,19 @@ dataManager.initializeOptionsFromApp = function() {
       })[0].get("value")
 
       // I am using booleans, but they are storing these options as strings!
-      switch(value) {
+      switch (value) {
          case "true":
-            if(option.value !== true)
+            if (option.value !== true)
                console.log("- updating:", option.id, true)
             option.value = true;
             break;
          case "false":
-            if(option.value !== false)
+            if (option.value !== false)
                console.log("- updating:", option.id, false)
             option.value = false;
             break;
          default:
-            if(option.value !== value)
+            if (option.value !== value)
                console.log("- updating:", option.id, value)
             option.value = value;
       }
@@ -134,13 +135,13 @@ dataManager.initializeAppOptionsFromFile = function() {
    console.log("Syncing options of underlying app...")
 
    // dev mode: not linked with Wunderlist backbone
-   if(typeof sync == "undefined" || typeof sync.collections == "undefined")
+   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
       return;
 
    model.options.forEach(function(option) {
 
       // don't force sync the "deep" parameters that the app uses internally
-      if(typeof option.notUserAccessible !== "undefined" && option.notUserAccessible)
+      if (typeof option.notUserAccessible !== "undefined" && option.notUserAccessible)
          return;
 
       sync.collections.settings.where({
@@ -153,7 +154,7 @@ dataManager.initializeAppOptionsFromFile = function() {
 
 dataManager.updateOption = function(id, value) {
 
-   if(typeof sync != "undefined" && typeof sync.collections != "undefined") {
+   if (typeof sync != "undefined" && typeof sync.collections != "undefined") {
       console.log("updating:", id, value)
 
       sync.collections.settings.where({
@@ -162,10 +163,9 @@ dataManager.updateOption = function(id, value) {
          value: formatValue(value)
       })
 
-      if(value == "hidden" || value == "visible" || value == "auto")
+      if (value == "hidden" || value == "visible" || value == "auto")
          updateHooksAndClusters();
-   }
-   else {
+   } else {
       // dev mode: not linked with Wunderlist backbone
       console.log("no underlying application settings to update for: ", id)
    }
@@ -174,7 +174,7 @@ dataManager.updateOption = function(id, value) {
 
 // Must convert boolean into strings for Wunderlist...
 function formatValue(value) {
-   if(typeof value === "boolean")
+   if (typeof value === "boolean")
       return value ? "true" : "false";
    else
       return value;

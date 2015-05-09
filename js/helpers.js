@@ -9,7 +9,7 @@ var parentCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left
 
 function getRelevantCSS(obj, relevantCSS) {
    var rules = {};
-   for(var i in relevantCSS) {
+   for (var i in relevantCSS) {
       rules[relevantCSS[i]] = obj.css(relevantCSS[i]);
    }
    rules["box-sizing"] = "content-box";
@@ -31,11 +31,11 @@ function dontHaveSameOptions(input, options) {
 // return true if arrays a and b have the same elements (not necessarily in order)
 function sameElements(a, b) {
    // assuming each element appears only once
-   if(a.length != b.length)
+   if (a.length != b.length)
       return false;
 
-   for(var i in a) {
-      if(b.indexOf(a[i]) < 0)
+   for (var i in a) {
+      if (b.indexOf(a[i]) < 0)
          return false;
    }
    return true;
@@ -49,11 +49,11 @@ function adjustPanelHeight() {
 
    $("#options").css("height", "");
    // we want to keep the tabs always visible, so resize only the options list
-   if(top + $("#ad-hoc-panel").height() > wh) {
+   if (top + $("#ad-hoc-panel").height() > wh) {
       $("#options").height(wh - top - $("#tabs").height());
 
 
-      if($("#ad-hoc-panel").offset().top < 30) {
+      if ($("#ad-hoc-panel").offset().top < 30) {
          $("#ad-hoc-panel").offset({
             "top": 30
          });
@@ -76,7 +76,7 @@ function positionPanel() {
 
 jQuery.fn.extend({
    robustHeight: function() {
-      if(this.css("box-sizing") == "border-box")
+      if (this.css("box-sizing") == "border-box")
          return this.outerHeight();
       else
          return this.height();
@@ -85,7 +85,7 @@ jQuery.fn.extend({
 
 jQuery.fn.extend({
    robustWidth: function() {
-      if(this.css("box-sizing") == "border-box")
+      if (this.css("box-sizing") == "border-box")
          return this.outerWidth();
       else
          return this.width();
@@ -94,7 +94,7 @@ jQuery.fn.extend({
 
 Math.mean = function(array) {
    var sum = 0;
-   for(var i in array)
+   for (var i in array)
       sum += array[i]
    return sum / array.length;
 }
@@ -120,7 +120,7 @@ function randomElementFrom(array) {
 }
 
 function shuffleArray(array) {
-   for(var i = array.length - 1; i > 0; i--) {
+   for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var temp = array[i];
       array[i] = array[j];
@@ -133,4 +133,15 @@ function showModal() {
    angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
       $("#instructions-modal").modal('show');
    })
+}
+
+function getIndex(option, value) {
+   var index;
+   for (var i = 0; i < option.values.length; i++) {
+      if (option.values[i].name === value) {
+         index = i;
+         break;
+      }
+   }
+   return index;
 }

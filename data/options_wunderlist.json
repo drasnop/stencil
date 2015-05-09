@@ -7,7 +7,8 @@
       "values": [{
          "name": "en_US",
          "label": "English"
-      }]
+      }],
+      "notInExperiment": true
    },
    "date_format": {
       "id": "date_format",
@@ -222,8 +223,8 @@
          "name": "CTRL + E",
          "label": "CTRL + E"
       },{
-         "name": "CTRL + ",
-         "label": "CTRL + "
+         "name": "CTRL + U",
+         "label": "CTRL + U"
       }],
       "more": true
    },
@@ -356,45 +357,38 @@
       "id": "smartlist_visibility_assigned_to_me",
       "label": "Assigned to me",
       "instructions": "In the left sidebar, show a list of all the todos assigned to you",
-      "value": "auto",
+      "value": "visible",
       "values": [{
-         "name": "auto",
-         "label": "auto"
-      }, {
          "name": "visible",
          "label": "visible"
       }, {
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true
+      "hideable": true,
+      "notInExperiment": true
    },
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",
       "label": "Starred",
       "instructions": "In the left sidebar, show a list of all the todos that are starred",
-      "value": "auto",
+      "value": "visible",
       "values": [{
-         "name": "auto",
-         "label": "auto"
-      }, {
          "name": "visible",
          "label": "visible"
       }, {
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true
+      "hideable": true,
+      "notInExperiment": true
    },
    "smartlist_visibility_today": {
       "id": "smartlist_visibility_today",
       "label": "Today",
       "instructions": "In the left sidebar, show a list of all the todos that are due today",
-      "value": "auto",
+      "value": "visible",
       "values": [{
-         "name": "auto",
-         "label": "auto"
-      }, {
          "name": "visible",
          "label": "visible"
       }, {
@@ -407,11 +401,8 @@
       "id": "smartlist_visibility_week",
       "label": "Week",
       "instructions": "In the left sidebar, show a list of all the todos that are due this week",
-      "value": "auto",
+      "value": "hidden",
       "values": [{
-         "name": "auto",
-         "label": "auto"
-      }, {
          "name": "visible",
          "label": "visible"
       }, {
@@ -426,9 +417,6 @@
       "instructions": "In the left sidebar, show a list of all the todos",
       "value": "hidden",
       "values": [{
-         "name": "auto",
-         "label": "auto"
-      }, {
          "name": "visible",
          "label": "visible"
       }, {
@@ -441,11 +429,8 @@
       "id": "smartlist_visibility_done",
       "label": "Completed",
       "instructions": "In the left sidebar, show a list of all the todos that are already completed",
-      "value": "hidden",
+      "value": "visible",
       "values": [{
-         "name": "auto",
-         "label": "auto"
-      }, {
          "name": "visible",
          "label": "visible"
       }, {

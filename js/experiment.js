@@ -12,8 +12,6 @@ experiment.numTrials = 8;
 experiment.optionsSequence = [];
 // list of values that the options should be set at during the experiment
 experiment.valuesSequence = [];
-// list of the labels of the values that the options should be set at during the experiment
-experiment.valuesLabelsSequence = [];
 // list of all the trials completed so far
 experiment.trials = [];
 
@@ -28,8 +26,6 @@ function Trial(number) {
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
-   // label of the value that the target opion should be set at (string or "")
-   this.targetValueLabel = experiment.valuesLabelsSequence[this.number];
    // id of the last selected option
    this.selectedOptionID = false;
    // last selected value of the last selected option
@@ -60,13 +56,17 @@ experiment.getModalHeader = function() {
 
 experiment.getInstructions = function() {
    var instructions = experiment.trial.targetOption.instructions;
-   if(experiment.trial.targetOption.values.length > 0)
-      instructions += " " + experiment.trial.targetValueLabel;
-   else {
+
+   if (experiment.trial.targetOption.values.length > 0) {
+      // we must retrieve the label of the value, since we're sorting only the string name of targetValues
+      var index = getIndex(experiment.trial.targetOption, experiment.trial.targetValue);
+      instructions += " " + experiment.trial.targetOption.values[index].label;
+   } else {
       // not a great solution but...
-      if(!experiment.trial.targetValue)
+      if (!experiment.trial.targetValue)
          instructions = instructions.replace("Enable", "Disable")
    }
+
    return instructions;
 }
 
@@ -99,36 +99,32 @@ experiment.generateOptionsAndValuesSequences = function() {
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
    experiment.optionsSequence.forEach(function(option) {
-      var value = complementValueOf(option);
-      if(typeof value === "boolean") {
-         experiment.valuesSequence.push(value);
-         experiment.valuesLabelsSequence.push(value ? "true" : "false");
-      }
-      else {
-         experiment.valuesSequence.push(value.name);
-         experiment.valuesLabelsSequence.push(value.label);
-      }
+      // if oppositeDefault, set the reverse flag to make sure the complementValue found here is the opposite of the opposite default (hence the default)
+      var value = experiment.complementValueOf(option, experiment.oppositeDefault);
+      experiment.valuesSequence.push(value);
    })
 }
 
-function complementValueOf(option) {
-   if(option.values.length === 0)
+// returns a boolean value or a String (the name of the value)
+// in the case of more than 2 values, the reverse flag is used so that complementValueOf(complementValueOf(option),true)=option.value
+experiment.complementValueOf = function(option, reverse) {
+
+   // do not touch options that aren't part of the experiment
+   if (typeof option.notInExperiment !== "undefined" && option.notInExperiment)
+      return option.value;
+
+   // if it's a boolean option, flip it
+   if (option.values.length === 0)
       return !option.value;
 
-   // find current index
-   var index;
-   for(var i = 0; i < option.values.length; i++) {
-      if(option.values[i].name === option.value) {
-         index = i;
-         break;
-      }
-   }
-   index = (index + 1) % option.values.length;
-   return option.values[index];
-}
+   // otherwise, for more than two values, find current index
+   var index = getIndex(option, option.value);
 
-// cleaner return value for use elsewhere
-experiment.complementValueOf = function(option) {
-   var value = complementValueOf(option);
-   return(typeof value === "boolean") ? value : value.name;
+   // find a complement value
+   if (reverse)
+      index = (index - 1 + option.values.length) % option.values.length;
+   else
+      index = (index + 1) % option.values.length;
+
+   return option.values[index].name;
 }
