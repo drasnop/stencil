@@ -94,13 +94,18 @@ experiment.generateOptionsAndValuesSequences = function() {
    var numOptionsPerTab = [3, 4, 2, 1];
    var firstAllowedIndex = [1, 2, 0, 0];
    for (var i = 0; i < model.tabs.length; i++) {
+      // select numOptionsPerTab at random, excluding the forbidden options
+      var allowedOptions = model.tabs[i].options.slice(firstAllowedIndex[i])
+      shuffleArray(allowedOptions);
+
       for (var j = 0; j < numOptionsPerTab[i]; j++) {
-         var allowedOptions = model.tabs[i].options.slice(firstAllowedIndex[i])
-         experiment.optionsSequence.push(randomElementFrom(allowedOptions));
+         experiment.optionsSequence.push(allowedOptions.pop());
       }
    }
 
+   // maybe prevent options from the same tab from following each other
    shuffleArray(experiment.optionsSequence);
+
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
    experiment.optionsSequence.forEach(function(option) {
