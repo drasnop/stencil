@@ -113,14 +113,14 @@ experiment.notEndOfSequence = function() {
 experiment.generateOptionsAndValuesSequences = function() {
    // select one third of options per tab, with a maximum of 4
    var numOptionsPerTab = [3, 4, 2, 1];
-   // exclude some options from the random selection (conveniently located at top of some tabs in Wunderlist)
-   var firstAllowedIndex = [1, 0, 2, 0];
 
    // 1: randomly pick an appropriate number of options in each tab, respecting some constraints
    var optionsInTab = [];
    for (var t = 0; t < model.tabs.length; t++) {
       // get options from tab t, excluding the forbidden options
-      var allowedOptions = model.tabs[t].options.slice(firstAllowedIndex[t])
+      var allowedOptions = model.tabs[t].options.filter(function(option) {
+         return typeof option.notInExperiment === "undefined";
+      })
 
       // randomly pick numOptionsPerTab[t] options      
       shuffleArray(allowedOptions);

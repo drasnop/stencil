@@ -269,8 +269,8 @@
          "name": "CTRL + 1",
          "label": "CTRL + 1"
       },{
-         "name": "CTRL + SHIFT + 1",
-         "label": "CTRL + SHIFT + 1"
+         "name": "SHIFT + 1",
+         "label": "SHIFT + 1"
       }],
       "more": true
    },
@@ -283,8 +283,8 @@
          "name": "CTRL + 2",
          "label": "CTRL + 2"
       },{
-         "name": "CTRL + SHIFT + 2",
-         "label": "CTRL + SHIFT + 2"
+         "name": "SHIFT + 2",
+         "label": "SHIFT + 2"
       }],
       "more": true
    },
@@ -297,10 +297,11 @@
          "name": "CTRL + 3",
          "label": "CTRL + 3"
       },{
-         "name": "CTRL + SHIFT + 3",
-         "label": "CTRL + SHIFT + 3"
+         "name": "SHIFT + 3",
+         "label": "SHIFT + 3"
       }],
-      "more": true
+      "more": true,
+      "notInExperiment": true
    },
    "shortcut_goto_filter_week": {
       "id": "shortcut_goto_filter_week",
@@ -311,10 +312,11 @@
          "name": "CTRL + 4",
          "label": "CTRL + 4"
       },{
-         "name": "CTRL + SHIFT + 4",
-         "label": "CTRL + SHIFT + 4"
+         "name": "SHIFT + 4",
+         "label": "SHIFT + 4"
       }],
-      "more": true
+      "more": true,
+      "notInExperiment": true
    },
    "shortcut_goto_filter_all": {
       "id": "shortcut_goto_filter_all",
@@ -325,10 +327,11 @@
          "name": "CTRL + 5",
          "label": "CTRL + 5"
       },{
-         "name": "CTRL + SHIFT + 5",
-         "label": "CTRL + SHIFT + 5"
+         "name": "SHIFT + 5",
+         "label": "SHIFT + 5"
       }],
-      "more": true
+      "more": true,
+      "notInExperiment": true
    },
    "shortcut_goto_filter_completed": {
       "id": "shortcut_goto_filter_completed",
@@ -339,10 +342,11 @@
          "name": "CTRL + 6",
          "label": "CTRL + 6"
       },{
-         "name": "CTRL + SHIFT + 6",
-         "label": "CTRL + SHIFT + 6"
+         "name": "SHIFT + 6",
+         "label": "SHIFT + 6"
       }],
-      "more": true
+      "more": true,
+      "notInExperiment": true
    },
    "shortcut_sync": {
       "id": "shortcut_sync",
