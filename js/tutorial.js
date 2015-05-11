@@ -1,17 +1,18 @@
 var tutorial = new Sequencer("tutorial", 500);
 
 tutorial.steps = [
-   "Add a new todo: \"buy milk\"",
-   "Double-click on the todo to show the details panel on the right",
-   "Change the todo due date to tomorrow",
-   "Notice that, in the left sidebar, there is an item called \"Week\". This is an intelligent filter, that shows all the todos due in the coming week. The todo \"buy milk\" should appear there.",
+   "Type \"buy milk\" in the input field, and press Enter to add a new todo item. Click the \"Done\" button when you're done (in the instructions bar at the top)",
+   "Double-click on the todo item you added to show the details panel on the right",
+   "Write a more detailed description in the yellow area on the right: \"for the cake\"",
+   "Add another todo item: \"call mom\"",
+   "Click on the star icon to mark it as important",
+   "In the left sidebar, there is an item called \"Starred\". This is an intelligent filter, that shows all the todos due in the coming week. Check that \"call mom\" appears there.",
    "To create another todo, you need to go back to the Inbox. Click on \"Inbox\" in the left sidebar.",
-   "Add another todo: \"watch a fun movie\"",
-   "Write a more detailed description of the todo in the description area (in yellow)",
-   "Add a third todo: \"do stuff\"",
-   "Click on the star icon to mark it as important.",
-   "Return to the Inbox, if you weren't already there.",
-   "Delete todo \"buy milk\": double-click on it to open the right panel, then click the trash icon at the bottom"
+   "Add a third todo item: \"watch a good movie\"",
+   "Double-click on this todo item, and change its due date to next Saturday",
+   "Let's say you have bought the milk. Tick the checkbox to mark the corresponding todo item as complete.",
+   "At the bottom of the list, there is a button \"1 completed item\". Click on it to reveal the todo you've just checked off.",
+   "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom"
 ]
 
 /* overwritten methods */

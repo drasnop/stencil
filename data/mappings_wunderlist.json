@@ -65,7 +65,7 @@
       "options":["shortcut_send_via_email"]
    },
    {
-      "selector":".actionBar-bottom a.tab.last-tab",
+      "selector":".actionBar-bottom a.tab.last-tab, .completed-items-heading",
       "options":["print_completed_items"]
    },
    {
