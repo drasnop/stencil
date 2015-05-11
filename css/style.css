@@ -148,6 +148,7 @@ z-indexes
    white-space: nowrap !important;
    transition: top 0.5s linear, left 0.5s linear;
    cursor: pointer !important;
+   pointer-events: all !important;
 }
 
 .blue-highlighting:hover,

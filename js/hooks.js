@@ -57,7 +57,7 @@ updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateCluste
 /* ----------------    public    ------------------ */
 
 
-function updateHooksAndClusters(){
+function updateHooksAndClusters() {
    updateHooksStatus();
    positionHooks();
    generateClusters();
@@ -66,7 +66,7 @@ function updateHooksAndClusters(){
 }
 
 
-function positionHooksAndClusters(){
+function positionHooksAndClusters() {
    positionHooks();
    positionClusters();
 }
@@ -84,7 +84,7 @@ function generateHooks() {
    model.mappings.forEach(function(mapping) {
 
       mapping_anchors = $(mapping.selector);
-      if(mapping_anchors.length === 0)
+      if (mapping_anchors.length === 0)
          console.log(mapping.selector, "failed to match any element for", mapping.options)
 
 
@@ -102,7 +102,7 @@ function generateHooks() {
          hook.data("anchor", $(anchor));
 
          // associate options (themselves) to hook
-         hook.data("options", mapping.options.map(function(option_id){
+         hook.data("options", mapping.options.map(function(option_id) {
             return model.options[option_id];
          }));
 
@@ -110,7 +110,7 @@ function generateHooks() {
          hook.find("*").addBack()
             .removeAttr('href')
             .removeClass('animate-up')
-         // alas, there seem to be no way to disable an <input> while binding my own events on it...
+            // alas, there seem to be no way to disable an <input> while binding my own events on it...
 
          // style hook and its children
          hook.addClass("hook").addClass("highlightable")
@@ -121,12 +121,12 @@ function generateHooks() {
 
    });
 
-   if(model.gmail)
+   if (model.gmail)
       gmailSpecific();
 }
 
 
-function gmailSpecific(){
+function gmailSpecific() {
    $("#hooks").append("<div id='y6-y2'></div>")
 
    $("#y6-y2").width($(".y6").offset().left + $(".y6").width())
@@ -145,7 +145,7 @@ function updateHooksStatus() {
       // check if one option associated with this hook is a show/hide of type hidden
       var ghost = false;
       hook.data("options").forEach(function(option) {
-         if(typeof option.hideable !== "undefined" && option.hideable && option.value == "hidden")
+         if (typeof option.hideable !== "undefined" && option.hideable && option.value == "hidden")
             ghost = true;
       });
       hook.data("ghost", ghost)
@@ -165,8 +165,8 @@ function updateHooksStatus() {
 function updateGhostsVisibility(ghosts, show) {
    ghosts.forEach(function(ghost) {
       ghost.data("anchor").toggle(show);
-/*      ghost.toggle(show);*/
-      if(show)
+      /*      ghost.toggle(show);*/
+      if (show)
          ghost.slideDown(400, "linear");
       else
          ghost.slideUp(600, "linear");
@@ -185,39 +185,39 @@ function computeHookPosition(hook) {
    // ghost are by default hidden, so we must account for that
    var ghost = hook.data("ghost");
    // however, if a ghost anchor has explicitely been set visible, don't touch it
-   if(ghost && hook.data("anchor").css("display") != "none")
+   if (ghost && hook.data("anchor").css("display") != "none")
       ghost = false;
 
    // briefly show the original anchor to measure its position
-   if(ghost)
+   if (ghost)
       hook.data("anchor").show()
 
    // set the position of this hook (even if it's hidden), from the original anchor's position
    // we take the regular ("content") width and height, because we will force hooks to content-box
    // we must use .offset() instead of position(), to get the offset relative to the document
    // during the experiment, we must account for the presence of the progressBar at the top
-   var position={
-      "top": hook.data("anchor").offset().top + (experiment.experiment? - parameters.progressBarHeight : 0) + "px",
+   var position = {
+      "top": hook.data("anchor").offset().top + (experiment.experiment ? -parameters.progressBarHeight : 0) + "px",
       "left": hook.data("anchor").offset().left + "px",
-      "width": hook.data("anchor").width()  + "px",
+      "width": hook.data("anchor").width() + "px",
       "height": hook.data("anchor").height() + "px"
    }
 
    hook.css(position)
 
    // store the position so that the cluster algorithm can access it without waiting for the end of the animation
-   hook.data("position",position)
+   hook.data("position", position)
 
    // hide the original anchor again
-   if(ghost)
+   if (ghost)
       hook.data("anchor").hide()
 }
 
 
-function updateHooksHighlighting(){
-   var hooks=$(".hook");
+function updateHooksHighlighting() {
+   var hooks = $(".hook");
    hooks.each(function() {
-      dontHaveSameOptions(hooks, model.selectedOptions).removeClass("hovered");   
+      dontHaveSameOptions(hooks, model.selectedOptions).removeClass("hovered");
    })
 }
 
@@ -238,15 +238,15 @@ function generateClusters() {
    model.clusters = [];
 
    var ghost, cluster;
-   while(ghosts.length > 0) {
+   while (ghosts.length > 0) {
       ghost = $(ghosts.pop());
       cluster = {
          "ghosts": [ghost]
       };
 
       // Add to this cluster all ghosts that are close to ghost
-      for(var i = 0; i < ghosts.length; i++) {
-         if(distance(ghost, $(ghosts[i])) <= parameters.distance) {
+      for (var i = 0; i < ghosts.length; i++) {
+         if (distance(ghost, $(ghosts[i])) <= parameters.distance) {
             cluster.ghosts.push($(ghosts.splice(i, 1)[0]));
             i--;
          }
@@ -261,16 +261,16 @@ function generateClusters() {
    // Create one plus icon per cluster (even if it contains only one elements)
    model.clusters.forEach(function(cluster) {
       var icon = $("<div class='plus-icon'>").appendTo("#hooks")
-      .css("background-image","url(//" + parameters.serverURL + "/img/plus_blue.png)")
+         .css("background-image", "url(//" + parameters.serverURL + "/img/plus_blue.png)")
 
       icon.data("cluster", cluster);
-      cluster.icon=icon;
+      cluster.icon = icon;
 
       // allow the plus-icon to be reverse highlighted if one of the options it represents is
       icon.addClass("highlightable")
-      .data("options", cluster.ghosts.reduce(function(options, ghost){
-         return options.concat(ghost.data("options"));
-      }, []))
+         .data("options", cluster.ghosts.reduce(function(options, ghost) {
+            return options.concat(ghost.data("options"));
+         }, []))
    })
 }
 
@@ -283,10 +283,10 @@ function positionClusters() {
 
 
 function positionCluster(cluster) {
-   
+
    // compute barycenter
    cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
-      return parseInt(ghost.data("position").left) + parseInt(ghost.data("position").width)  / 2;
+      return parseInt(ghost.data("position").left) + parseInt(ghost.data("position").width) / 2;
    }))
    cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
       return parseInt(ghost.data("position").top) + parseInt(ghost.data("position").height) / 2;
@@ -295,7 +295,7 @@ function positionCluster(cluster) {
 
    var icon = cluster.icon;
    icon.css({
-      "left": cluster.x - icon.robustWidth()  / 2 + "px",
+      "left": cluster.x - icon.robustWidth() / 2 + "px",
       "top": cluster.y - icon.robustHeight() / 2 + "px"
    })
 }

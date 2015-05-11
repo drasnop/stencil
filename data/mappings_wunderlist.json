@@ -44,7 +44,7 @@
       "options":["smartlist_visibility_week","shortcut_goto_filter_week","today_smart_list_visible_tasks"]
    },
    {
-      "selector": "#main-toolbar .wundercon.bell-medium, .detail-reminder .wundercon.reminder",
+      "selector": "#main-toolbar .activities-count, .detail-reminder .wundercon.reminder",
       "options":["notifications_desktop_enabled","notifications_email_enabled",
                "notifications_push_enabled","sound_notification_enabled", "shortcut_show_notifications"]
    },
@@ -53,7 +53,7 @@
       "options":["shortcut_sync","shortcut_goto_preferences"]
    },
    {
-      "selector":"#main-toolbar .wundercon.search",
+      "selector":"#main-toolbar #search",
       "options":["shortcut_goto_search"]
    },
    {
@@ -61,7 +61,11 @@
       "options":["shortcut_add_new_list"]
    },
    {
-      "selector":".actionBar-bottom div.tab.more",
+      "selector":".actionBar-bottom a.tab.share",
+      "options":["shortcut_send_via_email"]
+   },
+   {
+      "selector":".actionBar-bottom a.tab.last-tab",
       "options":["print_completed_items"]
    },
    {
