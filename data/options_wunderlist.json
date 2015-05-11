@@ -71,14 +71,15 @@
    "sound_notification_enabled": {
       "id": "sound_notification_enabled",
       "label": "Enable sound for new notifications",
-      "instructions": "Enable sound for all new notifications",
+      "instructions": "Enable sound for new notifications",
       "value": true,
       "values": []
    },
    "new_task_location": {
       "id": "new_task_location",
       "label": "Add Items",
-      "instructions": "When creating a new todo, add it at the",
+      "instructions": "When creating a new todo, add it at the top of the current list",
+      "instructionsReverse": "When creating a new todo, add it at the bottom of the current list",
       "value": "top",
       "values": [{
          "name": "top",
@@ -91,21 +92,24 @@
    "confirm_delete_entity": {
       "id": "confirm_delete_entity",
       "label": "Confirm before deleting items",
-      "instructions": "Enable asking for confirmation when deleting an item",
+      "instructions": "When deleting an item, ask me for confirmation",
+      "instructionsReverse": "When deleting an item, don't ask me for confirmation",
       "value": true,
       "values": []
    },
    "behavior_star_tasks_to_top": {
       "id": "behavior_star_tasks_to_top",
       "label": "Star moves item to top",
-      "instructions": "Enable starred items appear at the top of the list",
+      "instructions": "Starred items appear at the top of the list",
+      "instructionsReverse": "Starred items do not move to the top of the list",
       "value": true,
       "values": []
    },
    "print_completed_items": {
       "id": "print_completed_items",
       "label": "Print completed items",
-      "instructions": "When printing a todo list, print also the completed todos",
+      "instructions": "When printing a todo list, print also the completed todo items",
+      "instructionsReverse": "When printing a todo list, do not print the completed todo items",
       "value": false,
       "values": []
    },
@@ -356,7 +360,7 @@
    "smartlist_visibility_assigned_to_me": {
       "id": "smartlist_visibility_assigned_to_me",
       "label": "Assigned to me",
-      "instructions": "In the left sidebar, show a list of all the todos assigned to you",
+      "instructions": "In the left sidebar, show the list of all the todos assigned to you",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -371,7 +375,7 @@
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",
       "label": "Starred",
-      "instructions": "In the left sidebar, show a list of all the todos that are starred",
+      "instructions": "In the left sidebar, show the list of all the todos that are starred",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -386,7 +390,7 @@
    "smartlist_visibility_today": {
       "id": "smartlist_visibility_today",
       "label": "Today",
-      "instructions": "In the left sidebar, show a list of all the todos that are due today",
+      "instructions": "In the left sidebar, show the list of all the todos that are due today",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -400,7 +404,7 @@
    "smartlist_visibility_week": {
       "id": "smartlist_visibility_week",
       "label": "Week",
-      "instructions": "In the left sidebar, show a list of all the todos that are due this week",
+      "instructions": "In the left sidebar, show the list of all the todos that are due this week",
       "value": "hidden",
       "values": [{
          "name": "visible",
@@ -414,7 +418,7 @@
    "smartlist_visibility_all": {
       "id": "smartlist_visibility_all",
       "label": "All",
-      "instructions": "In the left sidebar, show a list of all the todos",
+      "instructions": "In the left sidebar, show the list of all the todos",
       "value": "hidden",
       "values": [{
          "name": "visible",
@@ -428,7 +432,7 @@
    "smartlist_visibility_done": {
       "id": "smartlist_visibility_done",
       "label": "Completed",
-      "instructions": "In the left sidebar, show a list of all the todos that are already completed",
+      "instructions": "In the left sidebar, show the list of all the todos that are already completed",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -442,7 +446,8 @@
    "today_smart_list_visible_tasks": {
       "id": "today_smart_list_visible_tasks",
       "label": "Week & Today Settings",
-      "instructions": "In the lists of tasks due today and this week, show only the todos assigned to me",
+      "instructions": "In the lists of tasks due today and this week, show all items",
+      "instructionsReverse": "In the lists of tasks due today and this week, show only the todos assigned to me",
       "value": "all",
       "values": [{
          "name": "all",

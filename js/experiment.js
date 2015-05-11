@@ -53,19 +53,42 @@ experiment.getModalHeader = function() {
 }
 
 experiment.getInstructions = function() {
-   var instructions = experiment.trial.targetOption.instructions;
+   var option = experiment.trial.targetOption,
+      value = experiment.trial.targetValue;
 
-   if (experiment.trial.targetOption.values.length > 0) {
-      // we must retrieve the label of the value, since we're sorting only the string name of targetValues
-      var index = getIndexOfValueInOption(experiment.trial.targetOption, experiment.trial.targetValue);
-      instructions += " " + experiment.trial.targetOption.values[index].label;
-   } else {
-      // not a great solution but...
-      if (!experiment.trial.targetValue)
-         instructions = instructions.replace("Enable", "Disable")
+   // Check for explicit instructions for the "false" or values[1] case
+   if (typeof option.instructionsReverse !== "undefined") {
+      // we must retrieve the label of the value, since we're storing only the string name of targetValues
+      if ((typeof value === "boolean" && value) || (typeof value !== "boolean" && getIndexOfValueInOption(option, value) === 0))
+         return option.instructions;
+      else
+         return option.instructionsReverse;
    }
 
-   return instructions;
+   // Standard cases
+   var instructions = option.instructions;
+
+   // Other booleans: simply replace enable by disable
+   if (option.values.length === 0) {
+      if (value)
+         return instructions;
+      else
+         return instructions.replace("Enable", "Disable")
+   }
+
+   // Non-booleans options (more than 2 values)
+
+   // special case for show/hide
+   if (option.id.indexOf("smartlist_") >= 0) {
+      if (value === "visible" || value === "auto")
+         return instructions;
+      else
+         return instructions.replace("show", "hide")
+   }
+
+   // Otherwise, simply build the instructions from the value labels
+   var index = getIndexOfValueInOption(option, value);
+   return instructions + " " + option.values[index].label;
 }
 
 experiment.trialNotPerformed = function() {
