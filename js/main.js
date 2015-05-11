@@ -20,7 +20,7 @@ function initialize() {
    $("#customization-layer").hide();
 
    // add experiment software
-   if(experiment.experiment) {
+   if (experiment.experiment) {
       $("body>*").wrapAll("<div id='progress-bar-pusher'></div")
       $("body").prepend("<div progress-bar></div")
       $("body").append("<div instructions-modal></div")
@@ -36,7 +36,7 @@ function initialize() {
 
 function replaceMenuEntryWhenReady() {
    setTimeout(function() {
-      if($(".list-menu li a[data-path='preferences/account']").length < 1)
+      if ($(".list-menu li a[data-path='preferences/account']").length < 1)
          replaceMenuEntryWhenReady();
       else {
          // replace menu "Account settings" by "Customize", with custom event handler
@@ -54,11 +54,11 @@ function enterCustomizationMode() {
    customizationMode = true;
 
    // IF NOT EXPERIMENT: sync angular options with the Wunderlist Backbone model
-   if(!experiment.experiment)
+   if (!experiment.experiment)
       dataManager.initializeOptionsFromApp();
 
    // dim the interface
-   if(experiment.experiment)
+   if (experiment.experiment)
       $("#progress-bar-pusher").children(":not(#customization-layer)").addClass("dimmed");
    else
       $("body").children(":not(#customization-layer)").addClass("dimmed");
@@ -101,10 +101,10 @@ function exitCustomizationMode() {
 
 
 function toggleCustomizationMode() {
-   if(customizationMode === undefined)
+   if (typeof customizationMode === "undefined")
       return;
 
-   if(!customizationMode)
+   if (!customizationMode)
       enterCustomizationMode();
    else
       exitCustomizationMode();

@@ -3,7 +3,7 @@ var experiment = new Sequencer("experiment", 1000, Trial);
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
 // whether to use the opposite values of the default options for this participant
-experiment.oppositeDefault = true;
+experiment.oppositeDefault = false;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "lotaculi";
 // list of options that users will be ask to find during the experiment

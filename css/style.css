@@ -17,530 +17,501 @@ z-indexes
 #61FFED electric blue for highlighting
 
 */
-
-
 /* ----------------------  experiment  ---------------------- */
 
-
-#progress-bar{
-	height: 45px;
-	background-color: rgb(68, 68, 68);
-	color: lightgray;
+#progress-bar {
+   height: 45px;
+   background-color: rgb(68, 68, 68);
+   color: lightgray;
 }
 
-#progress-bar-pusher{
-	position: absolute;
-	top: 45px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
-
-	/* to prevent the white shadow ot the close button from overflowing onto progress bar... */
-	overflow: hidden;
+#progress-bar-pusher {
+   position: absolute;
+   top: 45px;
+   bottom: 0px;
+   left: 0px;
+   right: 0px;
+   /* to prevent the white shadow ot the close button from overflowing onto progress bar... */
+   
+   overflow: hidden;
 }
 
-#progress-bar .instructions{
-	text-align: center;
-	padding-top: 12px;
+#progress-bar .instructions {
+   text-align: center;
+   padding-top: 12px;
 }
 
-#background-button-trial-done{
-	position: absolute;
-	top: 5px;
-	right: 10px;
-
-	background-color: white;
-	border-radius: 4px;
+#background-button-trial-done {
+   position: absolute;
+   top: 5px;
+   right: 10px;
+   background-color: white;
+   border-radius: 4px;
 }
 
-.btn-blue{
-	background-color: #27A0D8;
-	color: white!important;
+.btn-blue {
+   background-color: #27A0D8;
+   color: white!important;
 }
 
-.btn-blue:hover, .btn-blue:active{
-	background-color: #2392C7;
+.btn-blue:hover,
+.btn-blue:active {
+   background-color: #2392C7;
 }
 
-.btn-green{
-	background-color: #449D44;
-	color: white!important;
+.btn-green {
+   background-color: #449D44;
+   color: white!important;
 }
 
-.btn-red{
-	background-color: #C9302C;
-	color: white!important;
+.btn-red {
+   background-color: #C9302C;
+   color: white!important;
 }
 
-#instructions-modal{
-	z-index: 1000008;
+#instructions-modal {
+   z-index: 1000008;
 }
 
 .modal-dialog {
-	margin: 45px auto;
+   margin: 45px auto;
 }
 
 .modal-header {
-	border: none;
+   border: none;
 }
 
 .modal-footer {
-	border: none;
+   border: none;
 }
 
 .modal-backdrop {
-    z-index: 1000007;
+   z-index: 1000007;
+   background-color: white;
 }
 
 .modal-backdrop.in {
-    opacity: 0.3;
+   opacity: 0.3;
 }
 
-#button-start-trial{
-	min-width: 100px;
+#button-start-trial {
+   min-width: 100px;
 }
-
 /* -------------------  overlay, hooks, ghosts --------------------- */
 
-
 #overlay {
-	z-index:1000000;
-	background-color:black;
-	/*transition: opacity 1s;*/
-	opacity:.5;	/* should be animated */
-
-	position:absolute;
-	top:0;
-	bottom:0;
-	left:0;
-	right:0;
+   z-index: 1000000;
+   background-color: black;
+   /*transition: opacity 1s;*/
+   
+   opacity: .5;
+   /* should be animated */
+   
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
 }
 
 .dimmed {
-	-webkit-filter: grayscale(70%);
-	filter: grayscale(70%);
+   -webkit-filter: grayscale(70%);
+   filter: grayscale(70%);
 }
 
-#close-icon{
-	z-index: 1000006;
-	position: absolute;
-	top: 0;
-	right: 0;
-
-	width: 32px;
-	height: 32px;
-	cursor: pointer;
-	box-shadow: 0 0 5px 5px #ededed;
-	background-position: 0px 0px;
+#close-icon {
+   z-index: 1000006;
+   position: absolute;
+   top: 0;
+   right: 0;
+   width: 32px;
+   height: 32px;
+   cursor: pointer;
+   box-shadow: 0 0 5px 5px #ededed;
+   background-position: 0px 0px;
 }
 
-#close-icon:hover{
-	box-shadow: 0 0 5px 5px yellow;
-	background-position: -32px 0px;
+#close-icon:hover {
+   box-shadow: 0 0 5px 5px yellow;
+   background-position: -32px 0px;
 }
 
-.hook{
-	z-index: 1000001		!important;
-	position: absolute 		!important;
-	margin: 0				!important;
-	
-	background-color: #ededed	!important;
-	color: #333					!important;
-
-	/* not entirely sure about this... but would keep anchor at a reasonable size */
-	max-width: 300px 			!important;
-	white-space: nowrap 		!important;
-
- 	transition: top 0.5s linear, left 0.5s linear; 
-
-	cursor: pointer 			!important;
+.hook {
+   z-index: 1000001 !important;
+   position: absolute !important;
+   margin: 0 !important;
+   background-color: #ededed !important;
+   color: #333 !important;
+   /* not entirely sure about this... but would keep anchor at a reasonable size */
+   
+   max-width: 300px !important;
+   white-space: nowrap !important;
+   transition: top 0.5s linear, left 0.5s linear;
+   cursor: pointer !important;
 }
 
-.blue-highlighting:hover, .blue-highlighted{
-	z-index: 1000002 !important;
-	box-shadow: 0 0 3px 3px #61FFED!important;
+.blue-highlighting:hover,
+.blue-highlighted {
+   z-index: 1000002 !important;
+   box-shadow: 0 0 3px 3px #61FFED!important;
 }
 
-.hook:hover, .hook.hovered{
-	z-index: 1000002 !important;
-	
-	/*box-shadow: 0 0 3px 3px #FFCC39!important;
+.hook:hover,
+.hook.hovered {
+   z-index: 1000002 !important;
+   /*box-shadow: 0 0 3px 3px #FFCC39!important;
 	border: 1px solid #ccc	!important;
 	margin-top: -1px!important;
 	margin-left: -1px!important; */
-
-	background-color: #FFD5A1 !important;
+   
+   background-color: #FFD5A1 !important;
 }
 
-.ghost{
-	background-color: #D5D5D5 !important;
-	color: rgba(68,68,68,.6) !important;
+.ghost {
+   background-color: #D5D5D5 !important;
+   color: rgba(68, 68, 68, .6) !important;
 }
 
-.hook *{
-	background-color: inherit !important;
-	color: inherit !important;
+.hook * {
+   background-color: inherit !important;
+   color: inherit !important;
 }
 
-.plus-icon{
-	z-index: 1000004;
-	position: absolute;
-	cursor: pointer;
-
-	width: 36px;
-	height: 36px;
-	border-radius: 50%;
-
-	box-shadow: 0 0 2px 2px #ededed;
-	background-position: 0px 0px;
-
- 	transition: top 0.4s linear, left 0.4s linear; 
+.plus-icon {
+   z-index: 1000004;
+   position: absolute;
+   cursor: pointer;
+   width: 36px;
+   height: 36px;
+   border-radius: 50%;
+   box-shadow: 0 0 2px 2px #ededed;
+   background-position: 0px 0px;
+   transition: top 0.4s linear, left 0.4s linear;
 }
 
-.plus-icon:hover{
-	box-shadow: 0 0 1px 2px #FFCC39;
-	background-position: -36px 0px;
+.plus-icon:hover {
+   box-shadow: 0 0 1px 2px #FFCC39;
+   background-position: -36px 0px;
 }
 
-#ad-hoc-panel{
-	z-index: 1000005;
-	position: absolute;
-
-	min-height: 20px;
-	border-radius: 4px;
-	overflow: hidden;
-
-	background-color: #FFD5A1;
-	color:#444;
-
-	box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
-
-	transition: width 0.5s ease, height 0.5s ease; /* background-color 0.5s ease;*/
+#ad-hoc-panel {
+   z-index: 1000005;
+   position: absolute;
+   min-height: 20px;
+   border-radius: 4px;
+   overflow: hidden;
+   background-color: #FFD5A1;
+   color: #444;
+   box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
+   transition: width 0.5s ease, height 0.5s ease;
+   /* background-color 0.5s ease;*/
 }
-
 /* avoid waiting for the animation to "play" when closing the panel */
-#ad-hoc-panel.ng-hide{
-	transition: all 0s linear 0s;
+
+#ad-hoc-panel.ng-hide {
+   transition: all 0s linear 0s;
 }
 
-#ad-hoc-panel.expanded{
-	width: 450px!important;
-	height: 350px!important;
-	margin-bottom: 10px;
-	
-	background-color: white;
-	/*margin-top: 10px; would look better, but creates a jump when switching views */
+#ad-hoc-panel.expanded {
+   width: 450px!important;
+   height: 350px!important;
+   margin-bottom: 10px;
+   background-color: white;
+   /*margin-top: 10px; would look better, but creates a jump when switching views */
 }
-
-
 /* ------------------------  tabs ------------------------ */
 
-
-
-#tabs{
-	box-sizing: border-box;
-	width: 450px;
-	height: 46px;
-
-	background-color: #f3f3f3;
-	border-bottom: 2px solid #27A0D8;
+#tabs {
+   box-sizing: border-box;
+   width: 450px;
+   height: 46px;
+   background-color: #f3f3f3;
+   border-bottom: 2px solid #27A0D8;
 }
 
-#tabs .center-wrapper{
-	width: 400px;
-	margin: auto;
+#tabs .center-wrapper {
+   width: 400px;
+   margin: auto;
 }
 
-.grayGradientShadow{
-	background-image: linear-gradient(to bottom, #FFF, #E9E9E9);
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
-	border-bottom: 1px solid #BBB;
+.grayGradientShadow {
+   background-image: linear-gradient(to bottom, #FFF, #E9E9E9);
+   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+   border-bottom: 1px solid #BBB;
 }
 
-#tabs .tab{
-	display: inline-block;
-	padding: 8px 10px;
-	font-size: 15px;
-	cursor: pointer;
-
-	margin-top: 8px;
-	margin-left: 1px;
-	margin-right: 8px;
-	border-radius: 8px 8px 0 0;
-
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
-	border-top: 1px solid transparent;
+#tabs .tab {
+   display: inline-block;
+   padding: 8px 10px;
+   font-size: 15px;
+   cursor: pointer;
+   margin-top: 8px;
+   margin-left: 1px;
+   margin-right: 8px;
+   border-radius: 8px 8px 0 0;
+   border-left: 1px solid transparent;
+   border-right: 1px solid transparent;
+   border-top: 1px solid transparent;
 }
 
-#tabs .tab:hover{
-	border-color: #27A0D8 #27A0D8 transparent;	
+#tabs .tab:hover {
+   border-color: #27A0D8 #27A0D8 transparent;
 }
 
-#tabs .tab.active{
-	background-color: white;
-
-	margin-left: 0;
-	margin-right: 7px;
-	margin-top: 7px;
-
-	border-left: 2px solid #27A0D8;
-	border-right: 2px solid #27A0D8;
-	border-top: 2px solid #27A0D8;
-	border-bottom: 2px solid transparent;
+#tabs .tab.active {
+   background-color: white;
+   margin-left: 0;
+   margin-right: 7px;
+   margin-top: 7px;
+   border-left: 2px solid #27A0D8;
+   border-right: 2px solid #27A0D8;
+   border-top: 2px solid #27A0D8;
+   border-bottom: 2px solid transparent;
 }
 
-#tabs .tab.highlighted{
-	background-color: #FFD5A1;
-	background-image: none;
+#tabs .tab.highlighted {
+   background-color: #FFD5A1;
+   background-image: none;
 }
 
-#tabs .tab:last-child, #tabs .tab:last-child.active{
-	margin-right: 0;
+#tabs .tab:last-child,
+#tabs .tab:last-child.active {
+   margin-right: 0;
 }
 
-.blue-button:hover, .blue-button.active{
-	background-color: #27A0D8;
-	color: white;
-	background-image: none;
+.blue-button:hover,
+.blue-button.active {
+   background-color: #27A0D8;
+   color: white;
+   background-image: none;
 }
 
-.linkToTab{
-	cursor: pointer;
-	padding: 5px 6px;  /* 3px 6px to make them less salient + use opacity .7 in the gradient*/
-	border-radius: 4px;
-	border-radius: 8px 8px 0 0;
-	width: 92px;
-	text-align: center;
-
-	position: absolute;
-	top: 0;
-	right: 10px;
+.linkToTab {
+   cursor: pointer;
+   padding: 5px 6px;
+   /* 3px 6px to make them less salient + use opacity .7 in the gradient*/
+   
+   border-radius: 4px;
+   border-radius: 8px 8px 0 0;
+   width: 92px;
+   text-align: center;
+   position: absolute;
+   top: 0;
+   right: 10px;
 }
 
-div.back-arrow{
-	display: inline-block;
-	cursor: pointer;
-	padding: 0;
-	vertical-align: bottom;
+div.back-arrow {
+   display: inline-block;
+   cursor: pointer;
+   padding: 0;
+   vertical-align: bottom;
 }
 
-#back-arrow{
-	box-sizing: border-box;
-	width: 80%;
-	height: 80%;
-	padding-bottom: 2px;
-	padding-left: 12px;
-	opacity: .8;
+#back-arrow {
+   box-sizing: border-box;
+   width: 80%;
+   height: 80%;
+   padding-bottom: 2px;
+   padding-left: 12px;
+   opacity: .8;
 }
 
-#back-arrow:hover{
-	opacity: 1;
+#back-arrow:hover {
+   opacity: 1;
 }
-
 /* -------------------- Options ----------------- */
 
-
-#options{
-	width:100%;
-	
-	/* for auto scrolling */
-	max-height: 296px; 
-	overflow-y: auto;
-
-	/* for absolute positioning of options */
-	position: relative;	
-
-	margin-top: 12px;
-	margin-bottom: 12px;
-
-	transition: height 0.5s ease;
+#options {
+   width: 100%;
+   /* for auto scrolling */
+   
+   max-height: 296px;
+   overflow-y: auto;
+   /* for absolute positioning of options */
+   
+   position: relative;
+   margin-top: 12px;
+   margin-bottom: 12px;
+   transition: height 0.5s ease;
 }
 
-#ad-hoc-panel.minimal #options{
-	min-width: 350px;
-	margin-top: 8px;
-	margin-bottom: 20px;
+#ad-hoc-panel.minimal #options {
+   min-width: 350px;
+   margin-top: 8px;
+   margin-bottom: 20px;
 }
 
-#ad-hoc-panel.mixed #options{
-	min-width: 400px;
+#ad-hoc-panel.mixed #options {
+   min-width: 400px;
 }
 
-.tab-description{
-	padding: 0 10px;
+.tab-description {
+   padding: 0 10px;
 }
 
-.row.option{
-	position: absolute;
-	width: 100%;
-
-	transition: top 0.5s ease;
+.row.option {
+   position: absolute;
+   width: 100%;
+   transition: top 0.5s ease;
 }
 
-.row.option.highlighted{
-	background-color: #FFD5A1;
-	opacity: 1;
+.row.option.highlighted {
+   background-color: #FFD5A1;
+   opacity: 1;
 }
-
 /* when contracting panel, wait for activeTab's highlighted options to come back in place
 	before showing the options from the other tabs, if any. NEED TO DEACTIVATE THIS FOR SHOW PANEL*/
-#ad-hoc-panel.contracted .row.option.highlighted.ng-hide-remove-active{
-	transition: opacity .1s linear .5s;
+
+#ad-hoc-panel.contracted .row.option.highlighted.ng-hide-remove-active {
+   transition: opacity .1s linear .5s;
 }
 
-#ad-hoc-panel.contracted .row.option.highlighted.ng-hide{
-	opacity: 0;
+#ad-hoc-panel.contracted .row.option.highlighted.ng-hide {
+   opacity: 0;
 }
-
 /* when expanding panel, wait for activeTab's highlighted options to come into place
 	before showing the non-highlighted options. DOESNT WORK */
-#ad-hoc-panel.contracted .delayed-entrance.ng-hide-remove-active {
-  transition: opacity .5s linear .5s;
-}
 
+#ad-hoc-panel.contracted .delayed-entrance.ng-hide-remove-active {
+   transition: opacity .5s linear .5s;
+}
 /* simple ephemeral entrance effect for non-highlighted options in a tab that contains other highlighted options */
+
 #ad-hoc-panel.expanded .tab.highlighted .delayed-entrance.ng-hide-remove-active {
-  transition: opacity .5s linear .1s;
+   transition: opacity .5s linear .1s;
 }
 
 #ad-hoc-panel .delayed-entrance.ng-hide {
-	opacity: 0;
+   opacity: 0;
 }
 
-#ad-hoc-panel .delayed-entrance{
-	opacity: 1;
+#ad-hoc-panel .delayed-entrance {
+   opacity: 1;
 }
 
-.show-more-shortcuts{
-	position: absolute;
-	right: 17px;
-	bottom: 10px;
-	background-color: inherit;
+.show-more-shortcuts {
+   position: absolute;
+   right: 17px;
+   bottom: 10px;
+   background-color: inherit;
 }
-
 /* need to highlight the full minimalist panel*/
-#options.highlighted{
-	background-color: #FFD5A1;
+
+#options.highlighted {
+   background-color: #FFD5A1;
 }
 
-.hyperlink{
-	color: #2755D8;
-	text-decoration: underline;
-	cursor: pointer;
+.hyperlink {
+   color: #2755D8;
+   text-decoration: underline;
+   cursor: pointer;
 }
 
-.hyperlink:hover{
-	color: #612B9C;
+.hyperlink:hover {
+   color: #612B9C;
 }
 
-.right-column .hyperlink{
-	padding: 0 5px;
+.right-column .hyperlink {
+   padding: 0 5px;
 }
 
-#show-all{
-	position: absolute;
-	bottom: 8px;
-	right: 10px;
+#show-all {
+   position: absolute;
+   bottom: 8px;
+   right: 10px;
 }
 
-.align-left{
-	text-align:left;
+.align-left {
+   text-align: left;
 }
 
-.align-right{
-	text-align:right;
+.align-right {
+   text-align: right;
 }
 
-#options .cell{
-	display: inline-block;
-	box-sizing: border-box;
-	padding:5px;
+#options .cell {
+   display: inline-block;
+   box-sizing: border-box;
+   padding: 5px;
 }
 
-#options .cell.left-column{
-	padding-left: 10px;
-	padding-right: 5px;
+#options .cell.left-column {
+   padding-left: 10px;
+   padding-right: 5px;
 }
 
-#options .cell.middle-column{
-	padding-left: 5px;
-	padding-right: 5px;
+#options .cell.middle-column {
+   padding-left: 5px;
+   padding-right: 5px;
 }
 
-#options .cell.align-right [type=checkbox]{
-	margin:0!important;
+#options .cell.align-right [type=checkbox] {
+   margin: 0!important;
 }
 
-.preview{
-	opacity: 0.5;
-	vertical-align: middle;
-	height: 12px;
-	padding-left: 5px;
+.preview {
+   opacity: 0.5;
+   vertical-align: middle;
+   height: 12px;
+   padding-left: 5px;
 }
 
-.preview:hover{
-	opacity: 1;
+.preview:hover {
+   opacity: 1;
 }
-
-
 /* ---------- Wunderlist-specific styles ------------- */
-
 /* "Show more" button in shortcuts tab */
 
-.wunderlist-button{
-	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
-	cursor: pointer;
-	color: #737272;
-	font-weight: bold;
-	font-size: 13px;
-	line-height: 13px;
-	padding: 8px 12px;
-	/*background-image: linear-gradient(to bottom, #FFF, #F5F5F5);*/
-	border-radius: 4px;
-	border: medium none;
-	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
+.wunderlist-button {
+   font-family: "Lato", "Helvetica Neue", Helvetica, "Arial", sans-serif;
+   cursor: pointer;
+   color: #737272;
+   font-weight: bold;
+   font-size: 13px;
+   line-height: 13px;
+   padding: 8px 12px;
+   /*background-image: linear-gradient(to bottom, #FFF, #F5F5F5);*/
+   
+   border-radius: 4px;
+   border: medium none;
+   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
 }
-
 /* "add item" hook: they are using an !important flag, so I have to match specificity */
 
-#wunderlist-base .chromeless[type="text"].hook{
-	background-color: #ededed !important;
+#wunderlist-base .chromeless[type="text"].hook {
+   background-color: #ededed !important;
 }
 
-#wunderlist-base .chromeless[type="text"].blue-highlighted{
-	z-index: 1000002 !important;
-	box-shadow: 0 0 3px 3px #61FFED!important;
+#wunderlist-base .chromeless[type="text"].blue-highlighted {
+   z-index: 1000002 !important;
+   box-shadow: 0 0 3px 3px #61FFED!important;
 }
 
-#wunderlist-base .chromeless[type="text"].hook:hover, #wunderlist-base .chromeless[type="text"].hook.hovered{
-	z-index: 1000002 !important;
-	background-color: #FFD5A1 !important;
+#wunderlist-base .chromeless[type="text"].hook:hover,
+#wunderlist-base .chromeless[type="text"].hook.hovered {
+   z-index: 1000002 !important;
+   background-color: #FFD5A1 !important;
 }
 
-#wunderlist-base .chromeless[type="text"].hook *{
-	background-color: inherit !important;
-	color: inherit !important;
+#wunderlist-base .chromeless[type="text"].hook * {
+   background-color: inherit !important;
+   color: inherit !important;
 }
-
 /* prevent animation of the menu, to avoid delays in replacing the Account Settings link by "Customize" */
 
 body.animate .popover {
-	-webkit-transform: none!important;
-	-ms-transform: none!important;
-	transform: none!important;
-
-	-webkit-animation: none!important;
-	-ms-animation: none!important;
-	animation: none!important;
+   -webkit-transform: none!important;
+   -ms-transform: none!important;
+   transform: none!important;
+   -webkit-animation: none!important;
+   -ms-animation: none!important;
+   animation: none!important;
 }
-
 /* button.highlighted{
 	background-color: rgb(39, 160, 216) !important;
 	background-image: none !important;
 	color: white !important;
 	} */
-
 /* button.wunderlist{
 	font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
 	position: relative;
@@ -563,14 +534,12 @@ button.wunderlist:active{
 button.wunderlist:focus{
 	box-shadow: 0px 0px 5px rgba(0, 154, 228, 0.3), 0px 0px 0px 1px rgba(0, 154, 228, 0.6) inset;
 } */
-
-
 /* ------------ gmail-specific styles ---------------- */
 
-#y6-y2{
-	position: absolute;
-	overflow: hidden;
-	top: 0;
-	bottom: 0;
-	left: 0;
+#y6-y2 {
+   position: absolute;
+   overflow: hidden;
+   top: 0;
+   bottom: 0;
+   left: 0;
 }

@@ -71,7 +71,7 @@
    "sound_notification_enabled": {
       "id": "sound_notification_enabled",
       "label": "Enable sound for new notifications",
-      "instructions": "Enable sound for new notifications",
+      "instructions": "Enable sound for all new notifications",
       "value": true,
       "values": []
    },
@@ -183,8 +183,8 @@
          "name": "CTRL + BACKSPACE",
          "label": "CTRL + BACKSPACE"
       },{
-         "name": "CTRL + R",
-         "label": "CTRL + R"
+         "name": "SHIFT + BACKSPACE",
+         "label": "SHIFT + BACKSPACE"
       }]
    },
    "shortcut_goto_search": {
