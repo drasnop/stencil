@@ -57,7 +57,7 @@ experiment.getInstructions = function() {
 
    if (experiment.trial.targetOption.values.length > 0) {
       // we must retrieve the label of the value, since we're sorting only the string name of targetValues
-      var index = getIndex(experiment.trial.targetOption, experiment.trial.targetValue);
+      var index = getIndexOfValueInOption(experiment.trial.targetOption, experiment.trial.targetValue);
       instructions += " " + experiment.trial.targetOption.values[index].label;
    } else {
       // not a great solution but...
@@ -90,31 +90,26 @@ experiment.notEndOfSequence = function() {
 experiment.generateOptionsAndValuesSequences = function() {
    // select one third of options per tab, with a maximum of 4
    var numOptionsPerTab = [3, 4, 2, 1];
-   var optionsByTab = [];
+   // exclude some options from the random selection (conveniently located at top of some tabs in Wunderlist)
    var firstAllowedIndex = [1, 2, 0, 0];
-   var numTrials = 0;
 
-   for (var i = 0; i < model.tabs.length; i++) {
-      // select numOptionsPerTab at random, excluding the forbidden options
-      var allowedOptions = model.tabs[i].options.slice(firstAllowedIndex[i])
+   // 1: randomly pick an appropriate number of options in each tab, respecting some constraints
+   var optionsInTab = [];
+   for (var t = 0; t < model.tabs.length; t++) {
+      // get options from tab t, excluding the forbidden options
+      var allowedOptions = model.tabs[t].options.slice(firstAllowedIndex[t])
+
+      // randomly pick numOptionsPerTab[t] options      
       shuffleArray(allowedOptions);
-
-      optionsByTab[i] = [];
-      for (var j = 0; j < numOptionsPerTab[i]; j++) {
-         optionsByTab[i].push(allowedOptions[j]);
-         //optionsByTab[i].push(model.options["date_format"]);
-         //console.log(optionsByTab[i])
-      }
-      numTrials += numOptionsPerTab[i];
+      optionsInTab[t] = allowedOptions.slice(0, numOptionsPerTab[t]);
    }
 
-   //console.log(optionsByTab)
-   // prevent options from the same tab from following each other
-   var tabIndex = Math.floor(Math.random() * 4);
-   for (var i = 0; i < numTrials; i++) {
-      //console.log(optionsByTab)
-      experiment.optionsSequence.push(optionsByTab[tabIndex].pop())
-      tabIndex = randomTabIndexExcluding(optionsByTab, tabIndex);
+   // 2: compute a sequence of tabs in which no two selections come from the same tab
+   var tabIndexesSequence = generateTabsSequenceWithoutConsecutiveTabs(numOptionsPerTab);
+
+   // 3: use this sequence to order the sequence of options selections
+   for (var i = 0; i < tabIndexesSequence.length; i++) {
+      experiment.optionsSequence.push(optionsInTab[tabIndexesSequence[i]].pop())
    }
 
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
@@ -124,16 +119,6 @@ experiment.generateOptionsAndValuesSequences = function() {
       var value = experiment.complementValueOf(option, experiment.oppositeDefault);
       experiment.valuesSequence.push(value);
    })
-}
-
-function randomTabIndexExcluding(optionsByTab, prev) {
-   // add the indexes of the tabs that still have options to pick from, excluding the prev tab
-   var indexes = [];
-   for (var i = 0; i < optionsByTab.length; i++) {
-      if (i != prev && optionsByTab[i].length > 0)
-         indexes.push(i);
-   }
-   return randomElementFrom(indexes);
 }
 
 
@@ -150,7 +135,7 @@ experiment.complementValueOf = function(option, reverse) {
       return !option.value;
 
    // otherwise, for more than two values, find current index
-   var index = getIndex(option, option.value);
+   var index = getIndexOfValueInOption(option, option.value);
 
    // find a complement value
    if (reverse)

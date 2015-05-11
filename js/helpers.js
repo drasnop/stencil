@@ -114,9 +114,21 @@ function getscope() {
    scope = angular.element($("#ad-hoc-panel")).scope();
 }
 
+function showModal() {
+   angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
+      $("#instructions-modal").modal('show');
+   })
+}
+
+
+/* randomness */
 
 function randomElementFrom(array) {
-   return array[Math.floor(Math.random() * array.length)];
+   return array[randomIndexFrom(array)];
+}
+
+function randomIndexFrom(array) {
+   return Math.floor(Math.random() * array.length);
 }
 
 function shuffleArray(array) {
@@ -129,13 +141,7 @@ function shuffleArray(array) {
    return;
 }
 
-function showModal() {
-   angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
-      $("#instructions-modal").modal('show');
-   })
-}
-
-function getIndex(option, value) {
+function getIndexOfValueInOption(option, value) {
    var index;
    for (var i = 0; i < option.values.length; i++) {
       if (option.values[i].name === value) {
@@ -144,4 +150,46 @@ function getIndex(option, value) {
       }
    }
    return index;
+}
+
+function generateTabsSequenceWithoutConsecutiveTabs(elementsPerTab) {
+   var tabSequence;
+
+   while (true) {
+      tabSequence = [];
+
+      // 1: generate array of elements to pick from
+      var elements = [];
+      for (var i = 0; i < elementsPerTab.length; i++) {
+         for (var j = 0; j < elementsPerTab[i]; j++) {
+            elements.push(i);
+         }
+      }
+
+      // 2: pick non-consecutive elements, trying up to 10 times before giving up
+      var index;
+      var element = -1;
+      var count = 0;
+
+      while (elements.length && count < 10) {
+
+         index = randomIndexFrom(elements);
+         if (elements[index] !== element) {
+            element = elements.splice(index, 1)[0];
+            tabSequence.push(element);
+            count = 0;
+         } else {
+            // try again, with a maximum of 10 times
+            count++;
+         }
+      }
+
+      if (count == 10)
+         console.log("Tab sequence rejected", tabSequence.toString())
+      else
+         break;
+   }
+
+   console.log("Valid tab sequence found", tabSequence.toString())
+   return tabSequence;
 }
