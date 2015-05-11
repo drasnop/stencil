@@ -1,6 +1,6 @@
 <div id="progress-bar" ng-controller="progressBarController">
-  <div class="instructions" ng-bind="model.progressBarMessage"></div>
-  <div id="background-button-trial-done">
-    <div class="btn" ng-disabled="sequencer.trialNotPerformed()" ng-click="sequencer.endTrial(); contractFullPanel();" ng-class="{'btn-blue': !sequencer.trialDone(), 'btn-green': sequencer.trialDone() && sequencer.trialSuccess(), 'btn-red': sequencer.trialDone() && !sequencer.trialSuccess()}">{{!sequencer.trialDone()? "Done" : (sequencer.trialSuccess()? "Good job!" : "Wrong selection")}}</div>
+  <div>
+    <div class="instructions" ng-bind="model.progressBarMessage"></div>
+    <div id="button-trial-done" class="btn" ng-disabled="sequencer.trialNotPerformed()" ng-click="sequencer.endTrial(); contractFullPanel();" ng-class="{'btn-blue': !sequencer.trialDone(), 'btn-green': sequencer.trialDone() && sequencer.trialSuccess(), 'btn-red': sequencer.trialDone() && !sequencer.trialSuccess()}">{{!sequencer.trialDone()? "Done" : (sequencer.trialSuccess()? "Good job!" : "Wrong selection")}}</div>
   </div>
 </div>
