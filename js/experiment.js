@@ -43,6 +43,8 @@ function Trial(number) {
    this.changedValues = [];
    // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
    this.clickedOptions = [];
+   // list of all the options that were reverse highlighted (because of hover on control/icon)
+   this.reverseHighlighted = [];
 
    // the last selected option
    this.changedOption = function() {
@@ -67,6 +69,9 @@ function Trial(number) {
             return flattenOption(option);
          }),
          "clickedOptions": this.clickedOptions.map(function(option) {
+            return flattenOption(option);
+         }),
+         "reverseHighlighted": this.reverseHighlighted.map(function(option) {
             return flattenOption(option);
          }),
          "changedValues": this.changedValues,

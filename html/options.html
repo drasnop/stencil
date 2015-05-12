@@ -36,21 +36,21 @@
 					ng-model="option.value"
 					ng-click="experiment.trial.clickedOptions.push(option)"
 					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.changedOptions.push(option); experiment.trial.changedValues.push(option.value);"
-					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option); experiment.trial.reverseHighlighted.push(option);" ng-mouseleave="removeReverseHighlight(option)">
 					<select
 					ng-if="option.values.length>0"
 					ng-model="option.value"
 					ng-options="value.name as value.label for value in option.values"
 					ng-click="experiment.trial.clickedOptions.push(option)"
 					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.changedOptions.push(option); experiment.trial.changedValues.push(option.value);"
-					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option); experiment.trial.reverseHighlighted.push(option);" ng-mouseleave="removeReverseHighlight(option)">
 					</select>
 				</div>
 
 				<div class="cell middle-column align-left">
 					<label>{{option.label}}</label>
 					<img ng-if="anchorVisible(option) && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/flashlight.png" class="preview"
-						ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+						ng-mouseenter="reverseHighlight(option); experiment.trial.reverseHighlighted.push(option);" ng-mouseleave="removeReverseHighlight(option)">
 				</div>
 
 				<div class="linkToTab grayGradientShadow blue-button"
