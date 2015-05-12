@@ -48,12 +48,13 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          tab.options = tabOptions;
       })
 
-      // add pointer to tab and index to options
+      // add pointer to tab (and index in that tab) to options
       model.tabs.forEach(function(tab) {
-         tab.options.forEach(function(option) {
-            option.tab = tab;
-            option.index = i;
-         })
+         for (var i = 0; i < tab.options.length; i++) {
+            tab.options[i].tab = tab;
+            // the display code only uses filteredIndex now, but this could be useful in the analysis
+            tab.options[i].index = i;
+         }
       })
 
       // add tab index information for future sorting

@@ -3,7 +3,7 @@ var experiment = new Sequencer("experiment", 1000, Trial);
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
 // whether to use the opposite values of the default options for this participant
-experiment.oppositeDefault = true;
+experiment.oppositeDefault = false;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "lotaculi";
 // firebase for storing data
@@ -14,6 +14,17 @@ experiment.optionsSequence = [];
 experiment.valuesSequence = [];
 // list of all the trials completed so far
 experiment.trials = [];
+
+experiment.logTrial = function() {
+   experiment.trials.push(experiment.trial);
+   experiment.firebase.push(experiment.trial.loggable(), function(error) {
+      if (error) {
+         console.log("Trial " + experiment.trial.number + " could not be saved." + error);
+      } else {
+         console.log("Trial " + experiment.trial.number + " saved successfully.");
+      }
+   });
+}
 
 
 function Trial(number) {
@@ -26,24 +37,55 @@ function Trial(number) {
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
-   // id of the last selected option
-   this.selectedOptionID = false;
+   // the last selected option (initialized to false to check if trial has been performed)
+   this.selectedOption = false;
    // last selected value of the last selected option
    this.selectedValue = false;
 
    this.success = function() {
-      return this.selectedOptionID === this.targetOption.id && this.targetValue === this.selectedValue;
+      return this.selectedOption.id === this.targetOption.id && this.targetValue === this.selectedValue;
    };
 
    this.loggable = function() {
       return {
          "number": this.number,
-         "targetOption": this.targetOption.id,
+         "targetOption": flattenOption(this.targetOption),
          "targetValue": this.targetValue,
-         "selectedOption": this.selectedOptionID,
+         "selectedOption": flattenOption(this.selectedOption),
          "selectedValue": this.selectedValue,
-         "success": this.success()
+         "success": this.success(),
+         "correctAnchor": this.selectedOption.selected
       }
+   }
+
+   function flattenOption(option) {
+      // shallow copy
+      var flattened = $.extend({}, option);
+
+      // prevent infinite recursion by storing only option.id in that tab
+      flattened["tab"] = flattenTab(option["tab"]);
+
+      // remove non-interesting data
+      delete flattened["$$hashKey"];
+      delete flattened["__proto__"];
+
+      return flattened;
+   }
+
+   function flattenTab(tab) {
+      // shallow copy
+      var flattened = $.extend({}, tab);
+
+      // prevent infinite recursion by storing only option.id in that tab
+      flattened["options"] = tab["options"].map(function(option) {
+
+         return option.id;
+      });
+      // remove non-interesting data
+      delete flattened["$$hashKey"];
+      delete flattened["__proto__"];
+
+      return flattened;
    }
 }
 
@@ -55,8 +97,7 @@ experiment.start = function() {
 }
 
 experiment.endTrial = function() {
-   experiment.trials.push(experiment.trial);
-   experiment.firebase.push(experiment.trial.loggable());
+   experiment.logTrial();
    Sequencer.prototype.endTrial.call(this);
 }
 
@@ -111,7 +152,7 @@ experiment.getInstructions = function() {
 }
 
 experiment.trialNotPerformed = function() {
-   return !experiment.trial.selectedOptionID;
+   return !experiment.trial.selectedOption;
 }
 
 experiment.trialSuccess = function() {

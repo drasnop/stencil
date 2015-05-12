@@ -34,13 +34,13 @@
 					<input type="checkbox"
 					ng-if="option.values.length==0" 
 					ng-model="option.value"
-					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.selectedOptionID=option.id; experiment.trial.selectedValue=option.value;"
+					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.selectedOption=option; experiment.trial.selectedValue=option.value;"
 					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					<select
 					ng-if="option.values.length>0"
 					ng-model="option.value"
 					ng-options="value.name as value.label for value in option.values"
-					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.selectedOptionID=option.id; experiment.trial.selectedValue=option.value;"
+					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.selectedOption=option; experiment.trial.selectedValue=option.value;"
 					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					</select>
 				</div>
@@ -58,12 +58,10 @@
 
 		</div>
 
-	
 	</div>
 
 	<div class="show-more-shortcuts wunderlist-button blue-button" ng-if="model.fullPanel() && model.activeTab.name=='Shortcuts'"
 	ng-click="model.showMoreShortcuts= !model.showMoreShortcuts">{{model.showMoreShortcuts? "Hide" : "Show More"}}</div>
 
 	<a id="show-all" class="hyperlink" ng-if="!model.fullPanel() && model.optionsVisibility==0" ng-click="expandToFullPanel()">show all</a>
-
 </div>

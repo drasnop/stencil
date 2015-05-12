@@ -12,6 +12,10 @@
       "options":["date_format","start_of_week"]
    },
    {
+      "selector": ".detail-reminder .token_0",
+      "options":["time_format"]
+   },
+   {
       "selector": ".detail-checkbox .checkBox, .taskItem-checkboxWrapper .checkBox",
       "options":["sound_checkoff_enabled","shortcut_mark_task_done"]
    },
