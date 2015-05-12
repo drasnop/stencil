@@ -37,13 +37,25 @@ function Trial(number) {
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
-   // the last selected option (initialized to false to check if trial has been performed)
-   this.selectedOption = false;
+   // list of all the options that were changed during this trial
+   this.changedOptions = [];
+   // list of all the values that were changed during this trial
+   this.changedValues = [];
+   // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
+   this.clickedOptions = [];
+
+   // the last selected option
+   this.changedOption = function() {
+      return this.changedOptions[this.changedOptions.length - 1];
+   }
+
    // last selected value of the last selected option
-   this.selectedValue = false;
+   this.changedValue = function() {
+      return this.changedValues[this.changedValues.length - 1];
+   }
 
    this.success = function() {
-      return this.selectedOption.id === this.targetOption.id && this.targetValue === this.selectedValue;
+      return this.targetOption.id === this.changedOption().id && this.targetValue === this.changedValue();
    };
 
    this.loggable = function() {
@@ -51,10 +63,17 @@ function Trial(number) {
          "number": this.number,
          "targetOption": flattenOption(this.targetOption),
          "targetValue": this.targetValue,
-         "selectedOption": flattenOption(this.selectedOption),
-         "selectedValue": this.selectedValue,
+         "changedOptions": this.changedOptions.map(function(option) {
+            return flattenOption(option);
+         }),
+         "clickedOptions": this.clickedOptions.map(function(option) {
+            return flattenOption(option);
+         }),
+         "changedValues": this.changedValues,
+         "changedOption": flattenOption(this.changedOption()),
+         "changedValue": this.changedValue(),
          "success": this.success(),
-         "correctAnchor": this.selectedOption.selected
+         "correctAnchor": this.changedOption().selected
       }
    }
 
@@ -152,7 +171,7 @@ experiment.getInstructions = function() {
 }
 
 experiment.trialNotPerformed = function() {
-   return !experiment.trial.selectedOption;
+   return experiment.trial.changedOptions.length === 0;
 }
 
 experiment.trialSuccess = function() {
