@@ -45,6 +45,8 @@ function Trial(number) {
    this.changedOptions = [];
    // list of all the values that were changed during this trial
    this.changedValues = [];
+   // whether the panel was expanded when the last option was changed
+   this.panelExpanded = "";
 
    // list of the CSS selectors of all the hooks highlighted during this trial
    this.highlightedHooks = [];
@@ -56,6 +58,13 @@ function Trial(number) {
    this.visitedTabs = [];
    // list of all the options that were reverse highlighted (because of hover on control/icon)
    this.reverseHighlighted = [];
+
+   // utility function
+   this.logValueChange = function(option) {
+      experiment.trial.changedOptions.push(option);
+      experiment.trial.changedValues.push(option.value);
+      experiment.trial.panelExpanded = model.fullPanel();
+   }
 
    // the last selected option
    this.changedOption = function() {
@@ -82,6 +91,7 @@ function Trial(number) {
          "changedValues": this.changedValues,
          "changedOption": flattenOption(this.changedOption()),
          "changedValue": this.changedValue(),
+         "panelExpanded": this.panelExpanded,
 
          "highlightedHooks": this.highlightedHooks,
          "highlightedOptions": flattenArraysOfOptions(this.highlightedOptions),
