@@ -9,7 +9,7 @@
 			<li class="tab"
 			ng-repeat="tab in model.tabs"
 			ng-class="{'highlighted': tab.count>0, 'active': tab==model.activeTab, 'delayed-entrance': tab.count==0}"
-			ng-click="activateTab(tab);">
+			ng-click="activateTab(tab)">
 			<span>{{tab.name}}</span>
 			</li>
 		</div>

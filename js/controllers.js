@@ -117,6 +117,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
       // determine whether to who additional options or not
       determineShowMoreShortcuts();
+
+      // saved visited tabs
+      experiment.trial.visitedTabs.push(tab);
    }
 
    $scope.resetViewParameters = function() {

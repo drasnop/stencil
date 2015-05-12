@@ -45,6 +45,8 @@ function Trial(number) {
    this.clickedOptions = [];
    // list of all the options that were reverse highlighted (because of hover on control/icon)
    this.reverseHighlighted = [];
+   // list of all the tabs visited (including the one shown when opening the panel)
+   this.visitedTabs = [];
 
    // the last selected option
    this.changedOption = function() {
@@ -77,6 +79,9 @@ function Trial(number) {
          "changedValues": this.changedValues,
          "changedOption": flattenOption(this.changedOption()),
          "changedValue": this.changedValue(),
+         "visitedTabs": this.visitedTabs.map(function(tab) {
+            return flattenTab(tab);
+         }),
          "success": this.success(),
          "correctAnchor": this.changedOption().selected
       }
