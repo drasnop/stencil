@@ -46,6 +46,8 @@ function Trial(number) {
    // list of all the values that were changed during this trial
    this.changedValues = [];
 
+   // list of the CSS selectors of all the hooks highlighted during this trial
+   this.highlightedHooks = [];
    // list of all highlighted options (from hover on hooks)
    this.highlightedOptions = [];
    // list of all selected options (from clicks on hooks)
@@ -81,13 +83,14 @@ function Trial(number) {
          "changedOption": flattenOption(this.changedOption()),
          "changedValue": this.changedValue(),
 
+         "highlightedHooks": this.highlightedHooks,
          "highlightedOptions": flattenArraysOfOptions(this.highlightedOptions),
          "selectedOptions": flattenArraysOfOptions(this.selectedOptions),
          "visitedTabs": flattenTabs(this.visitedTabs),
          "reverseHighlighted": flattenOptions(this.reverseHighlighted),
 
          "success": this.success(),
-         "correctAnchorSelected": this.changedOption().selected
+         "correctHookselected": this.changedOption().selected
       }
    }
 
@@ -113,7 +116,6 @@ function Trial(number) {
    function flattenOption(option) {
       // shallow copy
       var flattened = $.extend({}, option);
-      console.log(option)
 
       // prevent infinite recursion by storing only option.id in that tab
       flattened["tab"] = flattenTab(option["tab"]);

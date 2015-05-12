@@ -27,6 +27,7 @@ function bindHooksListeners() {
       haveSameOptions(hooks, $(this).data("options"))
          .addClass("hovered");
 
+      experiment.trial.highlightedHooks.push($(this).data("selector"));
       experiment.trial.highlightedOptions.push($(this).data("options"));
    })
 

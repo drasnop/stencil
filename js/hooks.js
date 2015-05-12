@@ -94,6 +94,7 @@ function generateHooks() {
          // store the style of this anchor and its children
          $(anchor).find("*").addBack().each(function() {
             $(this).data("style", getRelevantCSS($(this), parentCSS))
+            $(this).data("selector", mapping.selector)
          })
 
          // deep clone anchor, with data (for style), but remove event binders with .off()
