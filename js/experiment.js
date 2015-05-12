@@ -6,6 +6,8 @@ experiment.experiment = true;
 experiment.oppositeDefault = false;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "lotaculi";
+// firebase for storing data
+experiment.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/" + experiment.email);
 // list of options that users will be ask to find during the experiment
 experiment.optionsSequence = [];
 // list of values that the options should be set at during the experiment
@@ -32,12 +34,24 @@ function Trial(number) {
    this.success = function() {
       return this.selectedOptionID === this.targetOption.id && this.targetValue === this.selectedValue;
    };
+
+   this.loggable = function() {
+      return {
+         "number": this.number,
+         "targetOption": this.targetOption.id,
+         "targetValue": this.targetValue,
+         "selectedOption": this.selectedOptionID,
+         "selectedValue": this.selectedValue,
+         "success": this.success()
+      }
+   }
 }
 
 /* overwritten methods */
 
 experiment.endTrial = function() {
    experiment.trials.push(experiment.trial);
+   experiment.firebase.push(experiment.trial.loggable());
    Sequencer.prototype.endTrial.call(this);
 }
 
