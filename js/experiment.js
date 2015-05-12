@@ -34,19 +34,26 @@ function Trial(number) {
    this.done = false;
    // target option id
    // target option (Object)
+
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
+
+   // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
+   this.clickedOptions = [];
    // list of all the options that were changed during this trial
    this.changedOptions = [];
    // list of all the values that were changed during this trial
    this.changedValues = [];
-   // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
-   this.clickedOptions = [];
-   // list of all the options that were reverse highlighted (because of hover on control/icon)
-   this.reverseHighlighted = [];
+
+   // list of all highlighted options (from hover on hooks)
+   this.highlightedOptions = [];
+   // list of all selected options (from clicks on hooks)
+   this.selectedOptions = [];
    // list of all the tabs visited (including the one shown when opening the panel)
    this.visitedTabs = [];
+   // list of all the options that were reverse highlighted (because of hover on control/icon)
+   this.reverseHighlighted = [];
 
    // the last selected option
    this.changedOption = function() {
@@ -67,29 +74,46 @@ function Trial(number) {
          "number": this.number,
          "targetOption": flattenOption(this.targetOption),
          "targetValue": this.targetValue,
-         "changedOptions": this.changedOptions.map(function(option) {
-            return flattenOption(option);
-         }),
-         "clickedOptions": this.clickedOptions.map(function(option) {
-            return flattenOption(option);
-         }),
-         "reverseHighlighted": this.reverseHighlighted.map(function(option) {
-            return flattenOption(option);
-         }),
+
+         "clickedOptions": flattenOptions(this.clickedOptions),
+         "changedOptions": flattenOptions(this.changedOptions),
          "changedValues": this.changedValues,
          "changedOption": flattenOption(this.changedOption()),
          "changedValue": this.changedValue(),
-         "visitedTabs": this.visitedTabs.map(function(tab) {
-            return flattenTab(tab);
-         }),
+
+         "highlightedOptions": flattenArraysOfOptions(this.highlightedOptions),
+         "selectedOptions": flattenArraysOfOptions(this.selectedOptions),
+         "visitedTabs": flattenTabs(this.visitedTabs),
+         "reverseHighlighted": flattenOptions(this.reverseHighlighted),
+
          "success": this.success(),
-         "correctAnchor": this.changedOption().selected
+         "correctAnchorSelected": this.changedOption().selected
       }
+   }
+
+   function flattenArraysOfOptions(arr) {
+      return arr.map(function(options) {
+         return flattenOptions(options);
+      })
+   }
+
+   function flattenOptions(options) {
+      return options.map(function(option) {
+         return flattenOption(option);
+      })
+   }
+
+   function flattenTabs(tabs) {
+      console.log(tabs)
+      return tabs.map(function(tab) {
+         return flattenTab(tab);
+      })
    }
 
    function flattenOption(option) {
       // shallow copy
       var flattened = $.extend({}, option);
+      console.log(option)
 
       // prevent infinite recursion by storing only option.id in that tab
       flattened["tab"] = flattenTab(option["tab"]);
@@ -107,7 +131,6 @@ function Trial(number) {
 
       // prevent infinite recursion by storing only option.id in that tab
       flattened["options"] = tab["options"].map(function(option) {
-
          return option.id;
       });
       // remove non-interesting data

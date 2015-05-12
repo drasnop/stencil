@@ -25,7 +25,9 @@ function bindHooksListeners() {
    // highlight all elements that have the same options as the current one
    hooks.mouseenter(function() {
       haveSameOptions(hooks, $(this).data("options"))
-         .addClass("hovered")
+         .addClass("hovered");
+
+      experiment.trial.highlightedOptions.push($(this).data("options"));
    })
 
    // remove highlighting for all similar hooks, unless we are leaving a selected hook
@@ -76,6 +78,9 @@ function bindHooksListeners() {
       // position panel next to this anchor
       model.selectedAnchor = $(this);
       positionPanel();
+
+      // log
+      experiment.trial.selectedOptions.push(model.selectedOptions);
    })
 
 
