@@ -3,11 +3,11 @@ var experiment = new Sequencer("experiment", 1000, Trial);
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
 // whether to use the opposite values of the default options for this participant
-experiment.oppositeDefault = false;
+experiment.oppositeDefault = true;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "lotaculi";
 // firebase for storing data
-experiment.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/" + experiment.email);
+experiment.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email + "/trials");
 // list of options that users will be ask to find during the experiment
 experiment.optionsSequence = [];
 // list of values that the options should be set at during the experiment
@@ -49,6 +49,11 @@ function Trial(number) {
 
 /* overwritten methods */
 
+experiment.start = function() {
+   experiment.firebase.set(null);
+   Sequencer.prototype.start.call(this);
+}
+
 experiment.endTrial = function() {
    experiment.trials.push(experiment.trial);
    experiment.firebase.push(experiment.trial.loggable());
@@ -71,7 +76,7 @@ experiment.getInstructions = function() {
       value = experiment.trial.targetValue;
 
    // Check for explicit instructions for the "false" or values[1] case
-   if (typeof option.instructionsReverse !== "undefined") {
+   if (option.instructionsReverse) {
       // we must retrieve the label of the value, since we're storing only the string name of targetValues
       if ((typeof value === "boolean" && value) || (typeof value !== "boolean" && getIndexOfValueInOption(option, value) === 0))
          return option.instructions;
@@ -164,7 +169,7 @@ experiment.generateOptionsAndValuesSequences = function() {
 experiment.complementValueOf = function(option, reverse) {
 
    // do not touch options that aren't part of the experiment
-   if (typeof option.notInExperiment !== "undefined" && option.notInExperiment)
+   if (option.notInExperiment)
       return option.value;
 
    // if it's a boolean option, flip it

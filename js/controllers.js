@@ -16,25 +16,23 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var visible;
 
       // hide option when panel is hidden, to have entrance animation on showPanel
-      if(!model.showPanel) {
+      if (!model.showPanel) {
          visible = false;
       }
 
       // Minimal panel: only selected options are shown
-      else if(!model.fullPanel()) {
-         if(option.selected)
+      else if (!model.fullPanel()) {
+         if (option.selected)
             visible = true;
          else
             visible = false;
-      }
-
-      else if(model.fullPanel()) {
+      } else if (model.fullPanel()) {
          // Full panel: hide options in show more shortcuts
-         if(typeof option.more !== "undefined" && option.more && !model.showMoreShortcuts)
+         if (option.more && !model.showMoreShortcuts)
             visible = false;
 
          // Full panel: show only options from one tab (to have entrance effects)
-         else if(option.tab == model.activeTab)
+         else if (option.tab == model.activeTab)
             visible = true;
          else
             visible = false;
@@ -45,7 +43,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    }
 
    function updateIndex(tabIndex, index, visible) {
-      if(index === 0) {
+      if (index === 0) {
          model.filteredIndex[tabIndex][index] = visible ? 0 : -1;
          return;
       }
@@ -61,7 +59,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.getFilteredIndex = function(tabIndex, index) {
       var filtered = 0;
-      for(var tab = 0; tab < tabIndex; tab++) {
+      for (var tab = 0; tab < tabIndex; tab++) {
          filtered += model.filteredIndex[tab][model.filteredIndex[tab].length - 1] + 1;
       }
       filtered += model.filteredIndex[tabIndex][index];
@@ -73,10 +71,10 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    // called when clicking on a hook
    $scope.showPanel = function() {
-      if(!model.showPanel)
+      if (!model.showPanel)
          model.showPanel = true;
 
-      if(model.fullPanel())
+      if (model.fullPanel())
          $scope.activateTab(computeActiveTab());
    }
 
@@ -99,7 +97,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
       //positionPanel(); doesn't work
 
-      if(typeof tab == "undefined")
+      if (typeof tab == "undefined")
          $scope.activateTab(computeActiveTab());
       else
          $scope.activateTab(tab);
@@ -141,7 +139,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    // highlight all elements that share at least one option with the current one
    $scope.reverseHighlight = function(option) {
-      if(!model.fullPanel())
+      if (!model.fullPanel())
          return;
 
       $(".highlightable").filter(function() {
@@ -151,7 +149,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    // remove highlight on mouseleave
    $scope.removeReverseHighlight = function(option) {
-      if(!model.fullPanel())
+      if (!model.fullPanel())
          return;
 
       $(".highlightable").filter(function() {
@@ -196,7 +194,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var max = 0;
       var argmax;
       model.tabs.forEach(function(tab) {
-         if(tab.count > max) {
+         if (tab.count > max) {
             max = tab.count;
             argmax = tab;
          }
@@ -209,7 +207,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       model.showMoreShortcuts = false;
 
       model.selectedOptions.forEach(function(option) {
-         if(option.tab == model.activeTab && typeof option.more !== "undefined" && option.more)
+         if (option.tab == model.activeTab && option.more)
             model.showMoreShortcuts = true;
       })
    }

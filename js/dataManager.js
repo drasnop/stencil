@@ -141,7 +141,7 @@ dataManager.initializeAppOptionsFromFile = function() {
    model.options.forEach(function(option) {
 
       // don't force sync the "deep" parameters that the app uses internally
-      if (typeof option.notUserAccessible !== "undefined" && option.notUserAccessible)
+      if (option.notUserAccessible)
          return;
 
       sync.collections.settings.where({

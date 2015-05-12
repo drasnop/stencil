@@ -2,14 +2,14 @@
 
 
 $(document).keyup(function(event) {
-   if(event.keyCode == parameters.KEYCODE_ESC) {
+   if (event.keyCode == parameters.KEYCODE_ESC) {
       exitCustomizationMode();
       event.stopPropagation();
    }
 });
 
 
-$(window).resize(function(){
+$(window).resize(function() {
    positionHooksAndClusters();
    adjustPanelHeight();
 });
@@ -30,7 +30,7 @@ function bindHooksListeners() {
 
    // remove highlighting for all similar hooks, unless we are leaving a selected hook
    hooks.mouseleave(function() {
-      if(!sameElements($(this).data("options"), model.selectedOptions))
+      if (!sameElements($(this).data("options"), model.selectedOptions))
          haveSameOptions(hooks, $(this).data("options"))
          .removeClass("hovered")
    })
@@ -38,18 +38,18 @@ function bindHooksListeners() {
 
    // show a panel populated with only the relevant options
    hooks.click(function(event) {
-      
+
       /*    update model     */
 
       // Update the content of the panel
-      model.selectedOptions=$(this).data("options");
-      
+      model.selectedOptions = $(this).data("options");
+
       // Set .selected flag on options
-      model.options.forEach(function(option){
-         option.selected=false;
+      model.options.forEach(function(option) {
+         option.selected = false;
       });
-      model.selectedOptions.forEach(function(option){
-         option.selected=true;
+      model.selectedOptions.forEach(function(option) {
+         option.selected = true;
       });
 
       // Compute tab counts
@@ -59,7 +59,7 @@ function bindHooksListeners() {
       model.selectedOptions.forEach(function(option) {
          // a positive value will be treated as true by the filters
          // if the option is hidden in a "more" section, it counts only as half
-         option.tab.count += (typeof option.more !== "undefined" && option.more) ? 0.5 : 1;
+         option.tab.count += (option.more) ? 0.5 : 1;
       })
 
 
@@ -69,12 +69,12 @@ function bindHooksListeners() {
       scope.resetViewParameters();
       scope.showPanel();
       scope.$apply();
-      
+
       // remove previous highlighted hooks, if any
       updateHooksHighlighting();
 
       // position panel next to this anchor
-      model.selectedAnchor=$(this);
+      model.selectedAnchor = $(this);
       positionPanel();
    })
 
