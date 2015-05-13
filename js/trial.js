@@ -36,12 +36,6 @@ function Trial(number) {
    this.lastOptionSelectedTime = 0;
    this.endTime = 0;
 
-   // utility function
-   this.logValueChange = function(option) {
-      this.changedOptions.push(option);
-      this.changedValues.push(option.value);
-      this.panelExpanded = model.fullPanel();
-   }
 
    /* smart accessors */
 
@@ -57,7 +51,16 @@ function Trial(number) {
 
    this.success = function() {
       return this.targetOption.id === this.changedOption().id && this.targetValue === this.changedValue();
-   };
+   }
+
+   this.duration = function() {
+      return (this.lastOptionSelectedTime - this.customizationModeTime) / 1000;
+   }
+
+   this.totalDuration = function() {
+      return (this.endTime - this.startTime) / 1000;
+   }
+
 
    /* logging method */
 
@@ -81,11 +84,27 @@ function Trial(number) {
          "reverseHighlighted": flattenOptions(this.reverseHighlighted),
 
          "success": this.success(),
-         "correctHookselected": this.changedOption().selected
+         "correctHookselected": this.changedOption().selected,
+
+         "startTime": this.startTime,
+         "customizationModeTime": this.customizationModeTime,
+         "firstOptionSelectedTime": this.firstOptionSelectedTime,
+         "lastOptionSelectedTime": this.lastOptionSelectedTime,
+         "endTime": this.endTime,
+
+         "duration": this.duration(),
+         "totalDuration": this.totalDuration()
       }
    }
 
+
    /* helpers */
+
+   this.logValueChange = function(option) {
+      this.changedOptions.push(option);
+      this.changedValues.push(option.value);
+      this.panelExpanded = model.fullPanel();
+   }
 
    function flattenArraysOfOptions(arr) {
       return arr.map(function(options) {
