@@ -13,8 +13,12 @@ function Sequencer(name, trialPause, trialConstructor) {
 
 // generic trial constructor
 function Step(number) {
+   // trial number, starting at 0
    this.number = number;
+   // whether the done button has been pressed, marking the end of the trial
    this.done = false;
+   // whether the trial timedout before the done button was pressed
+   this.timeout = false;
 }
 
 Sequencer.prototype.start = function() {
@@ -63,15 +67,21 @@ Sequencer.prototype.endTrial = function() {
       this.end();
 }
 
+Sequencer.prototype.end = function() {
+   this.inProgress = false;
+   console.log(this.name + " ended");
+}
+
 // just used for display
 Sequencer.prototype.trialDone = function() {
    return this.trial.done;
 }
 
-Sequencer.prototype.end = function() {
-   this.inProgress = false;
-   console.log(this.name + " ended");
+// just used for display
+Sequencer.prototype.trialTimeout = function() {
+   return this.trial.timeout;
 }
+
 
 
 /* methods that need to be implemented by instances */

@@ -3,9 +3,10 @@ function Trial(number) {
    this.number = number;
    // whether the done button has been pressed, marking the end of the trial
    this.done = false;
-   // target option id
-   // target option (Object)
+   // whether the trial timedout before the done button was pressed
+   this.timeout = false;
 
+   // target option (Object)
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
@@ -17,7 +18,7 @@ function Trial(number) {
    // list of all the values that were changed during this trial
    this.changedValues = [];
    // whether the panel was expanded when the last option was changed
-   this.panelExpanded = "";
+   this.panelExpanded = null;
 
    // list of the CSS selectors of all the hooks highlighted during this trial
    this.highlightedHooks = [];
@@ -39,6 +40,7 @@ function Trial(number) {
       "end": 0
    }
    this.time.customizationMode = function() {
+      // NB: this refers to trial.time here!
       return this.enterCustomizationMode ? this.enterCustomizationMode : this.start;
    }
    this.time.loggable = function() {
@@ -54,16 +56,28 @@ function Trial(number) {
 
    // the last selected option
    this.changedOption = function() {
+      if (!this.changedOptions.length)
+         return;
       return this.changedOptions[this.changedOptions.length - 1];
    }
 
    // last selected value of the last selected option
    this.changedValue = function() {
+      if (!this.changedValues.length)
+         return null;
       return this.changedValues[this.changedValues.length - 1];
    }
 
    this.success = function() {
+      if (!this.changedOptions.length)
+         return false;
       return this.targetOption.id === this.changedOption().id && this.targetValue === this.changedValue();
+   }
+
+   this.correctHookselected = function() {
+      if (!this.changedOptions.length)
+         return false;
+      return this.changedOption().selected;
    }
 
    this.instructionsDuration = function() {
@@ -71,6 +85,8 @@ function Trial(number) {
    }
 
    this.shortDuration = function() {
+      if (!this.time.lastOptionSelected)
+         return this.longDuration();
       return (this.time.lastOptionSelected - this.time.customizationMode()) / 1000;
    }
 
@@ -105,7 +121,8 @@ function Trial(number) {
          "reverseHighlighted": flattenOptions(this.reverseHighlighted),
 
          "success": this.success(),
-         "correctHookselected": this.changedOption().selected,
+         "timeout": this.timeout,
+         "correctHookselected": this.correctHookselected(),
 
          "time": this.time.loggable(),
          "instructionsDuration": this.instructionsDuration(),
@@ -129,18 +146,21 @@ function Trial(number) {
       this.time.lastOptionSelected = performance.now();
    }
 
+   // nothing will be stored if the array is empty (no empty arrays in Firebase)
    function flattenArraysOfOptions(arr) {
       return arr.map(function(options) {
          return flattenOptions(options);
       })
    }
 
+   // nothing will be stored if the array is empty (no empty arrays in Firebase)
    function flattenOptions(options) {
       return options.map(function(option) {
          return flattenOption(option);
       })
    }
 
+   // nothing will be stored if the array is empty (no empty arrays in Firebase)
    function flattenTabs(tabs) {
       return tabs.map(function(tab) {
          return flattenTab(tab);
@@ -148,6 +168,9 @@ function Trial(number) {
    }
 
    function flattenOption(option) {
+      if ($.isEmptyObject(option))
+         return {};
+
       // shallow copy
       var flattened = $.extend({}, option);
 
@@ -162,6 +185,9 @@ function Trial(number) {
    }
 
    function flattenTab(tab) {
+      if ($.isEmptyObject(tab))
+         return {};
+
       // shallow copy
       var flattened = $.extend({}, tab);
 
