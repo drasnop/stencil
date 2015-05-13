@@ -54,6 +54,7 @@ javascript: (function(e, a, g, h, f, c, b, d) {
             $.getScript('//' + serverURL + '/js/global.js'),
             $.getScript('//' + serverURL + '/js/sequencer.js'),
             $.getScript('//' + serverURL + '/js/tutorial.js'),
+            $.getScript('//' + serverURL + '/js/trial.js'),
             $.getScript('//' + serverURL + '/js/experiment.js'),
             $.getScript('//' + serverURL + '/js/geometry.js'),
             $.getScript('//' + serverURL + '/js/dataManager.js'),
