@@ -77,6 +77,12 @@ function enterCustomizationMode() {
 
    // show the customization layer
    $("#customization-layer").show();
+
+   // log
+   if (experiment.experiment) {
+      if (experiment.trial.time)
+         experiment.trial.time.enterCustomizationMode = performance.now();
+   }
 }
 
 

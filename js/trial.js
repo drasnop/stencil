@@ -33,12 +33,22 @@ function Trial(number) {
    this.time = {
       "instructionsShown": 0,
       "start": 0,
-      "customizationMode": 0,
+      "enterCustomizationMode": 0,
       "firstOptionSelected": 0,
       "lastOptionSelected": 0,
       "end": 0
    }
-
+   this.time.customizationMode = function() {
+      return this.enterCustomizationMode ? this.enterCustomizationMode : this.start;
+   }
+   this.time.loggable = function() {
+      var loggable = {};
+      for (var key in this) {
+         if (typeof this[key] != typeof Function)
+            loggable[key] = this[key];
+      }
+      return loggable;
+   }
 
    /* smart accessors */
 
@@ -61,13 +71,12 @@ function Trial(number) {
    }
 
    this.shortDuration = function() {
-      return (this.time.lastOptionSelected - this.time.customizationMode) / 1000;
+      return (this.time.lastOptionSelected - this.time.customizationMode()) / 1000;
    }
 
    this.longDuration = function() {
       return (this.time.end - this.time.start) / 1000;
    }
-
 
    this.totalDuration = function() {
       return (this.time.end - this.time.instructionsShown) / 1000;
@@ -98,7 +107,7 @@ function Trial(number) {
          "success": this.success(),
          "correctHookselected": this.changedOption().selected,
 
-         "time": this.time,
+         "time": this.time.loggable(),
          "instructionsDuration": this.instructionsDuration(),
          "shortDuration": this.shortDuration(),
          "longDuration": this.longDuration(),
@@ -113,6 +122,11 @@ function Trial(number) {
       this.changedOptions.push(option);
       this.changedValues.push(option.value);
       this.panelExpanded = model.fullPanel();
+
+      if (this.changedOptions.length == 1)
+         this.time.firstOptionSelected = performance.now();
+
+      this.time.lastOptionSelected = performance.now();
    }
 
    function flattenArraysOfOptions(arr) {
