@@ -24,7 +24,7 @@ Sequencer.prototype.start = function() {
    this.initializeTrial(0)
 }
 
-Sequencer.prototype.initializeTrial = function(trialNumber) {
+Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
    console.log(this.name + " initialize trial " + trialNumber)
 
    // creates a new trial, with the appropriate trial.number
@@ -38,8 +38,9 @@ Sequencer.prototype.initializeTrial = function(trialNumber) {
    // Since the rendering of the modal is blocking, show it at the end of digest
    showModal();
 
-   // log
-   experiment.trial.time.instructionsShown = performance.now();
+   // this callback is used to log information, once the Trial object is initialized
+   if (typeof callback === typeof Function)
+      callback();
 }
 
 // called when the user clicks the "go!" button in the modal

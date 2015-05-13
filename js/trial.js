@@ -56,16 +56,21 @@ function Trial(number) {
       return this.targetOption.id === this.changedOption().id && this.targetValue === this.changedValue();
    }
 
-   this.duration = function() {
+   this.instructionsDuration = function() {
+      return (this.time.start - this.time.instructionsShown) / 1000;
+   }
+
+   this.shortDuration = function() {
       return (this.time.lastOptionSelected - this.time.customizationMode) / 1000;
    }
 
-   this.totalDuration = function() {
+   this.longDuration = function() {
       return (this.time.end - this.time.start) / 1000;
    }
 
-   this.instructionsDuration = function() {
-      return (this.time.start - this.time.instructionsShown) / 1000;
+
+   this.totalDuration = function() {
+      return (this.time.end - this.time.instructionsShown) / 1000;
    }
 
 
@@ -94,9 +99,10 @@ function Trial(number) {
          "correctHookselected": this.changedOption().selected,
 
          "time": this.time,
-         "duration": this.duration(),
-         "totalDuration": this.totalDuration(),
-         "instructionsDuration": this.instructionsDuration()
+         "instructionsDuration": this.instructionsDuration(),
+         "shortDuration": this.shortDuration(),
+         "longDuration": this.longDuration(),
+         "totalDuration": this.totalDuration()
       }
    }
 

@@ -34,7 +34,9 @@ experiment.start = function() {
 }
 
 experiment.initializeTrial = function(number) {
-   Sequencer.prototype.initializeTrial.call(this, number);
+   Sequencer.prototype.initializeTrial.call(this, number, function() {
+      experiment.trial.time.instructionsShown = performance.now();
+   });
 }
 
 experiment.startTrial = function() {
