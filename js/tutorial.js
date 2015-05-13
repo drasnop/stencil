@@ -1,4 +1,4 @@
-var tutorial = new Sequencer("tutorial", 500);
+var tutorial = new Sequencer("tutorial", 500, 2000);
 
 tutorial.steps = [
    "Type \"buy milk\" in the input field, and press Enter to add a new todo item. Click the \"Done\" button when you're done (in the instructions bar at the top)",

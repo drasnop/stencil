@@ -1,12 +1,14 @@
-function Sequencer(name, trialPause, trialConstructor) {
+function Sequencer(name, trialPauseSuccess, trialPauseFailure, trialConstructor) {
    // name used to indentify the Sequencer in log messages
    this.name = name;
    // whether this sequencer is playing (between start() and end()) 
    this.inProgress = false;
    // current trial
    this.trial = {};
-   // duration of the brief pause between end of a trial and start of the next (in ms)
-   this.trialPause = trialPause;
+   // duration of the brief pause between end of a successful trial and start of the next (in ms)
+   this.trialPauseSuccess = trialPauseSuccess;
+   // duration of the brief pause between end of a unsuccessful trial and start of the next (in ms)
+   this.trialPauseFailure = trialPauseFailure;
    // constructor used to create new trials
    this.trialConstructor = trialConstructor || Step;
 }
@@ -66,7 +68,7 @@ Sequencer.prototype.endTrial = function(callback) {
 
    if (this.notEndOfSequence()) {
       // after a brief pause, initialize next trial (passing it the next trial.number)
-      setTimeout(this.initializeTrial.bind(this), this.trialPause, this.trial.number + 1);
+      setTimeout(this.initializeTrial.bind(this), this.trial.success() ? this.trialPauseSuccess : this.trialPauseFailure, this.trial.number + 1);
    } else
       this.end();
 }

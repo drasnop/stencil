@@ -1,4 +1,4 @@
-var experiment = new Sequencer("experiment", 2000, Trial);
+var experiment = new Sequencer("experiment", 1000, 3000, Trial);
 
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
