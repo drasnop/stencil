@@ -30,11 +30,14 @@ function Trial(number) {
    // list of all the options that were reverse highlighted (because of hover on control/icon)
    this.reverseHighlighted = [];
 
-   this.startTime = 0;
-   this.customizationModeTime = 0;
-   this.firstOptionSelectedTime = 0;
-   this.lastOptionSelectedTime = 0;
-   this.endTime = 0;
+   this.time = {
+      "instructionsShown": 0,
+      "start": 0,
+      "customizationMode": 0,
+      "firstOptionSelected": 0,
+      "lastOptionSelected": 0,
+      "end": 0
+   }
 
 
    /* smart accessors */
@@ -54,11 +57,15 @@ function Trial(number) {
    }
 
    this.duration = function() {
-      return (this.lastOptionSelectedTime - this.customizationModeTime) / 1000;
+      return (this.time.lastOptionSelected - this.time.customizationMode) / 1000;
    }
 
    this.totalDuration = function() {
-      return (this.endTime - this.startTime) / 1000;
+      return (this.time.end - this.time.start) / 1000;
+   }
+
+   this.instructionsDuration = function() {
+      return (this.time.start - this.time.instructionsShown) / 1000;
    }
 
 
@@ -86,14 +93,10 @@ function Trial(number) {
          "success": this.success(),
          "correctHookselected": this.changedOption().selected,
 
-         "startTime": this.startTime,
-         "customizationModeTime": this.customizationModeTime,
-         "firstOptionSelectedTime": this.firstOptionSelectedTime,
-         "lastOptionSelectedTime": this.lastOptionSelectedTime,
-         "endTime": this.endTime,
-
+         "time": this.time,
          "duration": this.duration(),
-         "totalDuration": this.totalDuration()
+         "totalDuration": this.totalDuration(),
+         "instructionsDuration": this.instructionsDuration()
       }
    }
 

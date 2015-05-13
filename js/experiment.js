@@ -33,13 +33,17 @@ experiment.start = function() {
    Sequencer.prototype.start.call(this);
 }
 
+experiment.initializeTrial = function(number) {
+   Sequencer.prototype.initializeTrial.call(this, number);
+}
+
 experiment.startTrial = function() {
-   experiment.trial.startTime = performance.now();
+   experiment.trial.time.start = performance.now();
    Sequencer.prototype.startTrial.call(this);
 }
 
 experiment.endTrial = function() {
-   experiment.trial.endTime = performance.now();
+   experiment.trial.time.end = performance.now();
    saveTrialToFirebase();
    Sequencer.prototype.endTrial.call(this);
 }

@@ -37,6 +37,9 @@ Sequencer.prototype.initializeTrial = function(trialNumber) {
 
    // Since the rendering of the modal is blocking, show it at the end of digest
    showModal();
+
+   // log
+   experiment.trial.time.instructionsShown = performance.now();
 }
 
 // called when the user clicks the "go!" button in the modal
