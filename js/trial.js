@@ -1,10 +1,7 @@
 function Trial(number) {
-   // trial number, starting at 0
-   this.number = number;
-   // whether the done button has been pressed, marking the end of the trial
-   this.done = false;
-   // whether the trial timedout before the done button was pressed
-   this.timeout = false;
+
+   // call parent constructor
+   Step.call(this, number);
 
    // target option (Object)
    this.targetOption = experiment.optionsSequence[this.number];
@@ -202,3 +199,6 @@ function Trial(number) {
       return flattened;
    }
 }
+
+Trial.prototype = Object.create(Step.prototype);
+Trial.prototype.constructor = Trial;

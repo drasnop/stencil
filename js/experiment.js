@@ -9,7 +9,7 @@ experiment.email = "lotaculi";
 // bonus reward when trial done correctly
 experiment.bonusTrial = ".1";
 // timeout trials after 2 min
-experiment.maxTrialDuration = 0.1 * 60 * 1000;
+experiment.maxTrialDuration = 2 * 60 * 1000;
 // firebase for storing data
 experiment.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email + "/trials");
 // list of options that users will be ask to find during the experiment
