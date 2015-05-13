@@ -6,6 +6,8 @@ experiment.experiment = true;
 experiment.oppositeDefault = false;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "lotaculi";
+// bonus reward when trial done correctly
+experiment.bonusTrial = ".1";
 // firebase for storing data
 experiment.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email + "/trials");
 // list of options that users will be ask to find during the experiment
@@ -176,4 +178,10 @@ experiment.complementValueOf = function(option, reverse) {
       index = (index + 1) % option.values.length;
 
    return option.values[index].name;
+}
+
+experiment.getTotalTrialsReward = function() {
+   return experiment.trials.reduce(function(sum, trial) {
+      return sum += experiment.bonusTrial * trial.success();
+   }, 0)
 }

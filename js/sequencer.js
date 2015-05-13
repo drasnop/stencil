@@ -1,6 +1,8 @@
 function Sequencer(name, trialPause, trialConstructor) {
    // name used to indentify the Sequencer in log messages
    this.name = name;
+   // whether this sequencer is playing (between start() and end()) 
+   this.inProgress = false;
    // current trial
    this.trial = {};
    // duration of the brief pause between end of a trial and start of the next (in ms)
@@ -17,6 +19,7 @@ function Step(number) {
 
 Sequencer.prototype.start = function() {
    console.log("Starting " + this.name)
+   this.inProgress = true;
 
    angular.element($("#progress-bar")).scope().sequencer = this;
    angular.element($("#instructions-modal")).scope().sequencer = this;
@@ -66,6 +69,7 @@ Sequencer.prototype.trialDone = function() {
 }
 
 Sequencer.prototype.end = function() {
+   this.inProgress = false;
    console.log(this.name + " ended");
 }
 

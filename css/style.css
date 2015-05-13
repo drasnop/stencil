@@ -37,18 +37,26 @@ z-indexes
    overflow: hidden;
 }
 
+#progress-bar > div {
+   display: inline-block;
+   padding-top: 5px;
+}
+
 #progress-bar .instructions {
    display: inline-block;
-   text-align: left;
-   margin-top: 13px;
+   min-width: 400px;
 }
 
 #button-trial-done {
    display: inline-block;
-   margin-left: 40px;
-   margin-top: -2px;
+   margin-left: 30px;
    width: 100px;
    border-radius: 4px;
+}
+
+#progress-bar .trial-bonus {
+   color: #08FF08;
+   margin-left: 30px;
 }
 
 .btn-blue {
