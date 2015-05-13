@@ -56,9 +56,13 @@ Sequencer.prototype.startTrial = function() {
 }
 
 // called when the user clicks the "done" button in the progress bar
-Sequencer.prototype.endTrial = function() {
+Sequencer.prototype.endTrial = function(callback) {
    console.log(this.name + " trial " + this.trial.number + " ended")
    this.trial.done = true;
+
+   // this callback is used to update the view, after the model has been changed by setTimeout
+   if (typeof callback === typeof Function)
+      callback();
 
    if (this.notEndOfSequence()) {
       // after a brief pause, initialize next trial (passing it the next trial.number)

@@ -1,4 +1,4 @@
-var experiment = new Sequencer("experiment", 1000, Trial);
+var experiment = new Sequencer("experiment", 2000, Trial);
 
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
@@ -49,16 +49,20 @@ experiment.startTrial = function() {
    setTimeout(function() {
       console.log("timeout!")
       experiment.trial.timeout = true;
-      experiment.endTrial();
+
+      // we must ask angular to $apply() after all the variables are set
+      experiment.endTrial(function() {
+         angular.element($("#ad-hoc-panel")).scope().$apply();
+      });
    }, experiment.maxTrialDuration);
 
    Sequencer.prototype.startTrial.call(this);
 }
 
-experiment.endTrial = function() {
+experiment.endTrial = function(callback) {
    experiment.trial.time.end = performance.now();
    saveTrialToFirebase();
-   Sequencer.prototype.endTrial.call(this);
+   Sequencer.prototype.endTrial.call(this, callback);
 }
 
 experiment.end = function() {
