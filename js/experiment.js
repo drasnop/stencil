@@ -46,7 +46,7 @@ experiment.initializeTrial = function(number) {
 experiment.startTrial = function() {
    experiment.trial.time.start = performance.now();
 
-   setTimeout(function() {
+   experiment.timeoutTimer = setTimeout(function() {
       console.log("timeout!")
       experiment.trial.timeout = true;
 
@@ -61,7 +61,12 @@ experiment.startTrial = function() {
 
 experiment.endTrial = function(callback) {
    experiment.trial.time.end = performance.now();
+
+   // if the trial hasn't timeout, disable the timer 
+   clearTimeout(experiment.timeoutTimer);
+
    saveTrialToFirebase();
+
    Sequencer.prototype.endTrial.call(this, callback);
 }
 
