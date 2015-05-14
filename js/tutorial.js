@@ -1,4 +1,4 @@
-var tutorial = new Sequencer("tutorial", 500, 2000);
+var tutorial = new Sequencer("tutorial", 500, 2000, "try again");
 
 tutorial.steps = [
    "After completing each step of this tutorial, click the blue \"Done\" button in the instructions bar (at the top of the screen).",
@@ -59,6 +59,30 @@ tutorial.trialNotPerformed = function() {
 }
 
 tutorial.trialSuccess = function() {
+   // dev mode: not linked with Wunderlist backbone
+   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
+      return true;
+
+   if (this.trial.number == 1)
+      return sync.collections.tasks.where({
+         title: "buy milk"
+      }).length > 0;
+
+   if (this.trial.number == 4)
+      return sync.collections.tasks.where({
+         title: "call mom"
+      }).length > 0;
+
+   if (this.trial.number == 5)
+      return sync.collections.tasks.where({
+         title: "call mom"
+      }).get("starred");
+
+   if (this.trial.number == 8)
+      return sync.collections.tasks.where({
+         title: "watch a good movie"
+      }).length > 0;
+
    return true;
 }
 

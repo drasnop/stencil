@@ -1,4 +1,4 @@
-function Sequencer(name, trialPauseSuccess, trialPauseFailure, trialConstructor) {
+function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, trialConstructor) {
    // name used to indentify the Sequencer in log messages
    this.name = name;
    // whether this sequencer is playing (between start() and end()) 
@@ -9,6 +9,8 @@ function Sequencer(name, trialPauseSuccess, trialPauseFailure, trialConstructor)
    this.trialPauseSuccess = trialPauseSuccess;
    // duration of the brief pause between end of a unsuccessful trial and start of the next (in ms)
    this.trialPauseFailure = trialPauseFailure;
+   // error message displayed in the read button when !trial.success()
+   this.errorMessage = errorMessage;
    // constructor used to create new trials
    this.trialConstructor = trialConstructor || Step;
 }
