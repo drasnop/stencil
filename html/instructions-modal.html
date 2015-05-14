@@ -1,6 +1,6 @@
 <div class="modal" id="instructions-modal" data-backdrop="static" data-keyboard="false" ng-controller="instructionsModalController">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" ng-class="{'green-modal':model.modal.green}">
       <div class="modal-header">
         <h4 class="modal-title" ng-bind="model.modal.header"></h4>
       </div>

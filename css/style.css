@@ -94,6 +94,11 @@ z-indexes
    margin: 45px auto;
 }
 
+.modal-content.green-modal {
+   background-color: #A6FFA7;
+   color: #017D01;
+}
+
 .modal-header {
    border: none;
 }

@@ -44,6 +44,7 @@ Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
    model.modal.message = this.getInstructions();
    model.modal.action = this.startTrial.bind(this);
    model.modal.hideOnClick = true;
+   model.modal.green = false;
 
    // Since the rendering of the modal is blocking, show it at the end of digest
    showModal();

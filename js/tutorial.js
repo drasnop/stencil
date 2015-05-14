@@ -22,6 +22,7 @@ tutorial.start = function() {
    model.progressBarMessage = "";
    model.modal.header = "Setup complete";
    model.modal.message = "Great! Everything is in place. Please follow this quick tutorial to see how Wunderlist works.";
+   model.modal.green = true;
    model.modal.hideOnClick = false;
    model.modal.action = (function() {
       Sequencer.prototype.start.call(this);
@@ -36,6 +37,7 @@ tutorial.end = function() {
    model.progressBarMessage = "";
    model.modal.header = "Congratulations!";
    model.modal.message = "You have completed the tutorial. You can now start the experiment.";
+   model.modal.green = true;
    model.modal.hideOnClick = false;
    model.modal.action = experiment.start.bind(experiment);
 
