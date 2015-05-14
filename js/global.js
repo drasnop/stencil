@@ -50,7 +50,7 @@ var model = {
 
 
 var parameters = {
-   // server baser url
+   // server base url
    "serverURL": "localhost:8888",
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,

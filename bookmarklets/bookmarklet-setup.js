@@ -18,6 +18,17 @@ javascript: (function(e, a, g, h, f, c, b, d) {
    window.jQuery = j;
    window.$ = window.jQuery;
 
+   if (typeof longAndComplexVariableNameToCheckIfAlreadyClicked !== "undefined") {
+      alert("Please wait 15-20 seconds to let the experiment software load. After this delay, if you don't see any changes, you can try to reload the page, then click on the bookmark again.");
+      return;
+   }
+
+   window.longAndComplexVariableNameToCheckIfAlreadyClicked = true;
+
+   setTimeout(function() {
+      alert("The experiment software is loading. Please wait a few seconds.");
+   }, 10);
+
    var serverURL = 'localhost:8888';
    /*var serverURL='cs.ubc.ca/~aponsard/stencil';*/
 
@@ -44,6 +55,8 @@ javascript: (function(e, a, g, h, f, c, b, d) {
          $.getScript('//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-animate.js'),
          $.getScript('//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-sanitize.js'),
          $.getScript('//cdn.firebase.com/js/client/2.2.4/firebase.js'),
+         $.getScript('//' + serverURL + '/js/sequencer.js'),
+         $.getScript('//' + serverURL + '/js/trial.js'),
          $.Deferred(function(deferred) {
             $(deferred.resolve);
          })
@@ -52,9 +65,7 @@ javascript: (function(e, a, g, h, f, c, b, d) {
             $.getScript('//' + serverURL + '/libs/jquery-ui-position.js'),
             $.getScript('//' + serverURL + '/libs/bootstrap.js'),
             $.getScript('//' + serverURL + '/js/global.js'),
-            $.getScript('//' + serverURL + '/js/sequencer.js'),
             $.getScript('//' + serverURL + '/js/tutorial.js'),
-            $.getScript('//' + serverURL + '/js/trial.js'),
             $.getScript('//' + serverURL + '/js/experiment.js'),
             $.getScript('//' + serverURL + '/js/geometry.js'),
             $.getScript('//' + serverURL + '/js/dataManager.js'),
