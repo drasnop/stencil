@@ -75,11 +75,13 @@ z-indexes
 }
 
 .btn-green {
+   opacity: 1!important;
    background-color: #449D44;
    color: white!important;
 }
 
 .btn-red {
+   opacity: 1!important;
    background-color: #C9302C;
    color: white!important;
 }

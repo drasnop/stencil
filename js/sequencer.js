@@ -43,6 +43,7 @@ Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
    model.modalHeader = this.getModalHeader();
    model.modalMessage = this.getInstructions();
    model.modalAction = this.startTrial.bind(this);
+   model.modalHideOnClick = true;
 
    // Since the rendering of the modal is blocking, show it at the end of digest
    showModal();
@@ -68,7 +69,7 @@ Sequencer.prototype.endTrial = function(callback) {
 
    if (this.notEndOfSequence()) {
       // after a brief pause, initialize next trial (passing it the next trial.number)
-      setTimeout(this.initializeTrial.bind(this), this.trial.success() ? this.trialPauseSuccess : this.trialPauseFailure, this.trial.number + 1);
+      setTimeout(this.initializeTrial.bind(this), this.trialSuccess() ? this.trialPauseSuccess : this.trialPauseFailure, this.trial.number + 1);
    } else
       this.end();
 }
