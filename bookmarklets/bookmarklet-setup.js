@@ -18,8 +18,13 @@ javascript: (function(e, a, g, h, f, c, b, d) {
    window.jQuery = j;
    window.$ = window.jQuery;
 
+   if (window.location.href != "https://www.wunderlist.com/#/lists/inbox") {
+      alert("To setup the experiment software, you must:\n • open a new tab\n • go to the page https://www.wunderlist.com/#/lists/inbox\n • when the page is fully loaded, click on this bookmark.");
+      return;
+   }
+
    if (typeof longAndComplexVariableNameToCheckIfAlreadyClicked !== "undefined") {
-      alert("Please wait 15-20 seconds to let the experiment software load. After this delay, if you don't see any changes, you can try to reload the page, then click on the bookmark again.");
+      alert("Please wait 15-20 seconds to let the experiment software load.\n\nAfter this delay, if you don't see any changes, you can try to reload the page, then click on this bookmark again.");
       return;
    }
 
