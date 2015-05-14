@@ -20,10 +20,10 @@ tutorial.steps = [
 
 tutorial.start = function() {
    model.progressBarMessage = "";
-   model.modalHeader = "Setup complete";
-   model.modalMessage = "Great! Everything is in place. Please follow this quick tutorial to see how Wunderlist works.";
-   model.modalHideOnClick = false;
-   model.modalAction = (function() {
+   model.modal.header = "Setup complete";
+   model.modal.message = "Great! Everything is in place. Please follow this quick tutorial to see how Wunderlist works.";
+   model.modal.hideOnClick = false;
+   model.modal.action = (function() {
       Sequencer.prototype.start.call(this);
    }).bind(this);
 
@@ -34,10 +34,10 @@ tutorial.end = function() {
    Sequencer.prototype.end.call(this);
 
    model.progressBarMessage = "";
-   model.modalHeader = "Congratulations!";
-   model.modalMessage = "You have completed the tutorial. You can now start the experiment.";
-   model.modalHideOnClick = false;
-   model.modalAction = experiment.start.bind(experiment);
+   model.modal.header = "Congratulations!";
+   model.modal.message = "You have completed the tutorial. You can now start the experiment.";
+   model.modal.hideOnClick = false;
+   model.modal.action = experiment.start.bind(experiment);
 
    showModal();
 }

@@ -42,11 +42,13 @@ var model = {
 
    /* other display variables */
 
-   "modalHeader": "",
-   "modalMessage": "",
-   "modalAction": "",
-   "modalHideOnClick": "",
-   "progressBarMessage": "Installation successful! Your verification code 3141",
+   "progressBarMessage": "",
+   "modal": {
+      "header": "",
+      "message": "",
+      "action": "",
+      "hideOnClick": ""
+   }
 }
 
 

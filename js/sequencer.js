@@ -40,10 +40,10 @@ Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
    this.trial = new this.trialConstructor(trialNumber);
 
    model.progressBarMessage = this.getInstructions();
-   model.modalHeader = this.getModalHeader();
-   model.modalMessage = this.getInstructions();
-   model.modalAction = this.startTrial.bind(this);
-   model.modalHideOnClick = true;
+   model.modal.header = this.getModalHeader();
+   model.modal.message = this.getInstructions();
+   model.modal.action = this.startTrial.bind(this);
+   model.modal.hideOnClick = true;
 
    // Since the rendering of the modal is blocking, show it at the end of digest
    showModal();
