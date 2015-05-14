@@ -1,17 +1,30 @@
 var logger = {
    // firebase for storing participant data
    "firebase": {},
-   // firebase for storing trials data
-   "firebaseTrials": {}
 };
 
+// if the Wunderlist email appears in Firebase, initialize the logger; other cancel experiment
+logger.checkEmail = function(callback) {
+   var mturk = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/");
+
+   mturk.once('value', function(snapshot) {
+      if (snapshot.hasChild(experiment.email)) {
+         console.log("Success! MTurk firebase contains", experiment.email)
+         callback();
+      } else {
+         console.log("Failure! MTurk firebase doesn't contain", experiment.email)
+         experiment.cancel();
+      }
+
+   });
+}
+
+// store participant info, options and values sequences, and prepare trials logging
 logger.initialize = function() {
-   // get references to the appropriate data bases
    logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
-   logger.firebaseTrials = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email + "/trials");
 
    // make sure the trials list is empty
-   logger.firebaseTrials.set(null);
+   logger.firebase.child("/trials").set(null);
 
    // stores the full options and values sequences, just to be sure
    logger.firebase.child("/sequences").set({
@@ -21,7 +34,7 @@ logger.initialize = function() {
 }
 
 logger.saveTrial = function() {
-   logger.firebaseTrials.push(experiment.trial.loggable(), function(error) {
+   logger.firebase.child("/trials").push(experiment.trial.loggable(), function(error) {
       if (error) {
          console.log("Trial " + experiment.trial.number + " could not be saved." + error);
       } else {

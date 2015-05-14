@@ -19,19 +19,37 @@ experiment.trials = [];
 
 
 experiment.initialize = function() {
-   // retrieve participant's email; otherwise just use 'localhost' as a placeholder
-   if (typeof sync !== "undefined" && typeof sync.collections !== "undefined")
-      experiment.email = sync.collections.users.models[0].get("email").split("@")[0];
-
    experiment.generateOptionsAndValuesSequences();
 
-   // store participant info, options and values sequences, and prepare trials logging
-   logger.initialize();
+   // retrieve participant's email; otherwise just use 'localhost' as a placeholder
+   if (typeof sync !== "undefined" && typeof sync.collections !== "undefined") {
+      experiment.email = sync.collections.users.models[0].get("email").split("@")[0];
+      logger.checkEmail(function() {
+         // if email verification passed, initialize logging and start tutorial
+         logger.initialize();
+         setTimeout(tutorial.start.bind(tutorial), 1000);
+      });
+   } else {
+      setTimeout(tutorial.start.bind(tutorial), 1000);
+      //setTimeout(experiment.start.bind(experiment), 1000);
+   }
 
-   setTimeout(tutorial.start.bind(tutorial), 1000);
-   //setTimeout(experiment.start.bind(experiment), 1000);
 }
 
+experiment.cancel = function() {
+   model.progressBarMessage = "";
+   model.modal.header = "Verification failed!";
+   model.modal.message = "The email associated with this Wunderlist account (" + experiment.email + "@gmail.com) does not match the email you were given on the instructions page. " +
+      "Please go back to step 2 of the instructions (Create temporary Wunderlist account). Otherwise you won't be able to collect your reward.";
+   model.modal.green = false;
+   model.modal.hideOnClick = false;
+   model.modal.action = function() {
+      experiment.experiment = false;
+      setTimeout(exitCustomizationMode, 10);
+   }
+
+   showModal();
+}
 
 /* overwritten methods */
 
