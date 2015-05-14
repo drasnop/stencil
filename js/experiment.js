@@ -75,7 +75,18 @@ experiment.endTrial = function(callback) {
 
 experiment.end = function() {
    Sequencer.prototype.end.call(this);
-   // launch questionnaires
+
+   model.progressBarMessage = "";
+   model.modal.header = "Congratulations!";
+   model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your bonus reward code.";
+   model.modal.green = true;
+   model.modal.hideOnClick = false;
+   model.modal.action = function() {
+      experiment.experiment = false;
+      setTimeout(exitCustomizationMode, 10);
+   }
+
+   showModal();
 }
 
 /* methods that need to be implemented */
