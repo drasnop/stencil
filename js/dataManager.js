@@ -83,12 +83,10 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // For debug purposes
       //enterCustomizationMode();
 
-      // Initialize experiment
+      // initialize experiment
       if (experiment.experiment) {
          dataManager.initializeAppOptionsFromFile();
-         experiment.generateOptionsAndValuesSequences();
-         setTimeout(tutorial.start.bind(tutorial), 1000);
-         //setTimeout(experiment.start.bind(experiment), 1000);
+         experiment.initialize();
       }
    }
 }

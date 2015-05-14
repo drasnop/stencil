@@ -101,21 +101,21 @@ function Trial(number) {
    this.loggable = function() {
       return {
          "number": this.number,
-         "targetOption": flattenOption(this.targetOption),
+         "targetOption": experiment.flattenOption(this.targetOption),
          "targetValue": this.targetValue,
 
-         "clickedOptions": flattenOptions(this.clickedOptions),
-         "changedOptions": flattenOptions(this.changedOptions),
+         "clickedOptions": experiment.flattenOptions(this.clickedOptions),
+         "changedOptions": experiment.flattenOptions(this.changedOptions),
          "changedValues": this.changedValues,
-         "changedOption": flattenOption(this.changedOption()),
+         "changedOption": experiment.flattenOption(this.changedOption()),
          "changedValue": this.changedValue(),
          "panelExpanded": this.panelExpanded,
 
          "highlightedHooks": this.highlightedHooks,
-         "highlightedOptions": flattenArraysOfOptions(this.highlightedOptions),
-         "selectedOptions": flattenArraysOfOptions(this.selectedOptions),
-         "visitedTabs": flattenTabs(this.visitedTabs),
-         "reverseHighlighted": flattenOptions(this.reverseHighlighted),
+         "highlightedOptions": experiment.flattenArraysOfOptions(this.highlightedOptions),
+         "selectedOptions": experiment.flattenArraysOfOptions(this.selectedOptions),
+         "visitedTabs": experiment.flattenTabs(this.visitedTabs),
+         "reverseHighlighted": experiment.flattenOptions(this.reverseHighlighted),
 
          "success": this.success(),
          "timeout": this.timeout,
@@ -141,62 +141,6 @@ function Trial(number) {
          this.time.firstOptionSelected = performance.now();
 
       this.time.lastOptionSelected = performance.now();
-   }
-
-   // nothing will be stored if the array is empty (no empty arrays in Firebase)
-   function flattenArraysOfOptions(arr) {
-      return arr.map(function(options) {
-         return flattenOptions(options);
-      })
-   }
-
-   // nothing will be stored if the array is empty (no empty arrays in Firebase)
-   function flattenOptions(options) {
-      return options.map(function(option) {
-         return flattenOption(option);
-      })
-   }
-
-   // nothing will be stored if the array is empty (no empty arrays in Firebase)
-   function flattenTabs(tabs) {
-      return tabs.map(function(tab) {
-         return flattenTab(tab);
-      })
-   }
-
-   function flattenOption(option) {
-      if ($.isEmptyObject(option))
-         return {};
-
-      // shallow copy
-      var flattened = $.extend({}, option);
-
-      // prevent infinite recursion by storing only option.id in that tab
-      flattened["tab"] = flattenTab(option["tab"]);
-
-      // remove non-interesting data
-      delete flattened["$$hashKey"];
-      delete flattened["__proto__"];
-
-      return flattened;
-   }
-
-   function flattenTab(tab) {
-      if ($.isEmptyObject(tab))
-         return {};
-
-      // shallow copy
-      var flattened = $.extend({}, tab);
-
-      // prevent infinite recursion by storing only option.id in that tab
-      flattened["options"] = tab["options"].map(function(option) {
-         return option.id;
-      });
-      // remove non-interesting data
-      delete flattened["$$hashKey"];
-      delete flattened["__proto__"];
-
-      return flattened;
    }
 }
 
