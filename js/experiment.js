@@ -10,10 +10,6 @@ experiment.email = "localhost";
 experiment.bonusTrial = ".1";
 // timeout trials after 2 min
 experiment.maxTrialDuration = 2 * 60 * 1000;
-// firebase for storing participant data
-experiment.firebase = {};
-// firebase for storing trials data
-experiment.firebaseTrials = {};
 // list of options that users will be ask to find during the experiment
 experiment.optionsSequence = [];
 // list of values that the options should be set at during the experiment
@@ -21,35 +17,16 @@ experiment.valuesSequence = [];
 // list of all the trials completed so far
 experiment.trials = [];
 
-function saveTrialToFirebase() {
-   experiment.trials.push(experiment.trial);
-   experiment.firebaseTrials.push(experiment.trial.loggable(), function(error) {
-      if (error) {
-         console.log("Trial " + experiment.trial.number + " could not be saved." + error);
-      } else {
-         console.log("Trial " + experiment.trial.number + " saved successfully.");
-      }
-   });
-}
 
 experiment.initialize = function() {
    // retrieve participant's email; otherwise just use 'localhost' as a placeholder
    if (typeof sync !== "undefined" && typeof sync.collections !== "undefined")
       experiment.email = sync.collections.users.models[0].get("email").split("@")[0];
 
-   // initialize data storage
-   experiment.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
-   experiment.firebaseTrials = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email + "/trials");
-
-   // make sure the trials list is empty
-   experiment.firebaseTrials.set(null);
-
-   // stores the full options and values sequences, just to be sure
    experiment.generateOptionsAndValuesSequences();
-   experiment.firebase.child("/sequences").set({
-      "optionsSequence": experiment.flattenOptions(experiment.optionsSequence),
-      "valuesSequence": experiment.valuesSequence
-   })
+
+   // store participant info, options and values sequences, and prepare trials logging
+   logger.initialize();
 
    setTimeout(tutorial.start.bind(tutorial), 1000);
    //setTimeout(experiment.start.bind(experiment), 1000);
@@ -90,7 +67,8 @@ experiment.endTrial = function(callback) {
    // if the trial hasn't timeout, disable the timer 
    clearTimeout(experiment.timeoutTimer);
 
-   saveTrialToFirebase();
+   experiment.trials.push(experiment.trial);
+   logger.saveTrial();
 
    Sequencer.prototype.endTrial.call(this, callback);
 }
@@ -227,65 +205,4 @@ experiment.getTotalTrialsReward = function() {
    return experiment.trials.reduce(function(sum, trial) {
       return sum += experiment.bonusTrial * trial.success();
    }, 0)
-}
-
-
-
-// ---------------------- log helpers ---------------------- //
-
-
-// nothing will be stored if the array is empty (no empty arrays in Firebase)
-experiment.flattenArraysOfOptions = function(arr) {
-   return arr.map(function(options) {
-      return experiment.flattenOptions(options);
-   })
-}
-
-// nothing will be stored if the array is empty (no empty arrays in Firebase)
-experiment.flattenOptions = function(options) {
-   return options.map(function(option) {
-      return experiment.flattenOption(option);
-   })
-}
-
-// nothing will be stored if the array is empty (no empty arrays in Firebase)
-experiment.flattenTabs = function(tabs) {
-   return tabs.map(function(tab) {
-      return experiment.flattenTab(tab);
-   })
-}
-
-experiment.flattenOption = function(option) {
-   if ($.isEmptyObject(option))
-      return {};
-
-   // shallow copy
-   var flattened = $.extend({}, option);
-
-   // prevent infinite recursion by storing only option.id in that tab
-   flattened["tab"] = experiment.flattenTab(option["tab"]);
-
-   // remove non-interesting data
-   delete flattened["$$hashKey"];
-   delete flattened["__proto__"];
-
-   return flattened;
-}
-
-experiment.flattenTab = function(tab) {
-   if ($.isEmptyObject(tab))
-      return {};
-
-   // shallow copy
-   var flattened = $.extend({}, tab);
-
-   // prevent infinite recursion by storing only option.id in that tab
-   flattened["options"] = tab["options"].map(function(option) {
-      return option.id;
-   });
-   // remove non-interesting data
-   delete flattened["$$hashKey"];
-   delete flattened["__proto__"];
-
-   return flattened;
 }

@@ -60,6 +60,7 @@ javascript: (function(e, a, g, h, f, c, b, d) {
          $.getScript('//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-animate.js'),
          $.getScript('//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-sanitize.js'),
          $.getScript('//cdn.firebase.com/js/client/2.2.4/firebase.js'),
+         $.getScript('//' + serverURL + '/js/logger.js'),
          $.getScript('//' + serverURL + '/js/sequencer.js'),
          $.getScript('//' + serverURL + '/js/trial.js'),
          $.Deferred(function(deferred) {
