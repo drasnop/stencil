@@ -1,4 +1,4 @@
-var tutorial = new Sequencer("tutorial", 500, 2000, "try again");
+var tutorial = new Sequencer("tutorial", 500, 2000, "try again", true);
 
 tutorial.steps = [
    "After completing each step of this tutorial, click the blue \"Done\" button in the instructions bar (at the top of the screen).",
@@ -68,6 +68,11 @@ tutorial.trialSuccess = function() {
          title: "buy milk"
       }).length > 0;
 
+   if (this.trial.number == 3)
+      return sync.collections.tasks.where({
+         title: "buy milk"
+      })[0].get("hasNote");
+
    if (this.trial.number == 4)
       return sync.collections.tasks.where({
          title: "call mom"
@@ -76,12 +81,22 @@ tutorial.trialSuccess = function() {
    if (this.trial.number == 5)
       return sync.collections.tasks.where({
          title: "call mom"
-      }).get("starred");
+      })[0].get("starred");
 
    if (this.trial.number == 8)
       return sync.collections.tasks.where({
          title: "watch a good movie"
       }).length > 0;
+
+   if (this.trial.number == 10)
+      return sync.collections.tasks.where({
+         title: "buy milk"
+      })[0].get("completed");
+
+   if (this.trial.number == 12)
+      return sync.collections.tasks.where({
+         title: "buy milk"
+      }).length === 0;
 
    return true;
 }

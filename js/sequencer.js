@@ -1,4 +1,4 @@
-function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, trialConstructor) {
+function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor) {
    // name used to indentify the Sequencer in log messages
    this.name = name;
    // whether this sequencer is playing (between start() and end()) 
@@ -11,6 +11,8 @@ function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, tri
    this.trialPauseFailure = trialPauseFailure;
    // error message displayed in the read button when !trial.success()
    this.errorMessage = errorMessage;
+   // whether to force the user to redo the same trial when !trial.success()
+   this.forceRetry = forceRetry;
    // constructor used to create new trials
    this.trialConstructor = trialConstructor || Step;
 }
@@ -69,6 +71,11 @@ Sequencer.prototype.endTrial = function(callback) {
    // this callback is used to update the view, after the model has been changed by setTimeout
    if (typeof callback === typeof Function)
       callback();
+
+   if (this.forceRetry && !this.trialSuccess()) {
+      setTimeout(this.initializeTrial.bind(this), 1000, this.trial.number);
+      return;
+   }
 
    if (this.notEndOfSequence()) {
       // after a brief pause, initialize next trial (passing it the next trial.number)

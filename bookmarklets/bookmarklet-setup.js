@@ -31,7 +31,7 @@ javascript: (function(e, a, g, h, f, c, b, d) {
    window.longAndComplexVariableNameToCheckIfAlreadyClicked = true;
 
    setTimeout(function() {
-      alert("The experiment software is loading. Please wait a few seconds.");
+      alert("The experiment software is loading... Please wait a few seconds.");
    }, 10);
 
    var serverURL = 'localhost:8888';
