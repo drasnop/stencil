@@ -18,8 +18,8 @@ javascript: (function(e, a, g, h, f, c, b, d) {
    window.jQuery = j;
    window.$ = window.jQuery;
 
-   if (window.location.href != "https://www.wunderlist.com/#/lists/inbox") {
-      alert("To setup the experiment software, you must:\n • open a new tab\n • go to the page https://www.wunderlist.com/#/lists/inbox\n • when the page is fully loaded, click on this bookmark.");
+   if (window.location.href != "https://www.wunderlist.com/#/lists/inbox" && window.location.href != "https://www.wunderlist.com/webapp#/lists/inbox") {
+      alert("To setup the experiment software, you must:\n • drag-and-drop this bookmark in your bookmark bar\n • open a new tab\n • go to the page https://www.wunderlist.com/#/lists/inbox\n • when the page is fully loaded, click on this bookmark.");
       return;
    }
 
@@ -35,7 +35,7 @@ javascript: (function(e, a, g, h, f, c, b, d) {
    }, 10);
 
    var serverURL = 'localhost:8888';
-   /*var serverURL='cs.ubc.ca/~aponsard/stencil';*/
+   /*var serverURL = 'tequila.cs.ubc.ca/stencil';*/
 
    $('<link/>', {
       rel: 'stylesheet',

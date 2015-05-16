@@ -31,7 +31,7 @@ app.run(['$location', '$http', '$q', function($location, $http, $q) {
    }
 
    function requestJSON(applicationName, objectName) {
-      return $http.get('//localhost:8888/data/' + objectName + '_' + applicationName + '.json').success(function(data) {
+      return $http.get('//' + parameters.serverURL + '/data/' + objectName + '_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved ", objectName)
          model[objectName] = data;
       });

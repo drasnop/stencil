@@ -55,7 +55,8 @@ var model = {
 
 var parameters = {
    // server base url
-   "serverURL": "localhost:8888",
+   //"serverURL": "localhost:8888",
+   "serverURL": "tequila.cs.ubc.ca/stencil",
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,
    // height (in px) of the experiment progress bar, necessary to offset the position of the hooks

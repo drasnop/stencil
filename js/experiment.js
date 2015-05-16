@@ -7,7 +7,7 @@ experiment.oppositeDefault = false;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "localhost";
 // bonus reward when trial done correctly
-experiment.bonusTrial = ".1";
+experiment.bonusTrial = 0.1;
 // timeout trials after 2 min
 experiment.maxTrialDuration = 2 * 60 * 1000;
 // list of options that users will be ask to find during the experiment
