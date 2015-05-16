@@ -41,11 +41,12 @@ experiment.cancel = function() {
    model.modal.header = "Verification failed!";
    model.modal.message = "The email associated with this Wunderlist account (" + experiment.email + "@gmail.com) does not match the email you were given on the instructions page. " +
       "Please go back to step 2 of the instructions (Create temporary Wunderlist account). Otherwise you won't be able to collect your reward.";
+   model.modal.buttonLabel = "Ok";
    model.modal.green = false;
    model.modal.hideOnClick = false;
    model.modal.action = function() {
-      experiment.experiment = false;
-      setTimeout(exitCustomizationMode, 10);
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.deleteAccount();
    }
 
    showModal();
@@ -96,12 +97,13 @@ experiment.end = function() {
 
    model.progressBarMessage = "";
    model.modal.header = "Congratulations!";
-   model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your bonus reward code.";
+   model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your verification code.";
+   model.modal.buttonLabel = "Ok";
    model.modal.green = true;
    model.modal.hideOnClick = false;
    model.modal.action = function() {
-      experiment.experiment = false;
-      setTimeout(exitCustomizationMode, 10);
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.deleteAccount();
    }
 
    showModal();

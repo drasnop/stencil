@@ -2,12 +2,12 @@
   <div class="modal-dialog">
     <div class="modal-content" ng-class="{'green-modal':model.modal.green}">
       <div class="modal-header">
-        <h4 class="modal-title" ng-bind="model.modal.header"></h4>
+        <h4 class="modal-title">{{model.modal.header}}</h4>
       </div>
-      <div class="modal-body" ng-bind="model.modal.message"></div>
+      <div class="modal-body">{{model.modal.message}}</div>
       <div class="modal-footer">
-        <div type="button" id="button-start-trial" class="btn btn-primary" data-dismiss="modal" ng-if="model.modal.hideOnClick" ng-click="model.modal.action()">Go!</div>
-        <div type="button" id="button-start-trial" class="btn btn-primary" ng-if="!model.modal.hideOnClick" ng-click="model.modal.action()">Go!</div>
+        <div type="button" id="button-start-trial" class="btn btn-primary" data-dismiss="modal" ng-if="model.modal.hideOnClick" ng-click="model.modal.action()">{{model.modal.buttonLabel}}</div>
+        <div type="button" id="button-start-trial" class="btn btn-primary" ng-if="!model.modal.hideOnClick" ng-click="model.modal.action()">{{model.modal.buttonLabel}}</div>
       </div>
     </div>
   </div>

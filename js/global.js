@@ -46,6 +46,7 @@ var model = {
    "modal": {
       "header": "",
       "message": "",
+      "buttonLabel": "",
       "green": "",
       "action": "",
       "hideOnClick": ""

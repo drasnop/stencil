@@ -46,6 +46,7 @@ Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
    model.progressBarMessage = this.getInstructions();
    model.modal.header = this.getModalHeader();
    model.modal.message = this.getInstructions();
+   model.modal.buttonLabel = "Go!";
    model.modal.action = this.startTrial.bind(this);
    model.modal.hideOnClick = true;
    model.modal.green = false;

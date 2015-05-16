@@ -1,6 +1,6 @@
 var app = angular.module('myApp', ['ngAnimate', 'ngSanitize']);
 
-app.run(['$location', '$http', '$q', function($location, $http, $q) {
+app.run(['$location', '$http', '$q', '$rootScope', function($location, $http, $q, $rootScope) {
 
    // sets application flags based on the url, then load the appropriate data
    if ($location.absUrl().indexOf("wunderlist") != -1) {
@@ -34,6 +34,29 @@ app.run(['$location', '$http', '$q', function($location, $http, $q) {
       return $http.get('//' + parameters.serverURL + '/data/' + objectName + '_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved ", objectName)
          model[objectName] = data;
+      });
+   }
+
+   $rootScope.deleteAccount = function() {
+
+      if (typeof sync == "undefined" || typeof sync.options == "undefined") {
+         console.log("No Wunderlist account to delete!");
+         return;
+      }
+
+      console.log("deleting account...")
+
+      $http.delete("https://a.wunderlist.com/api/v1/user", {
+         data: {
+            "password": "experiment"
+         },
+         headers: {
+            "x-client-id": sync.options.clientID,
+            "x-access-token": sync.options.accessToken,
+            "Content-Type": "application/json; charset=utf-8"
+         }
+      }).success(function() {
+         alert("This Wunderlist account will self-destruct once you finish reading this message.");
       });
    }
 

@@ -1,4 +1,4 @@
-app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeout', function($scope, $rootScope, $window, $timeout) {
+app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeout', '$http', function($scope, $rootScope, $window, $timeout, $http) {
 
    // provides access to model and dataManager in the html templates
    $scope.model = $window.model;
