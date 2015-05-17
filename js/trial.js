@@ -101,21 +101,21 @@ function Trial(number) {
    this.loggable = function() {
       return {
          "number": this.number,
-         "targetOption": logger.flattenOption(this.targetOption),
+         "targetOption": logger.compressOption(this.targetOption),
          "targetValue": this.targetValue,
 
-         "clickedOptions": logger.flattenOptions(this.clickedOptions),
-         "changedOptions": logger.flattenOptions(this.changedOptions),
+         "clickedOptions": logger.compressOptions(this.clickedOptions),
+         "changedOptions": logger.compressOptions(this.changedOptions),
          "changedValues": this.changedValues,
-         "changedOption": logger.flattenOption(this.changedOption()),
+         "changedOption": logger.compressOption(this.changedOption()),
          "changedValue": this.changedValue(),
          "panelExpanded": this.panelExpanded,
 
          "highlightedHooks": this.highlightedHooks,
-         "highlightedOptions": logger.flattenArraysOfOptions(this.highlightedOptions),
-         "selectedOptions": logger.flattenArraysOfOptions(this.selectedOptions),
-         "visitedTabs": logger.flattenTabs(this.visitedTabs),
-         "reverseHighlighted": logger.flattenOptions(this.reverseHighlighted),
+         "highlightedOptions": logger.compressArraysOfOptions(this.highlightedOptions),
+         "selectedOptions": logger.compressArraysOfOptions(this.selectedOptions),
+         "visitedTabs": logger.compressTabs(this.visitedTabs),
+         "reverseHighlighted": logger.compressOptions(this.reverseHighlighted),
 
          "success": this.success(),
          "timeout": this.timeout,

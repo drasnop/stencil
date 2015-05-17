@@ -28,14 +28,14 @@ logger.initialize = function() {
    logger.firebase.child("/trials").set(null);
 
    // save the full set of options that were used in this experiment, just to be sure
-   logger.firebase.child("/options").set(logger.flattenAllUserAccessibleOptions());
+   logger.firebase.child("/options").set(logger.compressAllUserAccessibleOptions());
 
    // save the full set of tabs that were used in this experiment, just to be sure (+used in questionnaire)
-   logger.firebase.child("/tabs").set(logger.flattenAllTabs());
+   logger.firebase.child("/tabs").set(logger.compressAllTabs());
 
    // save the full options and values sequences, just to be sure
    logger.firebase.child("/sequences").set({
-      "optionsSequence": logger.flattenOptions(experiment.optionsSequence),
+      "optionsSequence": logger.compressOptions(experiment.optionsSequence),
       "valuesSequence": experiment.valuesSequence
    })
 }
@@ -53,45 +53,48 @@ logger.saveTrial = function() {
 
 // -------------------- flatterners  ---------------------- //
 
-logger.flattenAllUserAccessibleOptions = function() {
-   var flattened = {};
+logger.compressAllUserAccessibleOptions = function() {
+   var compressed = {};
    model.options.forEach(function(option) {
       if (!option.notUserAccessible)
-         flattened[option.id] = logger.flattenOption(option);
+         compressed[option.id] = logger.compressOption(option);
    });
-   return flattened;
+   return compressed;
 }
 
-logger.flattenAllTabs = function() {
-   var flattened = [];
+logger.compressAllTabs = function() {
+   var compressed = {};
    model.tabs.forEach(function(tab) {
-      flattened[tab.index] = logger.flattenTab(tab);
+      compressed[tab.name] = logger.compressTab(tab);
    });
-   return flattened;
+   return compressed;
 }
 
 // nothing will be stored if the array is empty (no empty arrays in Firebase)
-logger.flattenArraysOfOptions = function(arr) {
+logger.compressArraysOfOptions = function(arr) {
    return arr.map(function(options) {
-      return logger.flattenOptions(options);
+      return logger.compressOptions(options);
    })
 }
 
 // nothing will be stored if the array is empty (no empty arrays in Firebase)
-logger.flattenOptions = function(options) {
+logger.compressOptions = function(options) {
    return options.map(function(option) {
-      return logger.flattenOption(option);
+      return logger.compressOption(option);
    })
 }
 
 // nothing will be stored if the array is empty (no empty arrays in Firebase)
-logger.flattenTabs = function(tabs) {
+logger.compressTabs = function(tabs) {
    return tabs.map(function(tab) {
-      return logger.flattenTab(tab);
+      return logger.compressTab(tab);
    })
 }
 
-logger.flattenOption = function(option) {
+
+/*  compress() calls flatten() on .tab or .options, while flatten() returns list of ids */
+
+logger.compressOption = function(option) {
    if ($.isEmptyObject(option))
       return {};
 
@@ -99,7 +102,7 @@ logger.flattenOption = function(option) {
    var flattened = $.extend({}, option);
 
    // prevent infinite recursion by storing only option.id in that tab
-   flattened["tab"] = logger.flattenTab(option["tab"]);
+   flattened["tab"] = flattenTab(option["tab"]);
 
    // remove non-interesting data
    delete flattened["$$hashKey"];
@@ -108,7 +111,44 @@ logger.flattenOption = function(option) {
    return flattened;
 }
 
-logger.flattenTab = function(tab) {
+flattenOption = function(option) {
+   if ($.isEmptyObject(option))
+      return {};
+
+   // shallow copy
+   var flattened = $.extend({}, option);
+
+   // prevent infinite recursion by storing only option.id in that tab
+   flattened["tab"] = option["tab"].name;
+
+   // remove non-interesting data
+   delete flattened["$$hashKey"];
+   delete flattened["__proto__"];
+
+   return flattened;
+}
+
+
+logger.compressTab = function(tab) {
+   if ($.isEmptyObject(tab))
+      return {};
+
+   // shallow copy
+   var flattened = $.extend({}, tab);
+
+   // prevent infinite recursion by storing only option.id in that tab
+   flattened["options"] = tab["options"].map(function(option) {
+      return flattenOption(option);
+   });
+   // remove non-interesting data
+   delete flattened["$$hashKey"];
+   delete flattened["__proto__"];
+
+   return flattened;
+}
+
+
+flattenTab = function(tab) {
    if ($.isEmptyObject(tab))
       return {};
 
