@@ -27,7 +27,10 @@ logger.initialize = function() {
    // make sure the trials list is empty
    logger.firebase.child("/trials").set(null);
 
-   // stores the full options and values sequences, just to be sure
+   // save the full set of options that were used in this experiment, just to be sure
+   logger.firebase.child("/options").set(logger.flattenAllUserAccessibleOptions());
+
+   // save the full options and values sequences, just to be sure
    logger.firebase.child("/sequences").set({
       "optionsSequence": logger.flattenOptions(experiment.optionsSequence),
       "valuesSequence": experiment.valuesSequence
@@ -47,6 +50,14 @@ logger.saveTrial = function() {
 
 // -------------------- flatterners  ---------------------- //
 
+logger.flattenAllUserAccessibleOptions = function() {
+   var flattened = {};
+   for (var id in model.options) {
+      if (!model.options[id].notUserAccessible)
+         flattened[id] = logger.flattenOption(model.options[id]);
+   }
+   return flattened;
+}
 
 // nothing will be stored if the array is empty (no empty arrays in Firebase)
 logger.flattenArraysOfOptions = function(arr) {
