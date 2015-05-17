@@ -30,6 +30,9 @@ logger.initialize = function() {
    // save the full set of options that were used in this experiment, just to be sure
    logger.firebase.child("/options").set(logger.flattenAllUserAccessibleOptions());
 
+   // save the full set of tabs that were used in this experiment, just to be sure (+used in questionnaire)
+   logger.firebase.child("/tabs").set(logger.flattenAllTabs());
+
    // save the full options and values sequences, just to be sure
    logger.firebase.child("/sequences").set({
       "optionsSequence": logger.flattenOptions(experiment.optionsSequence),
@@ -52,10 +55,18 @@ logger.saveTrial = function() {
 
 logger.flattenAllUserAccessibleOptions = function() {
    var flattened = {};
-   for (var id in model.options) {
-      if (!model.options[id].notUserAccessible)
-         flattened[id] = logger.flattenOption(model.options[id]);
-   }
+   model.options.forEach(function(option) {
+      if (!option.notUserAccessible)
+         flattened[option.id] = logger.flattenOption(option);
+   });
+   return flattened;
+}
+
+logger.flattenAllTabs = function() {
+   var flattened = [];
+   model.tabs.forEach(function(tab) {
+      flattened[tab.index] = logger.flattenTab(tab);
+   });
    return flattened;
 }
 
