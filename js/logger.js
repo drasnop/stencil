@@ -95,70 +95,42 @@ logger.compressTabs = function(tabs) {
 /*  compress() calls flatten() on .tab or .options, while flatten() returns list of ids */
 
 logger.compressOption = function(option) {
-   if ($.isEmptyObject(option))
-      return {};
+   return compress(option, "tab", flattenTab);
+}
 
-   // shallow copy
-   var flattened = $.extend({}, option);
+flattenTab = function(tab) {
+   return compress(tab, "options", function(option) {
+      return option.id;
+   });
+}
 
-   // prevent infinite recursion by storing only option.id in that tab
-   flattened["tab"] = flattenTab(option["tab"]);
-
-   // remove non-interesting data
-   delete flattened["$$hashKey"];
-   delete flattened["__proto__"];
-
-   return flattened;
+logger.compressTab = function(tab) {
+   return compress(tab, "options", flattenOption);
 }
 
 flattenOption = function(option) {
-   if ($.isEmptyObject(option))
-      return {};
-
-   // shallow copy
-   var flattened = $.extend({}, option);
-
-   // prevent infinite recursion by storing only option.id in that tab
-   flattened["tab"] = option["tab"].name;
-
-   // remove non-interesting data
-   delete flattened["$$hashKey"];
-   delete flattened["__proto__"];
-
-   return flattened;
+   return compress(option, "tab", function(tab) {
+      return tab.name;
+   })
 }
 
 
-logger.compressTab = function(tab) {
-   if ($.isEmptyObject(tab))
+// return the compress version of an object (option or tab), flattening its children (tab or options)
+function compress(obj, childrenName, childrenFlattener) {
+   if ($.isEmptyObject(obj))
       return {};
 
    // shallow copy
-   var flattened = $.extend({}, tab);
+   var flattened = $.extend({}, obj);
 
-   // prevent infinite recursion by storing only option.id in that tab
-   flattened["options"] = tab["options"].map(function(option) {
-      return flattenOption(option);
-   });
-   // remove non-interesting data
-   delete flattened["$$hashKey"];
-   delete flattened["__proto__"];
+   // prevent infinite recursion, distinguishing between tab.options (Array) and option.tab (single Object)
+   if (Array.isArray(obj[childrenName])) {
+      flattened[childrenName] = obj[childrenName].map(function(child) {
+         return childrenFlattener(child);
+      });
+   } else
+      flattened[childrenName] = childrenFlattener(obj[childrenName]);
 
-   return flattened;
-}
-
-
-flattenTab = function(tab) {
-   if ($.isEmptyObject(tab))
-      return {};
-
-   // shallow copy
-   var flattened = $.extend({}, tab);
-
-   // prevent infinite recursion by storing only option.id in that tab
-   flattened["options"] = tab["options"].map(function(option) {
-      return option.id;
-   });
    // remove non-interesting data
    delete flattened["$$hashKey"];
    delete flattened["__proto__"];
