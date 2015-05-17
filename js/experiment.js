@@ -55,7 +55,17 @@ experiment.cancel = function() {
 /* overwritten methods */
 
 experiment.start = function() {
-   Sequencer.prototype.start.call(this);
+   model.progressBarMessage = "";
+   model.modal.header = "Experiment";
+   model.modal.message = "In each step, you will be ask to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Done\" button. You won't be able to change your mind after clicking \"Done\".";
+   model.modal.buttonLabel = "Start";
+   model.modal.green = true;
+   model.modal.hideOnClick = false;
+   model.modal.action = (function() {
+      Sequencer.prototype.start.call(this);
+   }).bind(this);
+
+   showModal();
 }
 
 experiment.initializeTrial = function(number) {
