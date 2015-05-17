@@ -4,16 +4,16 @@ var logger = {
 };
 
 // if the Wunderlist email appears in Firebase, initialize the logger; other cancel experiment
-logger.checkEmail = function(callback) {
+logger.checkEmail = function(callbackSuccess, callbackError) {
    var mturk = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/");
 
    mturk.once('value', function(snapshot) {
       if (snapshot.hasChild(experiment.email)) {
          console.log("Success! MTurk firebase contains", experiment.email)
-         callback();
+         callbackSuccess();
       } else {
          console.log("Failure! MTurk firebase doesn't contain", experiment.email)
-         experiment.cancel();
+         callbackError();
       }
 
    });
@@ -22,6 +22,7 @@ logger.checkEmail = function(callback) {
 // store participant info, options and values sequences, and prepare trials logging
 logger.initialize = function() {
    logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
+   console.log("Initializing logging to " + logger.firebase.toString())
 
    // make sure the trials list is empty
    logger.firebase.child("/trials").set(null);

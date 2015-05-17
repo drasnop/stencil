@@ -1,7 +1,7 @@
 var tutorial = new Sequencer("tutorial", 500, 2000, "try again", true);
 
 tutorial.steps = [
-   "After completing each step of this tutorial, click the blue \"Done\" button in the instructions bar (at the top of the screen). Try to do it now!",
+   "After completing each step of this tutorial, click the blue \"Done\" button in the instructions bar (at the top of the screen). Try it now!",
    "Type \"buy milk\" in the input field, and press Enter to add a new todo item.",
    "Double-click on the todo item you added to show the details panel on the right.",
    "Write a more detailed description in the yellow area on the right: \"for the cake\"",

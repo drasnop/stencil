@@ -1,4 +1,4 @@
-var experiment = new Sequencer("experiment", 1000, 3000, "Wrong setting", false, Trial);
+var experiment = new Sequencer("experiment", 1000, 2000, "Wrong setting", false, Trial);
 
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
@@ -21,19 +21,19 @@ experiment.trials = [];
 experiment.initialize = function() {
    experiment.generateOptionsAndValuesSequences();
 
-   // retrieve participant's email; otherwise just use 'localhost' as a placeholder
    if (typeof sync !== "undefined" && typeof sync.collections !== "undefined") {
+      // retrieve and check participant's email
       experiment.email = sync.collections.users.models[0].get("email").split("@")[0];
-      logger.checkEmail(function() {
-         // if email verification passed, initialize logging and start tutorial
-         logger.initialize();
-         setTimeout(tutorial.start.bind(tutorial), 1000);
-      });
+      logger.checkEmail(initializeLoggerAndStartTutorial, experiment.cancel);
    } else {
-      setTimeout(tutorial.start.bind(tutorial), 1000);
-      //setTimeout(experiment.start.bind(experiment), 1000);
+      // otherwise, the logger will be initialized with 'localhost' as a dummy user
+      initializeLoggerAndStartTutorial();
    }
+}
 
+function initializeLoggerAndStartTutorial() {
+   logger.initialize();
+   setTimeout(tutorial.start.bind(tutorial), 1000);
 }
 
 experiment.cancel = function() {
@@ -95,6 +95,10 @@ experiment.endTrial = function(callback) {
 
    // if the trial hasn't timeout, disable the timer 
    clearTimeout(experiment.timeoutTimer);
+
+   // close customization panel
+   var scope = angular.element($("#ad-hoc-panel")).scope();
+   scope.closePanel();
 
    experiment.trials.push(experiment.trial);
    logger.saveTrial();
