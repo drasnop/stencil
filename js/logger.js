@@ -25,6 +25,7 @@ logger.initialize = function() {
    console.log("Initializing logging to " + logger.firebase.toString())
 
    // make sure the trials list is empty
+   logger.firebase.child("/tutorial").set(null)
    logger.firebase.child("/trials").set(null);
 
    // save the full set of options that were used in this experiment, just to be sure

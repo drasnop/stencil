@@ -18,6 +18,11 @@ tutorial.steps = [
    "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them."
 ]
 
+tutorial.time = {
+   "stepStart": 0,
+   "stepEnd": 0
+}
+
 /* overwritten methods */
 
 tutorial.start = function() {
@@ -32,6 +37,22 @@ tutorial.start = function() {
    }).bind(this);
 
    showModal();
+}
+
+tutorial.startTrial = function() {
+   this.time.stepStart = performance.now();
+   Sequencer.prototype.startTrial.call(this);
+}
+
+tutorial.endTrial = function() {
+   this.time.stepEnd = performance.now();
+   var loggable = {
+      "step": this.trial.number,
+      "instructions": this.steps[this.trial.number],
+      "time": (this.time.stepEnd - this.time.stepStart) / 1000
+   };
+   logger.firebase.child("/tutorial").push(loggable);
+   Sequencer.prototype.endTrial.call(this);
 }
 
 tutorial.end = function() {
