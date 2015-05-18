@@ -49,7 +49,7 @@ tutorial.endTrial = function() {
    var loggable = {
       "step": this.trial.number,
       "instructions": this.steps[this.trial.number],
-      "time": (this.time.stepEnd - this.time.stepStart) / 1000
+      "duration": (this.time.stepEnd - this.time.stepStart) / 1000
    };
    logger.firebase.child("/tutorial").push(loggable);
    Sequencer.prototype.endTrial.call(this);
