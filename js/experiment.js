@@ -6,8 +6,8 @@ experiment.experiment = true;
 experiment.email = "lotaculi";
 // 0=control, 1=minimal, 2=mixed, 3=highlighted (TODO make this affect optionsVisibility)
 experiment.condition = "";
-// whether to use the opposite values of the default options for this participant (TODO change to "")
-experiment.oppositeDefaults = false;
+// whether to use the opposite values of the default options for this participant
+experiment.oppositeDefaults = "";
 // bonus reward when trial done correctly
 experiment.bonusTrial = 0.1;
 // timeout trials after 2 min
@@ -52,7 +52,9 @@ experiment.generateInitialState = function() {
       });
    }
 
-   // 2: store a correct verson of options at any particular time
+   // 2: store a correct version of the options, for future reference
+   // the use of the logger method is coincidential: it simply serves our purpose here well
+   experiment.referenceOptions = logger.compressAllUserAccessibleOptions();
 
    // 3: set the Wunderlist options to the default (or opposite default) settings 
    dataManager.initializeAppOptionsFromFile();
@@ -100,6 +102,9 @@ experiment.start = function() {
 experiment.initializeTrial = function(number) {
    Sequencer.prototype.initializeTrial.call(this, number, function() {
       experiment.trial.time.instructionsShown = performance.now();
+
+      // set how the options should look like if this trial was perfectly executed
+      experiment.referenceOptions[experiment.trial.targetOption.id] = experiment.trial.targetValue;
    });
 }
 
