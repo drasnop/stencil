@@ -4,6 +4,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    $scope.model = $window.model;
    $scope.parameters = $window.parameters;
    $scope.experiment = $window.experiment;
+   $scope.logger = $window.logger;
    $scope.dataManager = $window.dataManager;
    $scope.geometry = $window.geometry;
 
@@ -120,7 +121,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       determineShowMoreShortcuts();
 
       // saved visited tabs
-      experiment.trial.visitedTabs.push(tab);
+      experiment.trial.visitedTabs.push(logger.compressTab(tab));
    }
 
    $scope.resetViewParameters = function() {
@@ -149,6 +150,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       $(".highlightable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).addClass("blue-highlighted")
+
+      if (experiment.experiment)
+         experiment.trial.reverseHighlighted.push(logger.compressOption(option));
    }
 
    // remove highlight on mouseleave

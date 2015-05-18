@@ -6,8 +6,8 @@ function Trial(number) {
    this.timeout = false;
    this.optionWasHighlighted = null;
 
-   // target option (Object)
-   this.targetOption = experiment.optionsSequence[this.number];
+   // target option (Object) (compressed to avoid infinite recursion when logging)
+   this.targetOption = logger.compressOption(experiment.optionsSequence[this.number]);
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
 
@@ -83,19 +83,19 @@ function Trial(number) {
    this.loggable = function() {
       return {
          "number": this.number,
-         "targetOption": logger.compressOption(this.targetOption),
+         "targetOption": this.targetOption,
          "targetValue": this.targetValue,
 
-         "clickedOptions": logger.compressOptions(this.clickedOptions),
+         "clickedOptions": this.clickedOptions,
          "changedOptions": this.changedOptions,
          "changedValues": this.changedValues,
          "panelExpanded": this.panelExpanded,
 
          "highlightedHooks": this.highlightedHooks,
-         "highlightedOptions": logger.compressArraysOfOptions(this.highlightedOptions),
-         "selectedOptions": logger.compressArraysOfOptions(this.selectedOptions),
-         "visitedTabs": logger.compressTabs(this.visitedTabs),
-         "reverseHighlighted": logger.compressOptions(this.reverseHighlighted),
+         "highlightedOptions": this.highlightedOptions,
+         "selectedOptions": this.selectedOptions,
+         "visitedTabs": this.visitedTabs,
+         "reverseHighlighted": this.reverseHighlighted,
 
          "success": this.success(),
          "timeout": this.timeout,

@@ -71,23 +71,9 @@ logger.compressAllTabs = function() {
 }
 
 // nothing will be stored if the array is empty (no empty arrays in Firebase)
-logger.compressArraysOfOptions = function(arr) {
-   return arr.map(function(options) {
-      return logger.compressOptions(options);
-   })
-}
-
-// nothing will be stored if the array is empty (no empty arrays in Firebase)
 logger.compressOptions = function(options) {
    return options.map(function(option) {
       return logger.compressOption(option);
-   })
-}
-
-// nothing will be stored if the array is empty (no empty arrays in Firebase)
-logger.compressTabs = function(tabs) {
-   return tabs.map(function(tab) {
-      return logger.compressTab(tab);
    })
 }
 
