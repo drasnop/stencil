@@ -86,6 +86,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
       // revert back to the minimal panel    
       $scope.resetViewParameters();
+      $(".hook").removeClass("hovered");
    }
 
    $scope.expandToFullPanel = function(tab) {

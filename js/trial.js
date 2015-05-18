@@ -3,6 +3,9 @@ function Trial(number) {
    // call parent constructor
    Step.call(this, number);
 
+   this.timeout = false;
+   this.optionWasHighlighted = null;
+
    // target option (Object)
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
@@ -32,9 +35,9 @@ function Trial(number) {
       "instructionsShown": 0,
       "start": 0,
       "enterCustomizationMode": 0,
-      "firstOptionSelected": 0,
-      "correctOptionSelected": 0,
-      "lastOptionSelected": 0,
+      "firstOptionChanged": 0,
+      "correctOptionChanged": 0,
+      "lastOptionChanged": 0,
       "end": 0
    }
    this.time.customizationMode = function() {
@@ -52,30 +55,8 @@ function Trial(number) {
 
    /* smart accessors */
 
-   // the last selected option
-   this.changedOption = function() {
-      if (!this.changedOptions.length)
-         return;
-      return this.changedOptions[this.changedOptions.length - 1];
-   }
-
-   // last selected value of the last selected option
-   this.changedValue = function() {
-      if (!this.changedValues.length)
-         return null;
-      return this.changedValues[this.changedValues.length - 1];
-   }
-
    this.success = function() {
-      if (!this.changedOptions.length)
-         return false;
-      return this.targetOption.id === this.changedOption().id && this.targetValue === this.changedValue();
-   }
-
-   this.correctHookselected = function() {
-      if (!this.changedOptions.length)
-         return false;
-      return this.changedOption().selected;
+      return model.options[this.targetOption.id].value === this.targetValue;
    }
 
    this.instructionsDuration = function() {
@@ -83,9 +64,9 @@ function Trial(number) {
    }
 
    this.shortDuration = function() {
-      if (!this.time.correctOptionSelected)
+      if (!this.time.correctOptionChanged)
          return this.longDuration();
-      return (this.time.correctOptionSelected - this.time.customizationMode()) / 1000;
+      return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
    }
 
    this.longDuration = function() {
@@ -106,10 +87,8 @@ function Trial(number) {
          "targetValue": this.targetValue,
 
          "clickedOptions": logger.compressOptions(this.clickedOptions),
-         "changedOptions": logger.compressOptions(this.changedOptions),
+         "changedOptions": this.changedOptions,
          "changedValues": this.changedValues,
-         "changedOption": logger.compressOption(this.changedOption()),
-         "changedValue": this.changedValue(),
          "panelExpanded": this.panelExpanded,
 
          "highlightedHooks": this.highlightedHooks,
@@ -120,7 +99,7 @@ function Trial(number) {
 
          "success": this.success(),
          "timeout": this.timeout,
-         "correctHookselected": this.correctHookselected(),
+         "optionWasHighlighted": this.optionWasHighlighted,
 
          "time": this.time.loggable(),
          "instructionsDuration": this.instructionsDuration(),
@@ -136,17 +115,20 @@ function Trial(number) {
    this.logValueChange = function(option) {
       var time = performance.now();
 
-      this.changedOptions.push(option);
+      this.changedOptions.push(logger.compressOption(option));
       this.changedValues.push(option.value);
-      this.panelExpanded = model.fullPanel();
 
-      if (this.targetOption.id === option.id && this.targetValue === option.value)
-         this.time.correctOptionSelected = time;
+      // if this is the correct option
+      if (this.targetOption.id === option.id && this.targetValue === option.value) {
+         this.time.correctOptionChanged = time;
+         this.optionWasHighlighted = option.selected;
+         this.panelExpanded = model.fullPanel();
+      }
 
       if (this.changedOptions.length == 1)
-         this.time.firstOptionSelected = time;
+         this.time.firstOptionChanged = time;
 
-      this.time.lastOptionSelected = time;
+      this.time.lastOptionChanged = time;
    }
 }
 
