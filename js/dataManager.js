@@ -67,14 +67,6 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          return [];
       });
 
-      // for some participants, use the opposite of the default options
-      // TODO why can't it be above the model.tabs initialization?
-      if (experiment.oppositeDefault) {
-         model.options.getUserAccessibleOptions().forEach(function(option) {
-            option.value = experiment.complementValueOf(option);
-         });
-      }
-
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];
 
@@ -84,10 +76,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       //enterCustomizationMode();
 
       // initialize experiment
-      if (experiment.experiment) {
-         dataManager.initializeAppOptionsFromFile();
+      if (experiment.experiment)
          experiment.initialize();
-      }
    }
 }
 

@@ -15,15 +15,24 @@ logger.checkEmail = function(callbackSuccess, callbackError) {
          console.log("Failure! MTurk firebase doesn't contain", experiment.email)
          callbackError();
       }
-
    });
 }
 
-// store participant info, options and values sequences, and prepare trials logging
+// connects to the appropriate Firebase, and retrieve key information
 logger.initialize = function() {
+   console.log("Initializing logging to " + logger.firebase.toString() + "...")
    logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
-   console.log("Initializing logging to " + logger.firebase.toString())
 
+   logger.firebase.child("condition").once('value', function(snapshot) {
+      experiment.condition = snapshot.child("interface").val();
+      experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
+      console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults)
+      logger.prepareLogging();
+   })
+}
+
+// store participant info, options and values sequences, and prepare trials logging
+logger.prepareLogging = function() {
    // make sure the trials list is empty
    logger.firebase.child("/tutorial").set(null)
    logger.firebase.child("/trials").set(null);

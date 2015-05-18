@@ -2,10 +2,12 @@ var experiment = new Sequencer("experiment", 1000, 2000, "Wrong setting", false,
 
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
-// whether to use the opposite values of the default options for this participant
-experiment.oppositeDefault = false;
 // random sequence of 8 numbers and letters used to identify participants
-experiment.email = "localhost";
+experiment.email = "lotaculi";
+// 0=control, 1=minimal, 2=mixed, 3=highlighted (TODO make this affect optionsVisibility)
+experiment.condition = "";
+// whether to use the opposite values of the default options for this participant (TODO change to "")
+experiment.oppositeDefaults = false;
 // bonus reward when trial done correctly
 experiment.bonusTrial = 0.1;
 // timeout trials after 2 min
@@ -19,22 +21,36 @@ experiment.trials = [];
 
 
 experiment.initialize = function() {
+
+   // 1: for some participants, use the opposite of the default options
+   if (experiment.experiment && experiment.oppositeDefaults) {
+      model.options.getUserAccessibleOptions().forEach(function(option) {
+         option.value = experiment.complementValueOf(option);
+      });
+   }
+
+   // 2: store a correct verson of options at any particular time
+
+   // 3: set the Wunderlist options to the default (or opposite default) ones  
+   dataManager.initializeAppOptionsFromFile();
+
+   // randomly generate selection sequences
    experiment.generateOptionsAndValuesSequences();
 
-   if (typeof sync !== "undefined" && typeof sync.collections !== "undefined") {
-      // retrieve and check participant's email
+   // retrieve the email used to create that Wunderlist account, otherwise a default email ("lotaculi") will be used
+   if (typeof sync !== "undefined" && typeof sync.collections !== "undefined")
       experiment.email = sync.collections.users.models[0].get("email").split("@")[0];
-      logger.checkEmail(initializeLoggerAndStartTutorial, experiment.cancel);
-   } else {
-      // otherwise, the logger will be initialized with 'localhost' as a dummy user
-      initializeLoggerAndStartTutorial();
-   }
+
+   // verify that this email appears in firebase
+   logger.checkEmail(function() {
+      logger.initialize();
+
+      // generate appropriate options and sequences?
+
+      setTimeout(tutorial.start.bind(tutorial), 1000);
+   }, experiment.cancel);
 }
 
-function initializeLoggerAndStartTutorial() {
-   logger.initialize();
-   setTimeout(tutorial.start.bind(tutorial), 1000);
-}
 
 experiment.cancel = function() {
    model.progressBarMessage = "";
@@ -215,8 +231,8 @@ experiment.generateOptionsAndValuesSequences = function() {
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
    experiment.optionsSequence.forEach(function(option) {
-      // if oppositeDefault, set the reverse flag to make sure the complementValue found here is the opposite of the opposite default (hence the default)
-      var value = experiment.complementValueOf(option, experiment.oppositeDefault);
+      // if oppositeDefaults, set the reverse flag to make sure the complementValue found here is the opposite of the opposite default (hence the default)
+      var value = experiment.complementValueOf(option, experiment.oppositeDefaults);
       experiment.valuesSequence.push(value);
    })
 }
