@@ -4,6 +4,7 @@ function Trial(number) {
    Step.call(this, number);
 
    this.timeout = false;
+   this.correctOptionWasHighlightedWhenChanged = false;
 
    // target option (Object) (compressed to avoid infinite recursion when logging)
    this.targetOption = logger.compressOption(experiment.optionsSequence[this.number]);
@@ -60,11 +61,14 @@ function Trial(number) {
       return model.options[this.targetOption.id].value === this.targetValue;
    }
 
+   this.correctOptionHasBeenHighlighted = function() {
       for (var i in this.selectedOptions) {
          for (var j in this.selectedOptions[i]) {
             if (this.selectedOptions[i][j].id == this.targetOption.id)
+               return true;
          }
       }
+      return false;
    }
 
    this.instructionsDuration = function() {
@@ -94,6 +98,7 @@ function Trial(number) {
       for (var prop in this) {
          if (this[prop] === null)
             loggable[prop] = null;
+         else if (typeof this[prop].loggable === typeof Function)
             loggable[prop] = this[prop].loggable();
          else if (typeof this[prop] !== typeof Function)
             loggable[prop] = this[prop];
@@ -114,6 +119,7 @@ function Trial(number) {
       if (this.targetOption.id === option.id && this.targetValue === option.value) {
          option.correct = true;
          this.time.correctOptionChanged = time;
+         this.correctOptionWasHighlightedWhenChanged = option.selected;
          this.panelExpanded = model.fullPanel();
       }
 
