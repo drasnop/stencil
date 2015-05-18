@@ -33,6 +33,7 @@ function Trial(number) {
       "start": 0,
       "enterCustomizationMode": 0,
       "firstOptionSelected": 0,
+      "correctOptionSelected": 0,
       "lastOptionSelected": 0,
       "end": 0
    }
@@ -82,9 +83,9 @@ function Trial(number) {
    }
 
    this.shortDuration = function() {
-      if (!this.time.lastOptionSelected)
+      if (!this.time.correctOptionSelected)
          return this.longDuration();
-      return (this.time.lastOptionSelected - this.time.customizationMode()) / 1000;
+      return (this.time.correctOptionSelected - this.time.customizationMode()) / 1000;
    }
 
    this.longDuration = function() {
@@ -133,14 +134,19 @@ function Trial(number) {
    /* helpers */
 
    this.logValueChange = function(option) {
+      var time = performance.now();
+
       this.changedOptions.push(option);
       this.changedValues.push(option.value);
       this.panelExpanded = model.fullPanel();
 
-      if (this.changedOptions.length == 1)
-         this.time.firstOptionSelected = performance.now();
+      if (this.targetOption.id === option.id && this.targetValue === option.value)
+         this.time.correctOptionSelected = time;
 
-      this.time.lastOptionSelected = performance.now();
+      if (this.changedOptions.length == 1)
+         this.time.firstOptionSelected = time;
+
+      this.time.lastOptionSelected = time;
    }
 }
 
