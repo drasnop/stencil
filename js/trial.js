@@ -4,7 +4,6 @@ function Trial(number) {
    Step.call(this, number);
 
    this.timeout = false;
-   this.optionWasHighlighted = null;
 
    // target option (Object) (compressed to avoid infinite recursion when logging)
    this.targetOption = logger.compressOption(experiment.optionsSequence[this.number]);
@@ -22,9 +21,9 @@ function Trial(number) {
 
    // list of the CSS selectors of all the hooks highlighted during this trial
    this.highlightedHooks = [];
-   // list of all highlighted options (from hover on hooks)
+   // list of arrays of highlighted options (from hover on hooks)
    this.highlightedOptions = [];
-   // list of all selected options (from clicks on hooks)
+   // list of arrays of selected options (from clicks on hooks)
    this.selectedOptions = [];
    // list of all the tabs visited (including the one shown when opening the panel)
    this.visitedTabs = [];
@@ -47,8 +46,10 @@ function Trial(number) {
    this.time.loggable = function() {
       var loggable = {};
       for (var key in this) {
-         if (typeof this[key] != typeof Function)
+         if (typeof this[key] !== typeof Function)
             loggable[key] = this[key];
+         else if (key !== "loggable" && key !== "constructor")
+            loggable[key] = this[key]();
       }
       return loggable;
    }
@@ -57,6 +58,13 @@ function Trial(number) {
 
    this.success = function() {
       return model.options[this.targetOption.id].value === this.targetValue;
+   }
+
+      for (var i in this.selectedOptions) {
+         for (var j in this.selectedOptions[i]) {
+            if (this.selectedOptions[i][j].id == this.targetOption.id)
+         }
+      }
    }
 
    this.instructionsDuration = function() {
@@ -80,33 +88,19 @@ function Trial(number) {
 
    /* logging method */
 
+   // Creates a new object, with attributes of this and the return values of smart accessors
    this.loggable = function() {
-      return {
-         "number": this.number,
-         "targetOption": this.targetOption,
-         "targetValue": this.targetValue,
-
-         "clickedOptions": this.clickedOptions,
-         "changedOptions": this.changedOptions,
-         "changedValues": this.changedValues,
-         "panelExpanded": this.panelExpanded,
-
-         "highlightedHooks": this.highlightedHooks,
-         "highlightedOptions": this.highlightedOptions,
-         "selectedOptions": this.selectedOptions,
-         "visitedTabs": this.visitedTabs,
-         "reverseHighlighted": this.reverseHighlighted,
-
-         "success": this.success(),
-         "timeout": this.timeout,
-         "optionWasHighlighted": this.optionWasHighlighted,
-
-         "time": this.time.loggable(),
-         "instructionsDuration": this.instructionsDuration(),
-         "shortDuration": this.shortDuration(),
-         "longDuration": this.longDuration(),
-         "totalDuration": this.totalDuration()
+      var loggable = {};
+      for (var prop in this) {
+         if (this[prop] === null)
+            loggable[prop] = null;
+            loggable[prop] = this[prop].loggable();
+         else if (typeof this[prop] !== typeof Function)
+            loggable[prop] = this[prop];
+         else if (prop !== "loggable" && prop !== "logValueChange" && prop !== "constructor")
+            loggable[prop] = this[prop]();
       }
+      return loggable;
    }
 
 
@@ -115,15 +109,17 @@ function Trial(number) {
    this.logValueChange = function(option) {
       var time = performance.now();
 
-      this.changedOptions.push(logger.compressOption(option));
-      this.changedValues.push(option.value);
-
       // if this is the correct option
+      option.correct = false;
       if (this.targetOption.id === option.id && this.targetValue === option.value) {
+         option.correct = true;
          this.time.correctOptionChanged = time;
-         this.optionWasHighlighted = option.selected;
          this.panelExpanded = model.fullPanel();
       }
+
+      // prepare logging (using a .correct flag for later processing)
+      this.changedOptions.push(logger.compressOption(option));
+      this.changedValues.push(option.value);
 
       if (this.changedOptions.length == 1)
          this.time.firstOptionChanged = time;
