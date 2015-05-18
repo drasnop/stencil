@@ -104,7 +104,7 @@ experiment.initializeTrial = function(number) {
       experiment.trial.time.instructionsShown = performance.now();
 
       // set how the options should look like if this trial was perfectly executed
-      experiment.referenceOptions[experiment.trial.targetOption.id] = experiment.trial.targetValue;
+      experiment.referenceOptions[experiment.trial.targetOption.id].value = experiment.trial.targetValue;
    });
 }
 
@@ -134,8 +134,21 @@ experiment.endTrial = function(callback) {
    var scope = angular.element($("#ad-hoc-panel")).scope();
    scope.closePanel();
 
+   // log
    experiment.trials.push(experiment.trial);
    logger.saveTrial();
+
+   // reset options to their correct values, if necessary
+   var syncNeeded = false;
+   for (var id in experiment.referenceOptions) {
+      if (experiment.referenceOptions[id].value !== model.options[id].value) {
+         console.log("- rectifying:", id, experiment.referenceOptions[id].value)
+         model.options[id].value = experiment.referenceOptions[id].value;
+         syncNeeded = true;
+      }
+   }
+   if (syncNeeded)
+      dataManager.initializeAppOptionsFromFile();
 
    Sequencer.prototype.endTrial.call(this, callback);
 }
