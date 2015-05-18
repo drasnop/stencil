@@ -19,7 +19,7 @@ logger.checkEmail = function(callbackSuccess, callbackError) {
 }
 
 // connects to the appropriate Firebase, and retrieve key information
-logger.initialize = function() {
+logger.initialize = function(callback) {
    console.log("Initializing logging to " + logger.firebase.toString() + "...")
    logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
 
@@ -27,12 +27,13 @@ logger.initialize = function() {
       experiment.condition = snapshot.child("interface").val();
       experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
       console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults)
-      logger.prepareLogging();
+
+      callback();
    })
 }
 
 // store participant info, options and values sequences, and prepare trials logging
-logger.prepareLogging = function() {
+logger.saveInitialState = function() {
    // make sure the trials list is empty
    logger.firebase.child("/tutorial").set(null)
    logger.firebase.child("/trials").set(null);
@@ -50,6 +51,7 @@ logger.prepareLogging = function() {
    })
 }
 
+// save a loggable version of experiment.trial
 logger.saveTrial = function() {
    logger.firebase.child("/trials").push(experiment.trial.loggable(), function(error) {
       if (error) {

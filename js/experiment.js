@@ -19,23 +19,16 @@ experiment.valuesSequence = [];
 // list of all the trials completed so far
 experiment.trials = [];
 
+/*
+CALLBACK HELL
+experiment.initialize
+   logger.checkEmail
+      logger.initialize
+         experiment.generateInitialState
+            logger.saveInitialState
+*/
 
 experiment.initialize = function() {
-
-   // 1: for some participants, use the opposite of the default options
-   if (experiment.experiment && experiment.oppositeDefaults) {
-      model.options.getUserAccessibleOptions().forEach(function(option) {
-         option.value = experiment.complementValueOf(option);
-      });
-   }
-
-   // 2: store a correct verson of options at any particular time
-
-   // 3: set the Wunderlist options to the default (or opposite default) ones  
-   dataManager.initializeAppOptionsFromFile();
-
-   // randomly generate selection sequences
-   experiment.generateOptionsAndValuesSequences();
 
    // retrieve the email used to create that Wunderlist account, otherwise a default email ("lotaculi") will be used
    if (typeof sync !== "undefined" && typeof sync.collections !== "undefined")
@@ -43,12 +36,32 @@ experiment.initialize = function() {
 
    // verify that this email appears in firebase
    logger.checkEmail(function() {
-      logger.initialize();
+      logger.initialize(experiment.generateInitialState);
 
-      // generate appropriate options and sequences?
-
+      // tutorial.start() is independent of the preparation of the experiment
       setTimeout(tutorial.start.bind(tutorial), 1000);
    }, experiment.cancel);
+}
+
+
+experiment.generateInitialState = function() {
+   // 1: for some participants, use the opposite of the default options
+   if (experiment.oppositeDefaults) {
+      model.options.getUserAccessibleOptions().forEach(function(option) {
+         option.value = experiment.complementValueOf(option);
+      });
+   }
+
+   // 2: store a correct verson of options at any particular time
+
+   // 3: set the Wunderlist options to the default (or opposite default) settings 
+   dataManager.initializeAppOptionsFromFile();
+
+   // randomly generate selection sequences
+   experiment.generateOptionsAndValuesSequences();
+
+   // save all of this generated data to firebase
+   logger.saveInitialState();
 }
 
 
@@ -73,7 +86,7 @@ experiment.cancel = function() {
 experiment.start = function() {
    model.progressBarMessage = "";
    model.modal.header = "Experiment";
-   model.modal.message = "In each step, you will be ask to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Done\" button. You won't be able to change your mind after clicking \"Done\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";
+   model.modal.message = "In each step, you will be asked to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Done\" button. You won't be able to change your mind after clicking \"Done\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";
    model.modal.buttonLabel = "Start";
    model.modal.green = true;
    model.modal.hideOnClick = false;

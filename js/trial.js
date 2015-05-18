@@ -100,9 +100,9 @@ function Trial(number) {
             loggable[prop] = null;
          else if (typeof this[prop].loggable === typeof Function)
             loggable[prop] = this[prop].loggable();
-         else if (typeof this[prop] !== typeof Function)
+         else if (typeof this[prop] !== typeof Function && prop !== "done")
             loggable[prop] = this[prop];
-         else if (prop !== "loggable" && prop !== "logValueChange" && prop !== "constructor")
+         else if (typeof this[prop] === typeof Function && prop !== "loggable" && prop !== "logValueChange" && prop !== "constructor")
             loggable[prop] = this[prop]();
       }
       return loggable;
