@@ -86,6 +86,9 @@ experiment.cancel = function() {
 /* overwritten methods */
 
 experiment.start = function() {
+   // reset options to their correct values, if necessary
+   experiment.resetSettingsIfNeeded();
+
    model.progressBarMessage = "";
    model.modal.header = "Experiment";
    model.modal.message = "In each step, you will be asked to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Done\" button. You won't be able to change your mind after clicking \"Done\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";
@@ -139,16 +142,7 @@ experiment.endTrial = function(callback) {
    logger.saveTrial();
 
    // reset options to their correct values, if necessary
-   var syncNeeded = false;
-   for (var id in experiment.referenceOptions) {
-      if (experiment.referenceOptions[id].value !== model.options[id].value) {
-         console.log("- rectifying:", id, experiment.referenceOptions[id].value)
-         model.options[id].value = experiment.referenceOptions[id].value;
-         syncNeeded = true;
-      }
-   }
-   if (syncNeeded)
-      dataManager.initializeAppOptionsFromFile();
+   experiment.resetSettingsIfNeeded();
 
    Sequencer.prototype.endTrial.call(this, callback);
 }
@@ -297,4 +291,17 @@ experiment.getTotalTrialsReward = function() {
    return experiment.trials.reduce(function(sum, trial) {
       return sum += experiment.bonusTrial * trial.success();
    }, 0)
+}
+
+experiment.resetSettingsIfNeeded = function() {
+   var syncNeeded = false;
+   for (var id in experiment.referenceOptions) {
+      if (experiment.referenceOptions[id].value !== model.options[id].value) {
+         console.log("- rectifying:", id, experiment.referenceOptions[id].value)
+         model.options[id].value = experiment.referenceOptions[id].value;
+         syncNeeded = true;
+      }
+   }
+   if (syncNeeded)
+      dataManager.initializeAppOptionsFromFile();
 }
