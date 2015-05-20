@@ -3,8 +3,8 @@ function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, for
    this.name = name;
    // whether this sequencer is playing (between start() and end()) 
    this.inProgress = false;
-   // current trial
-   this.trial = {};
+   // current trial (will be instantiated by initializeTrial())
+   // this.trial;
    // duration of the brief pause between end of a successful trial and start of the next (in ms)
    this.trialPauseSuccess = trialPauseSuccess;
    // duration of the brief pause between end of a unsuccessful trial and start of the next (in ms)

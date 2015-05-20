@@ -27,8 +27,10 @@ function bindHooksListeners() {
       haveSameOptions(hooks, $(this).data("options"))
          .addClass("hovered");
 
-      experiment.trial.highlightedHooks.push($(this).data("selector"));
-      experiment.trial.highlightedOptions.push(logger.compressOptions($(this).data("options")));
+      if (experiment.trial) {
+         experiment.trial.highlightedHooks.push($(this).data("selector"));
+         experiment.trial.highlightedOptions.push(logger.compressOptions($(this).data("options")));
+      }
    })
 
    // remove highlighting for all similar hooks, unless we are leaving a selected hook
@@ -81,7 +83,8 @@ function bindHooksListeners() {
       positionPanel();
 
       // log
-      experiment.trial.selectedOptions.push(logger.compressOptions(model.selectedOptions));
+      if (experiment.trial)
+         experiment.trial.selectedOptions.push(logger.compressOptions(model.selectedOptions));
    })
 
 

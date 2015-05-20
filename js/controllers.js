@@ -121,7 +121,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       determineShowMoreShortcuts();
 
       // saved visited tabs
-      experiment.trial.visitedTabs.push(logger.compressTab(tab));
+      if (experiment.trial) {
+         experiment.trial.visitedTabs.push(logger.compressTab(tab));
+      }
    }
 
    $scope.resetViewParameters = function() {
@@ -151,7 +153,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          return $(this).data("options").indexOf(option) >= 0;
       }).addClass("blue-highlighted")
 
-      if (experiment.experiment)
+      if (experiment.trial)
          experiment.trial.reverseHighlighted.push(logger.compressOption(option));
    }
 

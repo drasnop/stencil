@@ -1,79 +1,60 @@
-[
-   {
-      "selector":".addTask-input",
-      "options":["new_task_location","shortcut_add_new_task"]
-   },
-   {
-      "selector": ".taskItem-star .icon.task-starred, .taskItem-star .wundercon.starred, .detail-star .icon.detail-starred, .detail-star .wundercon.starred",
-      "options":["behavior_star_tasks_to_top","shortcut_mark_task_starred"]
-   },
-   {
-      "selector": ".taskItem-duedate, .detail-date .token_0",
-      "options":["date_format","start_of_week"]
-   },
-   {
-      "selector": ".detail-reminder .token_0",
-      "options":["time_format"]
-   },
-   {
-      "selector": ".detail-checkbox .checkBox, .taskItem-checkboxWrapper .checkBox",
-      "options":["sound_checkoff_enabled","shortcut_mark_task_done"]
-   },
-   {
-      "selector":".filters-collection .sidebarItem[rel='inbox']",
-      "options":["shortcut_goto_inbox"]
-   },
-   {
-      "selector":".filters-collection .sidebarItem[rel='all']",
-      "options":["smartlist_visibility_all","shortcut_goto_filter_all"]
-   },
-   {
-      "selector":".filters-collection .sidebarItem[rel='assigned']",
-      "options":["smartlist_visibility_assigned_to_me","shortcut_goto_filter_assigned"]
-   },
-   {
-      "selector":".filters-collection .sidebarItem[rel='completed']",
-      "options":["smartlist_visibility_done","shortcut_goto_filter_completed"]
-   },
-   {
-      "selector":".filters-collection .sidebarItem[rel='starred']",
-      "options":["smartlist_visibility_starred","shortcut_goto_filter_starred"]
-   },
-   {
-      "selector":".filters-collection .sidebarItem[rel='today']",
-      "options":["smartlist_visibility_today","shortcut_goto_filter_today","today_smart_list_visible_tasks"]
-   },
-   {
-      "selector":".filters-collection .sidebarItem[rel='week']",
-      "options":["smartlist_visibility_week","shortcut_goto_filter_week","today_smart_list_visible_tasks"]
-   },
-   {
-      "selector": "#main-toolbar .activities-count, .detail-reminder .wundercon.reminder",
-      "options":["notifications_desktop_enabled","notifications_email_enabled",
-               "notifications_push_enabled","sound_notification_enabled", "shortcut_show_notifications"]
-   },
-   {
-      "selector": ".avatar",
-      "options":["shortcut_sync","shortcut_goto_preferences"]
-   },
-   {
-      "selector":"#main-toolbar #search",
-      "options":["shortcut_goto_search"]
-   },
-   {
-      "selector":".sidebarActions-addList",
-      "options":["shortcut_add_new_list"]
-   },
-   {
-      "selector":".actionBar-bottom a.tab.share",
-      "options":["shortcut_send_via_email"]
-   },
-   {
-      "selector":".actionBar-bottom a.tab.last-tab, .completed-items-heading",
-      "options":["print_completed_items"]
-   },
-   {
-      "selector":".detail-trash .wundercon.trash",
-      "options":["confirm_delete_entity","shortcut_delete"]
-   }
-]
+[{
+   "selector": ".addTask-input",
+   "options": ["new_task_location", "shortcut_add_new_task"]
+}, {
+   "selector": ".taskItem-star .icon.task-starred, .taskItem-star .wundercon.starred, .detail-star .icon.detail-starred, .detail-star .wundercon.starred",
+   "options": ["behavior_star_tasks_to_top", "shortcut_mark_task_starred"]
+}, {
+   "selector": ".taskItem-duedate, .detail-date .token_0",
+   "options": ["date_format", "start_of_week"]
+}, {
+   "selector": ".detail-reminder .token_0",
+   "options": ["time_format"]
+}, {
+   "selector": ".detail-checkbox .checkBox, .taskItem-checkboxWrapper .checkBox",
+   "options": ["sound_checkoff_enabled", "shortcut_mark_task_done"]
+}, {
+   "selector": ".filters-collection .sidebarItem[rel='inbox']",
+   "options": ["shortcut_goto_inbox"]
+}, {
+   "selector": ".filters-collection .sidebarItem[rel='all']",
+   "options": ["smartlist_visibility_all", "shortcut_goto_filter_all"]
+}, {
+   "selector": ".filters-collection .sidebarItem[rel='assigned']",
+   "options": ["smartlist_visibility_assigned_to_me", "shortcut_goto_filter_assigned"]
+}, {
+   "selector": ".filters-collection .sidebarItem[rel='completed']",
+   "options": ["smartlist_visibility_done", "shortcut_goto_filter_completed"]
+}, {
+   "selector": ".filters-collection .sidebarItem[rel='starred']",
+   "options": ["smartlist_visibility_starred", "shortcut_goto_filter_starred"]
+}, {
+   "selector": ".filters-collection .sidebarItem[rel='today']",
+   "options": ["smartlist_visibility_today", "shortcut_goto_filter_today", "today_smart_list_visible_tasks"]
+}, {
+   "selector": ".filters-collection .sidebarItem[rel='week']",
+   "options": ["smartlist_visibility_week", "shortcut_goto_filter_week", "today_smart_list_visible_tasks"]
+}, {
+   "selector": "#main-toolbar .activities-count, .detail-reminder .wundercon.reminder",
+   "options": ["notifications_desktop_enabled", "notifications_email_enabled",
+      "notifications_push_enabled", "sound_notification_enabled", "shortcut_show_notifications"
+   ]
+}, {
+   "selector": ".avatar, .name.search-hidden",
+   "options": ["shortcut_sync", "shortcut_goto_preferences"]
+}, {
+   "selector": "#main-toolbar #search",
+   "options": ["shortcut_goto_search"]
+}, {
+   "selector": ".sidebarActions-addList",
+   "options": ["shortcut_add_new_list"]
+}, {
+   "selector": ".actionBar-bottom a.tab.share",
+   "options": ["shortcut_send_via_email"]
+}, {
+   "selector": ".actionBar-bottom a.tab.last-tab, .completed-items-heading",
+   "options": ["print_completed_items"]
+}, {
+   "selector": ".detail-trash .wundercon.trash",
+   "options": ["confirm_delete_entity", "shortcut_delete"]
+}]
