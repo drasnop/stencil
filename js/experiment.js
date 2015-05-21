@@ -130,6 +130,7 @@ experiment.startTrial = function() {
 
 experiment.endTrial = function(callback) {
    experiment.trial.time.end = performance.now();
+   experiment.trial.success = experiment.trial.successful();
 
    // if the trial hasn't timeout, disable the timer 
    clearTimeout(experiment.timeoutTimer);
@@ -215,7 +216,7 @@ experiment.trialNotPerformed = function() {
 }
 
 experiment.trialSuccess = function() {
-   return this.trial.success();
+   return this.trial.success;
 }
 
 experiment.notEndOfSequence = function() {
@@ -290,7 +291,7 @@ experiment.complementValueOf = function(option, reverse) {
 
 experiment.getTotalTrialsReward = function() {
    return experiment.trials.reduce(function(sum, trial) {
-      return sum += experiment.bonusTrial * trial.success();
+      return sum += experiment.bonusTrial * trial.success;
    }, 0)
 }
 

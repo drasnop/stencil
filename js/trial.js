@@ -6,6 +6,9 @@ function Trial(number) {
    this.timeout = false;
    this.correctOptionWasHighlightedWhenChanged = false;
 
+   // this boolean will be set by this.successful() at the end of the trial
+   this.success = false;
+
    // target option (Object) (compressed to avoid infinite recursion when logging)
    this.targetOption = logger.compressOption(experiment.optionsSequence[this.number]);
    // value that the target opion should be set at (boolean or string)
@@ -57,7 +60,7 @@ function Trial(number) {
 
    /* smart accessors */
 
-   this.success = function() {
+   this.successful = function() {
       return model.options[this.targetOption.id].value === this.targetValue;
    }
 
@@ -102,7 +105,7 @@ function Trial(number) {
             loggable[prop] = this[prop].loggable();
          else if (typeof this[prop] !== typeof Function && prop !== "done")
             loggable[prop] = this[prop];
-         else if (typeof this[prop] === typeof Function && prop !== "loggable" && prop !== "logValueChange" && prop !== "constructor")
+         else if (typeof this[prop] === typeof Function && prop !== "successful" && prop !== "loggable" && prop !== "logValueChange" && prop !== "constructor")
             loggable[prop] = this[prop]();
       }
       return loggable;

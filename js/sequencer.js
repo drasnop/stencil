@@ -9,9 +9,9 @@ function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, for
    this.trialPauseSuccess = trialPauseSuccess;
    // duration of the brief pause between end of a unsuccessful trial and start of the next (in ms)
    this.trialPauseFailure = trialPauseFailure;
-   // error message displayed in the read button when !trial.success()
+   // error message displayed in the read button when !.trialSuccess()
    this.errorMessage = errorMessage;
-   // whether to force the user to redo the same trial when !trial.success()
+   // whether to force the user to redo the same trial when !.trialSuccess()
    this.forceRetry = forceRetry;
    // constructor used to create new trials
    this.trialConstructor = trialConstructor || Step;
