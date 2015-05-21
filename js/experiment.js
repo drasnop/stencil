@@ -104,7 +104,11 @@ experiment.start = function() {
 }
 
 experiment.initializeTrial = function(number) {
+   // hide the hooks, to prevent people from planning their next actions
+   $("#hooks").hide();
+
    Sequencer.prototype.initializeTrial.call(this, number, function() {
+      // once the .trial has been initialized, we can start using it
       experiment.trial.time.instructionsShown = performance.now();
 
       // set how the options should look like if this trial was perfectly executed
@@ -113,6 +117,13 @@ experiment.initializeTrial = function(number) {
 }
 
 experiment.startTrial = function() {
+   // in case participants got out of CM, bring them back in to save time
+   if (!customizationMode)
+      enterCustomizationMode();
+
+   // show the hooks
+   $("#hooks").show();
+
    experiment.trial.time.start = performance.now();
 
    experiment.timeoutTimer = setTimeout(function() {
