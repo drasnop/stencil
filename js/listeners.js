@@ -44,6 +44,15 @@ function bindHooksListeners() {
    // show a panel populated with only the relevant options
    hooks.click(function(event) {
 
+      /* check for re-click on the same hook */
+
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      if (model.showPanel && model.selectedAnchor[0] === this) {
+         scope.closePanel();
+         scope.$apply();
+         return;
+      }
+
       /*    update model     */
 
       // Update the content of the panel
@@ -70,7 +79,6 @@ function bindHooksListeners() {
 
       /*    update view     */
 
-      var scope = angular.element($("#ad-hoc-panel")).scope();
       scope.resetViewParameters();
       scope.showPanel();
       scope.$apply();
