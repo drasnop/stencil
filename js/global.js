@@ -42,7 +42,10 @@ var model = {
 
    /* other display variables */
 
-   "progressBarMessage": "",
+   "progressBar": {
+      "message": "",
+      "buttonLabel": ""
+   },
    "modal": {
       "header": "",
       "message": "",

@@ -1,7 +1,7 @@
 <div id="progress-bar" ng-controller="progressBarController">
-  <div>
-    <div class="instructions" ng-bind="model.progressBarMessage"></div>
-    <div id="button-trial-done" class="btn" ng-if="model.progressBarMessage.length" ng-disabled="sequencer.trialNotPerformed() || sequencer.trialDone()" ng-click="sequencer.endTrial(); contractFullPanel();" ng-class="{'btn-blue': !sequencer.trialDone(), 'btn-green': sequencer.trialDone() && sequencer.trialSuccess(), 'btn-red': sequencer.trialDone() && (!sequencer.trialSuccess() || sequencer.trialTimeout())}">{{!sequencer.trialDone()? "Done" : sequencer.trialTimeout()? "Timeout!" : (sequencer.trialSuccess()? "Good job!" : sequencer.errorMessage)}}</div>
-    <span ng-if="experiment.inProgress" class="trial-bonus">bonus: {{experiment.getTotalTrialsReward() | currency:"$":2}}</span>
-  </div>
+    <div>
+        <div class="instructions" ng-bind="model.progressBar.message"></div>
+        <div id="button-trial-done" class="btn" ng-if="model.progressBar.message.length" ng-disabled="sequencer.trialNotPerformed() || sequencer.trialDone()" ng-click="sequencer.endTrial(); contractFullPanel();" ng-class="{'btn-blue': !sequencer.trialDone(), 'btn-green': sequencer.trialDone() && sequencer.trialSuccess(), 'btn-red': sequencer.trialDone() && (!sequencer.trialSuccess() || sequencer.trialTimeout())}">{{!sequencer.trialDone()? model.progressBar.buttonLabel : sequencer.trialTimeout()? "Timeout!" : (sequencer.trialSuccess()? "Good job!" : sequencer.errorMessage)}}</div>
+        <span ng-if="experiment.inProgress" class="trial-bonus">bonus: {{experiment.getTotalTrialsReward() | currency:"$":2}}</span>
+    </div>
 </div>

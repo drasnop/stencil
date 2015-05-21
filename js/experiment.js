@@ -9,7 +9,7 @@ experiment.condition = "";
 // whether to use the opposite values of the default options for this participant
 experiment.oppositeDefaults = "";
 // bonus reward when trial done correctly
-experiment.bonusTrial = 0.1;
+experiment.bonusTrial = 0.15;
 // timeout trials after 2 min
 experiment.maxTrialDuration = 2 * 60 * 1000;
 // list of options that users will be ask to find during the experiment
@@ -68,7 +68,7 @@ experiment.generateInitialState = function() {
 
 
 experiment.cancel = function() {
-   model.progressBarMessage = "";
+   model.progressBar.message = "";
    model.modal.header = "Verification failed!";
    model.modal.message = "The email associated with this Wunderlist account (" + experiment.email + "@gmail.com) does not match the email you were given on the instructions page. " +
       "Please go back to step 2 of the instructions (Create temporary Wunderlist account). Otherwise you won't be able to collect your reward.";
@@ -89,7 +89,8 @@ experiment.start = function() {
    // reset options to their correct values, if necessary
    experiment.resetSettingsIfNeeded();
 
-   model.progressBarMessage = "";
+   model.progressBar.message = "";
+   model.progressBar.buttonLabel = "Done";
    model.modal.header = "Experiment";
    model.modal.message = "In each step, you will be asked to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Done\" button. You won't be able to change your mind after clicking \"Done\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";
    model.modal.buttonLabel = "Start";
@@ -150,7 +151,7 @@ experiment.endTrial = function(callback) {
 experiment.end = function() {
    Sequencer.prototype.end.call(this);
 
-   model.progressBarMessage = "";
+   model.progressBar.message = "";
    model.modal.header = "Congratulations!";
    model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your verification code.";
    model.modal.buttonLabel = "Ok";

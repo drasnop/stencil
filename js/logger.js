@@ -20,8 +20,8 @@ logger.checkEmail = function(callbackSuccess, callbackError) {
 
 // connects to the appropriate Firebase, and retrieve key information
 logger.initialize = function(callback) {
-   console.log("Initializing logging to " + logger.firebase.toString() + "...")
    logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
+   console.log("Initializing logging to " + logger.firebase.toString() + "...")
 
    logger.firebase.child("condition").once('value', function(snapshot) {
       experiment.condition = snapshot.child("interface").val();

@@ -43,7 +43,7 @@ Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
    // creates a new trial, with the appropriate trial.number
    this.trial = new this.trialConstructor(trialNumber);
 
-   model.progressBarMessage = this.getInstructions();
+   model.progressBar.message = this.getInstructions();
    model.modal.header = this.getModalHeader();
    model.modal.message = this.getInstructions();
    model.modal.buttonLabel = "Go!";

@@ -1,7 +1,7 @@
 var tutorial = new Sequencer("tutorial", 500, 2000, "try again", true);
 
 tutorial.steps = [
-   "After completing each step of this tutorial, click the blue \"Done\" button in the instructions bar (at the top of the screen). Try it now!",
+   "After completing each step of this tutorial, click the blue \"Next\" button in the instructions bar (at the top of the screen). Try it now!",
    "Type \"buy milk\" in the input field, and press Enter to add a new todo item.",
    "Double-click on the todo item you added to show the details panel on the right.",
    "Write a more detailed description in the yellow area on the right: \"for the cake\"",
@@ -15,7 +15,7 @@ tutorial.steps = [
    "Below the list of todo items, there is a button \"1 completed item\". Click on it to reveal the todo you've just checked off.",
    "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom.",
    "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose \"Customize\" in the menu.",
-   "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them. Try it with one, then click \"Done\"."
+   "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them. Try it with one, then click \"Next\"."
 ]
 
 tutorial.time = {
@@ -26,7 +26,8 @@ tutorial.time = {
 /* overwritten methods */
 
 tutorial.start = function() {
-   model.progressBarMessage = "";
+   model.progressBar.message = "";
+   model.progressBar.buttonLabel = "Next";
    model.modal.header = "Setup complete";
    model.modal.message = "Great! Everything is in place. Please follow this quick tutorial to see how Wunderlist works.";
    model.modal.buttonLabel = "Start";
@@ -58,7 +59,7 @@ tutorial.endTrial = function() {
 tutorial.end = function() {
    Sequencer.prototype.end.call(this);
 
-   model.progressBarMessage = "";
+   model.progressBar.message = "";
    model.modal.header = "Congratulations!";
    model.modal.message = "You have completed the tutorial. You can now start the experiment.";
    model.modal.buttonLabel = "Ok";
