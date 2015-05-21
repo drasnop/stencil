@@ -63,5 +63,8 @@ var parameters = {
    // height (in px) of the experiment progress bar, necessary to offset the position of the hooks
    "progressBarHeight": 45,
    // clean definition of key codes
-   "KEYCODE_ESC": 27
+   "KEYCODE_ESC": 27,
+   // animation parameters (should be set relatively to the top transition duration of hooks)
+   "ghostsSlideDownDuration": 200,
+   "ghostsSlideUpDuration": 400
 }

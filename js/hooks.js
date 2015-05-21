@@ -168,9 +168,9 @@ function updateGhostsVisibility(ghosts, show) {
       ghost.data("anchor").toggle(show);
       /*      ghost.toggle(show);*/
       if (show)
-         ghost.slideDown(400, "linear");
+         ghost.slideDown(parameters.ghostsSlideDownDuration, "linear");
       else
-         ghost.slideUp(600, "linear");
+         ghost.slideUp(parameters.ghostsSlideUpDuration, "linear");
    })
 }
 
@@ -231,7 +231,7 @@ function updateHooksHighlighting() {
 function generateClusters() {
 
    // delete previous clusters
-   $("#hooks .plus-icon").remove();
+   $("#hooks .cluster-marker").remove();
 
    // list of all the hooks that are currently hidden
    var ghosts = $(".ghost").toArray();
@@ -259,15 +259,15 @@ function generateClusters() {
       model.clusters.push(cluster);
    }
 
-   // Create one plus icon per cluster (even if it contains only one elements)
+   // Create one cluster marker icon per cluster (even if it contains only one elements)
    model.clusters.forEach(function(cluster) {
-      var icon = $("<div class='plus-icon'>").appendTo("#hooks")
-         .css("background-image", "url(//" + parameters.serverURL + "/img/plus_blue.png)")
+      var icon = $("<div class='cluster-marker'>").appendTo("#hooks")
+         .css("background-image", "url(//" + parameters.serverURL + "/img/chevron_expand.png)")
 
       icon.data("cluster", cluster);
       cluster.icon = icon;
 
-      // allow the plus-icon to be reverse highlighted if one of the options it represents is
+      // allow the cluster-marker to be reverse highlighted if one of the options it represents is
       icon.addClass("highlightable")
          .data("options", cluster.ghosts.reduce(function(options, ghost) {
             return options.concat(ghost.data("options"));
@@ -292,6 +292,10 @@ function positionCluster(cluster) {
    cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
       return parseInt(ghost.data("position").top) + parseInt(ghost.data("position").height) / 2;
    }))
+
+   // hack: move cluster icon away from visible anchors, so that it appears more clearly
+   if (!cluster.showGhosts)
+      cluster.y += 20;
 
 
    var icon = cluster.icon;

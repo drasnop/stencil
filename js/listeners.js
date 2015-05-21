@@ -97,12 +97,12 @@ function bindHooksListeners() {
    })
 
 
-   $(".plus-icon").click(function() {
+   $(".cluster-marker").click(function() {
       var cluster = $(this).data("cluster")
 
       cluster.showGhosts = !cluster.showGhosts;
       $(this).css("background-image",
-         cluster.showGhosts ? "url(//" + parameters.serverURL + "/img/minus_blue.png)" : "url(//" + parameters.serverURL + "/img/plus_blue.png)")
+         cluster.showGhosts ? "url(//" + parameters.serverURL + "/img/chevron_collapse.png)" : "url(//" + parameters.serverURL + "/img/chevron_expand.png)")
       updateGhostsVisibility(cluster.ghosts, cluster.showGhosts);
       positionHooksAndClusters();
    })
