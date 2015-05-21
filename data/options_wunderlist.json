@@ -100,8 +100,8 @@
    "behavior_star_tasks_to_top": {
       "id": "behavior_star_tasks_to_top",
       "label": "Star moves item to top",
-      "instructions": "Starred items appear at the top of the list",
-      "instructionsReverse": "Starred items do not move to the top of the list",
+      "instructions": "When starring an item, move it to the top of the list",
+      "instructionsReverse": "Do not automatically move starred items to the top of the list",
       "value": true,
       "values": []
    },
@@ -116,12 +116,12 @@
    "shortcut_add_new_task": {
       "id": "shortcut_add_new_task",
       "label": "Add a New Item",
-      "instructions": "Change shortcut for creating a new todo to",
+      "instructions": "Change shortcut for adding a new todo to",
       "value": "CTRL + N",
       "values": [{
          "name": "CTRL + N",
          "label": "CTRL + N"
-      },{
+      }, {
          "name": "CTRL + M",
          "label": "CTRL + M"
       }]
@@ -134,7 +134,7 @@
       "values": [{
          "name": "CTRL + L",
          "label": "CTRL + L"
-      },{
+      }, {
          "name": "CTRL + K",
          "label": "CTRL + K"
       }]
@@ -147,7 +147,7 @@
       "values": [{
          "name": "CTRL + D",
          "label": "CTRL + D"
-      },{
+      }, {
          "name": "CTRL + H",
          "label": "CTRL + H"
       }]
@@ -173,7 +173,7 @@
       "values": [{
          "name": "CTRL + A",
          "label": "CTRL + A"
-      },{
+      }, {
          "name": "CTRL + Q",
          "label": "CTRL + Q"
       }]
@@ -186,7 +186,7 @@
       "values": [{
          "name": "CTRL + BACKSPACE",
          "label": "CTRL + BACKSPACE"
-      },{
+      }, {
          "name": "SHIFT + BACKSPACE",
          "label": "SHIFT + BACKSPACE"
       }]
@@ -199,7 +199,7 @@
       "values": [{
          "name": "CTRL + F",
          "label": "CTRL + F"
-      },{
+      }, {
          "name": "CTRL + G",
          "label": "CTRL + G"
       }]
@@ -226,7 +226,7 @@
       "values": [{
          "name": "CTRL + E",
          "label": "CTRL + E"
-      },{
+      }, {
          "name": "CTRL + U",
          "label": "CTRL + U"
       }],
@@ -240,7 +240,7 @@
       "values": [{
          "name": "CTRL + SHIFT + A",
          "label": "CTRL + SHIFT + A"
-      },{
+      }, {
          "name": "CTRL + SHIFT + N",
          "label": "CTRL + SHIFT + N"
       }],
@@ -254,7 +254,7 @@
       "values": [{
          "name": "CTRL + I",
          "label": "CTRL + I"
-      },{
+      }, {
          "name": "CTRL + 0",
          "label": "CTRL + 0"
       }],
@@ -268,7 +268,7 @@
       "values": [{
          "name": "CTRL + 1",
          "label": "CTRL + 1"
-      },{
+      }, {
          "name": "SHIFT + 1",
          "label": "SHIFT + 1"
       }],
@@ -282,7 +282,7 @@
       "values": [{
          "name": "CTRL + 2",
          "label": "CTRL + 2"
-      },{
+      }, {
          "name": "SHIFT + 2",
          "label": "SHIFT + 2"
       }],
@@ -296,7 +296,7 @@
       "values": [{
          "name": "CTRL + 3",
          "label": "CTRL + 3"
-      },{
+      }, {
          "name": "SHIFT + 3",
          "label": "SHIFT + 3"
       }],
@@ -311,7 +311,7 @@
       "values": [{
          "name": "CTRL + 4",
          "label": "CTRL + 4"
-      },{
+      }, {
          "name": "SHIFT + 4",
          "label": "SHIFT + 4"
       }],
@@ -326,7 +326,7 @@
       "values": [{
          "name": "CTRL + 5",
          "label": "CTRL + 5"
-      },{
+      }, {
          "name": "SHIFT + 5",
          "label": "SHIFT + 5"
       }],
@@ -341,7 +341,7 @@
       "values": [{
          "name": "CTRL + 6",
          "label": "CTRL + 6"
-      },{
+      }, {
          "name": "SHIFT + 6",
          "label": "SHIFT + 6"
       }],
@@ -356,7 +356,7 @@
       "values": [{
          "name": "R",
          "label": "R"
-      },{
+      }, {
          "name": "CTRL + Y",
          "label": "CTRL + Y"
       }]
