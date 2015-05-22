@@ -328,13 +328,14 @@ experiment.resetSettingsIfNeeded = function() {
 // Generate a set of options to use in the recognition questionnaire, on the experiment website
 experiment.generateRecognitionQuestionnaire = function() {
 
-   // 0: DELETE THIS!
-   for (var j = 0; j < 10; j++) {
-      experiment.trials.push({
-         "targetOption": experiment.optionsSequence[j],
-         "success": Math.random() < 0.5
-      })
-   }
+   // 0: TESTING ONLY
+   /*   for (var j = 0; j < 10; j++) {
+         experiment.trials.push({
+            "targetOption": experiment.optionsSequence[j],
+            "success": Math.random() < 0.5
+         })
+      }
+   */
 
    // 1: retrieve all the trials, with their corrresponding options
    var trials = $.extend([], experiment.trials)
@@ -355,8 +356,6 @@ experiment.generateRecognitionQuestionnaire = function() {
 
    // 3b: pick the best adjacent option (best effort), setting a .adjacent.valid flag if constraints are verified
    options.forEach(function(option) {
-      console.log(option.index, option.tab.options.length - 1)
-
       if (option.index === 0) {
          // must pick the option below the current one
          option.adjacentOption = option.tab.options[option.index + 1];
@@ -396,19 +395,6 @@ experiment.generateRecognitionQuestionnaire = function() {
       }
    })
 
-   // USELESS
-   //3c: do a second pass, to check if any of the adjacent options appears twice in the adjacent list
-   var adjacents = options.map(function(option) {
-      return option.adjacentOption;
-   })
-   for (var i = 0; i < adjacents.length; i++) {
-      // if the same option occurs earlier in the sequence, mark the later one as invalid
-      if (adjacents.indexOf(adjacents[i]) < i) {
-         console.log("this adjacent is not valid, and was", adjacents[i].valid)
-         adjacents[i].valid = false;
-      }
-   }
-
    // 4: select the 5 most appropriate options
    shuffleArray(options);
    var filtered = [];
@@ -428,7 +414,6 @@ experiment.generateRecognitionQuestionnaire = function() {
       i = 0;
       while (i < options.length && filtered.length < 5) {
          if (options[i].successfullySelected) {
-            console.log("non valid adjacent", options[i].id)
             filtered.push(options.splice(i, 1)[0])
             countAdjacentInvalid++;
          } else
@@ -440,7 +425,6 @@ experiment.generateRecognitionQuestionnaire = function() {
    var countNotSuccessfullySelected = 0;
    while (filtered.length < 5) {
       filtered.push(options.pop())
-      console.log("bad one")
       countNotSuccessfullySelected++;
    }
 
