@@ -29,7 +29,7 @@ function bindHooksListeners() {
 
       if (experiment.trial) {
          experiment.trial.highlightedHooks.push($(this).data("selector"));
-         experiment.trial.highlightedOptions.push(logger.compressOptions($(this).data("options")));
+         experiment.trial.highlightedOptions.push(logger.getIDs($(this).data("options")));
       }
    })
 
@@ -92,7 +92,7 @@ function bindHooksListeners() {
 
       // log
       if (experiment.trial)
-         experiment.trial.selectedOptions.push(logger.compressOptions(model.selectedOptions));
+         experiment.trial.selectedOptions.push(logger.getIDs(model.selectedOptions));
    })
 
 

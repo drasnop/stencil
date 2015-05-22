@@ -10,7 +10,7 @@ function Trial(number) {
    this.success = false;
 
    // target option (Object) (compressed to avoid infinite recursion when logging)
-   this.targetOption = logger.compressOption(experiment.optionsSequence[this.number]);
+   this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
 
@@ -101,6 +101,8 @@ function Trial(number) {
       for (var prop in this) {
          if (this[prop] === null)
             loggable[prop] = null;
+         else if (prop === "targetOption")
+            loggable[prop] = this[prop].id;
          else if (typeof this[prop].loggable === typeof Function)
             loggable[prop] = this[prop].loggable();
          else if (typeof this[prop] !== typeof Function && prop !== "done")
@@ -118,16 +120,14 @@ function Trial(number) {
       var time = performance.now();
 
       // if this is the correct option
-      option.correct = false;
       if (this.targetOption.id === option.id && this.targetValue === option.value) {
-         option.correct = true;
          this.time.correctOptionChanged = time;
          this.correctOptionWasHighlightedWhenChanged = option.selected;
          this.panelExpanded = model.fullPanel();
       }
 
       // prepare logging (using a .correct flag for later processing)
-      this.changedOptions.push(logger.compressOption(option));
+      this.changedOptions.push(option.id);
       this.changedValues.push(option.value);
 
       if (this.changedOptions.length == 1)

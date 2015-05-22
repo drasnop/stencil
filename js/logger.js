@@ -49,7 +49,7 @@ logger.saveInitialState = function() {
 
    // save the full options and values sequences, just to be sure
    logger.firebase.child("/sequences").set({
-      "optionsSequence": logger.compressOptions(experiment.optionsSequence),
+      "optionsSequence": logger.getIDs(experiment.optionsSequence),
       "valuesSequence": experiment.valuesSequence
    })
 }
@@ -67,6 +67,16 @@ logger.saveTrial = function() {
 
 
 // -------------------- flatterners  ---------------------- //
+
+// to use less storage space, in some cases options are simply stored as ids
+logger.getIDs = function(options) {
+   return options.map(function(option) {
+      return option.id;
+   })
+}
+
+
+// Recursive flattening, preserving some of the structure 
 
 logger.compressAllUserAccessibleOptions = function() {
    var compressed = {};
@@ -96,20 +106,20 @@ logger.compressOptions = function(options) {
 /*  compress() calls flatten() on .tab or .options, while flatten() returns list of ids */
 
 logger.compressOption = function(option) {
-   return compress(option, "tab", flattenTab);
+   return compress(option, "tab", logger.flattenTab);
 }
 
-flattenTab = function(tab) {
+logger.flattenTab = function(tab) {
    return compress(tab, "options", function(option) {
       return option.id;
    });
 }
 
 logger.compressTab = function(tab) {
-   return compress(tab, "options", flattenOption);
+   return compress(tab, "options", logger.flattenOption);
 }
 
-flattenOption = function(option) {
+logger.flattenOption = function(option) {
    return compress(option, "tab", function(tab) {
       return tab.name;
    })

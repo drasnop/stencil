@@ -120,9 +120,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       // determine whether to who additional options or not
       determineShowMoreShortcuts();
 
-      // saved visited tabs
+      // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
-         experiment.trial.visitedTabs.push(logger.compressTab(tab));
+         experiment.trial.visitedTabs.push(logger.flattenTab(tab));
       }
    }
 
@@ -154,7 +154,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       }).addClass("blue-highlighted")
 
       if (experiment.trial)
-         experiment.trial.reverseHighlighted.push(logger.compressOption(option));
+         experiment.trial.reverseHighlighted.push(option.id);
    }
 
    // remove highlight on mouseleave

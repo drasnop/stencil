@@ -34,14 +34,14 @@
 					<input type="checkbox"
 					ng-if="option.values.length==0" 
 					ng-model="option.value"
-					ng-click="experiment.trial.clickedOptions.push(logger.compressOption(option))"
+					ng-click="experiment.trial.clickedOptions.push(option.id)"
 					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.logValueChange(option);"
 					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					<select
 					ng-if="option.values.length>0"
 					ng-model="option.value"
 					ng-options="value.name as value.label for value in option.values"
-					ng-click="experiment.trial.clickedOptions.push(logger.compressOption(option))"
+					ng-click="experiment.trial.clickedOptions.push(option.id)"
 					ng-change="dataManager.updateOption(option.id, option.value); experiment.trial.logValueChange(option);"
 					ng-class="{'blue-highlighting': anchorVisible(option) && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					</select>
