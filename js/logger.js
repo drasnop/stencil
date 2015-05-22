@@ -4,16 +4,19 @@ var logger = {
 };
 
 // if the Wunderlist email appears in Firebase, initialize the logger; other cancel experiment
-logger.checkEmail = function(callbackSuccess, callbackError) {
+logger.checkEmail = function(callbackSuccess, callbackError, messageEmailUnknown, messageExperimentAlreadyCompleted) {
    var mturk = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/");
 
    mturk.once('value', function(snapshot) {
-      if (snapshot.hasChild(experiment.email)) {
+      if (!snapshot.hasChild(experiment.email)) {
+         console.log("Failure! MTurk firebase doesn't contain", experiment.email)
+         callbackError(messageEmailUnknown);
+      } else if (snapshot.child(experiment.email).child('/trials').numChildren() >= 10) {
+         console.log("Failure! User " + experiment.email + " has already completed the experiment")
+         callbackError(messageExperimentAlreadyCompleted);
+      } else {
          console.log("Success! MTurk firebase contains", experiment.email)
          callbackSuccess();
-      } else {
-         console.log("Failure! MTurk firebase doesn't contain", experiment.email)
-         callbackError();
       }
    });
 }

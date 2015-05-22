@@ -34,13 +34,18 @@ experiment.initialize = function() {
    if (typeof sync !== "undefined" && typeof sync.collections !== "undefined")
       experiment.email = sync.collections.users.models[0].get("email").split("@")[0];
 
+   // prepare error messages for the error callbacks
+   var messageEmailUnknown = "The email associated with this Wunderlist account (" + experiment.email + "@gmail.com) does not match the email you were given on the instructions page. " +
+      "Please go back to step 2 of the instructions (Create temporary Wunderlist account). Otherwise you won't be able to collect your reward.";
+   var messageExperimentAlreadyCompleted = "You can only participate in this experiment once. Please go back to the instructions page, and complete the questionnaires.";
+
    // verify that this email appears in firebase
    logger.checkEmail(function() {
       logger.initialize(experiment.generateInitialState);
 
       // tutorial.start() is independent of the preparation of the experiment
       setTimeout(tutorial.start.bind(tutorial), 1000);
-   }, experiment.cancel);
+   }, experiment.cancel, messageEmailUnknown, messageExperimentAlreadyCompleted);
 }
 
 
@@ -67,11 +72,10 @@ experiment.generateInitialState = function() {
 }
 
 
-experiment.cancel = function() {
+experiment.cancel = function(message) {
    model.progressBar.message = "";
    model.modal.header = "Verification failed!";
-   model.modal.message = "The email associated with this Wunderlist account (" + experiment.email + "@gmail.com) does not match the email you were given on the instructions page. " +
-      "Please go back to step 2 of the instructions (Create temporary Wunderlist account). Otherwise you won't be able to collect your reward.";
+   model.modal.message = message;
    model.modal.buttonLabel = "Ok";
    model.modal.green = false;
    model.modal.hideOnClick = false;
