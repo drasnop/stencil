@@ -137,13 +137,6 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    /* Reverse highlighting */
 
 
-   // returns true if this option is anchored and at least one anchor is visible
-   $scope.anchorVisible = function(option) {
-      return option.anchored && $(".highlightable").filter(function() {
-         return $(this).data("options").indexOf(option) >= 0;
-      }).filter(":visible").length > 0;
-   }
-
    // highlight all elements that share at least one option with the current one
    $scope.reverseHighlight = function(option) {
       if (!model.fullPanel())

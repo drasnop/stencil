@@ -34,7 +34,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          // use defineProperty syntax to avoid it being logged later on
          Object.defineProperty(option, "hasHighlightableHookOrCluster", {
             value: function() {
-               // check only if there was a hook or a cluster-marker visible
+               // check if there is at least one hook or one cluster-marker visible
+               // the hook can be a hidden ghost, though
                return option.anchored && $(".highlightable").filter(function() {
                   return $(this).data("options").indexOf(option) >= 0;
                }).filter(":visible").length > 0;
