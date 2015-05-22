@@ -421,7 +421,7 @@ experiment.generateRecognitionQuestionnaire = function() {
       loggable.push(logger.compressOption(option));
    });
 
-   logger.firebase.child("/optionsToRecognize").set(loggable, function(error) {
+   logger.firebase.child("/questionnaires/recognition/optionsToRecognize").set(loggable, function(error) {
       if (error)
          console.log("Error! Options to recognize not saved in database")
       else
