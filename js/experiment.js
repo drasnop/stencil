@@ -343,41 +343,89 @@ experiment.generateRecognitionQuestionnaire = function() {
       option.successfullySelected = trial.success;
       return option;
    })
-   console.log("options candidate", options)
+   console.log("option candidates", options)
 
-   // 3
-   /*   var adjacentOptions = [];
-      var adjacent;
-      options.forEach(function(option) {
-         if (option.index === 0) {
-            // we must pick the option below the current one, unless it is in the selection sequence
-            adjacent = option.tab.options[option.index + 1];
-            if (experiment.optionsSequence.indexOf(option) < 0)
-               adjacentOptions.push(adjacent)
-            else {
-               // we must 
-            }
-         }
-      })*/
+   // 3a: pick the best adjacent option (best effort), setting a .adjacent.valid flag if constraints are verified
+   options.forEach(function(option) {
 
-   // 5: 
+      if (option.index === 0) {
+         // must pick the option below the current one
+         option.adjacent = option.tab.options[option.index + 1];
+      } else if (option.index === option.tab.options.length - 1) {
+         // must pick the option above the current one
+         option.adjacent = option.tab.options[option.index - 1];
+      } else {
+         // can pick either the option above or below the current one
+         var above = Math.random() < 0.5;
+         option.adjacent = option.tab.options[option.index + (above ? -1 : 1)];
+
+         // if this adjacent option was in the selection sequence, we try the other one (best effort)
+         if (experiment.optionsSequence.indexOf(option.adjacent) >= 0)
+            option.adjacent = option.tab.options[option.index + (!above ? -1 : 1)];
+      }
+
+      // set flag
+      option.adjacent.valid = experiment.optionsSequence.indexOf(option.adjacent) < 0;
+   })
+
+   //3b: do a second pass, to check if any of the adjacent options appears twice in the adjacent list
+   var adjacents = options.map(function(option) {
+      return option.adjacent;
+   })
+   for (var i = 0; i < adjacents.length; i++) {
+      // if the same option occurs earlier in the sequence, mark the later one as invalid
+      if (adjacents.indexOf(adjacents[i]) < i)
+         adjacents[i].valid = false;
+   }
+
+   // 4: select the 5 most appropriate options
    shuffleArray(options);
    var filtered = [];
 
-   // 5a: get all the good ones
-   for (var i = 0; i < options.length; i++) {
-      if (options[i].successfullySelected)
+   // 4a: get all the good ones first
+   i = 0;
+   while (i < options.length && filtered.length < 5) {
+      if (options[i].successfullySelected && options[i].adjacent.valid)
          filtered.push(options.splice(i, 1)[0])
+      else
+         i++;
    }
 
-   // 5c: get the number of necessary bad ones
+   // 4b: if necessary, also get some for which the ajacent constraint is not verified
+   if (filtered.length < 5) {
+      i = 0;
+      while (i < options.length && filtered.length < 5) {
+         if (options[i].successfullySelected)
+            filtered.push(options.splice(i, 1)[0])
+         else
+            i++;
+      }
+   }
+
+   // 4c: get the number of necessary bad ones
    while (filtered.length < 5) {
       filtered.push(options.pop())
    }
 
    console.log("options filtered", filtered)
 
-   //model.firebase.child("/optionsToRecognize").set({})
+   // 5: prepare storage in Firebase
+   var loggable = [];
+   filtered.forEach(function(option) {
+      // indicate that this option is one of the adjacent ones
+      option.adjacent.adjacent = true;
+      loggable.push(logger.compressOption(option.adjacent));
+
+      // compressOption has created a deep copy of the adjacent option, so we can remove it
+      delete option.adjacent;
+
+      // indicate that this options was some of the targeted ones
+      option.targetedOption = true;
+      loggable.push(logger.compressOption(option));
+   });
+
+   console.log(loggable)
+   model.firebase.child("/optionsToRecognize").set(loggable)
 }
 
 
