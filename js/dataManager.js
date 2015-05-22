@@ -29,6 +29,19 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          }
       })
 
+      // add a helper function to each option
+      model.options.forEach(function(option) {
+         // use defineProperty syntax to avoid it being logged later on
+         Object.defineProperty(option, "hasHighlightableHookOrCluster", {
+            value: function() {
+               // check only if there was a hook or a cluster-marker visible
+               return option.anchored && $(".highlightable").filter(function() {
+                  return $(this).data("options").indexOf(option) >= 0;
+               }).filter(":visible").length > 0;
+            }
+         });
+      })
+
       /* mappings */
 
       // set option.anchored flag (doesn't take into account flag visible so far)

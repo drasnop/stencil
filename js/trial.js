@@ -123,6 +123,7 @@ function Trial(number) {
       if (this.targetOption.id === option.id && this.targetValue === option.value) {
          this.time.correctOptionChanged = time;
          this.correctOptionWasHighlightedWhenChanged = option.selected;
+         this.correctOptionHadHighlightableHookOrClusterWhenChanged = option.hasHighlightableHookOrCluster();
          this.panelExpanded = model.fullPanel();
       }
 
