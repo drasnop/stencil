@@ -346,8 +346,16 @@ experiment.generateRecognitionQuestionnaire = function() {
       return option;
    })
 
-   // 3a: pick the best adjacent option (best effort), setting a .adjacent.valid flag if constraints are verified
+   // 3a: sort options to consider first the ones at the top or bottom of a tab for finding ajacents
+   options.sort(function(optionA, optionB) {
+      var aShouldGoFirst = (optionA.index === 0 || optionA.index === optionA.tab.options.length - 1);
+      var bShouldGoFirst = (optionB.index === 0 || optionB.index === optionB.tab.options.length - 1);
+      return bShouldGoFirst - aShouldGoFirst;
+   })
+
+   // 3b: pick the best adjacent option (best effort), setting a .adjacent.valid flag if constraints are verified
    options.forEach(function(option) {
+      console.log(option.index, option.tab.options.length - 1)
 
       if (option.index === 0) {
          // must pick the option below the current one
@@ -389,7 +397,7 @@ experiment.generateRecognitionQuestionnaire = function() {
    })
 
    // USELESS
-   //3b: do a second pass, to check if any of the adjacent options appears twice in the adjacent list
+   //3c: do a second pass, to check if any of the adjacent options appears twice in the adjacent list
    var adjacents = options.map(function(option) {
       return option.adjacentOption;
    })
