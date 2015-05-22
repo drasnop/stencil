@@ -3,7 +3,7 @@ var experiment = new Sequencer("experiment", 1000, 2000, "Wrong setting", false,
 // whether the system is currently used to conduct an experiment
 experiment.experiment = true;
 // random sequence of 8 numbers and letters used to identify participants
-experiment.email = "loticulo";
+experiment.email = "lotaculi";
 // 0=control, 1=minimal, 2=mixed, 3=highlighted (TODO make this affect optionsVisibility)
 experiment.condition = "";
 // whether to use the opposite values of the default options for this participant
@@ -343,7 +343,6 @@ experiment.generateRecognitionQuestionnaire = function() {
       option.successfullySelected = trial.success;
       return option;
    })
-   console.log("option candidates", options)
 
    // 3a: pick the best adjacent option (best effort), setting a .adjacent.valid flag if constraints are verified
    options.forEach(function(option) {
@@ -407,8 +406,6 @@ experiment.generateRecognitionQuestionnaire = function() {
       filtered.push(options.pop())
    }
 
-   console.log("options filtered", filtered)
-
    // 5: prepare storage in Firebase
    var loggable = [];
    filtered.forEach(function(option) {
@@ -424,8 +421,12 @@ experiment.generateRecognitionQuestionnaire = function() {
       loggable.push(logger.compressOption(option));
    });
 
-   console.log(loggable)
-   model.firebase.child("/optionsToRecognize").set(loggable)
+   logger.firebase.child("/optionsToRecognize").set(loggable, function(error) {
+      if (error)
+         console.log("Error! Options to recognize not saved in database")
+      else
+         console.log("Success! Options to recognize saved in database")
+   })
 }
 
 
