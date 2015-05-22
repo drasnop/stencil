@@ -57,8 +57,8 @@ updateHooksStatus() -> [all hooks] positionHooks([showGhosts]) -> generateCluste
 /* ----------------    public    ------------------ */
 
 
-function updateHooksAndClusters() {
-   updateHooksStatus();
+function updateHooksAndClusters(animate) {
+   updateHooksStatus(animate);
    positionHooks();
    generateClusters();
    positionClusters();
@@ -136,7 +136,7 @@ function gmailSpecific() {
 }
 
 
-function updateHooksStatus() {
+function updateHooksStatus(animate) {
    // clones of the anchors with which users interact in customization mode
    var hooks = $(".hook");
 
@@ -163,14 +163,18 @@ function updateHooksStatus() {
 }
 
 // @param Array of jQuery Objects
-function updateGhostsVisibility(ghosts, show) {
+function updateGhostsVisibility(ghosts, show, animate) {
    ghosts.forEach(function(ghost) {
       ghost.data("anchor").toggle(show);
-      /*      ghost.toggle(show);*/
-      if (show)
-         ghost.slideDown(parameters.ghostsSlideDownDuration, "linear");
-      else
-         ghost.slideUp(parameters.ghostsSlideUpDuration, "linear");
+
+      if (!animate)
+         ghost.toggle(show);
+      else {
+         if (show)
+            ghost.slideDown(parameters.ghostsSlideDownDuration, "linear");
+         else
+            ghost.slideUp(parameters.ghostsSlideUpDuration, "linear");
+      }
    })
 }
 

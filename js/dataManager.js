@@ -152,8 +152,9 @@ dataManager.updateOption = function(id, value) {
          value: formatValue(value)
       })
 
+      // if the visibility of the corresponding hook has changed, update hooks and clusters, with animation
       if (value == "hidden" || value == "visible" || value == "auto")
-         updateHooksAndClusters();
+         updateHooksAndClusters(true);
    } else {
       // dev mode: not linked with Wunderlist backbone
       console.log("no underlying application settings to update for: ", id)

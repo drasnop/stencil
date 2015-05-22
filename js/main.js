@@ -71,9 +71,9 @@ function enterCustomizationMode() {
    $("head").append("<style class='special-style'> .sidebarItem.animate-up{" +
       "height: auto !important; transition: none !important} </style>");
 
-   // (re)create hooks and clusters for the customization layer
+   // (re)create hooks and clusters for the customization layer, don't animate
    generateHooks();
-   updateHooksAndClusters();
+   updateHooksAndClusters(false);
 
    // show the customization layer
    $("#customization-layer").show();
