@@ -328,37 +328,54 @@ experiment.resetSettingsIfNeeded = function() {
 // Generate a set of options to use in the recognition questionnaire, on the experiment website
 experiment.generateRecognitionQuestionnaire = function() {
 
+   // 0: DELETE THIS!
+   experiment.trials = pilotTrials;
+   experiment.trials.forEach(function(trial) {
+      trial.targetOption = model.options[trial.targetOption];
+   });
+
    // 1: retrieve all the trials, with their corrresponding options
-   experiment.trials = pilotTrials; // DELETE THIS!
    var trials = $.extend([], experiment.trials)
 
-   // 2a: filter out unsuccessful trials, unless they are less than 5 successful ones
-   shuffleArray(trials);
-   i = 0;
-   while (i < trials.length && trials.length >= 5) {
-      if (!trials[i].success)
-         trials.splice(i, 1)
-      else
-         i++;
-   }
-   console.log("trials selected", trials)
-
-   // 2b: pick 5 successful trials
-   trials = trials.slice(0, 5);
+   // 2: turn these trials into option candidates
    var options = trials.map(function(trial) {
-      return trial.targetOption;
+      var option = $.extend({}, trial.targetOption);
+      option.successfullySelected = trial.success;
+      return option;
    })
-   console.log("options selected", options)
+   console.log("options candidate", options)
 
    // 3
-   var adjacentOptions = [];
-   var adjacent;
-   options.forEach(function(option) {
-      if (option.index === 0) {
-         // we must pick the option below the current one, unless it is in the selection sequence
-         adjacent = option.tab.options[option.index + 1];
-      }
-   })
+   /*   var adjacentOptions = [];
+      var adjacent;
+      options.forEach(function(option) {
+         if (option.index === 0) {
+            // we must pick the option below the current one, unless it is in the selection sequence
+            adjacent = option.tab.options[option.index + 1];
+            if (experiment.optionsSequence.indexOf(option) < 0)
+               adjacentOptions.push(adjacent)
+            else {
+               // we must 
+            }
+         }
+      })*/
+
+   // 5: 
+   shuffleArray(options);
+   var filtered = [];
+
+   // 5a: get all the good ones
+   for (var i = 0; i < options.length; i++) {
+      if (options[i].successfullySelected)
+         filtered.push(options.splice(i, 1)[0])
+   }
+
+   // 5c: get the number of necessary bad ones
+   while (filtered.length < 5) {
+      filtered.push(options.pop())
+   }
+
+   console.log("options filtered", filtered)
 
    //model.firebase.child("/optionsToRecognize").set({})
 }
