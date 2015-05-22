@@ -1,3 +1,4 @@
+// > node scripts/results-parser.js
 var filepath = 'results/incandescent-torch-4042-mturk-export.json';
 
 Object.defineProperty(Object.prototype, "forEach", {
