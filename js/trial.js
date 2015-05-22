@@ -5,6 +5,8 @@ function Trial(number) {
 
    this.timeout = false;
    this.correctOptionWasHighlightedWhenChanged = false;
+   this.correctOptionHadVisibleHookWhenChanged = false;
+   this.correctOptionHadHighlightableHookOrClusterWhenChanged = false;
 
    // this boolean will be set by this.successful() at the end of the trial
    this.success = false;
@@ -99,7 +101,9 @@ function Trial(number) {
    this.loggable = function() {
       var loggable = {};
       for (var prop in this) {
-         if (this[prop] === null)
+         if (typeof this[prop] === "undefined")
+            console.log("Logging error: " + prop + " is undefined")
+         else if (this[prop] === null)
             loggable[prop] = null;
          else if (prop === "targetOption")
             loggable[prop] = this[prop].id;
@@ -116,13 +120,15 @@ function Trial(number) {
 
    /* helpers */
 
-   this.logValueChange = function(option) {
+   // need to get hadVisibleHighlightableHook BEFORE the dataManager updates the value of the option, obviously
+   this.logValueChange = function(option, hadVisibleHook) {
       var time = performance.now();
 
       // if this is the correct option
       if (this.targetOption.id === option.id && this.targetValue === option.value) {
          this.time.correctOptionChanged = time;
          this.correctOptionWasHighlightedWhenChanged = option.selected;
+         this.correctOptionHadVisibleHookWhenChanged = hadVisibleHook;
          this.correctOptionHadHighlightableHookOrClusterWhenChanged = option.hasHighlightableHookOrCluster();
          this.panelExpanded = model.fullPanel();
       }
