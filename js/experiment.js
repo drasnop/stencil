@@ -351,32 +351,54 @@ experiment.generateRecognitionQuestionnaire = function() {
 
       if (option.index === 0) {
          // must pick the option below the current one
-         option.adjacent = option.tab.options[option.index + 1];
+         option.adjacentOption = option.tab.options[option.index + 1];
       } else if (option.index === option.tab.options.length - 1) {
          // must pick the option above the current one
-         option.adjacent = option.tab.options[option.index - 1];
+         option.adjacentOption = option.tab.options[option.index - 1];
       } else {
          // can pick either the option above or below the current one
-         var above = Math.random() < 0.5;
-         option.adjacent = option.tab.options[option.index + (above ? -1 : 1)];
+         var above = option.tab.options[option.index - 1];
+         var below = option.tab.options[option.index + 1];
 
-         // if this adjacent option was in the selection sequence, we try the other one (best effort)
-         if (experiment.optionsSequence.indexOf(option.adjacent) >= 0)
-            option.adjacent = option.tab.options[option.index + (!above ? -1 : 1)];
+         option.adjacentOption = (pickAbove(above, below) ? above : below);
       }
 
-      // set flag
-      option.adjacent.valid = experiment.optionsSequence.indexOf(option.adjacent) < 0;
+      // set flags: valide iff not target option and hasn't been selected as adjacent before
+      option.adjacentOption.valid = (experiment.optionsSequence.indexOf(option.adjacentOption) < 0 && !option.adjacentOption.adjacent);
+      option.adjacentOption.adjacent = true;
+
+
+      /* helper function */
+      function pickAbove(above, below) {
+         // if one (and only one) of these appeared in the target options sequence, pick the other one
+         if (experiment.optionsSequence.indexOf(below) >= 0 && experiment.optionsSequence.indexOf(above) < 0)
+            return true;
+         if (experiment.optionsSequence.indexOf(above) >= 0 && experiment.optionsSequence.indexOf(below) < 0)
+            return false;
+
+         // otherwise, if one (and only one) has already been picked as ajacent, pick the other one
+         if (!above.adjacent && below.adjacent)
+            return true;
+         if (above.adjacent && !below.adjacent)
+            return false;
+
+         // just use random!
+         console.log("Using random to pick an adjacent option", experiment.optionsSequence.indexOf(above) < 0, experiment.optionsSequence.indexOf(below) < 0, above.adjacent, below.adjacent)
+         return Math.random() < 0.5;
+      }
    })
 
+   // USELESS
    //3b: do a second pass, to check if any of the adjacent options appears twice in the adjacent list
    var adjacents = options.map(function(option) {
-      return option.adjacent;
+      return option.adjacentOption;
    })
    for (var i = 0; i < adjacents.length; i++) {
       // if the same option occurs earlier in the sequence, mark the later one as invalid
-      if (adjacents.indexOf(adjacents[i]) < i)
+      if (adjacents.indexOf(adjacents[i]) < i) {
+         console.log("this adjacent is not valid, and was", adjacents[i].valid)
          adjacents[i].valid = false;
+      }
    }
 
    // 4: select the 5 most appropriate options
@@ -386,43 +408,46 @@ experiment.generateRecognitionQuestionnaire = function() {
    // 4a: get all the good ones first
    i = 0;
    while (i < options.length && filtered.length < 5) {
-      if (options[i].successfullySelected && options[i].adjacent.valid)
+      if (options[i].successfullySelected && options[i].adjacentOption.valid)
          filtered.push(options.splice(i, 1)[0])
       else
          i++;
    }
 
    // 4b: if necessary, also get some for which the ajacent constraint is not verified
+   var countAdjacentInvalid = 0;
    if (filtered.length < 5) {
       i = 0;
       while (i < options.length && filtered.length < 5) {
          if (options[i].successfullySelected) {
-            console.log("non valid adjacent", options[i])
+            console.log("non valid adjacent", options[i].id)
             filtered.push(options.splice(i, 1)[0])
+            countAdjacentInvalid++;
          } else
             i++;
       }
    }
 
-   // 4c: get the number of necessary bad ones
+   // 4c: get the number of necessary bad ones (not successfully selected)
+   var countNotSuccessfullySelected = 0;
    while (filtered.length < 5) {
       filtered.push(options.pop())
       console.log("bad one")
+      countNotSuccessfullySelected++;
    }
 
    // 5: prepare storage in Firebase
    var loggable = [];
    filtered.forEach(function(option) {
       // indicate that this option is one of the adjacent ones + if its base option was successfully selected
-      option.adjacent.adjacent = true;
-      option.adjacent.referenceOption = option.id;
-      loggable.push(logger.compressOption(option.adjacent));
+      option.adjacentOption.referenceOption = option.id;
+      loggable.push(logger.compressOption(option.adjacentOption));
 
       // compressOption has created a deep copy of the adjacent option, so we can replace it by just its id
-      option.adjacentOption = option.adjacent.id;
-      delete option["adjacent"];
+      option.adjacentOption = option.adjacentOption.id;
       loggable.push(logger.compressOption(option));
    });
+   console.log("options with invalid adjacent option:", countAdjacentInvalid, "options not successfully selected:", countNotSuccessfullySelected)
 
    logger.firebase.child("/questionnaires/recognition/optionsToRecognize").set(loggable, function(error) {
       if (error)
