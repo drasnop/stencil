@@ -65,15 +65,13 @@
       "id": "sound_checkoff_enabled",
       "label": "Enable sound for checking-off an item",
       "instructions": "Enable sound when checking-off a todo",
-      "value": true,
-      "values": []
+      "value": true
    },
    "sound_notification_enabled": {
       "id": "sound_notification_enabled",
       "label": "Enable sound for new notifications",
       "instructions": "Enable sound for new notifications",
-      "value": true,
-      "values": []
+      "value": true
    },
    "new_task_location": {
       "id": "new_task_location",
@@ -94,24 +92,21 @@
       "label": "Confirm before deleting items",
       "instructions": "When deleting an item, ask me for confirmation",
       "instructionsReverse": "When deleting an item, don't ask me for confirmation",
-      "value": true,
-      "values": []
+      "value": true
    },
    "behavior_star_tasks_to_top": {
       "id": "behavior_star_tasks_to_top",
       "label": "Star moves item to top",
       "instructions": "When starring an item, move it to the top of the list",
       "instructionsReverse": "Do not automatically move starred items to the top of the list",
-      "value": true,
-      "values": []
+      "value": true
    },
    "print_completed_items": {
       "id": "print_completed_items",
       "label": "Print completed items",
       "instructions": "When printing a todo list, print also the completed todo items",
       "instructionsReverse": "When printing a todo list, do not print the completed todo items",
-      "value": false,
-      "values": []
+      "value": false
    },
    "shortcut_add_new_task": {
       "id": "shortcut_add_new_task",
@@ -465,22 +460,19 @@
       "id": "notifications_email_enabled",
       "label": "Email Notifications",
       "instructions": "Enable email notifications",
-      "value": true,
-      "values": []
+      "value": true
    },
    "notifications_push_enabled": {
       "id": "notifications_push_enabled",
       "label": "Push Notifications",
       "instructions": "Enable push notifications",
-      "value": true,
-      "values": []
+      "value": true
    },
    "notifications_desktop_enabled": {
       "id": "notifications_desktop_enabled",
       "label": "Desktop Notifications",
       "instructions": "Enable desktop notifications",
-      "value": true,
-      "values": []
+      "value": true
    },
 
 
@@ -514,14 +506,12 @@
       "id": "add_to_chrome",
       "label": "",
       "value": false,
-      "values": [],
       "notUserAccessible": true
    },
    "add_to_firefox": {
       "id": "add_to_firefox",
       "label": "",
       "value": false,
-      "values": [],
       "notUserAccessible": true
    },
    "app_first_used": {
@@ -588,7 +578,6 @@
       "id": "enable_natural_date_recognition",
       "label": "",
       "value": true,
-      "values": [],
       "notUserAccessible": true
    },
    "id": {
@@ -615,42 +604,36 @@
       "id": "migrated_wunderlist_one_user",
       "label": "",
       "value": true,
-      "values": [],
       "notUserAccessible": true
    },
    "new_installation": {
       "id": "new_installation",
       "label": "",
       "value": false,
-      "values": [],
       "notUserAccessible": true
    },
    "newsletter_subscription_enabled": {
       "id": "newsletter_subscription_enabled",
       "label": "",
       "value": false,
-      "values": [],
       "notUserAccessible": true
    },
    "onboarding_add_todo": {
       "id": "onboarding_add_todo",
       "label": "",
       "value": true,
-      "values": [],
       "notUserAccessible": true
    },
    "onboarding_click_create_list": {
       "id": "onboarding_click_create_list",
       "label": "",
       "value": true,
-      "values": [],
       "notUserAccessible": true
    },
    "onboarding_click_share_list": {
       "id": "onboarding_click_share_list",
       "label": "",
       "value": true,
-      "values": [],
       "notUserAccessible": true
    },
    "pro_trial_limit_assigning": {
@@ -717,7 +700,6 @@
       "id": "show_completed_items",
       "label": "",
       "value": true,
-      "values": [],
       "notUserAccessible": true
    },
    "significant_event_count": {

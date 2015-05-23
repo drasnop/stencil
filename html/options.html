@@ -32,13 +32,13 @@
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"
-					ng-if="option.values.length==0" 
+					ng-if="!option.values" 
 					ng-model="option.value"
 					ng-click="experiment.trial.clickedOptions.push(option.id)"
 					ng-change="hvh=option.hasVisibleHook(); dataManager.updateOption(option.id, option.value); experiment.trial.logValueChange(option, hvh);"
 					ng-class="{'blue-highlighting': option.hasHighlightableHookOrCluster() && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					<select
-					ng-if="option.values.length>0"
+					ng-if="option.values"
 					ng-model="option.value"
 					ng-options="value.name as value.label for value in option.values"
 					ng-click="experiment.trial.clickedOptions.push(option.id)"

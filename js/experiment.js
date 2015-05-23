@@ -206,7 +206,7 @@ experiment.getInstructions = function() {
    var instructions = option.instructions;
 
    // Other booleans: simply replace enable by disable
-   if (option.values.length === 0) {
+   if (!option.values) {
       if (value)
          return instructions;
       else
@@ -291,7 +291,7 @@ experiment.complementValueOf = function(option, reverse) {
       return option.value;
 
    // if it's a boolean option, flip it
-   if (option.values.length === 0)
+   if (!option.values)
       return !option.value;
 
    // otherwise, for more than two values, find current index
