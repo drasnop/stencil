@@ -66,10 +66,10 @@ function Trial(number) {
       return model.options[this.targetOption.id].value === this.targetValue;
    }
 
-   this.correctOptionHasBeenHighlighted = function() {
+   this.correctHookHasBeenSelected = function() {
       for (var i in this.selectedOptions) {
          for (var j in this.selectedOptions[i]) {
-            if (this.selectedOptions[i][j].id == this.targetOption.id)
+            if (this.selectedOptions[i][j] == this.targetOption.id)
                return true;
          }
       }
