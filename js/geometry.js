@@ -11,16 +11,15 @@ geometry.getOptionHeight = function() {
 }
 
 geometry.getOptionTop = function(filteredIndex) {
-   return computeHeightIncludingDescription(filteredIndex);
+   var top = filteredIndex * geometry.getOptionHeight();
+   if (model.fullPanel() && typeof model.activeTab.description !== "undefined")
+      top += 78;
+   return top;
 }
 
-geometry.getTotalHeight = function(numVisibleOptions) {
-   return computeHeightIncludingDescription(numVisibleOptions);
-}
-
-function computeHeightIncludingDescription(numOptions) {
-   var result = numOptions * geometry.getOptionHeight();
-   if (model.fullPanel() && model.activeTab.html)
-      result += 58;
-   return result;
+geometry.getTotalHeight = function(numberVisibleOptions) {
+   var totalHeight = numberVisibleOptions * geometry.getOptionHeight();
+   if (model.fullPanel() && typeof model.activeTab.description !== "undefined")
+      totalHeight += 78;
+   return totalHeight;
 }

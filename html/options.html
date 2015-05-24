@@ -18,8 +18,8 @@
 		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
 		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
 
-			<div class="tab-html" ng-bind-html="tab.html"
-			ng-if="model.fullPanel() && tab.html">
+			<div class="tab-description" ng-bind-html="tab.description"
+			ng-if="model.fullPanel() && tab.description">
 			</div>
 
 			<div class="row option" id="{{option.id}}"
