@@ -1,9 +1,9 @@
 <div id='ad-hoc-panel' ng-controller='optionsController'
- ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'minimal': model.optionsVisibility==0 && !model.fullPanel(), 'mixed': model.optionsVisibility==1 && !model.fullPanel()}">
+ ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'with-back-arrow': model.optionsVisibility < 2 && model.fullPanel(), 'minimal': model.optionsVisibility==0 && !model.fullPanel(), 'mixed': model.optionsVisibility==1 && !model.fullPanel()}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">
-		<div class="back-arrow" ng-if="model.fullPanel() && model.optionsVisibility != 2" ng-click="contractFullPanel()">
-			<img id="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
+		<div class="back-arrow-wrapper" ng-if="model.fullPanel() && model.optionsVisibility != 2" ng-click="contractFullPanel()">
+			<img class="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
 		</div>
 		<li class="tab"
 		ng-repeat="tab in model.tabs"
