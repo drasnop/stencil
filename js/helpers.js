@@ -152,7 +152,9 @@ function getIndexOfValueInOption(option, value) {
    return index;
 }
 
-function generateTabsSequenceWithoutConsecutiveTabs(elementsPerTab) {
+// arg: associate array {"tabName": number}
+// returns: array of tabNames
+function generateTabsSequenceWithoutConsecutiveTabs(numElementsPerTab) {
    var tabSequence;
 
    while (true) {
@@ -160,15 +162,15 @@ function generateTabsSequenceWithoutConsecutiveTabs(elementsPerTab) {
 
       // 1: generate array of elements to pick from
       var elements = [];
-      for (var i = 0; i < elementsPerTab.length; i++) {
-         for (var j = 0; j < elementsPerTab[i]; j++) {
-            elements.push(i);
+      for (var tab in numElementsPerTab) {
+         for (var j = 0; j < numElementsPerTab[tab]; j++) {
+            elements.push(tab);
          }
       }
 
       // 2: pick non-consecutive elements, trying up to 10 times before giving up
       var index;
-      var element = -1;
+      var element = "";
       var count = 0;
 
       while (elements.length && count < 10) {

@@ -249,7 +249,6 @@ experiment.notEndOfSequence = function() {
 
 experiment.generateOptionsAndValuesSequences = function() {
    // select one third of options per tab, with a maximum of 4
-   var numOptionsPerTab = [3, 4, 2, 1];
    var numOptionsPerTab = {
       "General": 3,
       "Shortcuts": 4,
@@ -267,16 +266,15 @@ experiment.generateOptionsAndValuesSequences = function() {
 
       // randomly pick numOptionsPerTab[t] options      
       shuffleArray(allowedOptions);
-      optionsInTab[tab.index] = allowedOptions.slice(0, numOptionsPerTab[tab.name]);
+      optionsInTab[tab.name] = allowedOptions.slice(0, numOptionsPerTab[tab.name]);
    });
-   console.log(optionsInTab)
 
    // 2: compute a sequence of tabs in which no two selections come from the same tab
-   var tabIndexesSequence = generateTabsSequenceWithoutConsecutiveTabs(numOptionsPerTab);
+   var tabSequence = generateTabsSequenceWithoutConsecutiveTabs(numOptionsPerTab);
 
    // 3: use this sequence to order the sequence of options selections
-   for (var i = 0; i < tabIndexesSequence.length; i++) {
-      experiment.optionsSequence.push(optionsInTab[tabIndexesSequence[i]].pop())
+   for (var i = 0; i < tabSequence.length; i++) {
+      experiment.optionsSequence.push(optionsInTab[tabSequence[i]].pop())
    }
 
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
