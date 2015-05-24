@@ -250,19 +250,26 @@ experiment.notEndOfSequence = function() {
 experiment.generateOptionsAndValuesSequences = function() {
    // select one third of options per tab, with a maximum of 4
    var numOptionsPerTab = [3, 4, 2, 1];
+   var numOptionsPerTab = {
+      "General": 3,
+      "Shortcuts": 4,
+      "Smart Lists": 2,
+      "Notifications": 1
+   }
 
    // 1: randomly pick an appropriate number of options in each tab, respecting some constraints
    var optionsInTab = [];
-   for (var t = 0; t < model.tabs.length; t++) {
-      // get options from tab t, excluding the forbidden options
-      var allowedOptions = model.tabs[t].options.filter(function(option) {
+   model.tabs.forEach(function(tab) {
+      // get options from this tab, excluding the forbidden options
+      var allowedOptions = tab.options.filter(function(option) {
          return typeof option.notInExperiment === "undefined";
       })
 
       // randomly pick numOptionsPerTab[t] options      
       shuffleArray(allowedOptions);
-      optionsInTab[t] = allowedOptions.slice(0, numOptionsPerTab[t]);
-   }
+      optionsInTab[tab.index] = allowedOptions.slice(0, numOptionsPerTab[tab.name]);
+   });
+   console.log(optionsInTab)
 
    // 2: compute a sequence of tabs in which no two selections come from the same tab
    var tabIndexesSequence = generateTabsSequenceWithoutConsecutiveTabs(numOptionsPerTab);
