@@ -52,12 +52,14 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       model.filteredIndex[tabIndex][index] = model.filteredIndex[tabIndex][index - 1] + (visible ? 1 : 0);
    }
 
+   // sum of 1 + index of the last element in each tab
    $scope.getTotalNumberVisibleOptions = function() {
-      return model.filteredIndex.reduce(function(count, tabIndexes) {
-         return count + tabIndexes[tabIndexes.length - 1] + 1;
+      return model.filteredIndex.reduce(function(count, indexesInThisTab) {
+         return count + indexesInThisTab[indexesInThisTab.length - 1] + 1;
       }, 0)
    }
 
+   // sum of filtered indexes in the tab preceding this one + filtered index in this tab
    $scope.getFilteredIndex = function(tabIndex, index) {
       var filtered = 0;
       for (var tab = 0; tab < tabIndex; tab++) {
