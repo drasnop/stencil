@@ -66,8 +66,18 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
 
       /* tabs */
 
+      // creates a convenient enumerating (but non-enumerable!) function
+      Object.defineProperty(model.tabs, "forEachNonBloat", {
+         value: function(callback) {
+            this.forEach(function(tab) {
+               if (!tab.bloat)
+                  callback(tab);
+            })
+         }
+      })
+
       // replace tab.option_ids by pointers to actual options
-      model.tabs.forEach(function(tab) {
+      model.tabs.forEachNonBloat(function(tab) {
          var tabOptions = tab.options.map(function(option_id) {
             return model.options[option_id];
          })
@@ -75,7 +85,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       })
 
       // add pointer to tab (and index in that tab) to options
-      model.tabs.forEach(function(tab) {
+      model.tabs.forEachNonBloat(function(tab) {
          for (var i = 0; i < tab.options.length; i++) {
             tab.options[i].tab = tab;
             // the display code only uses filteredIndex (not the real .index), but this could be useful in the analysis
@@ -89,7 +99,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       }
 
       // creates filteredIndex
-      model.tabs.forEach(function(tab) {
+      model.tabs.forEachNonBloat(function(tab) {
          model.filteredIndex[tab.name] = [];
       });
 

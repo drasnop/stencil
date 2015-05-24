@@ -110,13 +110,19 @@ logger.compressOption = function(option) {
 }
 
 logger.flattenTab = function(tab) {
-   return compress(tab, "options", function(option) {
-      return option.id;
-   });
+   if (tab.bloat)
+      return compressBloatTab(tab);
+   else
+      return compress(tab, "options", function(option) {
+         return option.id;
+      });
 }
 
 logger.compressTab = function(tab) {
-   return compress(tab, "options", logger.flattenOption);
+   if (tab.bloat)
+      return compressBloatTab(tab);
+   else
+      return compress(tab, "options", logger.flattenOption);
 }
 
 logger.flattenOption = function(option) {
@@ -147,4 +153,17 @@ function compress(obj, childrenName, childrenFlattener) {
    delete flattened["__proto__"];
 
    return flattened;
+}
+
+function compressBloatTab(tab) {
+   var loggable = $.extend({}, tab);
+
+   // remove too long html data
+   delete loggable["description"];
+
+   // remove non-interesting data
+   delete loggable["$$hashKey"];
+   delete loggable["__proto__"];
+
+   return loggable;
 }

@@ -258,7 +258,7 @@ experiment.generateOptionsAndValuesSequences = function() {
 
    // 1: randomly pick an appropriate number of options in each tab, respecting some constraints
    var optionsInTab = [];
-   model.tabs.forEach(function(tab) {
+   model.tabs.forEachNonBloat(function(tab) {
       // get options from this tab, excluding the forbidden options
       var allowedOptions = tab.options.filter(function(option) {
          return typeof option.notInExperiment === "undefined";

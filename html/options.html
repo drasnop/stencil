@@ -2,17 +2,15 @@
  ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'minimal': model.optionsVisibility==0 && !model.fullPanel(), 'mixed': model.optionsVisibility==1 && !model.fullPanel()}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">
-		<div ng-class="{'center-wrapper': model.optionsVisibility==2}">
-			<div class="back-arrow" ng-if="model.fullPanel() && model.optionsVisibility != 2" ng-click="contractFullPanel()">
-				<img id="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
-			</div>
-			<li class="tab"
-			ng-repeat="tab in model.tabs"
-			ng-class="{'highlighted': tab.count>0, 'active': tab==model.activeTab, 'delayed-entrance': tab.count==0}"
-			ng-click="activateTab(tab)">
-			<span>{{tab.name}}</span>
-			</li>
+		<div class="back-arrow" ng-if="model.fullPanel() && model.optionsVisibility != 2" ng-click="contractFullPanel()">
+			<img id="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
 		</div>
+		<li class="tab"
+		ng-repeat="tab in model.tabs"
+		ng-class="{'highlighted': tab.count>0, 'active': tab==model.activeTab, 'delayed-entrance': tab.count==0}"
+		ng-click="activateTab(tab)">
+		<span>{{tab.name}}</span>
+		</li>
 	</ul>
 
 	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())+'px'}">
@@ -25,6 +23,7 @@
 			</div>
 
 			<div class="row option" id="{{option.id}}"
+			ng-if="!tab.bloat"
 			ng-class="{'highlighted': option.selected, 'delayed-entrance': !option.selected}"
 			ng-show="isOptionVisible(option, $index)"
 			ng-repeat="option in tab.options"

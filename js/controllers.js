@@ -68,18 +68,20 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var filtered = 0;
       var indexesInTab;
 
-      // enumerate tabs in order, stopping when the target tab is found
+      // enumerate tabs in order, skipping bloat tabs, stopping when the target tab is found
       for (var i = 0; i < model.tabs.length; i++) {
-         var tabName = model.tabs[i].name;
+         if (!model.tabs[i].bloat) {
+            var tabName = model.tabs[i].name;
 
-         if (tabName == tab.name) {
-            // get the filtered index of the target option in the target tab
-            filtered += model.filteredIndex[tab.name][index];
-            break;
-         } else {
-            // for all preceding tabs, add their maximal filtered index
-            indexesInTab = model.filteredIndex[tabName];
-            filtered += indexesInTab[indexesInTab.length - 1] + 1;
+            if (tabName == tab.name) {
+               // get the filtered index of the target option in the target tab
+               filtered += model.filteredIndex[tab.name][index];
+               break;
+            } else {
+               // for all preceding tabs, add their maximal filtered index
+               indexesInTab = model.filteredIndex[tabName];
+               filtered += indexesInTab[indexesInTab.length - 1] + 1;
+            }
          }
       }
       return filtered;
@@ -214,7 +216,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    function computeActiveTab() {
       var max = 0;
       var argmax;
-      model.tabs.forEach(function(tab) {
+      model.tabs.forEachNonBloat(function(tab) {
          if (tab.count > max) {
             max = tab.count;
             argmax = tab;

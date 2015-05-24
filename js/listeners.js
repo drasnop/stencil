@@ -67,7 +67,7 @@ function bindHooksListeners() {
       });
 
       // Compute tab counts
-      model.tabs.forEach(function(tab) {
+      model.tabs.forEachNonBloat(function(tab) {
          tab.count = 0;
       })
       model.selectedOptions.forEach(function(option) {

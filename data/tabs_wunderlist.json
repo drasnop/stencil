@@ -14,6 +14,14 @@
       "print_completed_items"
    ]
 }, {
+   "name": "Account",
+   "bloat": true,
+   "description": "bloat"
+}, {
+   "name": "Business",
+   "bloat": true,
+   "description": "bloat"
+}, {
    "name": "Shortcuts",
    "count": 0,
    "options": [
@@ -57,4 +65,8 @@
       "notifications_push_enabled",
       "notifications_desktop_enabled"
    ]
+}, {
+   "name": "About",
+   "bloat": true,
+   "description": "bloat"
 }]
