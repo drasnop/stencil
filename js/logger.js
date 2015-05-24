@@ -159,7 +159,7 @@ function compressBloatTab(tab) {
    var loggable = $.extend({}, tab);
 
    // remove too long html data
-   delete loggable["description"];
+   delete loggable["html"];
 
    // remove non-interesting data
    delete loggable["$$hashKey"];
