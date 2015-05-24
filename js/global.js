@@ -37,8 +37,8 @@ var model = {
    // Tab current displayed in the full panel
    "activeTab": "",
 
-   // True index of each visible option (discounting the options that are hidden)
-   "filteredIndex": [],
+   // True index of each visible option (discounting the options that are hidden) {"tabName": [indexes]}
+   "filteredIndex": {},
 
    /* other display variables */
 

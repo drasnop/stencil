@@ -39,33 +39,49 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
             visible = false;
       }
 
-      updateIndex(option.tab.index, index, visible);
+      updateIndex(option.tab.name, index, visible);
       return visible;
    }
 
-   function updateIndex(tabIndex, index, visible) {
+   function updateIndex(tabName, index, visible) {
       if (index === 0) {
-         model.filteredIndex[tabIndex][index] = visible ? 0 : -1;
+         model.filteredIndex[tabName][index] = visible ? 0 : -1;
          return;
       }
 
-      model.filteredIndex[tabIndex][index] = model.filteredIndex[tabIndex][index - 1] + (visible ? 1 : 0);
+      model.filteredIndex[tabName][index] = model.filteredIndex[tabName][index - 1] + (visible ? 1 : 0);
    }
 
    // sum of 1 + index of the last element in each tab
    $scope.getTotalNumberVisibleOptions = function() {
-      return model.filteredIndex.reduce(function(count, indexesInThisTab) {
-         return count + indexesInThisTab[indexesInThisTab.length - 1] + 1;
-      }, 0)
+      var count = 0;
+      var indexesInTab;
+      for (var tabName in model.filteredIndex) {
+         indexesInTab = model.filteredIndex[tabName];
+         count += indexesInTab[indexesInTab.length - 1] + 1;
+      }
+      return count;
    }
 
    // sum of filtered indexes in the tab preceding this one + filtered index in this tab
-   $scope.getFilteredIndex = function(tabIndex, index) {
+   $scope.getFilteredIndex = function(tab, index) {
       var filtered = 0;
-      for (var tab = 0; tab < tabIndex; tab++) {
-         filtered += model.filteredIndex[tab][model.filteredIndex[tab].length - 1] + 1;
+      var indexesInTab;
+
+      // enumerate tabs in order, stopping when the target tab is found
+      for (var i = 0; i < model.tabs.length; i++) {
+         var tabName = model.tabs[i].name;
+
+         if (tabName == tab.name) {
+            // get the filtered index of the target option in the target tab
+            filtered += model.filteredIndex[tab.name][index];
+            break;
+         } else {
+            // for all preceding tabs, add their maximal filtered index
+            indexesInTab = model.filteredIndex[tabName];
+            filtered += indexesInTab[indexesInTab.length - 1] + 1;
+         }
       }
-      filtered += model.filteredIndex[tabIndex][index];
       return filtered;
    }
 

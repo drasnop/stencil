@@ -78,7 +78,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       model.tabs.forEach(function(tab) {
          for (var i = 0; i < tab.options.length; i++) {
             tab.options[i].tab = tab;
-            // the display code only uses filteredIndex now, but this could be useful in the analysis
+            // the display code only uses filteredIndex (not the real .index), but this could be useful in the analysis
             tab.options[i].index = i;
          }
       })
@@ -89,8 +89,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       }
 
       // creates filteredIndex
-      model.filteredIndex = model.tabs.map(function(tab) {
-         return [];
+      model.tabs.forEach(function(tab) {
+         model.filteredIndex[tab.name] = [];
       });
 
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
