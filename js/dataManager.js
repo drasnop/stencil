@@ -112,7 +112,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       //enterCustomizationMode();
 
       // initialize experiment
-      if (experiment.experiment)
+      if (parameters.experiment)
          experiment.initialize();
    }
 }

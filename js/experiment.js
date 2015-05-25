@@ -1,7 +1,5 @@
 var experiment = new Sequencer("experiment", 1000, 2000, "Wrong setting", false, Trial);
 
-// whether the system is currently used to conduct an experiment
-experiment.experiment = false;
 // random sequence of 8 numbers and letters used to identify participants
 experiment.email = "lotaculi";
 // 0=control, 1=minimal, 2=mixed, 3=highlighted (TODO make this affect optionsVisibility)

@@ -20,7 +20,7 @@ function initialize() {
    $("#customization-layer").hide();
 
    // add experiment software
-   if (experiment.experiment) {
+   if (parameters.experiment) {
       $("body>*").wrapAll("<div id='progress-bar-pusher'></div")
       $("body").prepend("<div progress-bar></div")
       $("body").append("<div instructions-modal></div")
@@ -54,11 +54,11 @@ function enterCustomizationMode() {
    customizationMode = true;
 
    // IF NOT EXPERIMENT: sync angular options with the Wunderlist Backbone model
-   if (!experiment.experiment)
+   if (!parameters.experiment)
       dataManager.initializeOptionsFromApp();
 
    // dim the interface
-   if (experiment.experiment)
+   if (parameters.experiment)
       $("#progress-bar-pusher").children(":not(#customization-layer)").addClass("dimmed");
    else
       $("body").children(":not(#customization-layer)").addClass("dimmed");

@@ -202,7 +202,7 @@ function computeHookPosition(hook) {
    // we must use .offset() instead of position(), to get the offset relative to the document
    // during the experiment, we must account for the presence of the progressBar at the top
    var position = {
-      "top": hook.data("anchor").offset().top + (experiment.experiment ? -parameters.progressBarHeight : 0) + "px",
+      "top": hook.data("anchor").offset().top + (parameters.experiment ? -parameters.progressBarHeight : 0) + "px",
       "left": hook.data("anchor").offset().left + "px",
       "width": hook.data("anchor").width() + "px",
       "height": hook.data("anchor").height() + "px"
