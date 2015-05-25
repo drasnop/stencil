@@ -20,12 +20,12 @@ var model = {
 
    /* display variables for customization panel */
 
-   // Type of ad-hoc panel shown: 0=minimal, 1=mixed, 2=full
-   "optionsVisibility": 2,
+   // Type of ad-hoc panel shown: 0=control, 1=minimal, 2=mixed, 3=full with highlights
+   "optionsVisibility": 3,
 
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    fullPanel: function() {
-      var fullPanelDefault = [false, false, true];
+      var fullPanelDefault = [true, false, false, true];
       return model.panelExpanded || fullPanelDefault[model.optionsVisibility];
    },
    // Show options panel in customization mode

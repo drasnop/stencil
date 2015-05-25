@@ -120,7 +120,7 @@ function toggleOptionsVisibility() {
    var scope = angular.element($("#ad-hoc-panel")).scope();
 
    // cycle through the different options
-   model.optionsVisibility = (model.optionsVisibility + 1) % 3;
+   model.optionsVisibility = (model.optionsVisibility + 1) % 4;
    scope.resetViewParameters();
    scope.$apply();
 

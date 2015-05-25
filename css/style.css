@@ -385,6 +385,7 @@ select {
 
 .tab-description {
     padding: 0 10px;
+    width: 600px;
 }
 
 .row.option {

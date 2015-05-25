@@ -4,7 +4,7 @@ var geometry = {
 }
 
 geometry.getOptionHeight = function() {
-   if (model.optionsVisibility == 1 && !model.fullPanel())
+   if (model.optionsVisibility == 2 && !model.fullPanel())
       return 38;
 
    return 38;
