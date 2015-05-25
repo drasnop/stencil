@@ -237,7 +237,7 @@ z-indexes
 
 #ad-hoc-panel.expanded {
     width: 590px!important;
-    height: 350px!important;
+    height: 365px!important;
     margin-bottom: 10px;
     background-color: white;
     /*margin-top: 10px; would look better, but creates a jump when switching views */
@@ -367,14 +367,20 @@ select {
     transition: height 0.5s ease;
 }
 
+#options.bloat {
+    margin: 0;
+}
+
 #ad-hoc-panel.minimal #options {
     min-width: 350px;
     margin-top: 8px;
     margin-bottom: 20px;
+    overflow-y: hidden;
 }
 
 #ad-hoc-panel.mixed #options {
     min-width: 400px;
+    overflow-y: hidden;
 }
 
 .tab-description {
@@ -500,6 +506,10 @@ select {
     opacity: 1;
 }
 /* ---------- Wunderlist-specific styles ------------- */
+
+.bloat-image {
+    width: 100%;
+}
 /* "Show more" button in shortcuts tab */
 
 .wunderlist-button {

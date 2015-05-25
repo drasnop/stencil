@@ -14,13 +14,17 @@ geometry.getOptionTop = function(filteredIndex) {
    return computeHeightIncludingDescription(filteredIndex);
 }
 
+// return a string to be used in inline css
 geometry.getTotalHeight = function(numVisibleOptions) {
-   return computeHeightIncludingDescription(numVisibleOptions);
+   if (model.activeTab.bloat)
+      return "auto";
+   else
+      return computeHeightIncludingDescription(numVisibleOptions) + 'px';
 }
 
 function computeHeightIncludingDescription(numOptions) {
    var result = numOptions * geometry.getOptionHeight();
-   if (model.fullPanel() && model.activeTab.html)
+   if (model.fullPanel() && model.activeTab.description)
       result += 58;
    return result;
 }

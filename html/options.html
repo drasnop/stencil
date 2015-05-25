@@ -13,17 +13,18 @@
 		</li>
 	</ul>
 
-	<div id="options" ng-class="{'highlighted': !model.fullPanel() }" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())+'px'}">
+	<div id="options" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.activeTab.bloat}" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())}">
 
+		<img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="/img/tabs/{{model.activeTab.image}}">
+		
 		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
-		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || !model.fullPanel()">
+		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || (!model.fullPanel() && !tab.bloat)">
 
 			<div class="tab-description" ng-bind-html="tab.description"
 			ng-if="model.fullPanel() && tab.description">
 			</div>
 
 			<div class="row option" id="{{option.id}}"
-			ng-if="!tab.bloat"
 			ng-class="{'highlighted': option.selected, 'delayed-entrance': !option.selected}"
 			ng-show="isOptionVisible(option, $index)"
 			ng-repeat="option in tab.options"

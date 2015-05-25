@@ -16,11 +16,11 @@
 }, {
    "name": "Account",
    "bloat": true,
-   "description": "bloat"
+   "image": "account.png"
 }, {
    "name": "Business",
    "bloat": true,
-   "description": "bloat"
+   "image": "business.png"
 }, {
    "name": "Shortcuts",
    "count": 0,
@@ -68,5 +68,5 @@
 }, {
    "name": "About",
    "bloat": true,
-   "description": "bloat"
+   "image": "about.png"
 }]
