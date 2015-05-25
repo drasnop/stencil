@@ -134,23 +134,7 @@ dataManager.initializeOptionsFromApp = function() {
          key: option.id
       })[0].get("value")
 
-      // I am using booleans, but they are storing these options as strings!
-      switch (value) {
-         case "true":
-            if (option.value !== true)
-               console.log("- updating:", option.id, true)
-            option.value = true;
-            break;
-         case "false":
-            if (option.value !== false)
-               console.log("- updating:", option.id, false)
-            option.value = false;
-            break;
-         default:
-            if (option.value !== value)
-               console.log("- updating:", option.id, value)
-            option.value = value;
-      }
+      dataManager.updateOption(option, value);
    })
 }
 
@@ -176,6 +160,22 @@ dataManager.initializeAppOptionsFromFile = function() {
       })
    })
 }
+
+// FOR THE EXPERIMENT: in control condition, rectify a Wunderlist option to match its correct value if needed
+dataManager.syncAppOptionWith = function(option) {
+
+   // dev mode: not linked with Wunderlist backbone
+   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
+      return;
+
+   sync.collections.settings.where({
+      key: option.id
+   })[0].set({
+      value: formatValue(option.value)
+   })
+}
+
+
 
 dataManager.updateOption = function(id, value) {
 
@@ -204,4 +204,24 @@ function formatValue(value) {
       return value ? "true" : "false";
    else
       return value;
+}
+
+// I am using booleans, but Wunderlist stores these options as strings!
+dataManager.updateOption = function(option, value) {
+   switch (value) {
+      case "true":
+         if (option.value !== true)
+            console.log("- updating:", option.id, true)
+         option.value = true;
+         break;
+      case "false":
+         if (option.value !== false)
+            console.log("- updating:", option.id, false)
+         option.value = false;
+         break;
+      default:
+         if (option.value !== value)
+            console.log("- updating:", option.id, value)
+         option.value = value;
+   }
 }

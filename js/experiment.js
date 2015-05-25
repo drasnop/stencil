@@ -320,16 +320,15 @@ experiment.getTotalTrialsReward = function() {
 }
 
 experiment.resetSettingsIfNeeded = function() {
-   var syncNeeded = false;
    for (var id in experiment.referenceOptions) {
       if (experiment.referenceOptions[id].value !== model.options[id].value) {
          console.log("- rectifying:", id, experiment.referenceOptions[id].value)
+
+         // update both my model and Wunderlist settings
          model.options[id].value = experiment.referenceOptions[id].value;
-         syncNeeded = true;
+         dataManager.syncAppOptionWith(model.options[id]);
       }
    }
-   if (syncNeeded)
-      dataManager.initializeAppOptionsFromFile();
 }
 
 // Generate a set of options to use in the recognition questionnaire, on the experiment website
