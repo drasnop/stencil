@@ -21,7 +21,7 @@ var model = {
    /* display variables for customization panel */
 
    // Type of ad-hoc panel shown: 0=control, 1=minimal, 2=mixed, 3=full with highlights
-   "optionsVisibility": 3,
+   "optionsVisibility": 0,
 
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    fullPanel: function() {

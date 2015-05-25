@@ -92,6 +92,9 @@ experiment.start = function() {
    // reset options to their correct values, if necessary
    experiment.resetSettingsIfNeeded();
 
+   if (experiment.condition === 0)
+      bindWunderlistListeners();
+
    model.progressBar.message = "";
    model.progressBar.buttonLabel = "Done";
    model.modal.header = "Experiment";

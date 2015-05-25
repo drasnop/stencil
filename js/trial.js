@@ -126,7 +126,11 @@ function Trial(number) {
 
       // if this is the correct option
       if (this.targetOption.id === option.id && this.targetValue === option.value) {
-         this.time.correctOptionChanged = time;
+
+         // log only the first time the correct option was changed...
+         if (!this.time.correctOptionChanged)
+            this.time.correctOptionChanged = time;
+
          this.correctOptionWasHighlightedWhenChanged = option.selected;
          this.correctOptionHadVisibleHookWhenChanged = hadVisibleHook;
          this.correctOptionHadHighlightableHookOrClusterWhenChanged = option.hasHighlightableHookOrCluster();
