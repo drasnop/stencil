@@ -124,7 +124,7 @@ experiment.initializeTrial = function(number) {
 
 experiment.startTrial = function() {
    // in case participants got out of CM, bring them back in to save time
-   if (!customizationMode)
+   if (experiment.condition > 0 && !customizationMode)
       enterCustomizationMode();
 
    // show the hooks

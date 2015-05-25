@@ -6,21 +6,13 @@ function bindWunderlistListeners() {
 
    console.log("Initializing Wunderlist listeners...")
 
-   var dateFormat = sync.collections.settings.where({
-      key: "date_format"
-   })[0];
-   dateFormat.attributes.watch("value", function(id, oldval, newval) {
-      console.log('o.' + id + ' changed from ' + oldval + ' to ' + newval);
-      return newval;
-   })
-
-
-   var timeFormat = sync.collections.settings.where({
-      key: "time_format"
-   })[0];
-   timeFormat.attributes.watch("value", function(id, oldval, newval) {
-      console.log('o.' + id + ' changed from ' + oldval + ' to ' + newval);
-      return newval;
-   })
+   model.options.getUserAccessibleOptions().forEach(function(option) {
+      sync.collections.settings.where({
+         key: option.id
+      })[0].attributes.watch("value", function(prop, oldval, newval) {
+         console.log(option.id + '.' + prop + ' changed from ' + oldval + ' to ' + newval);
+         return newval;
+      })
+   });
 
 }

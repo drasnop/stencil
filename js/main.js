@@ -39,11 +39,16 @@ function replaceMenuEntryWhenReady() {
       if ($(".list-menu li a[data-path='preferences/account']").length < 1)
          replaceMenuEntryWhenReady();
       else {
-         // replace menu "Account settings" by "Customize", with custom event handler
+         // replace menu "Account settings" by "Customize"
          $(".list-menu li a[data-path='preferences/account']")
-            .attr("data-path", "")
-            .on("click", enterCustomizationMode)
             .html("<text>Customize</text>")
+
+         // except in control condition, enter customization mode
+         if (experiment.condition > 0) {
+            $(".list-menu li a[data-path='preferences/account']")
+               .attr("data-path", "")
+               .on("click", enterCustomizationMode)
+         }
       }
    }, 10)
 }
