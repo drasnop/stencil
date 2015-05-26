@@ -51,7 +51,7 @@ function bindWunderlistListeners() {
          tab = model.tabs[i];
 
          if (tab.hash == hash) {
-            console.log("opened tab", tab.name);
+            experiment.trial.visitedTabs.push(logger.flattenTab(tab))
             break;
          }
       }
