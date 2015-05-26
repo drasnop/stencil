@@ -156,7 +156,7 @@ dataManager.initializeAppOptionsFromFile = function() {
       sync.collections.settings.where({
          key: option.id
       })[0].set({
-         value: formatValue(option.value)
+         value: dataManager.formatValueForWunderlist(option.value)
       })
    })
 }
@@ -171,7 +171,7 @@ dataManager.syncAppOptionWith = function(option) {
    sync.collections.settings.where({
       key: option.id
    })[0].set({
-      value: formatValue(option.value)
+      value: dataManager.formatValueForWunderlist(option.value)
    })
 }
 
@@ -185,7 +185,7 @@ dataManager.updateOption = function(id, value) {
       sync.collections.settings.where({
          key: id
       })[0].set({
-         value: formatValue(value)
+         value: dataManager.formatValueForWunderlist(value)
       })
 
       // if the visibility of the corresponding hook has changed, update hooks and clusters, with animation
@@ -199,7 +199,7 @@ dataManager.updateOption = function(id, value) {
 
 
 // Must convert boolean into strings for Wunderlist...
-function formatValue(value) {
+dataManager.formatValueForWunderlist = function(value) {
    if (typeof value === "boolean")
       return value ? "true" : "false";
    else

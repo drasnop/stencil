@@ -6,11 +6,17 @@ function bindWunderlistListeners() {
 
    console.log("Initializing Wunderlist listeners...")
 
+   // listener for each settings change in Wunderlist
    model.options.getUserAccessibleOptions().forEach(function(option) {
       sync.collections.settings.where({
          key: option.id
       })[0].attributes.watch("value", function(prop, oldval, newval) {
-         console.log(option.id + '.' + prop + ' changed from ' + oldval + ' to ' + newval);
+
+         // if this change originated from the model (as a "rectification" at the end of each trial), do nothing
+         if (dataManager.formatValueForWunderlist(option.value) === newval)
+            return newval;
+
+         console.log('* ' + option.id + '.' + prop + ' changed from', oldval, 'to', newval);
 
          // update the model accordingly
          dataManager.updateOption(option, newval);

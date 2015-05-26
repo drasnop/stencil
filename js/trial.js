@@ -81,9 +81,13 @@ function Trial(number) {
    }
 
    this.shortDuration = function() {
-      if (!this.time.correctOptionChanged)
-         return this.longDuration();
-      return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
+      if (this.time.correctOptionChanged)
+         return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
+
+      if (this.time.lastOptionChanged)
+         return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
+
+      return this.longDuration();
    }
 
    this.longDuration = function() {
