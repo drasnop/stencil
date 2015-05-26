@@ -25,7 +25,10 @@ function bindWunderlistListeners() {
          experiment.trial.logValueChange(option, false);
 
          // notify angular of this change, to unlock the "done" button
-         angular.element($("#ad-hoc-panel")).scope().$apply();
+         // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
+         var scope = angular.element($("#ad-hoc-panel")).scope();
+         if (!scope.$$phase)
+            scope.$apply();
 
          // must return newval, since this watcher function is called instead of the setter
          return newval;
