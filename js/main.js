@@ -43,8 +43,12 @@ function replaceMenuEntryWhenReady() {
          $(".list-menu li a[data-path='preferences/account']")
             .html("<text>Customize</text>")
 
-         // except in control condition, enter customization mode
-         if (experiment.condition > 0) {
+         if (experiment.condition === 0) {
+            // In control condition, reroute to the General tab
+            $(".list-menu li a[data-path='preferences/account']")
+               .attr("data-path", "preferences/general")
+         } else {
+            // For all other conditions, enter customization mode
             $(".list-menu li a[data-path='preferences/account']")
                .attr("data-path", "")
                .on("click", enterCustomizationMode)
