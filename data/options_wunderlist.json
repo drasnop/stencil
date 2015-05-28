@@ -272,7 +272,7 @@
    "shortcut_goto_filter_assigned": {
       "id": "shortcut_goto_filter_assigned",
       "label": "Open 'Assigned to Me' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos assigned to you to",
+      "instructions": "Change shortcut for showing the list of the todos assigned to you to",
       "value": "CTRL + 1",
       "values": [{
          "name": "CTRL + 1",
@@ -286,7 +286,7 @@
    "shortcut_goto_filter_starred": {
       "id": "shortcut_goto_filter_starred",
       "label": "Open 'Starred' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos that are starred to",
+      "instructions": "Change shortcut for showing the list of the todos that are starred to",
       "value": "CTRL + 2",
       "values": [{
          "name": "CTRL + 2",
@@ -300,7 +300,7 @@
    "shortcut_goto_filter_today": {
       "id": "shortcut_goto_filter_today",
       "label": "Open 'Today' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos due today to",
+      "instructions": "Change shortcut for showing the list of the todos due today to",
       "value": "CTRL + 3",
       "values": [{
          "name": "CTRL + 3",
@@ -315,7 +315,7 @@
    "shortcut_goto_filter_week": {
       "id": "shortcut_goto_filter_week",
       "label": "Open 'Week' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos due this week to",
+      "instructions": "Change shortcut for showing the list of the todos due this week to",
       "value": "CTRL + 4",
       "values": [{
          "name": "CTRL + 4",
@@ -330,7 +330,7 @@
    "shortcut_goto_filter_all": {
       "id": "shortcut_goto_filter_all",
       "label": "Open 'All' Smart List",
-      "instructions": "Change shortcut for showing a list of all the todos to",
+      "instructions": "Change shortcut for showing the list of all the todos to",
       "value": "CTRL + 5",
       "values": [{
          "name": "CTRL + 5",
@@ -345,7 +345,7 @@
    "shortcut_goto_filter_completed": {
       "id": "shortcut_goto_filter_completed",
       "label": "Open 'Completed' Smart List",
-      "instructions": "Change shortcut for showing a list of all the completed todos to",
+      "instructions": "Change shortcut for showing the list of the completed todos to",
       "value": "CTRL + 6",
       "values": [{
          "name": "CTRL + 6",
@@ -373,7 +373,7 @@
    "smartlist_visibility_assigned_to_me": {
       "id": "smartlist_visibility_assigned_to_me",
       "label": "Assigned to me",
-      "instructions": "In the left sidebar, show the list of all the todos assigned to you",
+      "instructions": "In the left sidebar, show the list of the todos assigned to you",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -388,7 +388,7 @@
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",
       "label": "Starred",
-      "instructions": "In the left sidebar, show the list of all the todos that are starred",
+      "instructions": "In the left sidebar, show the list of the todos that are starred",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -403,7 +403,7 @@
    "smartlist_visibility_today": {
       "id": "smartlist_visibility_today",
       "label": "Today",
-      "instructions": "In the left sidebar, show the list of all the todos that are due today",
+      "instructions": "In the left sidebar, show the list of the todos that are due today",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -417,7 +417,7 @@
    "smartlist_visibility_week": {
       "id": "smartlist_visibility_week",
       "label": "Week",
-      "instructions": "In the left sidebar, show the list of all the todos that are due this week",
+      "instructions": "In the left sidebar, show the list of the todos that are due this week",
       "value": "hidden",
       "values": [{
          "name": "visible",
@@ -445,7 +445,7 @@
    "smartlist_visibility_done": {
       "id": "smartlist_visibility_done",
       "label": "Completed",
-      "instructions": "In the left sidebar, show the list of all the todos that are already completed",
+      "instructions": "In the left sidebar, show the list of the todos that are already completed",
       "value": "visible",
       "values": [{
          "name": "visible",
