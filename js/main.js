@@ -22,7 +22,7 @@ function initialize() {
       scope.$apply(scope.closePanel);
 
       // remove previous highlighted hooks, if any
-      updateHooksHighlighting();
+      hooksManager.updateHooksHighlighting();
    })
 
    // hide the newly-created customization layer
@@ -88,8 +88,8 @@ function enterCustomizationMode() {
       "height: auto !important; transition: none !important} </style>");
 
    // (re)create hooks and clusters for the customization layer, don't animate
-   generateHooks();
-   updateHooksAndClusters(false);
+   hooksManager.generateHooks();
+   hooksManager.updateHooksAndClusters(false);
 
    // show the customization layer
    $("#customization-layer").show();

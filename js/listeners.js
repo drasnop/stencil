@@ -10,7 +10,7 @@ $(document).keyup(function(event) {
 
 
 $(window).resize(function() {
-   positionHooksAndClusters();
+   hooksManager.positionHooksAndClusters();
    adjustPanelHeight();
 });
 
@@ -84,7 +84,7 @@ function bindHooksListeners() {
       scope.$apply();
 
       // remove previous highlighted hooks, if any
-      updateHooksHighlighting();
+      hooksManager.updateHooksHighlighting();
 
       // position panel next to this anchor
       model.selectedAnchor = $(this);
@@ -108,7 +108,7 @@ function bindClustersListeners() {
          cluster.showGhosts ? "url(//" + parameters.serverURL + "/img/chevron_collapse.png)" : "url(//" + parameters.serverURL + "/img/chevron_expand.png)")
 
       // update its ghosts, with animation
-      updateGhostsVisibility(cluster.ghosts, cluster.showGhosts, true);
-      positionHooksAndClusters();
+      hooksManager.updateGhostsVisibility(cluster.ghosts, cluster.showGhosts, true);
+      hooksManager.positionHooksAndClusters();
    })
 }

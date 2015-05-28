@@ -194,7 +194,7 @@ dataManager.updateOption = function(option, value) {
 }
 
 // update a Wunderlist option to match its correct value, calling an update of hooks and clusters if needed
-dataManager.updateAppOption = function(id, value, hooksAndClusters) {
+dataManager.updateAppOption = function(id, value, updateHooksAndClusters) {
 
    if (typeof sync != "undefined" && typeof sync.collections != "undefined") {
       sync.collections.settings.where({
@@ -207,10 +207,10 @@ dataManager.updateAppOption = function(id, value, hooksAndClusters) {
       console.log("no underlying application settings to update for: ", id)
    }
 
-   if (hooksAndClusters) {
+   if (updateHooksAndClusters) {
       // if the visibility of the corresponding hook has changed, update hooks and clusters, with animation
       if (value == "hidden" || value == "visible" || value == "auto")
-         updateHooksAndClusters(true);
+         hooksManager.updateHooksAndClusters(true);
    }
 }
 
