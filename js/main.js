@@ -16,6 +16,15 @@ function initialize() {
    $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
       .on("click", exitCustomizationMode)
 
+   // setup interaction for overlay
+   $("#overlay").click(function() {
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.$apply(scope.closePanel);
+
+      // remove previous highlighted hooks, if any
+      updateHooksHighlighting();
+   })
+
    // hide the newly-created customization layer
    $("#customization-layer").hide();
 

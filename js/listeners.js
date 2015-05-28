@@ -43,7 +43,6 @@ function bindHooksListeners() {
 
    // show a panel populated with only the relevant options
    hooks.click(function() {
-      console.log("click ", this)
 
       /* check for re-click on the same hook */
 
@@ -96,19 +95,11 @@ function bindHooksListeners() {
          experiment.trial.selectedOptions.push(logger.getIDs(model.selectedOptions));
    })
 
-
-   $("#overlay").click(function() {
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.$apply(scope.closePanel);
-
-      // remove previous highlighted hooks, if any
-      updateHooksHighlighting();
-   })
 }
 
 
 function bindClustersListeners() {
-   $(".cluster-marker").click(function() {
+   $(".cluster-marker").off("click").click(function() {
       var cluster = $(this).data("cluster")
 
       // toggle the cluster mark 

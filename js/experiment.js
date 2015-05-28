@@ -326,7 +326,7 @@ experiment.resetSettingsIfNeeded = function() {
 
          // update both my model and Wunderlist settings
          model.options[id].value = experiment.referenceOptions[id].value;
-         dataManager.updateAppOption(id, model.options[id].value);
+         dataManager.updateAppOption(id, model.options[id].value, true);
       }
    }
 }
