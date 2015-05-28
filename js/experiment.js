@@ -63,11 +63,15 @@ experiment.generateInitialState = function() {
    // 3: set the Wunderlist options to the default (or opposite default) settings 
    dataManager.initializeAppOptionsFromFile();
 
-   // randomly generate selection sequences
+   // 4: randomly generate selection sequences
    experiment.generateOptionsAndValuesSequences();
 
-   // save all of this generated data to firebase
+   // 5: save all of this generated data to firebase
    logger.saveInitialState();
+
+   // 6: in control conditions, listen to changes of the Backbone model
+   if (experiment.condition === 0)
+      bindWunderlistListeners();
 }
 
 
@@ -92,9 +96,6 @@ experiment.start = function() {
    // reset options to their correct values, if necessary
    experiment.resetSettingsIfNeeded();
 
-   if (experiment.condition === 0)
-      bindWunderlistListeners();
-
    model.progressBar.message = "";
    model.progressBar.buttonLabel = "Done";
    model.modal.header = "Experiment";
@@ -103,6 +104,12 @@ experiment.start = function() {
    model.modal.green = true;
    model.modal.hideOnClick = false;
    model.modal.action = (function() {
+      // open the preferences panel or enter customization mode, in case participants had closed them
+      if (experiment.condition > 0 && !customizationMode)
+         enterCustomizationMode();
+      if (experiment.condition === 0 && !preferencesOpen)
+         openPreferences();
+
       Sequencer.prototype.start.call(this);
    }).bind(this);
 

@@ -1,5 +1,6 @@
 function initialize() {
    customizationMode = false;
+   preferencesOpen = false;
 
    // hack into Wunderlist menu to create an access point to Customization Mode
    $("#user, .name.search-hidden").on("click", function() {
@@ -129,6 +130,13 @@ function toggleCustomizationMode() {
       enterCustomizationMode();
    else
       exitCustomizationMode();
+}
+
+
+// manually open the Wunderlist preferences panel
+function openPreferences() {
+   window.location = "https://www.wunderlist.com/webapp#/preferences/general";
+   preferencesOpen = true;
 }
 
 
