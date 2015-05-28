@@ -62,7 +62,6 @@ function updateHooksAndClusters(animate) {
    positionHooks();
    generateClusters();
    positionClusters();
-   bindHooksListeners();
 }
 
 
@@ -121,6 +120,8 @@ function generateHooks() {
       })
 
    });
+
+   bindHooksListeners();
 
    if (model.gmail)
       gmailSpecific();
@@ -277,6 +278,9 @@ function generateClusters() {
             return options.concat(ghost.data("options"));
          }, []))
    })
+
+   // add interactivity
+   bindClustersListeners();
 }
 
 

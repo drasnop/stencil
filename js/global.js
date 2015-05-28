@@ -21,7 +21,7 @@ var model = {
    /* display variables for customization panel */
 
    // Type of ad-hoc panel shown: 0=control, 1=minimal, 2=mixed, 3=full with highlights
-   "optionsVisibility": 0,
+   "optionsVisibility": 3,
 
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    fullPanel: function() {
@@ -62,7 +62,7 @@ var parameters = {
    "serverURL": "localhost:8888",
    //"serverURL": "tequila.cs.ubc.ca/stencil",
    // whether the system is currently used to conduct an experiment
-   "experiment": true,
+   "experiment": false,
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,
    // height (in px) of the experiment progress bar, necessary to offset the position of the hooks

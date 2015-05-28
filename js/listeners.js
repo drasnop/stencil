@@ -42,7 +42,8 @@ function bindHooksListeners() {
 
 
    // show a panel populated with only the relevant options
-   hooks.click(function(event) {
+   hooks.click(function() {
+      console.log("click ", this)
 
       /* check for re-click on the same hook */
 
@@ -103,8 +104,10 @@ function bindHooksListeners() {
       // remove previous highlighted hooks, if any
       updateHooksHighlighting();
    })
+}
 
 
+function bindClustersListeners() {
    $(".cluster-marker").click(function() {
       var cluster = $(this).data("cluster")
 

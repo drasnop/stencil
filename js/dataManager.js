@@ -118,14 +118,27 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
 }
 
 
+/*
+   initializeOptionsFromApp
+      updateOption(option, value)
+
+   initializeAppOptionsFromFile
+      updateAppOption(id, value)
+         formatValueForWunderlist
+*/
+
+
+
 // UNUSED in the experiment software (instead, load the default options)
 dataManager.initializeOptionsFromApp = function() {
 
-   console.log("Syncing options with underlying app...")
-
    // dev mode: not linked with Wunderlist backbone
-   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
+   if (typeof sync == "undefined" || typeof sync.collections == "undefined") {
+      console.log("No underlying app to initialize options from")
       return;
+   }
+
+   console.log("Syncing options with underlying app...")
 
    var value;
    model.options.forEach(function(option) {
@@ -141,11 +154,13 @@ dataManager.initializeOptionsFromApp = function() {
 // FOR THE EXPERIMENT: modify Wunderlist options to match the default ones defined in the file
 dataManager.initializeAppOptionsFromFile = function() {
 
-   console.log("Syncing options of underlying app...")
-
    // dev mode: not linked with Wunderlist backbone
-   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
+   if (typeof sync == "undefined" || typeof sync.collections == "undefined") {
+      console.log("No underlying app options to be initialized from default options")
       return;
+   }
+
+   console.log("Syncing options of underlying app...")
 
    model.options.forEach(function(option) {
 
@@ -153,57 +168,9 @@ dataManager.initializeAppOptionsFromFile = function() {
       if (option.notUserAccessible)
          return;
 
-      sync.collections.settings.where({
-         key: option.id
-      })[0].set({
-         value: dataManager.formatValueForWunderlist(option.value)
-      })
+      // the value will be formatted if needed by this method
+      dataManager.updateAppOption(option.id, option.value);
    })
-}
-
-// FOR THE EXPERIMENT: in control condition, rectify a Wunderlist option to match its correct value if needed
-dataManager.syncAppOptionWith = function(option) {
-
-   // dev mode: not linked with Wunderlist backbone
-   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
-      return;
-
-   sync.collections.settings.where({
-      key: option.id
-   })[0].set({
-      value: dataManager.formatValueForWunderlist(option.value)
-   })
-}
-
-
-
-dataManager.updateOption = function(id, value) {
-
-   if (typeof sync != "undefined" && typeof sync.collections != "undefined") {
-      console.log("updating:", id, value)
-
-      sync.collections.settings.where({
-         key: id
-      })[0].set({
-         value: dataManager.formatValueForWunderlist(value)
-      })
-
-      // if the visibility of the corresponding hook has changed, update hooks and clusters, with animation
-      if (value == "hidden" || value == "visible" || value == "auto")
-         updateHooksAndClusters(true);
-   } else {
-      // dev mode: not linked with Wunderlist backbone
-      console.log("no underlying application settings to update for: ", id)
-   }
-}
-
-
-// Must convert boolean into strings for Wunderlist...
-dataManager.formatValueForWunderlist = function(value) {
-   if (typeof value === "boolean")
-      return value ? "true" : "false";
-   else
-      return value;
 }
 
 // I am using booleans, but Wunderlist stores these options as strings!
@@ -224,4 +191,33 @@ dataManager.updateOption = function(option, value) {
             console.log("- updating:", option.id, value)
          option.value = value;
    }
+}
+
+// update a Wunderlist option to match its correct value, calling an update of hooks and clusters if needed
+dataManager.updateAppOption = function(id, value, hooksAndClusters) {
+
+   if (typeof sync != "undefined" && typeof sync.collections != "undefined") {
+      sync.collections.settings.where({
+         key: id
+      })[0].set({
+         value: dataManager.formatValueForWunderlist(value)
+      })
+   } else {
+      // dev mode: not linked with Wunderlist backbone
+      console.log("no underlying application settings to update for: ", id)
+   }
+
+   if (hooksAndClusters) {
+      // if the visibility of the corresponding hook has changed, update hooks and clusters, with animation
+      if (value == "hidden" || value == "visible" || value == "auto")
+         updateHooksAndClusters(true);
+   }
+}
+
+// Must convert boolean into strings for Wunderlist...
+dataManager.formatValueForWunderlist = function(value) {
+   if (typeof value === "boolean")
+      return value ? "true" : "false";
+   else
+      return value;
 }
