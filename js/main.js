@@ -39,17 +39,15 @@ function replaceMenuEntryWhenReady() {
       if ($(".list-menu li a[data-path='preferences/account']").length < 1)
          replaceMenuEntryWhenReady();
       else {
-         // replace menu "Account settings" by "Customize"
-         $(".list-menu li a[data-path='preferences/account']")
-            .html("<text>Customize</text>")
-
          if (experiment.condition === 0) {
-            // In control condition, reroute to the General tab
+            // In control condition, "Settings" reroute to the General tab
             $(".list-menu li a[data-path='preferences/account']")
+               .html("<text>Settings</text>")
                .attr("data-path", "preferences/general")
          } else {
-            // For all other conditions, enter customization mode
+            // For all other conditions, "Customize" enters customization mode
             $(".list-menu li a[data-path='preferences/account']")
+               .html("<text>Customize</text>")
                .attr("data-path", "")
                .on("click", enterCustomizationMode)
          }

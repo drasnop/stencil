@@ -101,6 +101,20 @@
       "instructionsReverse": "Do not automatically move starred items to the top of the list",
       "value": true
    },
+   "automatic_reminders": {
+      "id": "automatic_reminders",
+      "label": "Auto reminders",
+      "instructions": "Enable automatic reminders",
+      "instructionsReverse": "Disable automatic reminders",
+      "value": "on",
+      "values": [{
+         "name": "on",
+         "label": "on"
+      }, {
+         "name": "off",
+         "label": "off"
+      }]
+   },
    "print_completed_items": {
       "id": "print_completed_items",
       "label": "Print completed items",
