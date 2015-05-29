@@ -47,6 +47,7 @@ Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
    model.modal.header = this.getModalHeader();
    model.modal.message = this.getInstructions();
    model.modal.buttonLabel = "Go!";
+   model.progressBar.buttonLabel = "Next";
    model.modal.action = this.startTrial.bind(this);
    model.modal.hideOnClick = true;
    model.modal.green = false;
@@ -59,7 +60,7 @@ Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
       callback();
 }
 
-// called when the user clicks the "go!" button in the modal
+// called when the user clicks the "Go!" button in the modal
 Sequencer.prototype.startTrial = function() {
    console.log(this.name + " trial " + this.trial.number + " started")
 }

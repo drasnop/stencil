@@ -135,8 +135,10 @@ function toggleCustomizationMode() {
 
 // manually open the Wunderlist preferences panel
 function openPreferences() {
-   window.location = "https://www.wunderlist.com/webapp#/preferences/general";
-   preferencesOpen = true;
+   if (window.location.hostname == "www.wunderlist.com") {
+      window.location = "https://www.wunderlist.com/webapp#/preferences/general";
+      preferencesOpen = true;
+   }
 }
 
 

@@ -42,8 +42,8 @@ experiment.initialize = function() {
       logger.initialize(experiment.generateInitialState);
 
       // tutorial.start() is independent of the preparation of the experiment
-      //setTimeout(tutorial.start.bind(tutorial), 1000);
-      setTimeout(experiment.start.bind(experiment), 1000);
+      setTimeout(tutorial.start.bind(tutorial), 1000);
+      //setTimeout(experiment.start.bind(experiment), 1000);
    }, experiment.cancel, messageEmailUnknown, messageExperimentAlreadyCompleted);
 }
 
@@ -96,14 +96,13 @@ experiment.start = function() {
    // reset options to their correct values, if necessary
    experiment.resetSettingsIfNeeded();
 
-   model.progressBar.message = "";
-   model.progressBar.buttonLabel = "Done";
    model.modal.header = "Experiment";
-   model.modal.message = "In each step, you will be asked to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Done\" button. You won't be able to change your mind after clicking \"Done\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";
+   model.modal.message = "In each step, you will be asked to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Next\" button. You won't be able to change your mind after clicking \"Next\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";
    model.modal.buttonLabel = "Start";
    model.modal.green = true;
    model.modal.hideOnClick = false;
    model.modal.action = (function() {
+
       // open the preferences panel or enter customization mode, in case participants had closed them
       if (experiment.condition > 0 && !customizationMode)
          enterCustomizationMode();

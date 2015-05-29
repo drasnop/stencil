@@ -13,9 +13,16 @@ tutorial.steps = [
    "Double-click on this todo item, and change its due date to next Saturday.",
    "Let's say you have bought the milk. Tick the checkbox to mark the corresponding todo item as complete.",
    "Below the list of todo items, there is a button \"1 completed item\". Click on it to reveal the todo you've just checked off.",
-   "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom.",
+   "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom."
+]
+
+tutorial.stepsCustomizationMode = [
    "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose \"Customize\" in the menu.",
    "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them. Try it with one, then click \"Next\"."
+]
+
+tutorial.stepsPreferencesPanel = [
+   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose \"Settings\" in the menu."
 ]
 
 tutorial.time = {
@@ -26,8 +33,14 @@ tutorial.time = {
 /* overwritten methods */
 
 tutorial.start = function() {
+
+   if (experiment.condition > 0)
+      this.steps.push.apply(this.steps, this.stepsCustomizationMode);
+   else
+      this.steps.push.apply(this.steps, this.stepsPreferencesPanel);
+
    model.progressBar.message = "";
-   model.progressBar.buttonLabel = "Next";
+
    model.modal.header = "Setup complete";
    model.modal.message = "Great! Everything is in place. Please follow this quick tutorial to see how Wunderlist works.";
    model.modal.buttonLabel = "Start";
@@ -60,6 +73,8 @@ tutorial.end = function() {
    Sequencer.prototype.end.call(this);
 
    model.progressBar.message = "";
+   model.progressBar.buttonLabel = "";
+
    model.modal.header = "Congratulations!";
    model.modal.message = "You have completed the tutorial. You can now start the experiment.";
    model.modal.buttonLabel = "Ok";
