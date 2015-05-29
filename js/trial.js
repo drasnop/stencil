@@ -26,11 +26,11 @@ function Trial(number) {
    this.panelExpanded = null;
 
    // list of the CSS selectors of all the hooks highlighted during this trial
-   this.highlightedHooks = [];
+   this.highlightedHooks = new EventsQueue();
    // list of arrays of highlighted options (from hover on hooks)
-   this.highlightedOptions = [];
+   this.highlightedOptions = new EventsQueue();
    // list of arrays of selected options (from clicks on hooks)
-   this.selectedOptions = [];
+   this.selectedOptions = new EventsQueue();
    // list of all the tabs visited (including the one shown when opening the panel)
    this.visitedTabs = [];
    // list of all the options that were reverse highlighted (because of hover on control/icon)
@@ -68,8 +68,8 @@ function Trial(number) {
 
    this.correctHookHasBeenSelected = function() {
       for (var i in this.selectedOptions) {
-         for (var j in this.selectedOptions[i]) {
-            if (this.selectedOptions[i][j] == this.targetOption.id)
+         for (var j in this.selectedOptions[i].options_IDs) {
+            if (this.selectedOptions[i].options_IDs[j] == this.targetOption.id)
                return true;
          }
       }

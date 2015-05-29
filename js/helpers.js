@@ -195,3 +195,19 @@ function generateTabsSequenceWithoutConsecutiveTabs(numElementsPerTab) {
    console.log("Valid tab sequence found", tabSequence.toString())
    return tabSequence;
 }
+
+
+// Extend the Array class to automatically add timestamps on various events
+function EventsQueue() {}
+
+EventsQueue.prototype = Object.create(Array.prototype);
+EventsQueue.prototype.pushStamped = function(object) {
+   object.timestamp = performance.now();
+   this.push(object);
+}
+EventsQueue.prototype.loggable = function() {
+   var loggable = [];
+   for (var i = 0; i < this.length; i++)
+      loggable[i] = this[i];
+   return loggable;
+}

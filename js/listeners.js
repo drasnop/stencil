@@ -28,8 +28,12 @@ function bindHooksListeners() {
          .addClass("hovered");
 
       if (experiment.trial) {
-         experiment.trial.highlightedHooks.push($(this).data("selector"));
-         experiment.trial.highlightedOptions.push(logger.getIDs($(this).data("options")));
+         experiment.trial.highlightedHooks.pushStamped({
+            "selector": $(this).data("selector")
+         });
+         experiment.trial.highlightedOptions.pushStamped({
+            "options_IDs": logger.getIDs($(this).data("options"))
+         });
       }
    })
 
@@ -92,7 +96,9 @@ function bindHooksListeners() {
 
       // log
       if (experiment.trial)
-         experiment.trial.selectedOptions.push(logger.getIDs(model.selectedOptions));
+         experiment.trial.selectedOptions.pushStamped({
+            "options_IDs": logger.getIDs(model.selectedOptions)
+         });
    })
 
 }
