@@ -3,25 +3,31 @@ function Trial(number) {
    // call parent constructor
    Step.call(this, number);
 
+   // timeout
    this.timeout = false;
-   this.correctOptionWasHighlightedWhenChanged = false;
-   this.correctOptionHadVisibleHookWhenChanged = false;
-   this.correctOptionHadHighlightableHookOrClusterWhenChanged = false;
-
-   // this boolean will be set by this.successful() at the end of the trial
-   this.success = false;
 
    // target option (Object) (compressed to avoid infinite recursion when logging)
    this.targetOption = experiment.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
    this.targetValue = experiment.valuesSequence[this.number];
 
+
+   /*    logging     */
+
+   // this boolean will be set by this.successful() at the end of the trial
+   this.success = false;
+
+   // useful information for later analysis
+   this.correctOptionWasHighlightedWhenChanged = false;
+   this.correctOptionHadVisibleHookWhenChanged = false;
+   this.correctOptionHadHighlightableHookOrClusterWhenChanged = false;
+
    // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
-   this.clickedOptions = [];
+   this.clickedOptions = new EventsQueue();
    // list of all the options that were changed during this trial
-   this.changedOptions = [];
+   this.changedOptions = new EventsQueue();
    // list of all the values that were changed during this trial
-   this.changedValues = [];
+   this.changedValues = new EventsQueue();
    // whether the panel was expanded when the last option was changed
    this.panelExpanded = null;
 
@@ -32,9 +38,9 @@ function Trial(number) {
    // list of arrays of selected options (from clicks on hooks)
    this.selectedOptions = new EventsQueue();
    // list of all the tabs visited (including the one shown when opening the panel)
-   this.visitedTabs = [];
+   this.visitedTabs = new EventsQueue();
    // list of all the options that were reverse highlighted (because of hover on control/icon)
-   this.reverseHighlighted = [];
+   this.reverseHighlighted = new EventsQueue();
 
    this.time = {
       "instructionsShown": 0,
@@ -142,8 +148,12 @@ function Trial(number) {
       }
 
       // prepare logging (using a .correct flag for later processing)
-      this.changedOptions.push(option.id);
-      this.changedValues.push(option.value);
+      this.changedOptions.pushStamped({
+         "option_ID": option.id
+      });
+      this.changedValues.pushStamped({
+         "value": option.value
+      });
 
       if (this.changedOptions.length == 1)
          this.time.firstOptionChanged = time;

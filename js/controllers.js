@@ -142,7 +142,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
-         experiment.trial.visitedTabs.push(logger.flattenTab(tab));
+         experiment.trial.visitedTabs.pushStamped({
+            "tab": logger.flattenTab(tab)
+         });
       }
    }
 
@@ -167,7 +169,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       }).addClass("blue-highlighted")
 
       if (experiment.trial)
-         experiment.trial.reverseHighlighted.push(option.id);
+         experiment.trial.reverseHighlighted.pushStamped({
+            "option_ID": option.id
+         });
    }
 
    // remove highlight on mouseleave
