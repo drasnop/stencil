@@ -17,11 +17,6 @@ function Trial(number) {
    // this boolean will be set by this.successful() at the end of the trial
    this.success = false;
 
-   // useful information for later analysis
-   this.correctOptionWasHighlightedWhenChanged = false;
-   this.correctOptionHadVisibleHookWhenChanged = false;
-   this.correctOptionHadHighlightableHookOrClusterWhenChanged = false;
-
    // hooks
 
    // list of the hooks hovered = highlighted during this trial, with their array of associated options
@@ -35,10 +30,8 @@ function Trial(number) {
    this.visitedTabs = new EventsQueue();
    // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
    this.clickedOptions = new EventsQueue();
-   // list of all the options that were changed during this trial
+   // list of all the options that were changed during this trial, with the corresponding value and other useful info
    this.changedOptions = new EventsQueue();
-   // list of all the values that were changed during this trial
-   this.changedValues = new EventsQueue();
    // list of all the options that were reverse highlighted (because of hover on control/icon)
    this.reverseHighlighted = new EventsQueue();
 
@@ -84,9 +77,9 @@ function Trial(number) {
    }
 
    this.correctHookHasBeenSelected = function() {
-      for (var i in this.selectedOptions) {
-         for (var j in this.selectedOptions[i].options_IDs) {
-            if (this.selectedOptions[i].options_IDs[j] == this.targetOption.id)
+      for (var i in this.selectedHooks) {
+         for (var j in this.selectedHooks[i].options_IDs) {
+            if (this.selectedHooks[i].options_IDs[j] == this.targetOption.id)
                return true;
          }
       }
@@ -132,7 +125,7 @@ function Trial(number) {
             loggable[prop] = this[prop].loggable();
          else if (typeof this[prop] !== typeof Function && prop !== "done")
             loggable[prop] = this[prop];
-         else if (typeof this[prop] === typeof Function && prop !== "successful" && prop !== "loggable" && prop !== "logValueChange" && prop !== "constructor")
+         else if (typeof this[prop] === typeof Function && prop !== "successful" && prop !== "loggable" && prop !== "logValueChange" && prop !== "firstTimeSelected" && prop !== "constructor")
             loggable[prop] = this[prop]();
       }
       return loggable;
@@ -145,31 +138,43 @@ function Trial(number) {
    this.logValueChange = function(option, hadVisibleHook) {
       var time = performance.now();
 
-      // if this is the correct option
-      if (this.targetOption.id === option.id && this.targetValue === option.value) {
+      // if the user has changed the correct option to the correct value
+      var correct = (this.targetOption.id === option.id && this.targetValue === option.value);
 
-         // log only the first time the correct option was changed...
-         if (!this.time.correctOptionChanged)
-            this.time.correctOptionChanged = time;
-
-         this.correctOptionWasHighlightedWhenChanged = option.selected;
-         this.correctOptionHadVisibleHookWhenChanged = hadVisibleHook;
-         this.correctOptionHadHighlightableHookOrClusterWhenChanged = option.hasHighlightableHookOrCluster();
-         this.panelExpanded = model.fullPanel();
+      // save multiple interesting information about this change, for future analysis
+      var self = this;
+      var change = {
+         "option_ID": option.id,
+         "value": option.value,
+         "correct": correct,
+         "firstTime": firstTimeChanged(self, option),
+         "panelExpanded": model.fullPanel(),
+         "hookWasSelected": option.selected,
+         "hadVisibleHook": hadVisibleHook,
+         "hadHook": option.hasHighlightableHookOrCluster()
       }
 
-      // prepare logging (using a .correct flag for later processing)
-      this.changedOptions.pushStamped({
-         "option_ID": option.id
-      });
-      this.changedValues.pushStamped({
-         "value": option.value
-      });
+      // store all of these as one event
+      this.changedOptions.pushStamped(change);
 
+      // set first and last optionChanged times
       if (this.changedOptions.length == 1)
          this.time.firstOptionChanged = time;
 
       this.time.lastOptionChanged = time;
+
+      // consider only the first time the correct option was changed...
+      if (correct && !this.time.correctOptionChanged)
+         this.time.correctOptionChanged = time;
+   }
+
+   // to check whether participants hesitated
+   function firstTimeChanged(self, option) {
+      for (var i in self.changedOptions) {
+         if (self.changedOptions[i].option_ID == option.id)
+            return false;
+      }
+      return true;
    }
 }
 
