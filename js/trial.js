@@ -46,6 +46,9 @@ function Trial(number) {
    // when users opened or closed the preferences panel
    this.preferences = new EventsQueue();
 
+
+   /*    time    */
+
    this.time = {
       "instructionsShown": 0,
       "start": 0,
@@ -55,10 +58,12 @@ function Trial(number) {
       "lastOptionChanged": 0,
       "end": 0
    }
+
    this.time.customizationMode = function() {
       // NB: this refers to trial.time here!
       return this.enterCustomizationMode ? this.enterCustomizationMode : this.start;
    }
+
    this.time.loggable = function() {
       var loggable = {};
       for (var key in this) {
@@ -69,6 +74,45 @@ function Trial(number) {
       }
       return loggable;
    }
+
+
+   /*    duration    */
+
+   this.duration = {};
+   this.duration.time = this.time;
+
+   this.duration.instructions = function() {
+      // NB: thanks to the remapping, this.time refers to the correct trial.time
+      return (this.time.start - this.time.instructionsShown) / 1000;
+   }
+
+   this.duration.short = function() {
+      if (this.time.correctOptionChanged)
+         return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
+
+      if (this.time.lastOptionChanged)
+         return (this.time.lastOptionChanged - this.time.customizationMode()) / 1000;
+
+      return this.longDuration();
+   }
+
+   this.duration.long = function() {
+      return (this.time.end - this.time.start) / 1000;
+   }
+
+   this.duration.total = function() {
+      return (this.time.end - this.time.instructionsShown) / 1000;
+   }
+
+   this.duration.loggable = function() {
+      var loggable = {};
+      for (var key in this) {
+         if (typeof this[key] == typeof Function && key !== "loggable" && key !== "constructor")
+            loggable[key] = this[key]();
+      }
+      return loggable;
+   }
+
 
    /* smart accessors */
 
@@ -86,27 +130,6 @@ function Trial(number) {
       return false;
    }
 
-   this.instructionsDuration = function() {
-      return (this.time.start - this.time.instructionsShown) / 1000;
-   }
-
-   this.shortDuration = function() {
-      if (this.time.correctOptionChanged)
-         return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
-
-      if (this.time.lastOptionChanged)
-         return (this.time.lastOptionChanged - this.time.customizationMode()) / 1000;
-
-      return this.longDuration();
-   }
-
-   this.longDuration = function() {
-      return (this.time.end - this.time.start) / 1000;
-   }
-
-   this.totalDuration = function() {
-      return (this.time.end - this.time.instructionsShown) / 1000;
-   }
 
 
    /* logging method */
