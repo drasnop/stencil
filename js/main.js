@@ -97,12 +97,7 @@ function enterCustomizationMode() {
    $("#customization-layer").show();
 
    // log
-   if (experiment.trial && experiment.trial.time) {
-
-      // if this is the first users enter CM in this trial, log it
-      if (!experiment.trial.time.enterCustomizationMode)
-         experiment.trial.time.enterCustomizationMode = performance.now();
-
+   if (experiment.trial) {
       experiment.trial.customizationMode.pushStamped({
          "action": "enter"
       })
@@ -172,7 +167,7 @@ function openPreferences() {
 
 function logOpenPreferences() {
    if (experiment.trial) {
-      experiment.trial.preferences.pushStamped({
+      experiment.trial.preferencesPanel.pushStamped({
          "action": "open"
       })
    }
@@ -188,7 +183,7 @@ function instrumentDoneButtonWhenReady() {
       else {
          $("#settings button.full.blue.close").click(function() {
             if (experiment.trial) {
-               experiment.trial.preferences.pushStamped({
+               experiment.trial.preferencesPanel.pushStamped({
                   "action": "close"
                })
             }

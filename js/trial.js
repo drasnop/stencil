@@ -44,24 +44,38 @@ function Trial(number) {
    // when users entered or existed customization mode
    this.customizationMode = new EventsQueue();
    // when users opened or closed the preferences panel
-   this.preferences = new EventsQueue();
+   this.preferencesPanel = new EventsQueue();
 
 
    /*    time    */
 
    this.time = {
-      "instructionsShown": 0,
-      "start": 0,
-      "enterCustomizationMode": 0,
-      "firstOptionChanged": 0,
-      "correctOptionChanged": 0,
-      "lastOptionChanged": 0,
-      "end": 0
+      "instructionsShown": false,
+      "start": false,
+      "firstOptionChanged": false,
+      "correctOptionChanged": false,
+      "lastOptionChanged": false,
+      "end": false
    }
 
-   this.time.customizationMode = function() {
+   this.time.customizationMechanismOpened = function() {
       // NB: this refers to trial.time here!
-      return this.enterCustomizationMode ? this.enterCustomizationMode : this.start;
+
+      if (experiment.condition === 0) {
+         for (var i = 0; i < experiment.trial.preferencesPanel.length; i++) {
+            if (experiment.trial.preferencesPanel[i].action == "open")
+               return experiment.trial.preferencesPanel[i].timestamp;
+         }
+      }
+
+      if (experiment.condition > 0) {
+         for (var i = 0; i < experiment.trial.customizationMode.length; i++) {
+            if (experiment.trial.customizationMode[i].action == "enter")
+               return experiment.trial.customizationMode[i].timestamp;
+         }
+      }
+
+      return false;
    }
 
    this.time.loggable = function() {
@@ -87,11 +101,13 @@ function Trial(number) {
    }
 
    this.duration.short = function() {
+      var starTime = this.time.customizationMechanismOpened() ? this.time.customizationMechanismOpened() : this.time.start;
+
       if (this.time.correctOptionChanged)
-         return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
+         return (this.time.correctOptionChanged - starTime) / 1000;
 
       if (this.time.lastOptionChanged)
-         return (this.time.lastOptionChanged - this.time.customizationMode()) / 1000;
+         return (this.time.lastOptionChanged - starTime) / 1000;
 
       return this.longDuration();
    }
