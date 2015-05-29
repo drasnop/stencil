@@ -205,6 +205,11 @@ EventsQueue.prototype.pushStamped = function(object) {
    object.timestamp = performance.now();
    this.push(object);
 }
+EventsQueue.prototype.logStamped = function(string) {
+   var object = {};
+   object[string] = performance.now();
+   this.push(object);
+}
 EventsQueue.prototype.loggable = function() {
    var loggable = [];
    for (var i = 0; i < this.length; i++)

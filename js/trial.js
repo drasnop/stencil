@@ -22,14 +22,7 @@ function Trial(number) {
    this.correctOptionHadVisibleHookWhenChanged = false;
    this.correctOptionHadHighlightableHookOrClusterWhenChanged = false;
 
-   // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
-   this.clickedOptions = new EventsQueue();
-   // list of all the options that were changed during this trial
-   this.changedOptions = new EventsQueue();
-   // list of all the values that were changed during this trial
-   this.changedValues = new EventsQueue();
-   // whether the panel was expanded when the last option was changed
-   this.panelExpanded = null;
+   // hooks
 
    // list of the CSS selectors of all the hooks highlighted during this trial
    this.highlightedHooks = new EventsQueue();
@@ -37,10 +30,24 @@ function Trial(number) {
    this.highlightedOptions = new EventsQueue();
    // list of arrays of selected options (from clicks on hooks)
    this.selectedOptions = new EventsQueue();
+
+   // panel
+
    // list of all the tabs visited (including the one shown when opening the panel)
    this.visitedTabs = new EventsQueue();
    // list of all the options that were reverse highlighted (because of hover on control/icon)
    this.reverseHighlighted = new EventsQueue();
+   // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
+   this.clickedOptions = new EventsQueue();
+   // list of all the options that were changed during this trial
+   this.changedOptions = new EventsQueue();
+   // list of all the values that were changed during this trial
+   this.changedValues = new EventsQueue();
+
+   // nav events
+
+   // when the panel was expanded or contracted
+   this.panel = new EventsQueue();
 
    this.time = {
       "instructionsShown": 0,

@@ -123,11 +123,17 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          $scope.activateTab(computeActiveTab());
       else
          $scope.activateTab(tab);
+
+      // log
+      experiment.trial.panel.logStamped("expanded");
    }
 
    $rootScope.contractFullPanel = function() {
       model.panelExpanded = false;
       //positionPanel(); doesn't work
+
+      // log
+      experiment.trial.panel.logStamped("contracted");
    }
 
    $scope.activateTab = function(tab) {
