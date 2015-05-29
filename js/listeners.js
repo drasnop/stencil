@@ -29,9 +29,7 @@ function bindHooksListeners() {
 
       if (experiment.trial) {
          experiment.trial.highlightedHooks.pushStamped({
-            "selector": $(this).data("selector")
-         });
-         experiment.trial.highlightedOptions.pushStamped({
+            "selector": $(this).data("selector"),
             "options_IDs": logger.getIDs($(this).data("options"))
          });
       }
@@ -97,9 +95,7 @@ function bindHooksListeners() {
       // log
       if (experiment.trial) {
          experiment.trial.selectedHooks.pushStamped({
-            "selector": $(this).data("selector")
-         });
-         experiment.trial.selectedOptions.pushStamped({
+            "selector": $(this).data("selector"),
             "options_IDs": logger.getIDs(model.selectedOptions)
          });
       }

@@ -24,14 +24,10 @@ function Trial(number) {
 
    // hooks
 
-   // list of the CSS selectors of all the hooks highlighted during this trial
+   // list of the hooks hovered = highlighted during this trial, with their array of associated options
    this.highlightedHooks = new EventsQueue();
-   // list of arrays of highlighted options (from hover on hooks)
-   this.highlightedOptions = new EventsQueue();
-   // list of the CSS selectors of all the hooks clicked during this trial
+   // list of the CSS selectors of all the hooks clicked = selected during this trial, with their array of associated options
    this.selectedHooks = new EventsQueue();
-   // list of arrays of selected options (from clicks on hooks)
-   this.selectedOptions = new EventsQueue();
 
    // panel
 
@@ -106,7 +102,7 @@ function Trial(number) {
          return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
 
       if (this.time.lastOptionChanged)
-         return (this.time.correctOptionChanged - this.time.customizationMode()) / 1000;
+         return (this.time.lastOptionChanged - this.time.customizationMode()) / 1000;
 
       return this.longDuration();
    }
