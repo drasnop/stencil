@@ -174,7 +174,7 @@ function Trial(number) {
    /* helpers */
 
    // need to get hadVisibleHighlightableHook BEFORE the dataManager updates the value of the option, obviously
-   this.logValueChange = function(option, hadVisibleHook) {
+   this.logValueChange = function(option, oldValue, hadVisibleHook) {
       var time = performance.now();
 
       // if the user has changed the correct option to the correct value
@@ -184,13 +184,14 @@ function Trial(number) {
       var self = this;
       var change = {
          "option_ID": option.id,
-         "value": option.value,
+         "oldValue": oldValue,
+         "newValue": option.value,
          "correct": correct,
          "firstTime": firstTimeChanged(self, option),
          "panelExpanded": model.fullPanel(),
          "hookWasSelected": option.selected,
          "hadVisibleHook": hadVisibleHook,
-         "hadHook": option.hasHighlightableHookOrCluster()
+         "hadHookOrCluster": option.hasHighlightableHookOrCluster()
       }
 
       // store all of these as one event

@@ -87,6 +87,19 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       return filtered;
    }
 
+   $scope.updateAppOption = function(option, oldValue) {
+
+      dataManager.updateAppOption(option.id, option.value, true);
+
+      // determine corresponding hook was hidden
+      var visibleHook = true;
+      if (option.hideable && oldValue == "hidden")
+         visibleHook = false;
+
+      // log
+      experiment.trial.logValueChange(option, oldValue, visibleHook);
+   }
+
 
    /* Manage Panel */
 

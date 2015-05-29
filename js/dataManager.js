@@ -44,17 +44,6 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       })
 
 
-      model.options.forEach(function(option) {
-         // use defineProperty syntax to avoid it being logged later on
-         Object.defineProperty(option, "hasVisibleHook", {
-            value: function() {
-               // check if there is at least one visible, non-hidden hook
-               return this.hasHighlightableHookOrCluster() &&
-                  (!this.hideable || this.value !== "hidden")
-            }
-         });
-      })
-
       /* mappings */
 
       // set option.anchored flag (doesn't take into account flag visible so far)
@@ -63,6 +52,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
             model.options[option_id].anchored = true;
          });
       })
+
 
       /* tabs */
 
