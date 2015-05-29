@@ -125,7 +125,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          $scope.activateTab(tab);
 
       // log
-      experiment.trial.panel.logStamped("expanded");
+      experiment.trial.panel.pushStamped({
+         "action": "expanded"
+      });
    }
 
    $rootScope.contractFullPanel = function() {
@@ -133,7 +135,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       //positionPanel(); doesn't work
 
       // log
-      experiment.trial.panel.logStamped("contracted");
+      experiment.trial.panel.pushStamped({
+         "action": "contracted"
+      });
    }
 
    $scope.activateTab = function(tab) {

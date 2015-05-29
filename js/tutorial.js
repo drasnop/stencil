@@ -21,7 +21,7 @@ tutorial.stepsCustomizationMode = [
    "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them. Try it with one, then click \"Next\"."
 ]
 
-tutorial.stepsPreferencesPanel = [
+tutorial.stepspreferences = [
    "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose \"Settings\" in the menu."
 ]
 
@@ -37,7 +37,7 @@ tutorial.start = function() {
    if (experiment.condition > 0)
       this.steps.push.apply(this.steps, this.stepsCustomizationMode);
    else
-      this.steps.push.apply(this.steps, this.stepsPreferencesPanel);
+      this.steps.push.apply(this.steps, this.stepspreferences);
 
    model.progressBar.message = "";
 

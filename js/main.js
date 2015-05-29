@@ -54,6 +54,7 @@ function replaceMenuEntryWhenReady() {
             $(".list-menu li a[data-path='preferences/account']")
                .html("<text>Settings</text>")
                .attr("data-path", "preferences/general")
+               .on("click", logOpenPreferences)
          } else {
             // For all other conditions, "Customize" enters customization mode
             $(".list-menu li a[data-path='preferences/account']")
@@ -97,7 +98,14 @@ function enterCustomizationMode() {
 
    // log
    if (experiment.trial && experiment.trial.time) {
-      experiment.trial.time.enterCustomizationMode = performance.now();
+
+      // if this is the first users enter CM in this trial, log it
+      if (!experiment.trial.time.enterCustomizationMode)
+         experiment.trial.time.enterCustomizationMode = performance.now();
+
+      experiment.trial.customizationMode.pushStamped({
+         "action": "enter"
+      })
    }
 }
 
@@ -119,6 +127,13 @@ function exitCustomizationMode() {
    // return interface to its normal state
    $(".dimmed").removeClass("dimmed");
    $(".special-style").remove();
+
+   // log
+   if (experiment.trial) {
+      experiment.trial.customizationMode.pushStamped({
+         "action": "exit"
+      })
+   }
 }
 
 
@@ -133,15 +148,6 @@ function toggleCustomizationMode() {
 }
 
 
-// manually open the Wunderlist preferences panel
-function openPreferences() {
-   if (window.location.hostname == "www.wunderlist.com") {
-      window.location = "https://www.wunderlist.com/webapp#/preferences/general";
-      preferencesOpen = true;
-   }
-}
-
-
 function toggleOptionsVisibility() {
    var scope = angular.element($("#ad-hoc-panel")).scope();
 
@@ -151,4 +157,42 @@ function toggleOptionsVisibility() {
    scope.$apply();
 
    console.log("model.optionsVisibility", model.optionsVisibility);
+}
+
+
+// manually open the Wunderlist preferences panel
+function openPreferences() {
+   if (window.location.hostname == "www.wunderlist.com") {
+      window.location = "https://www.wunderlist.com/webapp#/preferences/general";
+      preferencesOpen = true;
+
+      instrumentDoneButtonWhenReady();
+   }
+}
+
+function logOpenPreferences() {
+   if (experiment.trial) {
+      experiment.trial.preferences.pushStamped({
+         "action": "open"
+      })
+   }
+
+   // enable logging for closing panel
+   instrumentDoneButtonWhenReady();
+}
+
+function instrumentDoneButtonWhenReady() {
+   setTimeout(function() {
+      if ($("#settings button.full.blue.close").length < 1)
+         instrumentDoneButtonWhenReady();
+      else {
+         $("#settings button.full.blue.close").click(function() {
+            if (experiment.trial) {
+               experiment.trial.preferences.pushStamped({
+                  "action": "close"
+               })
+            }
+         })
+      }
+   }, 10)
 }

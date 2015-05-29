@@ -95,10 +95,14 @@ function bindHooksListeners() {
       positionPanel();
 
       // log
-      if (experiment.trial)
+      if (experiment.trial) {
+         experiment.trial.selectedHooks.pushStamped({
+            "selector": $(this).data("selector")
+         });
          experiment.trial.selectedOptions.pushStamped({
             "options_IDs": logger.getIDs(model.selectedOptions)
          });
+      }
    })
 
 }
@@ -116,5 +120,10 @@ function bindClustersListeners() {
       // update its ghosts, with animation
       hooksManager.updateGhostsVisibility(cluster.ghosts, cluster.showGhosts, true);
       hooksManager.positionHooksAndClusters();
+
+      // log
+      experiment.trial.cluster.pushStamped({
+         "action": (cluster.showGhosts ? "expanded" : "contracted")
+      })
    })
 }

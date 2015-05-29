@@ -28,6 +28,8 @@ function Trial(number) {
    this.highlightedHooks = new EventsQueue();
    // list of arrays of highlighted options (from hover on hooks)
    this.highlightedOptions = new EventsQueue();
+   // list of the CSS selectors of all the hooks clicked during this trial
+   this.selectedHooks = new EventsQueue();
    // list of arrays of selected options (from clicks on hooks)
    this.selectedOptions = new EventsQueue();
 
@@ -35,19 +37,25 @@ function Trial(number) {
 
    // list of all the tabs visited (including the one shown when opening the panel)
    this.visitedTabs = new EventsQueue();
-   // list of all the options that were reverse highlighted (because of hover on control/icon)
-   this.reverseHighlighted = new EventsQueue();
    // list of all the options that were clicked during this trial (to detect when a user has expanded an option)
    this.clickedOptions = new EventsQueue();
    // list of all the options that were changed during this trial
    this.changedOptions = new EventsQueue();
    // list of all the values that were changed during this trial
    this.changedValues = new EventsQueue();
+   // list of all the options that were reverse highlighted (because of hover on control/icon)
+   this.reverseHighlighted = new EventsQueue();
 
    // nav events
 
    // when the panel was expanded or contracted
    this.panel = new EventsQueue();
+   // when the cluster marker was expanded or contracted
+   this.cluster = new EventsQueue();
+   // when users entered or existed customization mode
+   this.customizationMode = new EventsQueue();
+   // when users opened or closed the preferences panel
+   this.preferences = new EventsQueue();
 
    this.time = {
       "instructionsShown": 0,
