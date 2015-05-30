@@ -68,10 +68,6 @@ experiment.generateInitialState = function() {
 
    // 5: save all of this generated data to firebase
    logger.saveInitialState();
-
-   // 6: in control conditions, listen to changes of the Backbone model
-   if (experiment.condition === 0)
-      bindWunderlistListeners();
 }
 
 
@@ -95,6 +91,10 @@ experiment.cancel = function(message) {
 experiment.start = function() {
    // reset options to their correct values, if necessary
    experiment.resetSettingsIfNeeded();
+
+   // in control conditions, listen to changes of the Backbone model
+   if (experiment.condition === 0)
+      bindWunderlistListeners();
 
    model.modal.header = "Experiment";
    model.modal.message = "In each step, you will be asked to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Next\" button. You won't be able to change your mind after clicking \"Next\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";

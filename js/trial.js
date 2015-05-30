@@ -188,12 +188,16 @@ function Trial(number) {
          "newValue": option.value,
          "correct": correct,
          "firstTime": firstTimeChanged(self, option),
-         "panelExpanded": model.fullPanel(),
-         "hookWasSelected": option.selected,
-         "hadHookOrCluster": option.hasHookOrCluster(),
-         "clusterCollapsed": clusterCollapsed
       }
-      change.hadVisibleHook = change.hadHookOrCluster && !change.clusterCollapsed;
+
+      // in customization mode, log additional information
+      if (experiment.condition > 0) {
+         change.panelExpanded = model.fullPanel();
+         change.hookWasSelected = option.selected;
+         change.hadHookOrCluster = option.hasHookOrCluster();
+         change.clusterCollapsed = clusterCollapsed;
+         change.hadVisibleHook = change.hadHookOrCluster && !change.clusterCollapsed;
+      }
 
       /*
       case                    absent      clusterContracted    clusterExpanded   regular
@@ -211,6 +215,16 @@ function Trial(number) {
       > hadVisibleHook = hadHookOrCluster && !clusterCollapsed   (but it's not enough info on its own)
                               n           n                    y                 y
       */
+
+      if (experiment.condition === 0 || model.fullPanel()) {
+         // in a full panel, selection occurs inside a tab
+         change.selectionDuration = (time - this.visitedTabs[this.visitedTabs.length - 1].timestamp) / 1000;
+         change.selectBetween = option.tab.options.length;
+      } else {
+         // in a minimal panel, selection occurs after clicking on a hook
+         change.selectionDuration = (time - this.selectedHooks[this.selectedHooks.length - 1].timestamp) / 1000;
+         change.selectBetween = model.selectedOptions.length;
+      }
 
       // store all of these as one event
       this.changedOptions.pushStamped(change);

@@ -22,7 +22,7 @@ function bindWunderlistListeners() {
          dataManager.updateOption(option, newval);
 
          // log this values change, without caring for visibility of anchors
-         experiment.trial.logValueChange(option, false);
+         experiment.trial.logValueChange(option, oldval);
 
          // notify angular of this change, to unlock the "done" button
          // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
