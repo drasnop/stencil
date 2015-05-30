@@ -29,6 +29,8 @@
    "name": "Shortcuts",
    "hash": "shortcuts",
    "count": 0,
+   "hasMoreOptions": true,
+   "showMoreOptions": false,
    "options": [
       "shortcut_add_new_task",
       "shortcut_add_new_list",

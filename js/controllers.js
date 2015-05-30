@@ -29,7 +29,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
             visible = false;
       } else if (model.fullPanel()) {
          // Full panel: hide options in show more shortcuts
-         if (option.more && !model.showMoreShortcuts)
+         if (option.more && !model.activeTab.showMoreOptions)
             visible = false;
 
          // Full panel: show only options from one tab (to have entrance effects)
@@ -160,7 +160,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       model.activeTab = tab;
 
       // determine whether to who additional options or not
-      determineShowMoreShortcuts();
+      determineShowMoreOptions();
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
@@ -174,7 +174,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       model.panelExpanded = false;
       $("#ad-hoc-panel").css("width", "");
       $("#ad-hoc-panel").css("height", "");
-      /*model.showMoreShortcuts = false;*/
+      /*model.activeTab.showMoreOptions = false;*/
    }
 
 
@@ -252,12 +252,15 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    }
 
    // questionable workaround...
-   function determineShowMoreShortcuts() {
-      model.showMoreShortcuts = false;
+   function determineShowMoreOptions() {
+      if (!model.activeTab.hasMoreOptions)
+         return;
+
+      model.activeTab.showMoreOptions = false;
 
       model.selectedOptions.forEach(function(option) {
          if (option.tab == model.activeTab && option.more)
-            model.showMoreShortcuts = true;
+            model.activeTab.showMoreOptions = true;
       })
    }
 
