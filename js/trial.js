@@ -219,7 +219,7 @@ function Trial(number) {
       if (experiment.condition === 0 || model.fullPanel()) {
          // in a full panel, selection occurs inside a tab
          change.selectionDuration = (time - this.visitedTabs[this.visitedTabs.length - 1].timestamp) / 1000;
-         change.selectBetween = option.tab.options.length;
+         change.selectBetween = numVisibleOptionsInTab(option.tab);
       } else {
          // in a minimal panel, selection occurs after clicking on a hook
          change.selectionDuration = (time - this.selectedHooks[this.selectedHooks.length - 1].timestamp) / 1000;
@@ -247,6 +247,20 @@ function Trial(number) {
             return false;
       }
       return true;
+   }
+
+   function numVisibleOptionsInTab(tab) {
+      // temporary
+      if (experiment.condition === 0)
+         return tab.options.length;
+
+      if (tab.hasMoreOptions && !tab.showMoreOptions) {
+         return tab.options.filter(function(option) {
+            return !option.more;
+         }).length;
+      }
+
+      return tab.options.length;
    }
 }
 
