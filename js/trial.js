@@ -174,7 +174,7 @@ function Trial(number) {
    /* helpers */
 
    // need to get hadVisibleHighlightableHook BEFORE the dataManager updates the value of the option, obviously
-   this.logValueChange = function(option, oldValue, hadVisibleHook) {
+   this.logValueChange = function(option, oldValue, clusterCollapsed) {
       var time = performance.now();
 
       // if the user has changed the correct option to the correct value
@@ -191,9 +191,9 @@ function Trial(number) {
          "panelExpanded": model.fullPanel(),
          "hookWasSelected": option.selected,
          "hadHookOrCluster": option.hasHookOrCluster(),
-         "hadVisibleHook": hadVisibleHook,
-         "ghostHook": option.hideable
+         "clusterCollapsed": clusterCollapsed
       }
+      change.hadVisibleHook = change.hadHookOrCluster && !change.clusterCollapsed;
 
       /*
       case                    absent      clusterContracted    clusterExpanded   regular
@@ -204,9 +204,12 @@ function Trial(number) {
 
       hadVisibleHook          n           n                    y                 y
       hasGhostHook            n           y                    y                 n
+      > problem: we can't access hasVisibleHook after the change...
 
       hadHookOrCluster        n           y                    y                 y
-      clusterExpanded         *           n                    y                 *
+      clusterCollapsed        null        y                    n                 null
+      > hadVisibleHook = hadHookOrCluster && !clusterCollapsed   (but it's not enough info on its own)
+                              n           n                    y                 y
       */
 
       // store all of these as one event

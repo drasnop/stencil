@@ -88,20 +88,16 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    }
 
    $scope.updateAppOption = function(option, oldValue) {
+      // store the old value before updating the underlying option, hence updating hooks and clusters
+      var clusterCollapsed = hooksManager.isClusterCollapsed(option);
 
       dataManager.updateAppOption(option.id, option.value, true);
 
-      // determine corresponding hook was hidden
-      var hadVisibleHook = option.hasHookOrCluster();
-      if (option.hideable) {
-         // for ghosts, adjust the previous visibility based on wether the cluster was expended
-         if (oldValue == "hidden" || (oldValue == "visible" || oldValue == "auto"))
-            hadVisibleHook = false;
-      }
-
       // log
-      experiment.trial.logValueChange(option, oldValue, hadVisibleHook);
+      experiment.trial.logValueChange(option, oldValue, clusterCollapsed);
    }
+
+
 
 
    /* Manage Panel */

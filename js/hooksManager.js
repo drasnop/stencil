@@ -318,6 +318,19 @@ var hooksManager = (function() {
       })
    }
 
+   // utility function for logging
+   hooksManager.isClusterCollapsed = function(option) {
+      for (var i in this.clusters) {
+         for (var j in this.clusters[i].ghosts) {
+            for (var k in this.clusters[i].ghosts[j].data("options")) {
+               if (this.clusters[i].ghosts[j].data("options")[k] == option)
+                  return !this.clusters[i].showGhosts;
+            }
+         }
+      }
+      return null;
+   }
+
 
    return hooksManager;
 })();
