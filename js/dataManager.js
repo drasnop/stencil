@@ -32,7 +32,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // add a helper function to each option
       model.options.forEach(function(option) {
          // use defineProperty syntax to avoid it being logged later on
-         Object.defineProperty(option, "hasHighlightableHookOrCluster", {
+         Object.defineProperty(option, "hasHookOrCluster", {
             value: function() {
                // check if there is at least one hook or one cluster-marker visible
                // the hook can be a hidden ghost, though
@@ -43,6 +43,19 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          });
       })
 
+      // add a helper function to each option
+      model.options.forEach(function(option) {
+         // use defineProperty syntax to avoid it being logged later on
+         Object.defineProperty(option, "hasHook", {
+            value: function() {
+               // check if there is at least one hook visible
+               // the hook can be a hidden ghost, though
+               return option.anchored && $(".hook").filter(function() {
+                  return $(this).data("options").indexOf(option) >= 0;
+               }).filter(":visible").length > 0;
+            }
+         });
+      })
 
       /* mappings */
 

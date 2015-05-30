@@ -36,20 +36,20 @@
 					ng-model="option.value"
 					ng-click="experiment.trial.clickedOptions.pushStamped({'option_ID': option.id})"
 					ng-change="updateAppOption(option, '{{option.value}}')"
-					ng-class="{'blue-highlighting': option.hasHighlightableHookOrCluster() && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+					ng-class="{'blue-highlighting': option.hasHookOrCluster() && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					<select
 					ng-if="option.values"
 					ng-model="option.value"
 					ng-options="value.name as value.label for value in option.values"
 					ng-click="experiment.trial.clickedOptions.pushStamped({'option_ID': option.id})"
 					ng-change="updateAppOption(option, '{{option.value}}')"
-					ng-class="{'blue-highlighting': option.hasHighlightableHookOrCluster() && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+					ng-class="{'blue-highlighting': option.hasHookOrCluster() && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					</select>
 				</div>
 
 				<div class="cell middle-column align-left">
 					<label>{{option.label}}</label>
-					<img ng-if="!parameters.experiment && option.hasHighlightableHookOrCluster() && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/flashlight.png" class="preview"
+					<img ng-if="!parameters.experiment && option.hasHookOrCluster() && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/flashlight.png" class="preview"
 						ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 				</div>
 

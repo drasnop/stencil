@@ -190,9 +190,21 @@ function Trial(number) {
          "firstTime": firstTimeChanged(self, option),
          "panelExpanded": model.fullPanel(),
          "hookWasSelected": option.selected,
+         "hadHookOrCluster": option.hasHookOrCluster(),
          "hadVisibleHook": hadVisibleHook,
-         "hadHookOrCluster": option.hasHighlightableHookOrCluster()
+         "ghostHook": option.hideable
       }
+
+      /*
+      case                    absent      clusterContracted    clusterExpanded   regular
+
+      hadHookOrCluster        n           y                    y                 y
+      hadVisibleHook          n           n                    y                 y
+      ghostHook               y/n         y                    y                 n
+
+      hadVisibleHook          n           n                    y                 y
+      hasGhostHook            n           y                    y                 n
+      */
 
       // store all of these as one event
       this.changedOptions.pushStamped(change);

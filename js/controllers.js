@@ -92,9 +92,11 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       dataManager.updateAppOption(option.id, option.value, true);
 
       // determine corresponding hook was hidden
-      var visibleHook = true;
-      if (option.hideable && oldValue == "hidden")
-         visibleHook = false;
+      var visibleHook = option.hasHook();
+      if (option.hideable) {
+         if (oldValue == "hidden" && model.fullPanel())
+            visibleHook = false;
+      }
 
       // log
       experiment.trial.logValueChange(option, oldValue, visibleHook);
