@@ -37,28 +37,36 @@ function bindWunderlistListeners() {
 
    // listener for tabs in preferences panel
    window.location.watch("hash", function(prop, oldval, newval) {
-
-      // we are only interested in the preferences panel
-      if (newval.indexOf("preferences") < 0)
-         return newval;
-
-      var temp = newval.split('/');
-      var hash = temp[temp.length - 1];
-
-      // find which tab is currently active
-      var tab;
-      for (var i in model.tabs) {
-         tab = model.tabs[i];
-
-         if (tab.hash == hash) {
-            experiment.trial.visitedTabs.pushStamped({
-               "tab": logger.flattenTab(tab)
-            })
-            break;
-         }
-      }
-
-      // must return newval, since this watcher function is called instead of the setter
-      return newval;
+      return processWunderlistTab(newval);
    })
+}
+
+
+function processWunderlistTab(locationHash) {
+   // we are only interested in the preferences panel
+   if (locationHash.indexOf("preferences") < 0)
+      return locationHash;
+
+   var temp = locationHash.split('/');
+   var shortHash = temp[temp.length - 1];
+
+   // find which tab is currently active
+   var tab;
+   for (var i in model.tabs) {
+      tab = model.tabs[i];
+
+      if (tab.hash == shortHash) {
+         experiment.trial.visitedTabs.pushStamped({
+            "tab": logger.flattenTab(tab)
+         })
+         break;
+      }
+   }
+
+   // enable logging of showMoreOptions
+   if (shortHash == "shortcuts")
+      instrumentShowMoreButtonWhenReady();
+
+   // must return locationHash, since this watcher function is called instead of the setter
+   return locationHash;
 }

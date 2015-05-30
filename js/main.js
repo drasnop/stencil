@@ -178,15 +178,34 @@ function logOpenPreferences() {
 
 function instrumentDoneButtonWhenReady() {
    setTimeout(function() {
+      if (!experiment.trial)
+         return;
+
       if ($("#settings button.full.blue.close").length < 1)
          instrumentDoneButtonWhenReady();
       else {
          $("#settings button.full.blue.close").click(function() {
-            if (experiment.trial) {
-               experiment.trial.preferencesPanel.pushStamped({
-                  "action": "close"
-               })
-            }
+            experiment.trial.preferencesPanel.pushStamped({
+               "action": "close"
+            })
+         })
+      }
+   }, 10)
+}
+
+function instrumentShowMoreButtonWhenReady() {
+   setTimeout(function() {
+      if (!experiment.trial)
+         return;
+
+      if ($("#settings button.show-advanced-shortcuts").length < 1)
+         instrumentDoneButtonWhenReady();
+      else {
+         $("#settings button.show-advanced-shortcuts").click(function() {
+            experiment.trial.showMoreOptions.pushStamped({
+               "tab": "Shortcuts",
+               "action": "hide"
+            })
          })
       }
    }, 10)

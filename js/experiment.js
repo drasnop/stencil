@@ -102,13 +102,6 @@ experiment.start = function() {
    model.modal.green = true;
    model.modal.hideOnClick = false;
    model.modal.action = (function() {
-
-      // open the preferences panel or enter customization mode, in case participants had closed them
-      if (experiment.condition > 0 && !customizationMode)
-         enterCustomizationMode();
-      if (experiment.condition === 0 && !preferencesOpen)
-         openPreferences();
-
       Sequencer.prototype.start.call(this);
    }).bind(this);
 
@@ -116,6 +109,12 @@ experiment.start = function() {
 }
 
 experiment.initializeTrial = function(number) {
+   // open the preferences panel or enter customization mode, in case participants had closed them
+   if (experiment.condition > 0 && !customizationMode)
+      enterCustomizationMode();
+   if (experiment.condition === 0 && !preferencesOpen)
+      openPreferences();
+
    // hide the hooks, to prevent people from planning their next actions
    $("#hooks").hide();
 
@@ -129,9 +128,9 @@ experiment.initializeTrial = function(number) {
 }
 
 experiment.startTrial = function() {
-   // in case participants got out of CM, bring them back in to save time
-   if (experiment.condition > 0 && !customizationMode)
-      enterCustomizationMode();
+   // ensure there is always at least one visited tab for Wunderlist
+   if (experiment.condition === 0)
+      processWunderlistTab(window.location.hash);
 
    // show the hooks
    $("#hooks").show();

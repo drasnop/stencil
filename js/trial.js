@@ -127,6 +127,8 @@ function Trial(number) {
       for (var key in this) {
          if (typeof this[key] == typeof Function && key !== "loggable" && key !== "constructor")
             loggable[key] = this[key]();
+         else if (typeof this[key] !== typeof Function && key !== "time")
+            loggable[key] = this[key];
       }
       return loggable;
    }
@@ -238,8 +240,11 @@ function Trial(number) {
       this.time.lastOptionChanged = time;
 
       // consider only the first time the correct option was changed...
-      if (correct && !this.time.correctOptionChanged)
+      if (correct && !this.time.correctOptionChanged) {
          this.time.correctOptionChanged = time;
+         this.duration.selection = change.selectionDuration;
+         this.duration.selectBetween = change.selectBetween;
+      }
    }
 
    // to check whether participants hesitated
