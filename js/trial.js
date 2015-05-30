@@ -45,6 +45,8 @@ function Trial(number) {
    this.customizationMode = new EventsQueue();
    // when users opened or closed the preferences panel
    this.preferencesPanel = new EventsQueue();
+   // when users clicked on showMoreOptions in a tab
+   this.showMoreOptions = new EventsQueue();
 
 
    /*    time    */

@@ -170,6 +170,18 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       }
    }
 
+   $scope.toggleShowMoreOptions = function() {
+      model.activeTab.showMoreOptions = !model.activeTab.showMoreOptions;
+
+      // log
+      if (experiment.trial) {
+         experiment.trial.showMoreOptions.pushStamped({
+            "tab": model.activeTab.name,
+            "action": model.activeTab.showMoreOptions ? "show" : "hide"
+         })
+      }
+   }
+
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
       $("#ad-hoc-panel").css("width", "");
