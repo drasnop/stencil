@@ -92,14 +92,15 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       dataManager.updateAppOption(option.id, option.value, true);
 
       // determine corresponding hook was hidden
-      var visibleHook = option.hasHook();
+      var hadVisibleHook = option.hasHookOrCluster();
       if (option.hideable) {
-         if (oldValue == "hidden" && model.fullPanel())
-            visibleHook = false;
+         // for ghosts, adjust the previous visibility based on wether the cluster was expended
+         if (oldValue == "hidden" || (oldValue == "visible" || oldValue == "auto"))
+            hadVisibleHook = false;
       }
 
       // log
-      experiment.trial.logValueChange(option, oldValue, visibleHook);
+      experiment.trial.logValueChange(option, oldValue, hadVisibleHook);
    }
 
 

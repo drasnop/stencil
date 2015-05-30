@@ -204,6 +204,9 @@ function Trial(number) {
 
       hadVisibleHook          n           n                    y                 y
       hasGhostHook            n           y                    y                 n
+
+      hadHookOrCluster        n           y                    y                 y
+      clusterExpanded         *           n                    y                 *
       */
 
       // store all of these as one event
