@@ -199,12 +199,17 @@ function instrumentShowMoreButtonWhenReady() {
          return;
 
       if ($("#settings button.show-advanced-shortcuts").length < 1)
-         instrumentDoneButtonWhenReady();
+         instrumentShowMoreButtonWhenReady();
       else {
+         console.log("instrumenting Wunderlist's showMore button...")
+         model.wunderlistShowMore = false;
+
          $("#settings button.show-advanced-shortcuts").click(function() {
+            model.wunderlistShowMore = !model.wunderlistShowMore;
+
             experiment.trial.showMoreOptions.pushStamped({
                "tab": "Shortcuts",
-               "action": "hide"
+               "action": model.wunderlistShowMore ? "show" : "hide"
             })
          })
       }

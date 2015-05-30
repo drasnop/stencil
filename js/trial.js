@@ -257,9 +257,13 @@ function Trial(number) {
    }
 
    function numVisibleOptionsInTab(tab) {
-      // temporary
-      if (experiment.condition === 0)
-         return tab.options.length;
+      // Wunderlist-specific
+      if (experiment.condition === 0) {
+         if (tab.name == "Shortcuts")
+            return model.wunderlistShowMore ? 18 : 8;
+         else
+            return tab.options.length;
+      }
 
       if (tab.hasMoreOptions && !tab.showMoreOptions) {
          return tab.options.filter(function(option) {
