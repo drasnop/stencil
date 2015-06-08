@@ -1,28 +1,28 @@
 var tutorial = new Sequencer("tutorial", 500, 2000, "try again", true);
 
 tutorial.steps = [
-   "After completing each step of this tutorial, click the blue \"Next\" button in the instructions bar (at the top of the screen). Try it now!",
+   "After completing each step of this tutorial, click the blue \"Next\" button in the instructions bar (at the top of the screen). <b>Try it now!</b>",
    "Type \"buy milk\" in the input field, and press Enter to add a new todo item.",
    "Double-click on the todo item you added to show the details panel on the right.",
-   "Write a more detailed description in the yellow area on the right: \"for the cake\"",
+   "Write a more detailed description in the <b>yellow area</b> on the right: \"for the cake\"",
    "Add another todo item: \"call mom\"",
    "Click on the star icon to mark it as important.",
-   "In the left sidebar, there is an item called \"Starred\". This is an intelligent filter, that shows all the todos due in the coming week. Check that \"call mom\" appears there.",
+   "In the left sidebar, there is an item called \"Starred\". This is an <b>intelligent filter</b>, that shows all the todos due in the coming week. Check that \"call mom\" appears there.",
    "To create another regular todo item, you need to go back to the Inbox. Click on \"Inbox\" in the left sidebar.",
    "Add a third todo item: \"watch a good movie\"",
-   "Double-click on this todo item, and change its due date to next Saturday.",
+   "Double-click on this todo item, and change its due date to this Saturday.",
    "Let's say you have bought the milk. Tick the checkbox to mark the corresponding todo item as complete.",
    "Below the list of todo items, there is a button \"1 completed item\". Click on it to reveal the todo you've just checked off.",
    "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom."
 ]
 
 tutorial.stepsCustomizationMode = [
-   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose \"Customize\" in the menu.",
-   "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them. Try it with one, then click \"Next\"."
+   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose <b>Customize</b> in the menu.",
+   "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them. <b>Try it now!</b>"
 ]
 
 tutorial.stepspreferences = [
-   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose \"Settings\" in the menu."
+   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose <b>Settings</b> in the menu. <b>Try it now!</b>"
 ]
 
 tutorial.time = {

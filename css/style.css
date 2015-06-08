@@ -90,6 +90,7 @@ z-indexes
 
 #instructions-modal {
     z-index: 1000008;
+    font-style: 16px;
 }
 
 .modal-dialog {

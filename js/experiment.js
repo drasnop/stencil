@@ -97,7 +97,8 @@ experiment.start = function() {
       bindWunderlistListeners();
 
    model.modal.header = "Experiment";
-   model.modal.message = "In each step, you will be asked to change one setting of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting as quickly and as accurately as possible, then click the \"Next\" button. You won't be able to change your mind after clicking \"Next\". You will get an extra $" + experiment.bonusTrial + " for each correct setting changed.";
+   model.modal.message = "In each step, you will be asked to change <b>one setting</b> of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting <b>as quickly and as accurately as possible</b>, then click the \"Next\" button.<br><br>" +
+      "You won't be able to change your mind after clicking \"Next\". You will get an extra <b>$" + experiment.bonusTrial + "</b> for each correct setting changed.";
    model.modal.buttonLabel = "Start";
    model.modal.green = true;
    model.modal.hideOnClick = false;
