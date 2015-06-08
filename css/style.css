@@ -409,7 +409,8 @@ select {
     opacity: 1;
 }
 /* when contracting panel, wait for activeTab's highlighted options to come back in place
-   before showing the options from the other tabs, if any. NEED TO DEACTIVATE THIS FOR SHOW PANEL*/
+   before showing the options from the other tabs, if any. NEED TO DEACTIVATE THIS FOR SHOW PANEL
+   Ideally I would add a temporaty class expanding/contracting when clicking on the buttons... */
 
 #ad-hoc-panel.contracted .row.option.highlighted.ng-hide-remove-active {
     transition: opacity .1s linear .5s;
@@ -419,7 +420,7 @@ select {
     opacity: 0;
 }
 /* when expanding panel, wait for activeTab's highlighted options to come into place
-   before showing the non-highlighted options. DOESNT WORK */
+   before showing the non-highlighted options. DOESNT WORK (only the regular ephemeral entrance plays) */
 
 #ad-hoc-panel.contracted .delayed-entrance.ng-hide-remove-active {
     transition: opacity .5s linear .5s;

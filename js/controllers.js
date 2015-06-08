@@ -94,7 +94,8 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       dataManager.updateAppOption(option.id, option.value, true);
 
       // log
-      experiment.trial.logValueChange(option, oldValue, clusterCollapsed);
+      if (experiment.trial)
+         experiment.trial.logValueChange(option, oldValue, clusterCollapsed);
    }
 
 
@@ -137,9 +138,11 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          $scope.activateTab(tab);
 
       // log
-      experiment.trial.panel.pushStamped({
-         "action": "expanded"
-      });
+      if (experiment.trial) {
+         experiment.trial.panel.pushStamped({
+            "action": "expanded"
+         });
+      }
    }
 
    $rootScope.contractFullPanel = function() {
@@ -147,9 +150,11 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       //positionPanel(); doesn't work
 
       // log
-      experiment.trial.panel.pushStamped({
-         "action": "contracted"
-      });
+      if (experiment.trial) {
+         experiment.trial.panel.pushStamped({
+            "action": "contracted"
+         });
+      }
    }
 
    $scope.activateTab = function(tab) {

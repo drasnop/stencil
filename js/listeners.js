@@ -118,8 +118,10 @@ function bindClustersListeners() {
       hooksManager.positionHooksAndClusters();
 
       // log
-      experiment.trial.cluster.pushStamped({
-         "action": (cluster.showGhosts ? "expanded" : "contracted")
-      })
+      if (experiment.trial) {
+         experiment.trial.cluster.pushStamped({
+            "action": (cluster.showGhosts ? "expanded" : "contracted")
+         })
+      }
    })
 }
