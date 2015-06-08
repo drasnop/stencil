@@ -47,7 +47,7 @@ app.run(['$location', '$http', '$q', '$rootScope', function($location, $http, $q
       console.log("deleting account...")
 
       $http.delete("https://a.wunderlist.com/api/v1/user", {
-         data: {
+         params: {
             "password": "experiment"
          },
          headers: {

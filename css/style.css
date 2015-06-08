@@ -561,6 +561,18 @@ body.animate .popover {
     -ms-animation: none!important;
     animation: none!important;
 }
+
+.foldersGuide .openButton {
+    display: none!important;
+}
+
+.conversations-count .count {
+    display: none!important;
+}
+
+.activities-count .count {
+    display: none!important;
+}
 /* button.highlighted{
    background-color: rgb(39, 160, 216) !important;
    background-image: none !important;
