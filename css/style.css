@@ -90,7 +90,7 @@ z-indexes
 
 #instructions-modal {
     z-index: 1000008;
-    font-style: 16px;
+    font-size: 16px;
 }
 
 .modal-dialog {
@@ -121,9 +121,6 @@ z-indexes
 
 #modal-button {
     min-width: 100px;
-    /* only show the button after a short delay, to force reading*/
-    
-    visibility: hidden;
 }
 /* -------------------  overlay, hooks, ghosts --------------------- */
 

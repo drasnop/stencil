@@ -118,13 +118,13 @@ function showModal() {
    angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
       $("#instructions-modal").modal('show');
 
-      // if there is a button, remove its previous "visible" attribute
-      // if the button isn't created yet, the new button will be hidden as per style.css
-      $("#modal-button").css("visibility", "hidden");
+      // if there is a button, disable it
+      // if the button isn't created yet, the new button will be disabled as per the template
+      $("#modal-button").attr("disabled", "disabled")
 
-      // show the button after a delay based on a fast reading speed
+      // enable the button after a delay based on a fast reading speed
       setTimeout(function() {
-         $("#modal-button").css("visibility", "visible");
+         $("#modal-button").removeAttr("disabled")
       }, model.modal.message.length / 35 * 1000)
    })
 }
