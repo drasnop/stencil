@@ -42,8 +42,8 @@ experiment.initialize = function() {
       logger.initialize(experiment.generateInitialState);
 
       // tutorial.start() is independent of the preparation of the experiment
-      //setTimeout(tutorial.start.bind(tutorial), 1000);
-      setTimeout(experiment.start.bind(experiment), 1000);
+      setTimeout(tutorial.start.bind(tutorial), 1000);
+      //setTimeout(experiment.start.bind(experiment), 1000);
    }, experiment.cancel, messageEmailUnknown, messageExperimentAlreadyCompleted);
 }
 

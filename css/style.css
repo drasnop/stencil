@@ -119,8 +119,11 @@ z-indexes
     opacity: 0.3;
 }
 
-#button-start-trial {
+#modal-button {
     min-width: 100px;
+    /* only show the button after a short delay, to force reading*/
+    
+    visibility: hidden;
 }
 /* -------------------  overlay, hooks, ghosts --------------------- */
 

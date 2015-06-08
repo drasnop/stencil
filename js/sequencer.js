@@ -34,7 +34,7 @@ Sequencer.prototype.start = function() {
    angular.element($("#progress-bar")).scope().sequencer = this;
    angular.element($("#instructions-modal")).scope().sequencer = this;
 
-   this.initializeTrial(0)
+   this.initializeTrial(0);
 }
 
 Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
