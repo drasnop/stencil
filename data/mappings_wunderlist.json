@@ -37,7 +37,7 @@
 }, {
    "selector": "#main-toolbar .activities-count, .detail-reminder .wundercon.reminder",
    "options": ["notifications_desktop_enabled", "notifications_email_enabled",
-      "notifications_push_enabled", "sound_notification_enabled", "shortcut_show_notifications", "automatic_reminders"
+      "notifications_push_enabled", "sound_notification_enabled", "shortcut_show_notifications"
    ]
 }, {
    "selector": ".avatar, .name.search-hidden",

@@ -27,7 +27,7 @@ logger.initialize = function(callback) {
    console.log("Initializing logging to " + logger.firebase.toString() + "...")
 
    logger.firebase.child("condition").once('value', function(snapshot) {
-      experiment.condition = snapshot.child("interface").val();
+      experiment.condition = parseInt(snapshot.child("interface").val());
       model.optionsVisibility = experiment.condition;
       experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
       console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults)

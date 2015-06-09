@@ -113,7 +113,8 @@
       }, {
          "name": "off",
          "label": "off"
-      }]
+      }],
+      "notUserAccessible": true
    },
    "print_completed_items": {
       "id": "print_completed_items",
