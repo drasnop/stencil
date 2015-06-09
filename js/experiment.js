@@ -1,10 +1,10 @@
 var experiment = new Sequencer("experiment", 1000, 2000, "Wrong setting", false, Trial);
 
-// random sequence of 8 numbers and letters used to identify participants
+// random sequence of 8 numbers and letters used to identify participants (read from Wunderlist app if possible)
 experiment.email = "lotaculi";
-// 0=control, 1=minimal, 2=mixed, 3=highlighted (TODO make this affect optionsVisibility)
+// 0=control, 1=minimal, 2=mixed, 3=highlighted (set by logger.initialize)
 experiment.condition = "";
-// whether to use the opposite values of the default options for this participant
+// whether to use the opposite values of the default options for this participant (set by logger.initialize)
 experiment.oppositeDefaults = "";
 // bonus reward when trial done correctly
 experiment.bonusTrial = 0.15;
