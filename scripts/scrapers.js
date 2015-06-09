@@ -8,13 +8,20 @@ var list2 = function(variable) {
 }
 
 // list all options, values
-var listm = function(models) {
+var listm = function(collection) {
+   var models = collection.models;
    for (var m in models) {
       console.log(m, models[m].attributes.key, models[m].attributes.value)
    }
    return;
 }
-listm(sync.collections.settings.models);
+listm(sync.collections.settings);
+
+// look for non-empty collections
+for (var c in sync.collections) {
+   if (sync.collections[c].models)
+      console.log(c, sync.collections[c].models.length)
+}
 
 var regex = new RegExp("_", 'g');
 for (var name in options) {
