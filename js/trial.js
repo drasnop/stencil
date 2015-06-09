@@ -111,7 +111,7 @@ function Trial(number) {
       if (this.time.lastOptionChanged)
          return (this.time.lastOptionChanged - starTime) / 1000;
 
-      return this.duration.long();
+      return this.long();
    }
 
    this.duration.long = function() {
