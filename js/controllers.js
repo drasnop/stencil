@@ -168,7 +168,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       if (!model.activeTab.bloat) {
 
          // determine whether to show additional options or not
-         determineShowMoreOptions();
+         model.activeTab.showMoreOptions = determineShowMoreOptions();
 
          // if necessary, scroll down to bring first highlighted element into view
          $("#options-list").animate({
@@ -312,17 +312,14 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       return argmax;
    }
 
-   // questionable workaround...
    function determineShowMoreOptions() {
       if (!model.activeTab.hasMoreOptions)
-         return;
+         return false;
 
-      model.activeTab.showMoreOptions = false;
-
-      model.selectedOptions.forEach(function(option) {
-         if (option.tab == model.activeTab && option.more)
-            model.activeTab.showMoreOptions = true;
-      })
+      // returns true if at least one highlighted option is under "show more"
+      return model.activeTab.options.filter(function(option) {
+         return option.selected && option.more;
+      }).length > 0;
    }
 
 }])

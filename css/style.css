@@ -240,7 +240,7 @@ z-indexes
 
 #ad-hoc-panel.expanded {
     width: 590px!important;
-    height: 365px!important;
+    height: 373px!important;
     margin-bottom: 10px;
     background-color: white;
     /*margin-top: 10px; would look better, but creates a jump when switching views */
@@ -360,7 +360,7 @@ select {
     width: 100%;
     /* for auto scrolling */
     
-    max-height: 296px;
+    max-height: 304px;
     overflow-y: auto;
     /* for absolute positioning of options */
     
