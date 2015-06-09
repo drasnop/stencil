@@ -23,6 +23,7 @@ experiment.initialize
    logger.checkEmail
       logger.initialize
          experiment.generateInitialState
+            experiment.generateOptionsAndValuesSequences
             logger.saveInitialState
 */
 
@@ -39,11 +40,15 @@ experiment.initialize = function() {
 
    // verify that this email appears in firebase
    logger.checkEmail(function() {
-      logger.initialize(experiment.generateInitialState);
+      logger.initialize(function() {
+         experiment.generateInitialState()
 
-      // tutorial.start() is independent of the preparation of the experiment
-      setTimeout(tutorial.start.bind(tutorial), 1000);
-      //setTimeout(experiment.start.bind(experiment), 1000);
+         // tutorial.start() is independent of the preparation of the experiment
+         setTimeout(tutorial.start.bind(tutorial), 1000);
+         //setTimeout(experiment.start.bind(experiment), 1000);
+      });
+
+      // if the email doesn't appear in firebase, cancel experiment
    }, experiment.cancel, messageEmailUnknown, messageExperimentAlreadyCompleted);
 }
 
