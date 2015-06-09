@@ -164,14 +164,28 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
             else*/
       model.activeTab = tab;
 
-      // determine whether to who additional options or not
+      // determine whether to show additional options or not
       determineShowMoreOptions();
+
+      // if necessary, scroll down to bring first highlighted element into view
+      setTimeout(function() {
+         $("#options-list").scrollTop(computeScrollOffset());
+      }, 100);
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
          experiment.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(tab)
          });
+      }
+   }
+
+   function computeScrollOffset() {
+      for (var i = 0; i < model.activeTab.options.length; i++) {
+         if (model.activeTab.options[i].selected) {
+            console.log(i * geometry.getOptionHeight())
+            return i * geometry.getOptionHeight();
+         }
       }
    }
 
