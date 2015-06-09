@@ -185,6 +185,11 @@ function instrumentDoneButtonWhenReady() {
          instrumentDoneButtonWhenReady();
       else {
          $("#settings button.full.blue.close").click(function() {
+
+            // the user is closing the preferences panel
+            preferencesOpen = false;
+
+            //log
             experiment.trial.preferencesPanel.pushStamped({
                "action": "close"
             })
