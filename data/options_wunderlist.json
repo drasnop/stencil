@@ -127,10 +127,10 @@
       "id": "shortcut_add_new_task",
       "label": "Add a New Item",
       "instructions": "Change shortcut for adding a new todo to",
-      "value": "CTRL + N",
+      "value": "CTRL + 0",
       "values": [{
-         "name": "CTRL + N",
-         "label": "CTRL + N"
+         "name": "CTRL + 0",
+         "label": "CTRL + 0"
       }, {
          "name": "CTRL + M",
          "label": "CTRL + M"
@@ -265,8 +265,8 @@
          "name": "CTRL + I",
          "label": "CTRL + I"
       }, {
-         "name": "CTRL + 0",
-         "label": "CTRL + 0"
+         "name": "SHIFT + I",
+         "label": "SHIFT + I"
       }],
       "more": true
    },
