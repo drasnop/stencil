@@ -243,9 +243,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    }
 
    $scope.adjustPanelHeightAsync = function() {
-      //console.log("before", $("#options").height())
+      //console.log("before", $("#options-list").height())
       /*      $timeout(function() {
-               //console.log("timeout", $("#options").height())
+               //console.log("timeout", $("#options-list").height())
                $scope.$eval(adjustPanelHeight());
             }, 10)*/
    }

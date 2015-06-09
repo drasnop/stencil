@@ -47,21 +47,21 @@ function adjustPanelHeight() {
    var wh = window.innerHeight - 30;
    var top = $("#ad-hoc-panel").offset().top;
 
-   $("#options").css("height", "");
+   $("#options-list").css("height", "");
    // we want to keep the tabs always visible, so resize only the options list
    if (top + $("#ad-hoc-panel").height() > wh) {
-      $("#options").height(wh - top - $("#tabs").height());
+      $("#options-list").height(wh - top - $("#tabs").height());
 
 
       if ($("#ad-hoc-panel").offset().top < 30) {
          $("#ad-hoc-panel").offset({
             "top": 30
          });
-         $("#options").height(wh - $("#ad-hoc-panel").offset().top - $("#tabs").height());
+         $("#options-list").height(wh - $("#ad-hoc-panel").offset().top - $("#tabs").height());
       }
    }
 
-   //console.log("after adjustPanelHeight", $("#ad-hoc-panel").offset().top, $("#options").height())
+   //console.log("after adjustPanelHeight", $("#ad-hoc-panel").offset().top, $("#options-list").height())
 }
 
 // position the panel at the top right of the current anchor, if possible; otherwise flipfit it

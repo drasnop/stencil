@@ -356,7 +356,7 @@ select {
     padding: 5px;
 }
 
-#options {
+#options-list {
     width: 100%;
     /* for auto scrolling */
     
@@ -370,18 +370,18 @@ select {
     transition: height 0.5s ease;
 }
 
-#options.bloat {
+#options-list.bloat {
     margin: 0;
 }
 
-#ad-hoc-panel.minimal #options {
+#ad-hoc-panel.minimal #options-list {
     min-width: 350px;
     margin-top: 8px;
     margin-bottom: 20px;
     overflow-y: hidden;
 }
 
-#ad-hoc-panel.mixed #options {
+#ad-hoc-panel.mixed #options-list {
     min-width: 450px;
     overflow-y: hidden;
 }
@@ -446,7 +446,7 @@ select {
 }
 /* need to highlight the full minimalist panel*/
 
-#options.highlighted {
+#options-list.highlighted {
     background-color: #FFD5A1;
 }
 
@@ -478,23 +478,23 @@ select {
     text-align: right;
 }
 
-#options .cell {
+#options-list .cell {
     display: inline-block;
     box-sizing: border-box;
     padding: 5px;
 }
 
-#options .cell.left-column {
+#options-list .cell.left-column {
     padding-left: 10px;
     padding-right: 5px;
 }
 
-#options .cell.middle-column {
+#options-list .cell.middle-column {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-#options .cell.align-right [type=checkbox] {
+#options-list .cell.align-right [type=checkbox] {
     margin: 0!important;
 }
 
