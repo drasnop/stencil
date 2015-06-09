@@ -41,10 +41,10 @@ experiment.initialize = function() {
    // verify that this email appears in firebase
    logger.checkEmail(function() {
       logger.initialize(function() {
-         experiment.generateInitialState()
+         experiment.generateInitialState();
 
          // tutorial.start() is independent of the preparation of the experiment
-         setTimeout(tutorial.start.bind(tutorial), 1000);
+         tutorial.start();
          //setTimeout(experiment.start.bind(experiment), 1000);
       });
 
