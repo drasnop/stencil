@@ -186,33 +186,33 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    function computeScrollOffset() {
       // gather all the options highlighted in this tab
-      var highlighted = model.activeTab.options.filter(function(option) {
+      var highlightedOptions = model.activeTab.options.filter(function(option) {
          return option.selected;
       })
 
       // for each option, compute the min and max scrollOffset that keep this option into view
       var viewport = parseInt($("#options-list").css("max-height"))
       var top,
-         min = [],
-         max = [];
+         minimums = [],
+         maximums = [];
 
-      for (var i = 0; i < highlighted.length; i++) {
-         top = highlighted[i].index * geometry.getOptionHeight();
+      for (var i = 0; i < highlightedOptions.length; i++) {
+         top = highlightedOptions[i].index * geometry.getOptionHeight();
 
-         min.push(Math.max(top + geometry.getOptionHeight() - viewport, 0));
-         max.push(top);
+         minimums.push(Math.max(top + geometry.getOptionHeight() - viewport, 0));
+         maximums.push(top);
       }
 
       // find the optimal offset
-      var offset = min[0];
-      for (i = 0; i < highlighted.length; i++) {
-         if (min[i] < max[0]) {
+      var offset = minimums[0];
+      for (i = 0; i < highlightedOptions.length; i++) {
+         if (minimums[i] < maximums[0]) {
             // the viewport is large enough to show both option 0 and i
-            offset = min[i];
+            offset = minimums[i];
          } else {
             // the viewport is too small to show both option 0 and i
             // we move as far down as possible
-            offset = max[0];
+            offset = maximums[0];
             break;
          }
       }
