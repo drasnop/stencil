@@ -382,7 +382,7 @@ select {
 }
 
 #ad-hoc-panel.mixed #options {
-    min-width: 400px;
+    min-width: 450px;
     overflow-y: hidden;
 }
 
