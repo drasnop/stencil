@@ -199,8 +199,8 @@ z-indexes
 }
 
 .hook * {
-    background-color: inherit !important;
-    color: inherit !important;
+    background-color: transparent !important;
+    color: #333 !important;
 }
 
 .cluster-marker {

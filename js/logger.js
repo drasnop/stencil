@@ -28,6 +28,7 @@ logger.initialize = function(callback) {
 
    logger.firebase.child("condition").once('value', function(snapshot) {
       experiment.condition = snapshot.child("interface").val();
+      model.optionsVisibility = experiment.condition;
       experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
       console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults)
 

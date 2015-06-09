@@ -6,7 +6,7 @@
    "options": ["behavior_star_tasks_to_top", "shortcut_mark_task_starred"]
 }, {
    "selector": ".taskItem-duedate, .detail-date .token_0, .wundercon.date",
-   "options": ["date_format", "start_of_week"]
+   "options": ["date_format", "time_format", "start_of_week"]
 }, {
    "selector": ".detail-reminder .token_0",
    "options": ["time_format"]

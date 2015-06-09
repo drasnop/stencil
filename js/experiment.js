@@ -94,6 +94,12 @@ experiment.cancel = function(message) {
 /* overwritten methods */
 
 experiment.start = function() {
+   // close customization panel
+   if (experiment.condition > 0) {
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.closePanel();
+   }
+
    // reset options to their correct values, if necessary
    experiment.resetSettingsIfNeeded();
 
@@ -164,8 +170,10 @@ experiment.endTrial = function(callback) {
    clearTimeout(experiment.timeoutTimer);
 
    // close customization panel
-   var scope = angular.element($("#ad-hoc-panel")).scope();
-   scope.closePanel();
+   if (experiment.condition > 0) {
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.closePanel();
+   }
 
    // log
    experiment.trials.push(experiment.trial);
