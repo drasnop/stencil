@@ -168,9 +168,12 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       determineShowMoreOptions();
 
       // if necessary, scroll down to bring first highlighted element into view
-      setTimeout(function() {
-         $("#options-list").scrollTop(computeScrollOffset());
-      }, 100);
+      /*      setTimeout(function() {
+               $("#options-list").scrollTop(computeScrollOffset());
+            }, 100);*/
+      $("#options-list").animate({
+         scrollTop: computeScrollOffset()
+      }, 500)
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
