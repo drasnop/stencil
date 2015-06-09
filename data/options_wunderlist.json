@@ -635,19 +635,19 @@
    "onboarding_add_todo": {
       "id": "onboarding_add_todo",
       "label": "",
-      "value": true,
+      "value": "true",
       "notUserAccessible": true
    },
    "onboarding_click_create_list": {
       "id": "onboarding_click_create_list",
       "label": "",
-      "value": true,
+      "value": "true",
       "notUserAccessible": true
    },
    "onboarding_click_share_list": {
       "id": "onboarding_click_share_list",
       "label": "",
-      "value": true,
+      "value": "true",
       "notUserAccessible": true
    },
    "pro_trial_limit_assigning": {

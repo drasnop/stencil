@@ -567,11 +567,14 @@ body.animate .popover {
     display: none!important;
 }
 
-.conversations-count .count {
+.conversations-count .count,
+.activities-count .count {
     display: none!important;
 }
 
-.activities-count .count {
+.popover.addItem,
+.popover.addPeople,
+.popover.addList {
     display: none!important;
 }
 /* button.highlighted{
