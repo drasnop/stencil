@@ -125,7 +125,7 @@ function showModal() {
       // enable the button after a delay based on a fast reading speed
       setTimeout(function() {
          $("#modal-button").removeAttr("disabled")
-      }, model.modal.message.length / 35 * 1000)
+      }, model.modal.message.length / 36 * 1000)
    })
 }
 

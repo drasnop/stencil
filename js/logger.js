@@ -38,7 +38,7 @@ logger.initialize = function(callback) {
 // store participant info, options and values sequences, and prepare trials logging
 logger.saveInitialState = function() {
    // save the screen resolution, OS and browser
-   logger.firebase.child("/condition/apparatus").set({
+   logger.firebase.child("/info/apparatus").set({
       "screenWidth": screen.width,
       "screenHeight": screen.height,
       "innerWidth": window.innerWidth,
