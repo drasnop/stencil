@@ -239,12 +239,18 @@ function Trial(number) {
 
       this.time.lastOptionChanged = time;
 
-      // consider only the first time the correct option was changed...
-      if (correct && !this.time.correctOptionChanged) {
-         this.time.correctOptionChanged = time;
+      // as long as the correct option hasn't been selected, log selectionDuration and selectBetween
+      // this way we'll get data even for wrong selections
+      if (!this.time.correctOptionChanged) {
          this.duration.selection = change.selectionDuration;
          this.duration.selectBetween = change.selectBetween;
       }
+
+      // consider only the first time the correct option was changed...
+      if (correct && !this.time.correctOptionChanged) {
+         this.time.correctOptionChanged = time;
+      }
+
    }
 
    // to check whether participants hesitated
