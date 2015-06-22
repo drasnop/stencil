@@ -57,8 +57,8 @@ var model = {
 
 var parameters = {
    // server base url
-   //"serverURL": "localhost:8888",
-   "serverURL": "tequila.cs.ubc.ca/stencil",
+   "serverURL": "localhost:8888",
+   //"serverURL": "tequila.cs.ubc.ca/stencil",
    // whether the system is currently used to conduct an experiment
    "experiment": true,
    // distance (in px) below which ghost anchors are bundled in clusters
