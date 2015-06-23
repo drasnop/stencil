@@ -171,8 +171,8 @@
          "name": "CTRL + S",
          "label": "CTRL + S"
       }, {
-         "name": "CTRL + T",
-         "label": "CTRL + T"
+         "name": "SHIFT + S",
+         "label": "SHIFT + S"
       }]
    },
    "shortcut_select_all_tasks": {
@@ -251,8 +251,8 @@
          "name": "CTRL + SHIFT + A",
          "label": "CTRL + SHIFT + A"
       }, {
-         "name": "CTRL + SHIFT + N",
-         "label": "CTRL + SHIFT + N"
+         "name": "CTRL + SHIFT + D",
+         "label": "CTRL + SHIFT + D"
       }],
       "more": true
    },
