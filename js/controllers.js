@@ -132,15 +132,14 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
       //positionPanel(); doesn't work
 
-      if (typeof tab == "undefined")
-         $scope.activateTab(computeActiveTab());
-      else
-         $scope.activateTab(tab);
+      var newActiveTab = tab || computeActiveTab();
+      $scope.activateTab(newActiveTab);
 
       // log
       if (experiment.trial) {
          experiment.trial.panel.pushStamped({
-            "action": "expanded"
+            "action": "expanded",
+            "tab": newActiveTab.name
          });
       }
    }
@@ -152,7 +151,8 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       // log
       if (experiment.trial) {
          experiment.trial.panel.pushStamped({
-            "action": "contracted"
+            "action": "contracted",
+            "tab": model.activeTab.name
          });
       }
    }
@@ -294,6 +294,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
             }, 10)*/
    }
 
+   $scope.filterOutBloatTabs = function(tab) {
+      return !tab.bloat;
+   }
 
    /* helper functions */
 
