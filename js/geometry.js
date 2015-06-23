@@ -16,7 +16,7 @@ geometry.getOptionTop = function(filteredIndex) {
 
 // return a string to be used in inline css
 geometry.getTotalHeight = function(numVisibleOptions) {
-   if (model.activeTab.bloat)
+   if (model.fullPanel() && model.activeTab.bloat)
       return "auto";
    else
       return computeHeightIncludingDescription(numVisibleOptions) + 'px';

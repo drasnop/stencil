@@ -13,12 +13,12 @@
 		</li>
 	</ul>
 
-	<div id="options-list" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.activeTab.bloat}" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())}">
+	<div id="options-list" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.fullPanel() && model.activeTab.bloat}" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())}">
 
 		<img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="/img/tabs/{{model.activeTab.image}}">
-		
+
 		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
-		ng-repeat="tab in model.tabs" ng-show="tab==model.activeTab || (!model.fullPanel() && !tab.bloat)">
+		ng-repeat="tab in model.tabs | filter: filterOutBloatTabs" ng-show="tab==model.activeTab || !model.fullPanel()">
 
 			<div class="tab-description" ng-bind-html="tab.description"
 			ng-if="model.fullPanel() && tab.description">
