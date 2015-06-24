@@ -33,10 +33,10 @@ var options = (function() {
    // Determine where each option should appear, by construction an ordered array of the visible options
    options.positionAllOptions = function() {
 
-      var optionsToMove = [];
-      var optionsToFadeIn = [];
+      // Store the previous list of visible options, to compute diff
+      var prevVisibleOptions = $.extend([], options.visibleOptions)
 
-      // Iterate through tabs and options in order, to build visibleOptions
+      // Iterate through tabs and options in order, to update visibleOptions
       options.visibleOptions = [];
       for (var i = 0; i < model.tabs.length; i++) {
          var tab = model.tabs[i];
@@ -50,6 +50,23 @@ var options = (function() {
             }
          }
       }
+
+      // Determine if some options should be animated
+      options.visibleOptions.forEach(function(option) {
+         var newIndex = options.visibleOptions.indexOf(option);
+         var oldIndex = prevVisibleOptions.indexOf(option);
+
+         if (oldIndex < 0) {
+            // if the option wasn't visible before, fade it in to its new position
+
+
+         } else if (oldIndex != newIndex) {
+            // if the option was visible before, but has changed position, animate it
+            $('#' + option.id).animate({
+               "top": geometry.getOptionTop(option)
+            }, 500)
+         }
+      });
 
       /*      console.log("move", optionsToMove.length, "fadein", optionsToFadeIn.length)
             optionsToMove.forEach(function(option) {
