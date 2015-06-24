@@ -169,6 +169,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.toggleShowMoreOptions = function() {
       model.activeTab.showMoreOptions = !model.activeTab.showMoreOptions;
+      options.updateFilteredIndex();
 
       // log
       if (experiment.trial) {

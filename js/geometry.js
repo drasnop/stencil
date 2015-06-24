@@ -13,8 +13,10 @@ var geometry = (function() {
       return geometry.optionHeight;
    }
 
-   geometry.getOptionTop = function(filteredIndex) {
-      return computeHeightIncludingDescription(filteredIndex);
+   geometry.getOptionTop = function(option) {
+      // min index 0 to prevent options from sliding in from the top
+      var index = Math.max(0, options.getFilteredIndex(option));
+      return computeHeightIncludingDescription(index);
    }
 
    // return a string to be used in inline css

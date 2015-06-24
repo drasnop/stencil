@@ -59,7 +59,12 @@ var options = (function() {
    }
 
    // sum of filtered indexes in the tab preceding this one + filtered index in this tab
-   options.getFilteredIndex = function(tab, index) {
+   options.getFilteredIndex = function(option) {
+
+      // non-visible options 
+      if (options.filteredIndex[option.tab.name][option.index] == -1)
+         return -1;
+
       var filtered = 0;
       var indexesInTab;
 
@@ -68,9 +73,9 @@ var options = (function() {
          if (!model.tabs[i].bloat) {
             var tabName = model.tabs[i].name;
 
-            if (tabName == tab.name) {
+            if (tabName == option.tab.name) {
                // get the filtered index of the target option in the target tab
-               filtered += options.filteredIndex[tab.name][index];
+               filtered += options.filteredIndex[option.tab.name][option.index];
                break;
             } else {
                // for all preceding tabs, add their maximal filtered index
