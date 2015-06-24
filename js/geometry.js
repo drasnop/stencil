@@ -14,14 +14,14 @@ var geometry = (function() {
    }
 
    geometry.getOptionTop = function(option) {
-      var filteredIndex = options.getFilteredIndex(option);
+      var filteredIndex = view.getFilteredIndex(option);
       // min index 0 to prevent options from sliding in from the top
       return computeHeightIncludingDescription(Math.max(0, filteredIndex));
    }
 
    // return a string to be used in inline css
    geometry.getAllOptionsHeight = function() {
-      var numVisibleOptions = options.getTotalNumberVisibleOptions();
+      var numVisibleOptions = view.getTotalNumberVisibleOptions();
 
       if (model.fullPanel() && model.activeTab.bloat)
          return "auto";

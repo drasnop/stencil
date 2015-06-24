@@ -6,7 +6,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    $scope.experiment = $window.experiment;
    $scope.logger = $window.logger;
    $scope.dataManager = $window.dataManager;
-   $scope.options = $window.options;
+   $scope.view = $window.view;
    $scope.geometry = $window.geometry;
 
 
@@ -44,7 +44,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var newActiveTab = tab || computeActiveTab();
       $scope.activateTab(newActiveTab);
 
-      // options.positionAllOptions has been called by activateTab
+      // view.positionAllOptions has been called by activateTab
 
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
@@ -77,7 +77,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       // otherwise their index is updated before they visibility, and they jump to the top of the tab for a split second...
       setTimeout(function() {
          // we must update the filtered index first, to compute the new size of the panel      
-         options.positionAllOptions();
+         view.positionAllOptions();
 
          // animate the contraction of the panel, and update its position at the end if needed
          $("#ad-hoc-panel").animate({
@@ -118,7 +118,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          }, 500)
       }
 
-      options.positionAllOptions();
+      view.positionAllOptions();
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
@@ -178,7 +178,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.toggleShowMoreOptions = function() {
       model.activeTab.showMoreOptions = !model.activeTab.showMoreOptions;
-      options.positionAllOptions();
+      view.positionAllOptions();
 
       // log
       if (experiment.trial) {
@@ -191,7 +191,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
-      options.positionAllOptions();
+      view.positionAllOptions();
       /*model.activeTab.showMoreOptions = false;*/
    }
 

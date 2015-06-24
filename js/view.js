@@ -1,16 +1,17 @@
 /* 
  * Manage the display of options in the customization panel, via a filtered index
- * which returns the true index of each visible option (discounting the options that are hidden)
+ * which returns the true index of each visible option (discounting the options that are hidden).
+ * This index will be translated into pixel positions by geometry
  */
-var options = (function() {
+var view = (function() {
 
-   var options = {
+   var view = {
       // List of all the options visible, ordered by tab and index in tab
       "visibleOptions": []
    };
 
    // Return true if an option is visible 
-   options.isOptionVisible = function(option) {
+   view.isOptionVisible = function(option) {
 
       // hide option when panel is hidden, to have entrance animation on showPanel
       if (!model.showPanel)
@@ -31,13 +32,13 @@ var options = (function() {
    }
 
    // Determine where each option should appear, by construction an ordered array of the visible options
-   options.positionAllOptions = function() {
+   view.positionAllOptions = function() {
 
       // Store the previous list of visible options, to compute diff
-      var prevVisibleOptions = $.extend([], options.visibleOptions)
+      var prevVisibleOptions = $.extend([], view.visibleOptions)
 
       // Iterate through tabs and options in order, to update visibleOptions
-      options.visibleOptions = [];
+      view.visibleOptions = [];
       for (var i = 0; i < model.tabs.length; i++) {
          var tab = model.tabs[i];
 
@@ -45,15 +46,15 @@ var options = (function() {
             for (var j = 0; j < tab.options.length; j++) {
                var option = tab.options[j];
 
-               if (options.isOptionVisible(option))
-                  options.visibleOptions.push(option);
+               if (view.isOptionVisible(option))
+                  view.visibleOptions.push(option);
             }
          }
       }
 
       // Determine if some options should be animated
-      options.visibleOptions.forEach(function(option) {
-         var newIndex = options.visibleOptions.indexOf(option);
+      view.visibleOptions.forEach(function(option) {
+         var newIndex = view.visibleOptions.indexOf(option);
          var oldIndex = prevVisibleOptions.indexOf(option);
 
          if (oldIndex < 0) {
@@ -82,14 +83,14 @@ var options = (function() {
             });*/
    }
 
-   options.getTotalNumberVisibleOptions = function() {
-      return options.visibleOptions.length;
+   view.getTotalNumberVisibleOptions = function() {
+      return view.visibleOptions.length;
    }
 
    // returns -1 if the option is not visible; otherwise its filtered index
-   options.getFilteredIndex = function(option) {
-      return options.visibleOptions.indexOf(option);
+   view.getFilteredIndex = function(option) {
+      return view.visibleOptions.indexOf(option);
    }
 
-   return options;
+   return view;
 })();
