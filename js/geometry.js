@@ -23,8 +23,10 @@ var geometry = (function() {
 
       if (model.fullPanel() && model.activeTab.bloat)
          return "auto";
-      else
+      else {
+         console.log("getAllOptionsHeight", computeHeightIncludingDescription(numVisibleOptions))
          return computeHeightIncludingDescription(numVisibleOptions);
+      }
    }
 
    geometry.getPanelHeight = function() {

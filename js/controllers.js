@@ -12,13 +12,6 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    /* Manage Panel */
 
-   // we must call updateFilteredIndex() directly when model.panelExpanded is changed,
-   // because the new size of the panel must be computed from the new index immediately
-   // (can't wait the end of the digest cycle) 
-   $scope.$watchGroup(['model.selectedOptions', 'model.activeTab'], function() {
-      options.updateFilteredIndex();
-   })
-
    // called when clicking on a hook
    $scope.showPanel = function() {
       if (!model.showPanel)
@@ -45,7 +38,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var newActiveTab = tab || computeActiveTab();
       $scope.activateTab(newActiveTab);
 
-      options.updateFilteredIndex();
+      // options.updateFilteredIndex has been called by activateTab
 
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
@@ -99,6 +92,8 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
             scrollTop: computeScrollOffset()
          }, 500)
       }
+
+      options.updateFilteredIndex();
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
@@ -170,8 +165,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
-      $("#ad-hoc-panel").css("width", "");
-      $("#ad-hoc-panel").css("height", "");
+      options.updateFilteredIndex();
       /*model.activeTab.showMoreOptions = false;*/
    }
 
