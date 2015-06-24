@@ -368,7 +368,7 @@ select {
     position: relative;
     margin-top: 12px;
     margin-bottom: 12px;
-    transition: height 0.5s ease;
+    /*transition: height 0.5s ease;*/
 }
 
 #options-list.bloat {
