@@ -127,10 +127,8 @@ z-indexes
 #overlay {
     z-index: 1000000;
     background-color: black;
-    /*transition: opacity 1s;*/
-    
     opacity: .5;
-    /* should be animated */
+    /* should be animated, but sadly it lags */
     
     position: absolute;
     top: 0;
@@ -229,13 +227,7 @@ z-indexes
     background-color: #FFD5A1;
     color: #444;
     box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
-    /*transition: width 0.5s ease, height 0.5s ease;*/
-    /* background-color 0.5s ease;*/
-}
-/* avoid waiting for the animation to "play" when closing the panel */
-
-#ad-hoc-panel.ng-hide {
-    /*transition: all 0s linear 0s;*/
+    /* background-color 0.5s ease;   doesn't look good*/
 }
 
 #ad-hoc-panel.expanded {
@@ -368,7 +360,6 @@ select {
     position: relative;
     margin-top: 12px;
     margin-bottom: 12px;
-    /*transition: height 0.5s ease;*/
 }
 
 #options-list.bloat {
@@ -403,40 +394,11 @@ select {
     display: flex;
     -ms-align-items: center;
     align-items: center;
-    /*transition: top 0.5s ease;*/
 }
 
 .row.option.highlighted {
     background-color: #FFD5A1;
-    /*opacity: 1;*/
 }
-/* when contracting panel, wait for activeTab's highlighted options to come back in place
-   before showing the options from the other tabs, if any. NEED TO DEACTIVATE THIS FOR SHOW PANEL
-   Ideally I would add a temporaty class expanding/contracting when clicking on the buttons... */
-/* #ad-hoc-panel.contracted .row.option.highlighted.ng-hide-remove-active {
-    transition: opacity .1s linear .5s;
-} 
-
-#ad-hoc-panel.contracted .row.option.highlighted.ng-hide {
-    opacity: 0;
-}*/
-/* when expanding panel, wait for activeTab's highlighted options to come into place
-   before showing the non-highlighted options. DOESNT WORK (only the regular ephemeral entrance plays) */
-/* #ad-hoc-panel.contracted .delayed-entrance.ng-hide-remove-active {
-    transition: opacity .5s linear .5s;
-} */
-/* simple ephemeral entrance effect for non-highlighted options in a tab that contains other highlighted options */
-/* #ad-hoc-panel.expanded .tab.highlighted .delayed-entrance.ng-hide-remove-active {
-    transition: opacity .5s linear .1s;
-}
-
-#ad-hoc-panel .delayed-entrance.ng-hide {
-    opacity: 0;
-}
-
-#ad-hoc-panel .delayed-entrance {
-    opacity: 1;
-} */
 
 .show-more-shortcuts {
     position: absolute;
@@ -444,9 +406,10 @@ select {
     bottom: 10px;
     background-color: inherit;
 }
-/* need to highlight the full minimalist panel*/
 
 #options-list.highlighted {
+    /* need to highlight the full minimalist panel */
+    
     background-color: #FFD5A1;
 }
 

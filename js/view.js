@@ -13,11 +13,6 @@ var view = (function() {
    // Return true if an option is visible 
    view.isOptionVisible = function(option) {
 
-      // hide option when panel is hidden, to have entrance animation on showPanel
-      /*      if (!model.showPanel)
-               return false;
-      */
-
       // Minimal panel: only selected options are shown
       if (!model.fullPanel())
          return option.selected
@@ -63,21 +58,22 @@ var view = (function() {
       view.visibleOptions.forEach(function(option) {
          var newIndex = view.visibleOptions.indexOf(option);
          var oldIndex = prevVisibleOptions.indexOf(option);
+         var optionElement = $('#' + option.id);
 
 
          /* position + move animation */
 
          // if the option was visible before, but has changed position, animate it to its new position
          if (oldIndex >= 0 && oldIndex != newIndex) {
-            $('#' + option.id).animate({
+            optionElement.animate({
                "top": geometry.getOptionTop(option)
             }, 500)
+
             countMove++;
          }
          // otherwise, simply set it to its new position
-         else {
-            $('#' + option.id).css("top", geometry.getOptionTop(option) + 'px')
-         }
+         else
+            optionElement.css("top", geometry.getOptionTop(option) + 'px')
 
 
          /* opacity + fade in animation */
@@ -86,36 +82,35 @@ var view = (function() {
          if (oldIndex < 0) {
             // if it's a non-highlighted option in a tab containing highlighted options, ephemeral adaptation
             if (model.fullPanel() && !option.selected && option.tab.count > 0) {
-               $('#' + option.id).css("opacity", 0)
+               optionElement.css("opacity", 0)
 
                // if we are expanding the panel, wait before fading in
                if (delayEntrance) {
-                  $('#' + option.id).delay(400).animate({
+                  optionElement.delay(400).animate({
                      "opacity": 1
                   }, 400)
                } else {
-                  $('#' + option.id).animate({
+                  optionElement.animate({
                      "opacity": 1
                   }, 700)
                }
+
                countFade++;
             }
 
             // if we are contracting the panel, wait before fading in
             if (!model.fullPanel() && delayEntrance) {
-               $('#' + option.id).css("opacity", 0)
-               $('#' + option.id).delay(400).animate({
+               optionElement.css("opacity", 0)
+               optionElement.delay(500).animate({
                   "opacity": 1
-               }, 400)
+               }, 300)
+
                countFade++;
             }
          }
-
-
-
       });
 
-      console.log("move", countMove, "fadein", countFade, "fullPanel", model.fullPanel())
+      // console.log("move", countMove, "fadein", countFade, "fullPanel", model.fullPanel())
    }
 
    view.resetVisibleOptions = function() {

@@ -222,25 +222,6 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       }).removeClass("blue-highlighted")
    }
 
-
-   $scope.playEphemeralAnimation = function(animateTabs) {
-
-      /*      $timeout(function() {
-
-               $scope.$eval(function() {
-                  console.log("playEphemeralAnimation")
-
-                  var elements = animateTabs ? $(".delayed-entrance") : $(".option.delayed-entrance");
-
-                  elements.css("opacity", 0)
-                  elements.delay(100).animate({
-                     opacity: 1
-                  }, 500)
-               })
-
-            }, 10)*/
-   }
-
    $scope.adjustPanelHeightAsync = function() {
       //console.log("before", $("#options-list").height())
       /*      $timeout(function() {
