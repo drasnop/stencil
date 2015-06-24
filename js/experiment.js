@@ -44,8 +44,8 @@ experiment.initialize = function() {
          experiment.generateInitialState();
 
          // tutorial.start() is independent of the preparation of the experiment
-         // tutorial.start();
-         setTimeout(experiment.start.bind(experiment), 1000);
+         tutorial.start();
+         // setTimeout(experiment.start.bind(experiment), 1000);
       });
 
       // if the email doesn't appear in firebase, cancel experiment

@@ -21,7 +21,7 @@ var model = {
    /* display variables for customization panel */
 
    // Type of ad-hoc panel shown: 0=control, 1=minimal, 2=mixed, 3=full with highlights
-   "optionsVisibility": 3,
+   "optionsVisibility": 1,
 
    // For the linked panel, whether the current view is minimal or expanded to full highlighted panel
    fullPanel: function() {
@@ -60,14 +60,16 @@ var parameters = {
    "serverURL": "localhost:8888",
    //"serverURL": "tequila.cs.ubc.ca/stencil",
    // whether the system is currently used to conduct an experiment
-   "experiment": true,
+   "experiment": false,
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,
    // height (in px) of the experiment progress bar, necessary to offset the position of the hooks
    "progressBarHeight": 45,
    // clean definition of key codes
    "KEYCODE_ESC": 27,
-   // animation parameters (should be set relatively to the top transition duration of hooks)
+   // animation parameters for the ghosts (should be set relatively to the top transition duration of hooks)
    "ghostsSlideDownDuration": 200,
-   "ghostsSlideUpDuration": 400
+   "ghostsSlideUpDuration": 400,
+   // animation parameters for the panel
+   "panelSizeChangeDuration": 500
 }

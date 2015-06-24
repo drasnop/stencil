@@ -124,16 +124,16 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
    }
 
    $scope.expandToFullPanel = function(tab) {
-      // stores current width and height, for animation
-      $("#ad-hoc-panel").css("width", $("#ad-hoc-panel").width() + 1 + 'px')
-      $("#ad-hoc-panel").css("height", $("#ad-hoc-panel").height() + 'px')
-
       model.panelExpanded = true;
-
-      //positionPanel(); doesn't work
 
       var newActiveTab = tab || computeActiveTab();
       $scope.activateTab(newActiveTab);
+
+      // animate the expansion of the panel, and update its position at the end if needed
+      $("#ad-hoc-panel").animate({
+         "width": '590px',
+         "height": '373px'
+      }, parameters.panelSizeChangeDuration, positionPanel)
 
       // log
       if (experiment.trial) {
@@ -146,7 +146,12 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $rootScope.contractFullPanel = function() {
       model.panelExpanded = false;
-      //positionPanel(); doesn't work
+
+      // animate the contraction of the panel, and update its position at the end if needed
+      $("#ad-hoc-panel").animate({
+         "width": "auto",
+         "height": "auto"
+      }, parameters.panelSizeChangeDuration, positionPanel)
 
       // log
       if (experiment.trial) {
