@@ -42,9 +42,9 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       model.panelExpanded = true;
 
       var newActiveTab = tab || computeActiveTab();
-      $scope.activateTab(newActiveTab);
+      $scope.activateTab(newActiveTab, true);
 
-      // view.positionAllOptions has been called by activateTab
+      // view.positionAllOptions has been called by activateTab, asking it to delay the entrance of non-highlighted options
 
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
@@ -99,11 +99,8 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       }
    }
 
-   $scope.activateTab = function(tab) {
-      // If the tab hasn't changed, we simply replay the animation
-      /*      if(tab == model.activeTab)
-               $scope.playEphemeralAnimation(false);
-            else*/
+   $scope.activateTab = function(tab, delayEntrance) {
+
       model.activeTab = tab;
 
       // automatically bring highlighted options into view
@@ -119,7 +116,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       }
 
       // update the position of the options to fit the new tab, which will also play ephemeral entrance animation
-      view.positionAllOptions();
+      view.positionAllOptions(delayEntrance);
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {

@@ -34,7 +34,7 @@ var view = (function() {
 
    // Determine where each option should appear, by construction an ordered array of the visible options
    // When contracting the panel, delay the entrance of the options that weren't visible 
-   view.positionAllOptions = function(delayedEntranceMinimalPanel) {
+   view.positionAllOptions = function(delayedEntrance) {
 
       // Store the previous list of visible options, to compute diff
       var prevVisibleOptions = $.extend([], view.visibleOptions)
@@ -54,6 +54,7 @@ var view = (function() {
          }
       }
 
+      // debug: make sure I'm animating the correct number of options
       var countFade = 0;
       var countMove = 0;
 
@@ -67,17 +68,26 @@ var view = (function() {
             // if it's a non-highlighted option in a tab containing highlighted options, ephemeral adaptation
             if (model.fullPanel() && !option.selected && option.tab.count > 0) {
                $('#' + option.id).css("opacity", 0)
-               $('#' + option.id).animate({
-                  "opacity": 1
-               }, 800)
+
+               // if we are expanding the panel, wait before fading in
+               if (delayedEntrance) {
+                  $('#' + option.id).delay(400).animate({
+                     "opacity": 1
+                  }, 400)
+               } else {
+                  $('#' + option.id).animate({
+                     "opacity": 1
+                  }, 700)
+               }
                countFade++;
             }
-            // if
-            if (!model.fullPanel() && delayedEntranceMinimalPanel) {
+
+            // if we are contracting the panel, wait before fading in
+            if (!model.fullPanel() && delayedEntrance) {
                $('#' + option.id).css("opacity", 0)
-               $('#' + option.id).delay(500).animate({
+               $('#' + option.id).delay(400).animate({
                   "opacity": 1
-               }, 300)
+               }, 400)
                countFade++;
             }
          }

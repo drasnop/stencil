@@ -235,7 +235,7 @@ z-indexes
 /* avoid waiting for the animation to "play" when closing the panel */
 
 #ad-hoc-panel.ng-hide {
-    transition: all 0s linear 0s;
+    /*transition: all 0s linear 0s;*/
 }
 
 #ad-hoc-panel.expanded {
