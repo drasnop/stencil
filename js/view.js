@@ -33,8 +33,9 @@ var view = (function() {
    }
 
    // Determine where each option should appear, by construction an ordered array of the visible options
-   // When contracting the panel, delay the entrance of the options that weren't visible 
-   view.positionAllOptions = function(delayedEntrance) {
+   // When expanding/contracting the panel, delay the entrance of the options that weren't visible 
+   // to allow the ones moving up and down to finish their movement
+   view.positionAllOptions = function(delayEntrance) {
 
       // Store the previous list of visible options, to compute diff
       var prevVisibleOptions = $.extend([], view.visibleOptions)
@@ -63,6 +64,24 @@ var view = (function() {
          var newIndex = view.visibleOptions.indexOf(option);
          var oldIndex = prevVisibleOptions.indexOf(option);
 
+
+         /* position + move animation */
+
+         // if the option was visible before, but has changed position, animate it to its new position
+         if (oldIndex >= 0 && oldIndex != newIndex) {
+            $('#' + option.id).animate({
+               "top": geometry.getOptionTop(option)
+            }, 500)
+            countMove++;
+         }
+         // otherwise, simply set it to its new position
+         else {
+            $('#' + option.id).css("top", geometry.getOptionTop(option) + 'px')
+         }
+
+
+         /* opacity + fade in animation */
+
          // if the option wasn't visible before
          if (oldIndex < 0) {
             // if it's a non-highlighted option in a tab containing highlighted options, ephemeral adaptation
@@ -70,7 +89,7 @@ var view = (function() {
                $('#' + option.id).css("opacity", 0)
 
                // if we are expanding the panel, wait before fading in
-               if (delayedEntrance) {
+               if (delayEntrance) {
                   $('#' + option.id).delay(400).animate({
                      "opacity": 1
                   }, 400)
@@ -83,7 +102,7 @@ var view = (function() {
             }
 
             // if we are contracting the panel, wait before fading in
-            if (!model.fullPanel() && delayedEntrance) {
+            if (!model.fullPanel() && delayEntrance) {
                $('#' + option.id).css("opacity", 0)
                $('#' + option.id).delay(400).animate({
                   "opacity": 1
@@ -92,13 +111,8 @@ var view = (function() {
             }
          }
 
-         // if the option was visible before, but has changed position, animate it to its new position
-         else if (oldIndex >= 0 && oldIndex != newIndex) {
-            $('#' + option.id).animate({
-               "top": geometry.getOptionTop(option)
-            }, 500)
-            countMove++;
-         }
+
+
       });
 
       console.log("move", countMove, "fadein", countFade, "fullPanel", model.fullPanel())
