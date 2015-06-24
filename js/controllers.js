@@ -49,8 +49,17 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
          "width": '590px',
-         "height": geometry.getPanelHeight() + 'px'
-      }, parameters.panelSizeChangeDuration, positionPanel)
+         "height": geometry.getPanelHeight() + 'px',
+      }, parameters.panelSizeChangeDuration, function() {
+
+         // if necessary, re-position panel to account for the larger size
+         positionPanel();
+
+         // if necessary, scroll down to bring first highlighted element into view
+         $("#options-list").animate({
+            scrollTop: computeScrollOffset()
+         }, 300)
+      })
 
       // log
       if (experiment.trial) {
