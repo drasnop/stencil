@@ -1,13 +1,12 @@
 /* 
  * Manage the display of options in the customization panel, via a filtered index
- * which contains the true index of each visible option (discounting the options that are hidden)
+ * which returns the true index of each visible option (discounting the options that are hidden)
  */
 var options = (function() {
 
    var options = {
-      // True index of each visible option (discounting the options that are hidden)
-      // format: {"tabName": [indexes]}
-      "filteredIndex": {}
+      // List of all the options visible, ordered by tab and index in tab
+      "visibleOptions": []
    };
 
    // Return true if an option is visible 
@@ -31,91 +30,48 @@ var options = (function() {
       }
    }
 
-   // update (or create) the filteredIndex for all options
-   options.updateFilteredIndex = function() {
+   // Determine where each option should appear, by construction an ordered array of the visible options
+   options.positionAllOptions = function() {
 
       var optionsToMove = [];
       var optionsToFadeIn = [];
 
-      model.tabs.forEachNonBloat(function(tab) {
-         tab.options.forEach(function(option) {
-
-            // get the previous and current index, for later comparison
-            var oldIndex = options.filteredIndex[option.tab.name][option.index];
-            var newIndex = computeFilteredIndexOption(option);
-
-            // update the filtered index
-            options.filteredIndex[option.tab.name][option.index] = newIndex;
-
-            // if the option was visible before, and has now changed position, animate it vertically
-            if (newIndex != oldIndex && options.isOptionVisible(option)) {
-               if (oldIndex == -1)
-                  optionsToFadeIn.push(option)
-               else
-                  optionsToMove.push(option);
-            }
-         });
-      })
-
-      console.log("move", optionsToMove.length, "fadein", optionsToFadeIn.length)
-      optionsToMove.forEach(function(option) {
-         $('#' + option.id).animate({
-            "top": geometry.getOptionTop(option)
-         }, 500, function() {
-            optionsToFadeIn.forEach(function(option) {
-               $('#' + option.id).animate({
-                  "opacity": 1
-               }, 500)
-            });
-         })
-      });
-   }
-
-   function computeFilteredIndexOption(option) {
-      if (option.index === 0)
-         return options.isOptionVisible(option) ? 0 : -1;
-      else
-         return options.filteredIndex[option.tab.name][option.index - 1] + (options.isOptionVisible(option) ? 1 : 0);
-   }
-
-   // sum of 1 + index of the last element in each tab
-   options.getTotalNumberVisibleOptions = function() {
-      var count = 0;
-      var indexesInTab;
-      for (var tabName in options.filteredIndex) {
-         indexesInTab = options.filteredIndex[tabName];
-         count += indexesInTab[indexesInTab.length - 1] + 1;
-      }
-      return count;
-   }
-
-   // sum of filtered indexes in the tab preceding this one + filtered index in this tab
-   options.getFilteredIndex = function(option) {
-
-      // non-visible options 
-      if (options.filteredIndex[option.tab.name][option.index] == -1)
-         return -1;
-
-      var filtered = 0;
-      var indexesInTab;
-
-      // enumerate tabs in order, skipping bloat tabs, stopping when the target tab is found
+      // Iterate through tabs and options in order, to build visibleOptions
+      options.visibleOptions = [];
       for (var i = 0; i < model.tabs.length; i++) {
-         if (!model.tabs[i].bloat) {
-            var tabName = model.tabs[i].name;
+         var tab = model.tabs[i];
 
-            if (tabName == option.tab.name) {
-               // get the filtered index of the target option in the target tab
-               filtered += options.filteredIndex[option.tab.name][option.index];
-               break;
-            } else {
-               // for all preceding tabs, add their maximal filtered index
-               indexesInTab = options.filteredIndex[tabName];
-               filtered += indexesInTab[indexesInTab.length - 1] + 1;
+         if (!tab.bloat) {
+            for (var j = 0; j < tab.options.length; j++) {
+               var option = tab.options[j];
+
+               if (options.isOptionVisible(option))
+                  options.visibleOptions.push(option);
             }
          }
       }
-      return filtered;
+
+      /*      console.log("move", optionsToMove.length, "fadein", optionsToFadeIn.length)
+            optionsToMove.forEach(function(option) {
+               $('#' + option.id).animate({
+                  "top": geometry.getOptionTop(option)
+               }, 500, function() {
+                  optionsToFadeIn.forEach(function(option) {
+                     $('#' + option.id).animate({
+                        "opacity": 1
+                     }, 500)
+                  });
+               })
+            });*/
+   }
+
+   options.getTotalNumberVisibleOptions = function() {
+      return options.visibleOptions.length;
+   }
+
+   // returns -1 if the option is not visible; otherwise its filtered index
+   options.getFilteredIndex = function(option) {
+      return options.visibleOptions.indexOf(option);
    }
 
    return options;

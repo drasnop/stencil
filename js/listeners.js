@@ -83,7 +83,7 @@ function bindHooksListeners() {
 
       scope.showPanel();
       scope.resetViewParameters();
-      // options.updateFilteredIndex has been called by resetViewParameters
+      // options.positionAllOptions has been called by resetViewParameters
       scope.resizePanel();
       scope.$apply();
 

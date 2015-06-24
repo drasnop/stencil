@@ -87,11 +87,6 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          model.tabs[i].index = i;
       }
 
-      // creates filteredIndex
-      model.tabs.forEachNonBloat(function(tab) {
-         options.filteredIndex[tab.name] = [];
-      });
-
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];
 

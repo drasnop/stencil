@@ -44,7 +44,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var newActiveTab = tab || computeActiveTab();
       $scope.activateTab(newActiveTab);
 
-      // options.updateFilteredIndex has been called by activateTab
+      // options.positionAllOptions has been called by activateTab
 
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
@@ -77,7 +77,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       // otherwise their index is updated before they visibility, and they jump to the top of the tab for a split second...
       setTimeout(function() {
          // we must update the filtered index first, to compute the new size of the panel      
-         options.updateFilteredIndex();
+         options.positionAllOptions();
 
          // animate the contraction of the panel, and update its position at the end if needed
          $("#ad-hoc-panel").animate({
@@ -118,7 +118,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          }, 500)
       }
 
-      options.updateFilteredIndex();
+      options.positionAllOptions();
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
       if (experiment.trial) {
@@ -178,7 +178,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.toggleShowMoreOptions = function() {
       model.activeTab.showMoreOptions = !model.activeTab.showMoreOptions;
-      options.updateFilteredIndex();
+      options.positionAllOptions();
 
       // log
       if (experiment.trial) {
@@ -191,7 +191,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.resetViewParameters = function() {
       model.panelExpanded = false;
-      options.updateFilteredIndex();
+      options.positionAllOptions();
       /*model.activeTab.showMoreOptions = false;*/
    }
 
