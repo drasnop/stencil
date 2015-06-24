@@ -1,117 +1,23 @@
 app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeout', '$http', function($scope, $rootScope, $window, $timeout, $http) {
 
-   // provides access to model and dataManager in the html templates
+   // provides access to model and other global objects in the html template
    $scope.model = $window.model;
    $scope.parameters = $window.parameters;
    $scope.experiment = $window.experiment;
    $scope.logger = $window.logger;
    $scope.dataManager = $window.dataManager;
+   $scope.options = $window.options;
    $scope.geometry = $window.geometry;
 
 
-   /* Manage options */
-
-
-   // Return true if an option is visible 
-   $scope.isOptionVisible = function(option) {
-
-      // hide option when panel is hidden, to have entrance animation on showPanel
-      if (!model.showPanel) {
-         return false;
-      }
-
-      // Minimal panel: only selected options are shown
-      else if (!model.fullPanel()) {
-         if (option.selected)
-            return true;
-         else
-            return false;
-      } else if (model.fullPanel()) {
-         // Full panel: hide options in show more shortcuts
-         if (option.more && !model.activeTab.showMoreOptions)
-            return false;
-
-         // Full panel: show only options from one tab (to have entrance effects)
-         else if (option.tab == model.activeTab)
-            return true;
-         else
-            return false;
-      }
-   }
+   /* Manage Panel */
 
    // we must call updateFilteredIndex() directly when model.panelExpanded is changed,
    // because the new size of the panel must be computed from the new index immediately
    // (can't wait the end of the digest cycle) 
    $scope.$watchGroup(['model.selectedOptions', 'model.activeTab'], function() {
-      updateFilteredIndex();
+      options.updateFilteredIndex();
    })
-
-   // update (or create) the filteredIndex for all options
-   $window.updateFilteredIndex = function() {
-      model.tabs.forEachNonBloat(function(tab) {
-         tab.options.forEach(function(option) {
-            updateFilteredIndexOption(option);
-         });
-      })
-   }
-
-   function updateFilteredIndexOption(option) {
-      if (option.index === 0)
-         model.filteredIndex[option.tab.name][option.index] = $scope.isOptionVisible(option) ? 0 : -1;
-      else
-         model.filteredIndex[option.tab.name][option.index] = model.filteredIndex[option.tab.name][option.index - 1] + ($scope.isOptionVisible(option) ? 1 : 0);
-   }
-
-   // sum of 1 + index of the last element in each tab
-   $scope.getTotalNumberVisibleOptions = function() {
-      var count = 0;
-      var indexesInTab;
-      for (var tabName in model.filteredIndex) {
-         indexesInTab = model.filteredIndex[tabName];
-         count += indexesInTab[indexesInTab.length - 1] + 1;
-      }
-      return count;
-   }
-
-   // sum of filtered indexes in the tab preceding this one + filtered index in this tab
-   $scope.getFilteredIndex = function(tab, index) {
-      var filtered = 0;
-      var indexesInTab;
-
-      // enumerate tabs in order, skipping bloat tabs, stopping when the target tab is found
-      for (var i = 0; i < model.tabs.length; i++) {
-         if (!model.tabs[i].bloat) {
-            var tabName = model.tabs[i].name;
-
-            if (tabName == tab.name) {
-               // get the filtered index of the target option in the target tab
-               filtered += model.filteredIndex[tab.name][index];
-               break;
-            } else {
-               // for all preceding tabs, add their maximal filtered index
-               indexesInTab = model.filteredIndex[tabName];
-               filtered += indexesInTab[indexesInTab.length - 1] + 1;
-            }
-         }
-      }
-      return filtered;
-   }
-
-   $scope.updateAppOption = function(option, oldValue) {
-      // store the old value before updating the underlying option, hence updating hooks and clusters
-      var clusterCollapsed = hooksManager.isClusterCollapsed(option);
-
-      dataManager.updateAppOption(option.id, option.value, true);
-
-      // log
-      if (experiment.trial)
-         experiment.trial.logValueChange(option, oldValue, clusterCollapsed);
-   }
-
-
-
-
-   /* Manage Panel */
 
    // called when clicking on a hook
    $scope.showPanel = function() {
@@ -139,7 +45,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var newActiveTab = tab || computeActiveTab();
       $scope.activateTab(newActiveTab);
 
-      updateFilteredIndex();
+      options.updateFilteredIndex();
 
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
@@ -158,7 +64,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $rootScope.contractFullPanel = function() {
       model.panelExpanded = false;
-      updateFilteredIndex();
+      options.updateFilteredIndex();
 
       // animate the contraction of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
@@ -201,6 +107,19 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          });
       }
    }
+
+   // wrapper to allow cleaner logging
+   $scope.updateAppOption = function(option, oldValue) {
+      // store the old value before updating the underlying option, hence updating hooks and clusters
+      var clusterCollapsed = hooksManager.isClusterCollapsed(option);
+
+      dataManager.updateAppOption(option.id, option.value, true);
+
+      // log
+      if (experiment.trial)
+         experiment.trial.logValueChange(option, oldValue, clusterCollapsed);
+   }
+
 
    function computeScrollOffset() {
       // gather all the options highlighted in this tab

@@ -1,3 +1,6 @@
+/* 
+ * Does some geometric computations to determine how to display options in the customization panel
+ */
 var geometry = (function() {
    var geometry = {
       "panelHeight": 373,
@@ -16,7 +19,7 @@ var geometry = (function() {
 
    // return a string to be used in inline css
    geometry.getAllOptionsHeight = function() {
-      var numVisibleOptions = angular.element($("#ad-hoc-panel")).scope().getTotalNumberVisibleOptions();
+      var numVisibleOptions = options.getTotalNumberVisibleOptions();
 
       if (model.fullPanel() && model.activeTab.bloat)
          return "auto";

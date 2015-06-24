@@ -9,6 +9,7 @@ var model = {
    // mappings between (multiple) options and (multiple) jQuery selectors
    "mappings": [],
 
+
    /* hooks, anchors and clusters */
 
    // set of options mapped with the selected anchor
@@ -17,6 +18,7 @@ var model = {
    "selectedAnchor": {},
    // hooks, x, y, icon, showGhosts
    "clusters": [],
+
 
    /* display variables for customization panel */
 
@@ -35,8 +37,6 @@ var model = {
    // Tab current displayed in the full panel
    "activeTab": "",
 
-   // True index of each visible option (discounting the options that are hidden) {"tabName": [indexes]}
-   "filteredIndex": {},
 
    /* other display variables */
 

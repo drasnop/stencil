@@ -26,9 +26,9 @@
 
 			<div class="row option" id="{{option.id}}"
 			ng-class="{'highlighted': option.selected, 'delayed-entrance': !option.selected}"
-			ng-show="isOptionVisible(option)"
+			ng-show="options.isOptionVisible(option)"
 			ng-repeat="option in tab.options"
-			ng-style="{top: geometry.getOptionTop(getFilteredIndex(option.tab, $index)) + 'px'}">
+			ng-style="{top: geometry.getOptionTop(options.getFilteredIndex(option.tab, $index)) + 'px'}">
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"
