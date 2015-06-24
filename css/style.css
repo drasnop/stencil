@@ -403,7 +403,7 @@ select {
     display: flex;
     -ms-align-items: center;
     align-items: center;
-    transition: top 0.5s ease;
+    /*transition: top 0.5s ease;*/
 }
 
 .row.option.highlighted {

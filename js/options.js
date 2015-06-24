@@ -7,7 +7,7 @@ var options = (function() {
    var options = {
       // True index of each visible option (discounting the options that are hidden)
       // format: {"tabName": [indexes]}
-      "filteredIndex": {},
+      "filteredIndex": {}
    };
 
    // Return true if an option is visible 
@@ -33,18 +33,49 @@ var options = (function() {
 
    // update (or create) the filteredIndex for all options
    options.updateFilteredIndex = function() {
+
+      var optionsToMove = [];
+      var optionsToFadeIn = [];
+
       model.tabs.forEachNonBloat(function(tab) {
          tab.options.forEach(function(option) {
-            updateFilteredIndexOption(option);
+
+            // get the previous and current index, for later comparison
+            var oldIndex = options.filteredIndex[option.tab.name][option.index];
+            var newIndex = computeFilteredIndexOption(option);
+
+            // update the filtered index
+            options.filteredIndex[option.tab.name][option.index] = newIndex;
+
+            // if the option was visible before, and has now changed position, animate it vertically
+            if (newIndex != oldIndex && options.isOptionVisible(option)) {
+               if (oldIndex == -1)
+                  optionsToFadeIn.push(option)
+               else
+                  optionsToMove.push(option);
+            }
          });
       })
+
+      console.log("move", optionsToMove.length, "fadein", optionsToFadeIn.length)
+      optionsToMove.forEach(function(option) {
+         $('#' + option.id).animate({
+            "top": geometry.getOptionTop(option)
+         }, 500, function() {
+            optionsToFadeIn.forEach(function(option) {
+               $('#' + option.id).animate({
+                  "opacity": 1
+               }, 500)
+            });
+         })
+      });
    }
 
-   function updateFilteredIndexOption(option) {
+   function computeFilteredIndexOption(option) {
       if (option.index === 0)
-         options.filteredIndex[option.tab.name][option.index] = options.isOptionVisible(option) ? 0 : -1;
+         return options.isOptionVisible(option) ? 0 : -1;
       else
-         options.filteredIndex[option.tab.name][option.index] = options.filteredIndex[option.tab.name][option.index - 1] + (options.isOptionVisible(option) ? 1 : 0);
+         return options.filteredIndex[option.tab.name][option.index - 1] + (options.isOptionVisible(option) ? 1 : 0);
    }
 
    // sum of 1 + index of the last element in each tab

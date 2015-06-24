@@ -14,9 +14,9 @@ var geometry = (function() {
    }
 
    geometry.getOptionTop = function(option) {
+      var filteredIndex = options.getFilteredIndex(option);
       // min index 0 to prevent options from sliding in from the top
-      var index = Math.max(0, options.getFilteredIndex(option));
-      return computeHeightIncludingDescription(index);
+      return computeHeightIncludingDescription(Math.max(0, filteredIndex));
    }
 
    // return a string to be used in inline css
@@ -25,10 +25,8 @@ var geometry = (function() {
 
       if (model.fullPanel() && model.activeTab.bloat)
          return "auto";
-      else {
-         console.log("getAllOptionsHeight", computeHeightIncludingDescription(numVisibleOptions))
+      else
          return computeHeightIncludingDescription(numVisibleOptions);
-      }
    }
 
    geometry.getPanelHeight = function() {
