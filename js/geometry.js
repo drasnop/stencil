@@ -1,13 +1,12 @@
 var geometry = {
    "panelHeight": 373,
-   "tabsHeight": 45
+   "tabsHeight": 45,
+   "optionHeight": 38
 }
 
 geometry.getOptionHeight = function() {
-   if (model.optionsVisibility == 2 && !model.fullPanel())
-      return 38;
-
-   return 38;
+   // thus, all options have the same height (checkboxes are simply vertically centered)
+   return geometry.optionHeight;
 }
 
 geometry.getOptionTop = function(filteredIndex) {
@@ -17,7 +16,6 @@ geometry.getOptionTop = function(filteredIndex) {
 // return a string to be used in inline css
 geometry.getAllOptionsHeight = function() {
    var numVisibleOptions = angular.element($("#ad-hoc-panel")).scope().getTotalNumberVisibleOptions();
-   console.log(model.fullPanel(), numVisibleOptions)
 
    if (model.fullPanel() && model.activeTab.bloat)
       return "auto";
@@ -26,10 +24,13 @@ geometry.getAllOptionsHeight = function() {
 }
 
 geometry.getPanelHeight = function() {
-   if (model.fullPanel())
+   if (model.fullPanel()) {
+      // thus far, a fixed height
       return geometry.panelHeight;
-   else
-      return geometry.getAllOptionsHeight();
+   } else {
+      // take into account the margins top and bottom of #options-list
+      return geometry.getAllOptionsHeight() + 8 + 20;
+   }
 }
 
 function computeHeightIncludingDescription(numOptions) {

@@ -13,43 +13,53 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
 
    // Return true if an option is visible 
-   $scope.isOptionVisible = function(option, index) {
-      var visible;
+   $scope.isOptionVisible = function(option) {
 
       // hide option when panel is hidden, to have entrance animation on showPanel
       if (!model.showPanel) {
-         visible = false;
+         return false;
       }
 
       // Minimal panel: only selected options are shown
       else if (!model.fullPanel()) {
          if (option.selected)
-            visible = true;
+            return true;
          else
-            visible = false;
+            return false;
       } else if (model.fullPanel()) {
          // Full panel: hide options in show more shortcuts
          if (option.more && !model.activeTab.showMoreOptions)
-            visible = false;
+            return false;
 
          // Full panel: show only options from one tab (to have entrance effects)
          else if (option.tab == model.activeTab)
-            visible = true;
+            return true;
          else
-            visible = false;
+            return false;
       }
-
-      updateIndex(option.tab.name, index, visible);
-      return visible;
    }
 
-   function updateIndex(tabName, index, visible) {
-      if (index === 0) {
-         model.filteredIndex[tabName][index] = visible ? 0 : -1;
-         return;
-      }
+   // we must call updateFilteredIndex() directly when model.panelExpanded is changed,
+   // because the new size of the panel must be computed from the new index immediately
+   // (can't wait the end of the digest cycle) 
+   $scope.$watchGroup(['model.selectedOptions', 'model.activeTab'], function() {
+      updateFilteredIndex();
+   })
 
-      model.filteredIndex[tabName][index] = model.filteredIndex[tabName][index - 1] + (visible ? 1 : 0);
+   // update (or create) the filteredIndex for all options
+   $window.updateFilteredIndex = function() {
+      model.tabs.forEachNonBloat(function(tab) {
+         tab.options.forEach(function(option) {
+            updateFilteredIndexOption(option);
+         });
+      })
+   }
+
+   function updateFilteredIndexOption(option) {
+      if (option.index === 0)
+         model.filteredIndex[option.tab.name][option.index] = $scope.isOptionVisible(option) ? 0 : -1;
+      else
+         model.filteredIndex[option.tab.name][option.index] = model.filteredIndex[option.tab.name][option.index - 1] + ($scope.isOptionVisible(option) ? 1 : 0);
    }
 
    // sum of 1 + index of the last element in each tab
@@ -129,6 +139,8 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       var newActiveTab = tab || computeActiveTab();
       $scope.activateTab(newActiveTab);
 
+      updateFilteredIndex();
+
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
          "width": '590px',
@@ -146,6 +158,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $rootScope.contractFullPanel = function() {
       model.panelExpanded = false;
+      updateFilteredIndex();
 
       // animate the contraction of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
