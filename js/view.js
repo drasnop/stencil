@@ -118,6 +118,10 @@ var view = (function() {
       console.log("move", countMove, "fadein", countFade, "fullPanel", model.fullPanel())
    }
 
+   view.resetVisibleOptions = function() {
+      view.visibleOptions = [];
+   }
+
    view.getTotalNumberVisibleOptions = function() {
       return view.visibleOptions.length;
    }

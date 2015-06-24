@@ -83,6 +83,10 @@ function bindHooksListeners() {
 
       // revert to contracted panel, if needed
       model.panelExpanded = false;
+
+      // cleanup the visible options, to allow the entrance animation to play again
+      view.resetVisibleOptions();
+
       scope.showPanel();
 
       // update the index of visible options, which will play ephemeral animation in full panel
