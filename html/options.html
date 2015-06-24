@@ -1,5 +1,5 @@
 <div id='ad-hoc-panel' ng-controller='optionsController'
- ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'with-back-arrow': model.optionsVisibility < 3 && model.fullPanel(), 'minimal': model.optionsVisibility==1 && !model.fullPanel(), 'mixed': model.optionsVisibility==2 && !model.fullPanel()}">
+ ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'with-back-arrow': model.optionsVisibility < 3 && model.fullPanel(), 'minimal': model.optionsVisibility==1 && !model.fullPanel(), 'mixed': model.optionsVisibility==2 && !model.fullPanel()}" ng-style="{height: geometry.getPanelHeight() + 'px'}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">
 		<div class="back-arrow-wrapper" ng-if="model.fullPanel() && model.optionsVisibility < 3" ng-click="contractFullPanel()">
