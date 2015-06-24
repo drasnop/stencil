@@ -43,6 +43,13 @@ function sameElements(a, b) {
 
 // Resize the panel to create a vertical scrollbar instead of overflowing
 function adjustPanelHeight() {
+
+   // Do not reposition minimal panel; simply reposition it
+   if (!model.fullPanel()) {
+      positionPanel();
+      return;
+   }
+
    // we leave a margin of 30px below the panel
    var wh = window.innerHeight - 30;
    var top = $("#ad-hoc-panel").offset().top;

@@ -13,7 +13,7 @@
 		</li>
 	</ul>
 
-	<div id="options-list" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.fullPanel() && model.activeTab.bloat}" ng-style="{height: geometry.getTotalHeight(getTotalNumberVisibleOptions())}">
+	<div id="options-list" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.fullPanel() && model.activeTab.bloat}" ng-style="{height: geometry.getAllOptionsHeight() + 'px'}">
 
 		<img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="/img/tabs/{{model.activeTab.image}}">
 

@@ -1,5 +1,5 @@
 var geometry = {
-   "panelHeight": 340,
+   "panelHeight": 373,
    "tabsHeight": 45
 }
 
@@ -15,11 +15,21 @@ geometry.getOptionTop = function(filteredIndex) {
 }
 
 // return a string to be used in inline css
-geometry.getTotalHeight = function(numVisibleOptions) {
+geometry.getAllOptionsHeight = function() {
+   var numVisibleOptions = angular.element($("#ad-hoc-panel")).scope().getTotalNumberVisibleOptions();
+   console.log(model.fullPanel(), numVisibleOptions)
+
    if (model.fullPanel() && model.activeTab.bloat)
       return "auto";
    else
-      return computeHeightIncludingDescription(numVisibleOptions) + 'px';
+      return computeHeightIncludingDescription(numVisibleOptions);
+}
+
+geometry.getPanelHeight = function() {
+   if (model.fullPanel())
+      return geometry.panelHeight;
+   else
+      return geometry.getAllOptionsHeight();
 }
 
 function computeHeightIncludingDescription(numOptions) {

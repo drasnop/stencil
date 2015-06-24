@@ -132,7 +132,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
          "width": '590px',
-         "height": '373px'
+         "height": geometry.getPanelHeight() + 'px'
       }, parameters.panelSizeChangeDuration, positionPanel)
 
       // log
@@ -149,8 +149,8 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
       // animate the contraction of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
-         "width": "auto",
-         "height": "auto"
+         "width": "360px",
+         "height": geometry.getPanelHeight() + 'px'
       }, parameters.panelSizeChangeDuration, positionPanel)
 
       // log
