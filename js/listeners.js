@@ -84,6 +84,7 @@ function bindHooksListeners() {
       scope.showPanel();
       scope.resetViewParameters();
       // options.updateFilteredIndex has been called by resetViewParameters
+      scope.resizePanel();
       scope.$apply();
 
       // remove previous highlighted hooks, if any

@@ -32,6 +32,12 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       $(".hook").removeClass("hovered");
    }
 
+   $scope.resizePanel = function() {
+      $("#ad-hoc-panel").css({
+         "height": geometry.getPanelHeight() + 'px'
+      })
+   }
+
    $scope.expandToFullPanel = function(tab) {
       model.panelExpanded = true;
 
@@ -57,13 +63,23 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $rootScope.contractFullPanel = function() {
       model.panelExpanded = false;
-      options.updateFilteredIndex();
 
-      // animate the contraction of the panel, and update its position at the end if needed
-      $("#ad-hoc-panel").animate({
-         "width": "360px",
-         "height": geometry.getPanelHeight() + 'px'
-      }, parameters.panelSizeChangeDuration, positionPanel)
+      // need this trick to make sure the non-selected options disappear immediately
+      // otherwise their index is updated before they visibility, and they jump to the top of the tab for a split second...
+      setTimeout(function() {
+         // we must update the filtered index first, to compute the new size of the panel      
+         options.updateFilteredIndex();
+
+         // animate the contraction of the panel, and update its position at the end if needed
+         $("#ad-hoc-panel").animate({
+            "width": "360px",
+            "height": geometry.getPanelHeight() + 'px'
+         }, parameters.panelSizeChangeDuration, function() {
+            positionPanel();
+            angular.element($("#ad-hoc-panel")).scope().$apply();
+         })
+      }, 0)
+
 
       // log
       if (experiment.trial) {
