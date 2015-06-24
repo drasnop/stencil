@@ -28,7 +28,7 @@
 			ng-class="{'highlighted': option.selected, 'delayed-entrance': !option.selected}"
 			ng-show="view.isOptionVisible(option)"
 			ng-repeat="option in tab.options"
-			ng-style="{top: geometry.getOptionTop(option) + 'px', opacity: view.isOptionVisible(option)}">
+			ng-style="{'top': geometry.getOptionTop(option) + 'px'}">
 
 				<div class="cell left-column align-right">
 					<input type="checkbox"

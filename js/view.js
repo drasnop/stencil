@@ -14,8 +14,9 @@ var view = (function() {
    view.isOptionVisible = function(option) {
 
       // hide option when panel is hidden, to have entrance animation on showPanel
-      if (!model.showPanel)
-         return false;
+      /*      if (!model.showPanel)
+               return false;
+      */
 
       // Minimal panel: only selected options are shown
       if (!model.fullPanel())
@@ -32,7 +33,8 @@ var view = (function() {
    }
 
    // Determine where each option should appear, by construction an ordered array of the visible options
-   view.positionAllOptions = function() {
+   // When contracting the panel, delay the entrance of the options that weren't visible 
+   view.positionAllOptions = function(delayedEntranceMinimalPanel) {
 
       // Store the previous list of visible options, to compute diff
       var prevVisibleOptions = $.extend([], view.visibleOptions)
@@ -52,35 +54,44 @@ var view = (function() {
          }
       }
 
+      var countFade = 0;
+      var countMove = 0;
+
       // Determine if some options should be animated
       view.visibleOptions.forEach(function(option) {
          var newIndex = view.visibleOptions.indexOf(option);
          var oldIndex = prevVisibleOptions.indexOf(option);
 
+         // if the option wasn't visible before
          if (oldIndex < 0) {
-            // if the option wasn't visible before, fade it in to its new position
+            // if it's a non-highlighted option in a tab containing highlighted options, ephemeral adaptation
+            if (model.fullPanel() && !option.selected && option.tab.count > 0) {
+               $('#' + option.id).css("opacity", 0)
+               $('#' + option.id).animate({
+                  "opacity": 1
+               }, 800)
+               countFade++;
+            }
+            // if
+            if (!model.fullPanel() && delayedEntranceMinimalPanel) {
+               $('#' + option.id).css("opacity", 0)
+               $('#' + option.id).delay(500).animate({
+                  "opacity": 1
+               }, 300)
+               countFade++;
+            }
+         }
 
-
-         } else if (oldIndex != newIndex) {
-            // if the option was visible before, but has changed position, animate it
+         // if the option was visible before, but has changed position, animate it to its new position
+         else if (oldIndex >= 0 && oldIndex != newIndex) {
             $('#' + option.id).animate({
                "top": geometry.getOptionTop(option)
             }, 500)
+            countMove++;
          }
       });
 
-      /*      console.log("move", optionsToMove.length, "fadein", optionsToFadeIn.length)
-            optionsToMove.forEach(function(option) {
-               $('#' + option.id).animate({
-                  "top": geometry.getOptionTop(option)
-               }, 500, function() {
-                  optionsToFadeIn.forEach(function(option) {
-                     $('#' + option.id).animate({
-                        "opacity": 1
-                     }, 500)
-                  });
-               })
-            });*/
+      console.log("move", countMove, "fadein", countFade, "fullPanel", model.fullPanel())
    }
 
    view.getTotalNumberVisibleOptions = function() {

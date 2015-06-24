@@ -81,11 +81,16 @@ function bindHooksListeners() {
 
       /*    update view     */
 
+      // revert to contracted panel, if needed
+      model.panelExpanded = false;
       scope.showPanel();
-      scope.resetViewParameters();
-      // view.positionAllOptions has been called by resetViewParameters
-      scope.resizePanel();
+
+      // update the index of visible options, which will play ephemeral animation in full panel
+      view.positionAllOptions();
       scope.$apply();
+
+      // change width an height of panel
+      scope.resizePanel();
 
       // remove previous highlighted hooks, if any
       hooksManager.updateHooksHighlighting();

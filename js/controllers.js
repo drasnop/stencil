@@ -77,7 +77,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       // otherwise their index is updated before they visibility, and they jump to the top of the tab for a split second...
       setTimeout(function() {
          // we must update the filtered index first, to compute the new size of the panel      
-         view.positionAllOptions();
+         view.positionAllOptions(true);
 
          // animate the contraction of the panel, and update its position at the end if needed
          $("#ad-hoc-panel").animate({
@@ -118,6 +118,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
          }, 500)
       }
 
+      // update the position of the options to fit the new tab, which will also play ephemeral entrance animation
       view.positionAllOptions();
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
