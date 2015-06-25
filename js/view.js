@@ -54,7 +54,7 @@ var view = (function() {
       var countFade = 0;
       var countMove = 0;
 
-      // Determine if some options should be animated
+      // Position all visible options, and determine if some should be animated
       view.visibleOptions.forEach(function(option) {
          var newIndex = view.visibleOptions.indexOf(option);
          var oldIndex = prevVisibleOptions.indexOf(option);
@@ -78,36 +78,46 @@ var view = (function() {
 
          /* opacity + fade in animation */
 
-         // if the option wasn't visible before
-         if (oldIndex < 0) {
-            // if it's a non-highlighted option in a tab containing highlighted options, ephemeral adaptation
-            if (model.fullPanel() && !option.selected && option.tab.count > 0) {
-               optionElement.css("opacity", 0)
+         // if it's a non-highlighted option in a tab containing highlighted options, ephemeral adaptation
+         if (model.fullPanel() && !option.selected && option.tab.count > 0) {
 
-               // if we are expanding the panel, wait before fading in
-               if (delayEntrance) {
-                  optionElement.delay(400).animate({
-                     "opacity": 1
-                  }, 400)
-               } else {
-                  optionElement.animate({
-                     "opacity": 1
-                  }, 700)
-               }
-
-               countFade++;
-            }
-
-            // if we are contracting the panel, wait before fading in
-            if (!model.fullPanel() && delayEntrance) {
-               optionElement.css("opacity", 0)
-               optionElement.delay(500).animate({
+            // if we are expanding the panel, wait before fading in
+            if (delayEntrance) {
+               optionElement.delay(400).animate({
                   "opacity": 1
-               }, 300)
-
-               countFade++;
+               }, 400)
             }
+
+            // if we are just opening tabs or switching tabs, play ephemeral animation immediately
+            else {
+               optionElement.animate({
+                  "opacity": 1
+               }, 700)
+            }
+
+            countFade++;
          }
+
+         // if we are contracting the panel, wait before fading in
+         else if (!model.fullPanel() && delayEntrance) {
+
+            optionElement.delay(500).animate({
+               "opacity": 1
+            }, 300)
+
+            countFade++;
+         }
+
+         // otherwise, simply make the option element visible
+         else
+            optionElement.css("opacity", 1)
+
+      });
+
+      // Hide all non-visible options, to prepare fade-in entrance later if needed
+      model.options.forEach(function(option) {
+         if (view.visibleOptions.indexOf(option) < 0)
+            $('#' + option.id).css("opacity", 0)
       });
 
       // console.log("move", countMove, "fadein", countFade, "fullPanel", model.fullPanel())
@@ -115,6 +125,14 @@ var view = (function() {
 
    view.resetVisibleOptions = function() {
       view.visibleOptions = [];
+
+   }
+
+   // Hide all non-visible options, to prepare fade-in entrance later if needed
+   view.hideAllNonVisibleOptions = function() {
+      model.options.forEach(function(option) {
+         $('#' + option.id).css("opacity", 0)
+      });
    }
 
    view.getTotalNumberVisibleOptions = function() {

@@ -85,7 +85,7 @@ function bindHooksListeners() {
       model.panelExpanded = false;
 
       // cleanup the visible options, to allow the entrance animation to play again
-      view.resetVisibleOptions();
+      view.hideAllNonVisibleOptions();
 
       scope.showPanel();
 
