@@ -228,19 +228,13 @@ z-indexes
     color: #444;
     box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
     /* background-color 0.5s ease;   doesn't look good*/
-}
-
-#ad-hoc-panel.expanded {
-    /*     width: 590px!important;
-height: 373px!important; */
     
     margin-bottom: 10px;
-    background-color: white;
     /*margin-top: 10px; would look better, but creates a jump when switching views */
 }
 
-#ad-hoc-panel.expanded.with-back-arrow {
-    width: 635px!important;
+#ad-hoc-panel.expanded {
+    background-color: white;
 }
 /* ------------------------  tabs ------------------------ */
 
@@ -367,14 +361,12 @@ select {
 }
 
 #ad-hoc-panel.minimal #options-list {
-    min-width: 350px;
     margin-top: 8px;
     margin-bottom: 20px;
     overflow-y: hidden;
 }
 
 #ad-hoc-panel.mixed #options-list {
-    min-width: 450px;
     overflow-y: hidden;
 }
 
@@ -454,7 +446,7 @@ select {
 
 #options-list .cell.middle-column {
     padding-left: 5px;
-    padding-right: 5px;
+    padding-right: 10px;
 }
 
 #options-list .cell.align-right [type=checkbox] {

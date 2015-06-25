@@ -93,7 +93,7 @@ function bindHooksListeners() {
       view.positionAllOptions();
       scope.$apply();
 
-      // change width an height of panel
+      // change width and height of panel
       scope.resizePanel();
 
       // remove previous highlighted hooks, if any

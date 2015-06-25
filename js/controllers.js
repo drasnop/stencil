@@ -34,6 +34,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
    $scope.resizePanel = function() {
       $("#ad-hoc-panel").css({
+         "width": geometry.getPanelWidth() + 'px',
          "height": geometry.getPanelHeight() + 'px'
       })
    }
@@ -48,8 +49,8 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
       // animate the expansion of the panel, and update its position at the end if needed
       $("#ad-hoc-panel").animate({
-         "width": '590px',
-         "height": geometry.getPanelHeight() + 'px',
+         "width": geometry.getPanelWidth() + 'px',
+         "height": geometry.getPanelHeight() + 'px'
       }, parameters.panelSizeChangeDuration, function() {
 
          // if necessary, re-position panel to account for the larger size
@@ -81,7 +82,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
 
          // animate the contraction of the panel, and update its position at the end if needed
          $("#ad-hoc-panel").animate({
-            "width": "360px",
+            "width": geometry.getPanelWidth() + 'px',
             "height": geometry.getPanelHeight() + 'px'
          }, parameters.panelSizeChangeDuration, function() {
             positionPanel();
