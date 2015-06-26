@@ -100,6 +100,7 @@ experiment.cancel = function(message) {
 experiment.setupComplete = function() {
    //setTimeout(experimentTrials.start.bind(experimentTrials), 1000); return;
 
+   // popup: setup complete, start tutorial
    model.progressBar.message = "";
    model.progressBar.buttonLabel = "";
 
@@ -115,6 +116,14 @@ experiment.setupComplete = function() {
 }
 
 experiment.tutorialEnded = function() {
+
+   // close customization panel, if it was still open
+   if (experiment.condition > 0) {
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.closePanel();
+   }
+
+   // popup: tutorial complete, start experiment trials
    model.progressBar.message = "";
    model.progressBar.buttonLabel = "";
 
@@ -124,9 +133,41 @@ experiment.tutorialEnded = function() {
    model.modal.green = true;
    model.modal.hideOnClick = false;
 
+   model.modal.action = experiment.showInstructions;
+
+   showModal();
+}
+
+
+/* Step 2: experiment trials */
+
+experiment.showInstructions = function() {
+
+   // popup: experiment instructions, start experiment trials
+   model.modal.header = "Experiment";
+   model.modal.message = "In each step, you will be asked to change <b>one setting</b> of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting <b>as quickly and as accurately as possible</b>, then click the \"Next\" button.<br><br>" +
+      "You won't be able to change your mind after clicking \"Next\". You will get an extra <b>$" + experiment.bonusTrial + "</b> for each setting correctly changed.";
+   model.modal.buttonLabel = "Start";
+   model.modal.green = true;
+   model.modal.hideOnClick = false;
    model.modal.action = experimentTrials.start.bind(experimentTrials);
 
    showModal();
 }
 
-/* Step 2: experiment trials */
+experiment.experimentTrialsEnded = function() {
+   model.progressBar.message = "";
+   model.progressBar.buttonLabel = "";
+
+   model.modal.header = "Congratulations!";
+   model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your verification code.";
+   model.modal.buttonLabel = "Ok";
+   model.modal.green = true;
+   model.modal.hideOnClick = false;
+   model.modal.action = function() {
+      var scope = angular.element($("#ad-hoc-panel")).scope();
+      scope.deleteAccount();
+   }
+
+   showModal();
+}

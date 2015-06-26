@@ -14,11 +14,6 @@ experimentTrials.maxTrialDuration = 2 * 60 * 1000;
 /* overwritten methods */
 
 experimentTrials.start = function() {
-   // close customization panel
-   if (experiment.condition > 0) {
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.closePanel();
-   }
 
    // reset options to their correct values, if necessary
    experimentTrials.resetSettingsIfNeeded();
@@ -27,17 +22,7 @@ experimentTrials.start = function() {
    if (experiment.condition === 0)
       bindWunderlistListeners();
 
-   model.modal.header = "Experiment";
-   model.modal.message = "In each step, you will be asked to change <b>one setting</b> of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting <b>as quickly and as accurately as possible</b>, then click the \"Next\" button.<br><br>" +
-      "You won't be able to change your mind after clicking \"Next\". You will get an extra <b>$" + experiment.bonusTrial + "</b> for each setting correctly changed.";
-   model.modal.buttonLabel = "Start";
-   model.modal.green = true;
-   model.modal.hideOnClick = false;
-   model.modal.action = (function() {
-      Sequencer.prototype.start.call(this);
-   }).bind(this);
-
-   showModal();
+   Sequencer.prototype.start.call(this);
 }
 
 experimentTrials.initializeTrial = function(number) {
@@ -115,18 +100,7 @@ experimentTrials.end = function() {
 
    sequenceGenerator.generateRecognitionQuestionnaire();
 
-   model.progressBar.message = "";
-   model.modal.header = "Congratulations!";
-   model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your verification code.";
-   model.modal.buttonLabel = "Ok";
-   model.modal.green = true;
-   model.modal.hideOnClick = false;
-   model.modal.action = function() {
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.deleteAccount();
-   }
-
-   showModal();
+   experiment.experimentTrialsEnded();
 }
 
 
