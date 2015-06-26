@@ -98,9 +98,7 @@ experimentTrials.endTrial = function(callback) {
 experimentTrials.end = function() {
    Sequencer.prototype.end.call(this);
 
-   sequenceGenerator.generateRecognitionQuestionnaire();
-
-   experiment.experimentTrialsEnded();
+   sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
 }
 
 

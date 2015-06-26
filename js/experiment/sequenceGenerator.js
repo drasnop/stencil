@@ -4,7 +4,7 @@
 
 var sequenceGenerator = {};
 
-sequenceGenerator.generateOptionsAndValuesSequences = function() {
+sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
    // select one third of options per tab, with a maximum of 4
    var numOptionsPerTab = {
       "General": 3,
@@ -41,6 +41,9 @@ sequenceGenerator.generateOptionsAndValuesSequences = function() {
       var value = sequenceGenerator.complementValueOf(option, experiment.oppositeDefaults);
       experiment.valuesSequence.push(value);
    })
+
+   // 4: callback to tell logger that the initial state is ready to be logged
+   callback();
 }
 
 
@@ -70,7 +73,7 @@ sequenceGenerator.complementValueOf = function(option, reverse) {
 
 
 // Generate a set of options to use in the recognition questionnaire, on the experiment websitesequenceGenerator.generateRecognitionQuestionnaire = function() {
-sequenceGenerator.generateRecognitionQuestionnaire = function() {
+sequenceGenerator.generateRecognitionQuestionnaire = function(callback) {
    // 0: TESTING ONLY
    /*   for (var j = 0; j < 10; j++) {
          experimentTrials.trials.push({
@@ -184,7 +187,12 @@ sequenceGenerator.generateRecognitionQuestionnaire = function() {
    logger.firebase.child("/questionnaires/recognition/optionsToRecognize").set(loggable, function(error) {
       if (error)
          console.log("Error! Options to recognize not saved in database")
-      else
+      else {
          console.log("Success! Options to recognize saved in database")
+
+         // Once we know the questionnaires have been succesfully generated, move on to finish experiment and destroy account
+         callback();
+      }
    })
+
 }

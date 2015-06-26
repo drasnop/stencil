@@ -29,7 +29,8 @@ experiment.initialize
       logger.initialize
          experiment.generateInitialState
             sequenceGenerator.generateOptionsAndValuesSequences
-            logger.saveInitialState
+               logger.saveInitialState
+               experiment.setupComplete
 */
 
 experiment.initialize = function() {
@@ -46,9 +47,12 @@ experiment.initialize = function() {
    // verify that this email appears in firebase
    logger.checkEmail(function() {
       logger.initialize(function() {
-         experiment.generateInitialState();
+         experiment.generateInitialState(function() {
+            logger.saveInitialState();
 
-         experiment.setupComplete();
+            // no need to wait for the Firebase acknowledgement to notify the user
+            experiment.setupComplete();
+         });
       });
 
       // if the email doesn't appear in firebase, cancel experiment
@@ -56,7 +60,7 @@ experiment.initialize = function() {
 }
 
 
-experiment.generateInitialState = function() {
+experiment.generateInitialState = function(callback) {
    // 1: for some participants, use the opposite of the default options
    if (experiment.oppositeDefaults) {
       model.options.getUserAccessibleOptions().forEach(function(option) {
@@ -72,10 +76,9 @@ experiment.generateInitialState = function() {
    dataManager.initializeAppOptionsFromFile();
 
    // 4: randomly generate selection sequences
-   sequenceGenerator.generateOptionsAndValuesSequences();
+   sequenceGenerator.generateOptionsAndValuesSequences(callback);
 
-   // 5: save all of this generated data to firebase
-   logger.saveInitialState();
+   // the callback will save all of this generated data to firebase
 }
 
 
