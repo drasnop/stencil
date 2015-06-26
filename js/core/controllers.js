@@ -278,4 +278,5 @@ app.controller('instructionsModalController', ['$scope', '$window', function($sc
 
 app.controller('progressBarController', ['$scope', '$window', function($scope, $window) {
    $scope.model = $window.model;
+   $scope.experimentTrials = $window.experimentTrials;
 }])

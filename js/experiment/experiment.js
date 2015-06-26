@@ -11,7 +11,7 @@ var experiment = {
    // whether to use the opposite values of the default options for this participant (set by logger.initialize)
    "oppositeDefaults": "",
    // bonus reward when trial done correctly
-   "bonusTrial": 0.15,
+   "bonusTrial": 0.1,
    // list of options that users will be ask to find during the experiment
    "optionsSequence": [],
    // list of values that the options should be set at during the experiment

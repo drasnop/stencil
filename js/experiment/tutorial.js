@@ -128,6 +128,10 @@ tutorial.trialSuccess = function() {
    return true;
 }
 
+tutorial.getCurrentReward = function() {
+   return -1;
+}
+
 tutorial.notEndOfSequence = function() {
    return this.trial.number + 1 < this.steps.length;
 }

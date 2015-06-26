@@ -114,5 +114,6 @@ Sequencer.prototype.trialTimeout = function() {
    getInstructions
    trialNotPerformed
    trialSuccess
+   getCurrentReward
    notEndOfSequence
 */

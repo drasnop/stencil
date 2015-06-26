@@ -526,7 +526,7 @@ body.animate .popover {
 }
 
 .popover.addItem,
-.popover.addPeople,
+.popover.AddPeople,
 .popover.addList {
     display: none!important;
 }

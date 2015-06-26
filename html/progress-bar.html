@@ -2,6 +2,6 @@
   <div>
     <div class="instructions" ng-bind-html="model.progressBar.message"></div>
     <div id="button-trial-done" class="btn" ng-hide="!model.progressBar.buttonLabel" ng-disabled="sequencer.trialNotPerformed() || sequencer.trialDone()" ng-click="sequencer.endTrial(); contractFullPanel();" ng-class="{'btn-blue': !sequencer.trialDone(), 'btn-green': sequencer.trialDone() && sequencer.trialSuccess(), 'btn-red': sequencer.trialDone() && (!sequencer.trialSuccess() || sequencer.trialTimeout())}">{{!sequencer.trialDone()? model.progressBar.buttonLabel : sequencer.trialTimeout()? "Timeout!" : (sequencer.trialSuccess()? "Good job!" : sequencer.errorMessage)}}</div>
-    <span ng-if="experiment.inProgress" class="trial-bonus">bonus: {{experimentTrials.getTotalTrialsReward() | currency:"$":2}}</span>
+    <span ng-if="sequencer.getCurrentReward()>=0" class="trial-bonus">bonus: {{sequencer.getCurrentReward() | currency:"$":2}}</span>
   </div>
 </div>
