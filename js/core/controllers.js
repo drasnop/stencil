@@ -44,6 +44,11 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
    }
 
    $scope.expandToFullPanel = function(tab) {
+
+      // stores the size of the panel before it is expanded
+      var oldWidth = geometry.getPanelWidth();
+      var oldHeight = geometry.getPanelHeight();
+
       model.panelExpanded = true;
 
       var newActiveTab = tab || computeActiveTab();
@@ -51,23 +56,10 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
 
       // view.positionAllOptions has been called by activateTab, asking it to delay the entrance of non-highlighted options
 
-      // animate the expansion of the panel, and update its position at the end if needed
-      // need the setTimeout trick to ensure the geometry computation happens AFTER the panel is expanded
-      setTimeout(function() {
-         $("#ad-hoc-panel").animate({
-            "width": geometry.getPanelWidth() + 'px',
-            "height": geometry.getPanelHeight() + 'px'
-         }, parameters.panelSizeChangeDuration, function() {
-
-            // if necessary, re-position panel to account for the larger size
-            positionPanel();
-
-            // if necessary, scroll down to bring first highlighted element into view
-            $("#options-list").animate({
-               scrollTop: computeScrollOffset()
-            }, 300)
-         })
-      }, 0)
+      // need the setTimeout trick to ensure the geometry computation happens AFTER the panel is expanded by Angular
+      $scope.$evalAsync(function() {
+         animatePanelExpansionWhenReady(oldWidth, oldHeight);
+      });
 
       // log
       if (experimentTrials.trial) {
@@ -76,6 +68,32 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
             "tab": newActiveTab.name
          });
       }
+   }
+
+   function animatePanelExpansionWhenReady(oldWidth, oldHeight) {
+      if (geometry.getPanelWidth() != oldWidth && geometry.getPanelHeight() != oldHeight)
+         animatePanelExpansion();
+      else {
+         alert("have to wait for animatePanelExpansion")
+         setTimeout(animatePanelExpansionWhenReady, 10);
+      }
+   }
+
+   // animate the expansion of the panel, and update its position at the end if needed
+   function animatePanelExpansion() {
+      $("#ad-hoc-panel").animate({
+         "width": geometry.getPanelWidth() + 'px',
+         "height": geometry.getPanelHeight() + 'px'
+      }, parameters.panelSizeChangeDuration, function() {
+
+         // if necessary, re-position panel to account for the larger size
+         positionPanel();
+
+         // if necessary, scroll down to bring first highlighted element into view
+         $("#options-list").animate({
+            scrollTop: computeScrollOffset()
+         }, 300)
+      })
    }
 
    $rootScope.contractFullPanel = function() {
@@ -121,6 +139,11 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
          $("#options-list").animate({
             scrollTop: computeScrollOffset()
          }, 500)
+      }
+
+      // when the tab contains no highlighted option, scroll to top
+      if (model.activeTab.bloat || model.activeTab.count === 0) {
+         $("#options-list").scrollTop(0);
       }
 
       // update the position of the options to fit the new tab, which will also play ephemeral entrance animation
