@@ -1,4 +1,4 @@
-<div id='ad-hoc-panel' ng-controller='optionsController'
+<div id='ad-hoc-panel' ng-controller='panelController'
  ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'with-back-arrow': model.optionsVisibility < 3 && model.fullPanel(), 'minimal': model.optionsVisibility==1 && !model.fullPanel(), 'mixed': model.optionsVisibility==2 && !model.fullPanel()}">
 
 	<ul id="tabs" ng-show="model.fullPanel()">

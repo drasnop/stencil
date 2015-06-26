@@ -1,3 +1,9 @@
+/*
+ * Bootstrap the Angular app; load options, mappings and tabs; creates the directive.
+ * Also define a function to automatically delete the Wunderlist account.
+ */
+
+
 var app = angular.module('myApp', ['ngSanitize']);
 
 app.run(['$location', '$http', '$q', '$rootScope', function($location, $http, $q, $rootScope) {

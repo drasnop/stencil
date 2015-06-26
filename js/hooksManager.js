@@ -1,4 +1,7 @@
 /*
+
+Handles the creation/destruction/positioning/styling of hooks and clusters
+
 generateHooks()
    # init
    - create all hooks [so far hooks are never distroyed]

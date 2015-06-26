@@ -1,3 +1,8 @@
+/*
+ * Class to handle a sequence of Steps, between a start and an end.
+ * Each Step is initialized, started and ended from its parent Sequencer.
+ */
+
 function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor) {
    // name used to indentify the Sequencer in log messages
    this.name = name;

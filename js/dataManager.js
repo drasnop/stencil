@@ -1,3 +1,8 @@
+/*
+ * Initialize model.options, tabs and mappings by linking them together and adding helpers.
+ * Then handle the symchronisation between the underlying Wunderlist options and model.options
+ */
+
 var dataManager = {};
 
 dataManager.initializeDataStructuresIfAllLoaded = function() {

@@ -1,3 +1,8 @@
+/*
+ * Inherits the default behavior of Step, with additional data and methods
+ * to measure duration and log a variety of events during the experiment trials.
+ */
+
 function Trial(number) {
 
    // call parent constructor

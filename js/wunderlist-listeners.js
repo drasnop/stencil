@@ -1,3 +1,7 @@
+/*
+ * logging functions that listen to options changes and tab navigation in Wunderlist
+ */
+
 function bindWunderlistListeners() {
 
    // dev mode: not linked with Wunderlist backbone

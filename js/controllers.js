@@ -1,4 +1,8 @@
-app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeout', '$http', function($scope, $rootScope, $window, $timeout, $http) {
+/* 
+ * All 3 controllers of the app: for the options panel, the progress bar and the instructions dialog.
+ */
+
+app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout', '$http', function($scope, $rootScope, $window, $timeout, $http) {
 
    // provides access to model and other global objects in the html template
    $scope.model = $window.model;
@@ -75,7 +79,7 @@ app.controller('optionsController', ['$scope', '$rootScope', '$window', '$timeou
       model.panelExpanded = false;
 
       // need this trick to make sure the non-selected options disappear immediately
-      // otherwise their index is updated before they visibility, and they jump to the top of the tab for a split second...
+      // otherwise their index is updated before their visibility, and they jump to the top of the tab for a split second...
       setTimeout(function() {
          // we must update the filtered index first, to compute the new size of the panel      
          view.positionAllOptions(true);

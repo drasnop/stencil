@@ -1,6 +1,7 @@
 /* 
  * Does some geometric computations to determine how to display options in the customization panel
  */
+
 var geometry = (function() {
    var geometry = {
       "optionHeight": 38,

@@ -1,3 +1,8 @@
+/*
+ * Static class to handle the set up, initialization and flow of the usabiity experiment.
+ * It calls the tutorial and trials sequencers.
+ */
+
 var experiment = new Sequencer("experiment", 1000, 2000, "Wrong setting", false, Trial);
 
 // random sequence of 8 numbers and letters used to identify participants (read from Wunderlist app if possible)

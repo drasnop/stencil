@@ -1,3 +1,7 @@
+/*
+ * Instance of Sequencer that guides people through multi-step tutorial
+ */
+
 var tutorial = new Sequencer("tutorial", 500, 2000, "try again", true);
 
 tutorial.steps = [
