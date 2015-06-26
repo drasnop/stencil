@@ -21,7 +21,7 @@ experimentTrials.start = function() {
    }
 
    // reset options to their correct values, if necessary
-   experiment.resetSettingsIfNeeded();
+   experimentTrials.resetSettingsIfNeeded();
 
    // in control conditions, listen to changes of the Backbone model
    if (experiment.condition === 0)
@@ -105,7 +105,7 @@ experimentTrials.endTrial = function(callback) {
    logger.saveTrial();
 
    // reset options to their correct values, if necessary
-   experiment.resetSettingsIfNeeded();
+   experimentTrials.resetSettingsIfNeeded();
 
    Sequencer.prototype.endTrial.call(this, callback);
 }
@@ -113,7 +113,7 @@ experimentTrials.endTrial = function(callback) {
 experimentTrials.end = function() {
    Sequencer.prototype.end.call(this);
 
-   experiment.generateRecognitionQuestionnaire();
+   sequenceGenerator.generateRecognitionQuestionnaire();
 
    model.progressBar.message = "";
    model.modal.header = "Congratulations!";
@@ -185,4 +185,26 @@ experimentTrials.trialSuccess = function() {
 
 experimentTrials.notEndOfSequence = function() {
    return this.trial.number + 1 < experiment.optionsSequence.length;
+}
+
+
+/* for display */
+
+experimentTrials.getTotalTrialsReward = function() {
+   return this.trials.reduce(function(sum, trial) {
+      return sum += experiment.bonusTrial * trial.success;
+   }, 0)
+}
+
+// this could actually be a private method
+experimentTrials.resetSettingsIfNeeded = function() {
+   for (var id in experiment.referenceOptions) {
+      if (experiment.referenceOptions[id].value !== model.options[id].value) {
+         console.log("- rectifying:", id, experiment.referenceOptions[id].value)
+
+         // update both my model and Wunderlist settings
+         model.options[id].value = experiment.referenceOptions[id].value;
+         dataManager.updateAppOption(id, model.options[id].value, true);
+      }
+   }
 }
