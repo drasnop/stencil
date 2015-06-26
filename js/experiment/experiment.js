@@ -18,6 +18,10 @@ var experiment = {
    "valuesSequence": []
 }
 
+
+
+/* Step 0: initialize experiment and logger, generate and save initial state, cancel experiment if needed   */
+
 /*
 CALLBACK HELL
 experiment.initialize
@@ -44,9 +48,7 @@ experiment.initialize = function() {
       logger.initialize(function() {
          experiment.generateInitialState();
 
-         // tutorial.start() is independent of the preparation of the experiment
-         tutorial.start();
-         //setTimeout(experimentTrials.start.bind(experimentTrials), 1000);
+         experiment.setupComplete();
       });
 
       // if the email doesn't appear in firebase, cancel experiment
@@ -91,3 +93,40 @@ experiment.cancel = function(message) {
 
    showModal();
 }
+
+
+/* Step 1: tutorial */
+
+experiment.setupComplete = function() {
+   //setTimeout(experimentTrials.start.bind(experimentTrials), 1000); return;
+
+   model.progressBar.message = "";
+   model.progressBar.buttonLabel = "";
+
+   model.modal.header = "Setup complete";
+   model.modal.message = "Great! Everything is in place. Please follow this quick tutorial to see how Wunderlist works.";
+   model.modal.buttonLabel = "Start";
+   model.modal.green = true;
+   model.modal.hideOnClick = false;
+
+   model.modal.action = tutorial.start.bind(tutorial);
+
+   showModal();
+}
+
+experiment.tutorialEnded = function() {
+   model.progressBar.message = "";
+   model.progressBar.buttonLabel = "";
+
+   model.modal.header = "Congratulations!";
+   model.modal.message = "You have completed the tutorial. You can now start the experiment.";
+   model.modal.buttonLabel = "Ok";
+   model.modal.green = true;
+   model.modal.hideOnClick = false;
+
+   model.modal.action = experimentTrials.start.bind(experimentTrials);
+
+   showModal();
+}
+
+/* Step 2: experiment trials */

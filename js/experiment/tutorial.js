@@ -44,18 +44,7 @@ tutorial.start = function() {
    else
       this.steps.push.apply(this.steps, this.stepspreferences);
 
-   model.progressBar.message = "";
-
-   model.modal.header = "Setup complete";
-   model.modal.message = "Great! Everything is in place. Please follow this quick tutorial to see how Wunderlist works.";
-   model.modal.buttonLabel = "Start";
-   model.modal.green = true;
-   model.modal.hideOnClick = false;
-   model.modal.action = (function() {
-      Sequencer.prototype.start.call(this);
-   }).bind(this);
-
-   showModal();
+   Sequencer.prototype.start.call(this);
 }
 
 tutorial.startTrial = function() {
@@ -76,18 +65,7 @@ tutorial.endTrial = function() {
 
 tutorial.end = function() {
    Sequencer.prototype.end.call(this);
-
-   model.progressBar.message = "";
-   model.progressBar.buttonLabel = "";
-
-   model.modal.header = "Congratulations!";
-   model.modal.message = "You have completed the tutorial. You can now start the experiment.";
-   model.modal.buttonLabel = "Ok";
-   model.modal.green = true;
-   model.modal.hideOnClick = false;
-   model.modal.action = experimentTrials.start.bind(experimentTrials);
-
-   showModal();
+   experiment.tutorialEnded();
 }
 
 
