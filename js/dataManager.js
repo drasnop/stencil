@@ -41,7 +41,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
             value: function() {
                // check if there is at least one hook or one cluster-marker visible
                // the hook can be a hidden ghost, though
-               return option.anchored && $(".highlightable").filter(function() {
+               return !!option.anchored && $(".highlightable").filter(function() {
                   return $(this).data("options").indexOf(option) >= 0;
                }).filter(":visible").length > 0;
             }
