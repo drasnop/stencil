@@ -52,19 +52,22 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       // view.positionAllOptions has been called by activateTab, asking it to delay the entrance of non-highlighted options
 
       // animate the expansion of the panel, and update its position at the end if needed
-      $("#ad-hoc-panel").animate({
-         "width": geometry.getPanelWidth() + 'px',
-         "height": geometry.getPanelHeight() + 'px'
-      }, parameters.panelSizeChangeDuration, function() {
+      // need the setTimeout trick to ensure the geometry computation happens AFTER the panel is expanded
+      setTimeout(function() {
+         $("#ad-hoc-panel").animate({
+            "width": geometry.getPanelWidth() + 'px',
+            "height": geometry.getPanelHeight() + 'px'
+         }, parameters.panelSizeChangeDuration, function() {
 
-         // if necessary, re-position panel to account for the larger size
-         positionPanel();
+            // if necessary, re-position panel to account for the larger size
+            positionPanel();
 
-         // if necessary, scroll down to bring first highlighted element into view
-         $("#options-list").animate({
-            scrollTop: computeScrollOffset()
-         }, 300)
-      })
+            // if necessary, scroll down to bring first highlighted element into view
+            $("#options-list").animate({
+               scrollTop: computeScrollOffset()
+            }, 300)
+         })
+      }, 0)
 
       // log
       if (experimentTrials.trial) {

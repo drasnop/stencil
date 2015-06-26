@@ -118,6 +118,7 @@ var hooksManager = (function() {
             hook.find("*").addBack()
                .removeAttr('href')
                .removeClass('animate-up')
+               .removeAttr('data-path')
                // alas, there seem to be no way to disable an <input> while binding my own events on it...
 
             // style hook and its children
