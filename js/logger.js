@@ -1,181 +1,191 @@
-var logger = {
-   // firebase for storing participant data
-   "firebase": {},
-};
+/*
+ * Handle the connection to Firebase for logging information throughout the experiment.
+ * Define methods for "flattening" options and tabs, i.e. replace pointers by string ids.
+ */
 
-// if the Wunderlist email appears in Firebase, initialize the logger; other cancel experiment
-logger.checkEmail = function(callbackSuccess, callbackError, messageEmailUnknown, messageExperimentAlreadyCompleted) {
-   var mturk = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/");
+var logger = (function() {
 
-   mturk.once('value', function(snapshot) {
-      if (!snapshot.hasChild(experiment.email)) {
-         console.log("Failure! MTurk firebase doesn't contain", experiment.email)
-         callbackError(messageEmailUnknown);
-      } else if (snapshot.child(experiment.email).child('/trials').numChildren() >= 10) {
-         console.log("Failure! User " + experiment.email + " has already completed the experiment")
-         callbackError(messageExperimentAlreadyCompleted);
-      } else {
-         console.log("Success! MTurk firebase contains", experiment.email)
-         callbackSuccess();
-      }
-   });
-}
+   var logger = {
+      // firebase for storing participant data
+      "firebase": {}
+   };
 
-// connects to the appropriate Firebase, and retrieve key information
-logger.initialize = function(callback) {
-   logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
-   console.log("Initializing logging to " + logger.firebase.toString() + "...")
+   // if the Wunderlist email appears in Firebase, initialize the logger; other cancel experiment
+   logger.checkEmail = function(callbackSuccess, callbackError, messageEmailUnknown, messageExperimentAlreadyCompleted) {
+      var mturk = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/");
 
-   logger.firebase.child("condition").once('value', function(snapshot) {
-      experiment.condition = parseInt(snapshot.child("interface").val());
-      model.optionsVisibility = experiment.condition;
-      experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
-      console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults)
+      mturk.once('value', function(snapshot) {
+         if (!snapshot.hasChild(experiment.email)) {
+            console.log("Failure! MTurk firebase doesn't contain", experiment.email)
+            callbackError(messageEmailUnknown);
+         } else if (snapshot.child(experiment.email).child('/trials').numChildren() >= 10) {
+            console.log("Failure! User " + experiment.email + " has already completed the experiment")
+            callbackError(messageExperimentAlreadyCompleted);
+         } else {
+            console.log("Success! MTurk firebase contains", experiment.email)
+            callbackSuccess();
+         }
+      });
+   }
 
-      callback();
-   })
-}
+   // connects to the appropriate Firebase, and retrieve key information
+   logger.initialize = function(callback) {
+      logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
+      console.log("Initializing logging to " + logger.firebase.toString() + "...")
 
-// store participant info, options and values sequences, and prepare trials logging
-logger.saveInitialState = function() {
-   // save the screen resolution, OS and browser
-   logger.firebase.child("/info/apparatus").set({
-      "screenWidth": screen.width,
-      "screenHeight": screen.height,
-      "innerWidth": window.innerWidth,
-      "innerHeight": window.innerHeight,
-      "os": navigator.platform,
-      "browser": Browser.name,
-      "version": Browser.version
-   })
+      logger.firebase.child("condition").once('value', function(snapshot) {
+         experiment.condition = parseInt(snapshot.child("interface").val());
+         model.optionsVisibility = experiment.condition;
+         experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
+         console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults)
 
-   // make sure the trials list is empty
-   logger.firebase.child("/tutorial").set(null)
-   logger.firebase.child("/trials").set(null);
+         callback();
+      })
+   }
 
-   // save the full set of options that were used in this experiment, just to be sure
-   logger.firebase.child("/options").set(logger.compressAllUserAccessibleOptions());
+   // store participant info, options and values sequences, and prepare trials logging
+   logger.saveInitialState = function() {
+      // save the screen resolution, OS and browser
+      logger.firebase.child("/info/apparatus").set({
+         "screenWidth": screen.width,
+         "screenHeight": screen.height,
+         "innerWidth": window.innerWidth,
+         "innerHeight": window.innerHeight,
+         "os": navigator.platform,
+         "browser": Browser.name,
+         "version": Browser.version
+      })
 
-   // save the full set of tabs that were used in this experiment, just to be sure (+used in questionnaire)
-   logger.firebase.child("/tabs").set(logger.compressAllTabs());
+      // make sure the trials list is empty
+      logger.firebase.child("/tutorial").set(null)
+      logger.firebase.child("/trials").set(null);
 
-   // save the full options and values sequences, just to be sure
-   logger.firebase.child("/sequences").set({
-      "optionsSequence": logger.getIDs(experiment.optionsSequence),
-      "valuesSequence": experiment.valuesSequence
-   })
-}
+      // save the full set of options that were used in this experiment, just to be sure
+      logger.firebase.child("/options").set(logger.compressAllUserAccessibleOptions());
 
-// save a loggable version of experiment.trial
-logger.saveTrial = function() {
-   logger.firebase.child("/trials").push(experiment.trial.loggable(), function(error) {
-      if (error) {
-         console.log("Trial " + experiment.trial.number + " could not be saved." + error);
-      } else {
-         console.log("Trial " + experiment.trial.number + " saved successfully.");
-      }
-   });
-}
+      // save the full set of tabs that were used in this experiment, just to be sure (+used in questionnaire)
+      logger.firebase.child("/tabs").set(logger.compressAllTabs());
 
+      // save the full options and values sequences, just to be sure
+      logger.firebase.child("/sequences").set({
+         "optionsSequence": logger.getIDs(experiment.optionsSequence),
+         "valuesSequence": experiment.valuesSequence
+      })
+   }
 
-// -------------------- flatterners  ---------------------- //
-
-// to use less storage space, in some cases options are simply stored as ids
-logger.getIDs = function(options) {
-   return options.map(function(option) {
-      return option.id;
-   })
-}
+   // save a loggable version of experiment.trial
+   logger.saveTrial = function() {
+      logger.firebase.child("/trials").push(experiment.trial.loggable(), function(error) {
+         if (error) {
+            console.log("Trial " + experiment.trial.number + " could not be saved." + error);
+         } else {
+            console.log("Trial " + experiment.trial.number + " saved successfully.");
+         }
+      });
+   }
 
 
-// Recursive flattening, preserving some of the structure 
+   // -------------------- flatterners  ---------------------- //
 
-logger.compressAllUserAccessibleOptions = function() {
-   var compressed = {};
-   model.options.forEach(function(option) {
-      if (!option.notUserAccessible)
-         compressed[option.id] = logger.compressOption(option);
-   });
-   return compressed;
-}
-
-logger.compressAllTabs = function() {
-   var compressed = {};
-   model.tabs.forEach(function(tab) {
-      compressed[tab.name] = logger.compressTab(tab);
-   });
-   return compressed;
-}
-
-// nothing will be stored if the array is empty (no empty arrays in Firebase)
-logger.compressOptions = function(options) {
-   return options.map(function(option) {
-      return logger.compressOption(option);
-   })
-}
-
-
-/*  compress() calls flatten() on .tab or .options, while flatten() returns list of ids */
-
-logger.compressOption = function(option) {
-   return compress(option, "tab", logger.flattenTab);
-}
-
-logger.flattenTab = function(tab) {
-   if (tab.bloat)
-      return compressBloatTab(tab);
-   else
-      return compress(tab, "options", function(option) {
+   // to use less storage space, in some cases options are simply stored as ids
+   logger.getIDs = function(options) {
+      return options.map(function(option) {
          return option.id;
+      })
+   }
+
+
+   // Recursive flattening, preserving some of the structure 
+
+   logger.compressAllUserAccessibleOptions = function() {
+      var compressed = {};
+      model.options.forEach(function(option) {
+         if (!option.notUserAccessible)
+            compressed[option.id] = logger.compressOption(option);
       });
-}
+      return compressed;
+   }
 
-logger.compressTab = function(tab) {
-   if (tab.bloat)
-      return compressBloatTab(tab);
-   else
-      return compress(tab, "options", logger.flattenOption);
-}
-
-logger.flattenOption = function(option) {
-   return compress(option, "tab", function(tab) {
-      return tab.name;
-   })
-}
-
-
-// return the compress version of an object (option or tab), flattening its children (tab or options)
-function compress(obj, childrenName, childrenFlattener) {
-   if ($.isEmptyObject(obj))
-      return {};
-
-   // shallow copy
-   var flattened = $.extend({}, obj);
-
-   // prevent infinite recursion, distinguishing between tab.options (Array) and option.tab (single Object)
-   if (Array.isArray(obj[childrenName])) {
-      flattened[childrenName] = obj[childrenName].map(function(child) {
-         return childrenFlattener(child);
+   logger.compressAllTabs = function() {
+      var compressed = {};
+      model.tabs.forEach(function(tab) {
+         compressed[tab.name] = logger.compressTab(tab);
       });
-   } else
-      flattened[childrenName] = childrenFlattener(obj[childrenName]);
+      return compressed;
+   }
 
-   // remove non-interesting data
-   delete flattened["$$hashKey"];
-   delete flattened["__proto__"];
+   // nothing will be stored if the array is empty (no empty arrays in Firebase)
+   logger.compressOptions = function(options) {
+      return options.map(function(option) {
+         return logger.compressOption(option);
+      })
+   }
 
-   return flattened;
-}
 
-function compressBloatTab(tab) {
-   var loggable = $.extend({}, tab);
+   /*  compress() calls flatten() on .tab or .options, while flatten() returns list of ids */
 
-   // remove too long html data
-   delete loggable["description"];
+   logger.compressOption = function(option) {
+      return compress(option, "tab", logger.flattenTab);
+   }
 
-   // remove non-interesting data
-   delete loggable["$$hashKey"];
-   delete loggable["__proto__"];
+   logger.flattenTab = function(tab) {
+      if (tab.bloat)
+         return compressBloatTab(tab);
+      else
+         return compress(tab, "options", function(option) {
+            return option.id;
+         });
+   }
 
-   return loggable;
-}
+   logger.compressTab = function(tab) {
+      if (tab.bloat)
+         return compressBloatTab(tab);
+      else
+         return compress(tab, "options", logger.flattenOption);
+   }
+
+   logger.flattenOption = function(option) {
+      return compress(option, "tab", function(tab) {
+         return tab.name;
+      })
+   }
+
+
+   // return the compress version of an object (option or tab), flattening its children (tab or options)
+   function compress(obj, childrenName, childrenFlattener) {
+      if ($.isEmptyObject(obj))
+         return {};
+
+      // shallow copy
+      var flattened = $.extend({}, obj);
+
+      // prevent infinite recursion, distinguishing between tab.options (Array) and option.tab (single Object)
+      if (Array.isArray(obj[childrenName])) {
+         flattened[childrenName] = obj[childrenName].map(function(child) {
+            return childrenFlattener(child);
+         });
+      } else
+         flattened[childrenName] = childrenFlattener(obj[childrenName]);
+
+      // remove non-interesting data
+      delete flattened["$$hashKey"];
+      delete flattened["__proto__"];
+
+      return flattened;
+   }
+
+   function compressBloatTab(tab) {
+      var loggable = $.extend({}, tab);
+
+      // remove too long html data
+      delete loggable["description"];
+
+      // remove non-interesting data
+      delete loggable["$$hashKey"];
+      delete loggable["__proto__"];
+
+      return loggable;
+   }
+
+   return logger;
+})();
