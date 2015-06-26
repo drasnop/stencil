@@ -27,8 +27,8 @@ function bindHooksListeners() {
       haveSameOptions(hooks, $(this).data("options"))
          .addClass("hovered");
 
-      if (experiment.trial) {
-         experiment.trial.highlightedHooks.pushStamped({
+      if (experimentTrials.trial) {
+         experimentTrials.trial.highlightedHooks.pushStamped({
             "selector": $(this).data("selector"),
             "options_IDs": logger.getIDs($(this).data("options"))
          });
@@ -104,8 +104,8 @@ function bindHooksListeners() {
       positionPanel();
 
       // log
-      if (experiment.trial) {
-         experiment.trial.selectedHooks.pushStamped({
+      if (experimentTrials.trial) {
+         experimentTrials.trial.selectedHooks.pushStamped({
             "selector": $(this).data("selector"),
             "options_IDs": logger.getIDs(model.selectedOptions)
          });
@@ -129,8 +129,8 @@ function bindClustersListeners() {
       hooksManager.positionHooksAndClusters();
 
       // log
-      if (experiment.trial) {
-         experiment.trial.cluster.pushStamped({
+      if (experimentTrials.trial) {
+         experimentTrials.trial.cluster.pushStamped({
             "action": (cluster.showGhosts ? "expanded" : "contracted")
          })
       }

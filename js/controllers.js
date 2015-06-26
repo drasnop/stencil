@@ -67,8 +67,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       })
 
       // log
-      if (experiment.trial) {
-         experiment.trial.panel.pushStamped({
+      if (experimentTrials.trial) {
+         experimentTrials.trial.panel.pushStamped({
             "action": "expanded",
             "tab": newActiveTab.name
          });
@@ -96,8 +96,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
 
 
       // log
-      if (experiment.trial) {
-         experiment.trial.panel.pushStamped({
+      if (experimentTrials.trial) {
+         experimentTrials.trial.panel.pushStamped({
             "action": "contracted",
             "tab": model.activeTab.name
          });
@@ -124,8 +124,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       view.positionAllOptions(delayEntrance);
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
-      if (experiment.trial) {
-         experiment.trial.visitedTabs.pushStamped({
+      if (experimentTrials.trial) {
+         experimentTrials.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(tab)
          });
       }
@@ -139,8 +139,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       dataManager.updateAppOption(option.id, option.value, true);
 
       // log
-      if (experiment.trial)
-         experiment.trial.logValueChange(option, oldValue, clusterCollapsed);
+      if (experimentTrials.trial)
+         experimentTrials.trial.logValueChange(option, oldValue, clusterCollapsed);
    }
 
 
@@ -184,8 +184,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       view.positionAllOptions();
 
       // log
-      if (experiment.trial) {
-         experiment.trial.showMoreOptions.pushStamped({
+      if (experimentTrials.trial) {
+         experimentTrials.trial.showMoreOptions.pushStamped({
             "tab": model.activeTab.name,
             "action": model.activeTab.showMoreOptions ? "show" : "hide"
          })
@@ -211,8 +211,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
          return $(this).data("options").indexOf(option) >= 0;
       }).addClass("blue-highlighted")
 
-      if (experiment.trial)
-         experiment.trial.reverseHighlighted.pushStamped({
+      if (experimentTrials.trial)
+         experimentTrials.trial.reverseHighlighted.pushStamped({
             "option_ID": option.id
          });
    }

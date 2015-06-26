@@ -3,24 +3,20 @@
  * It calls the tutorial and trials sequencers.
  */
 
-var experiment = new Sequencer("experiment", 1000, 2000, "Wrong setting", false, Trial);
-
-// random sequence of 8 numbers and letters used to identify participants (read from Wunderlist app if possible)
-experiment.email = "lotaculi";
-// 0=control, 1=minimal, 2=mixed, 3=highlighted (set by logger.initialize)
-experiment.condition = "";
-// whether to use the opposite values of the default options for this participant (set by logger.initialize)
-experiment.oppositeDefaults = "";
-// bonus reward when trial done correctly
-experiment.bonusTrial = 0.15;
-// timeout trials after 2 min
-experiment.maxTrialDuration = 2 * 60 * 1000;
-// list of options that users will be ask to find during the experiment
-experiment.optionsSequence = [];
-// list of values that the options should be set at during the experiment
-experiment.valuesSequence = [];
-// list of all the trials completed so far
-experiment.trials = [];
+var experiment = {
+   // random sequence of 8 numbers and letters used to identify participants (read from Wunderlist app if possible)
+   "email": "lotaculi",
+   // 0=control, 1=minimal, 2=mixed, 3=highlighted (set by logger.initialize)
+   "condition": "",
+   // whether to use the opposite values of the default options for this participant (set by logger.initialize)
+   "oppositeDefaults": "",
+   // bonus reward when trial done correctly
+   "bonusTrial": 0.15,
+   // list of options that users will be ask to find during the experiment
+   "optionsSequence": [],
+   // list of values that the options should be set at during the experiment
+   "valuesSequence": []
+}
 
 /*
 CALLBACK HELL
@@ -50,7 +46,7 @@ experiment.initialize = function() {
 
          // tutorial.start() is independent of the preparation of the experiment
          tutorial.start();
-         // setTimeout(experiment.start.bind(experiment), 1000);
+         //setTimeout(experimentTrials.start.bind(experimentTrials), 1000);
       });
 
       // if the email doesn't appear in firebase, cancel experiment
@@ -96,181 +92,12 @@ experiment.cancel = function(message) {
    showModal();
 }
 
-/* overwritten methods */
-
-experiment.start = function() {
-   // close customization panel
-   if (experiment.condition > 0) {
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.closePanel();
-   }
-
-   // reset options to their correct values, if necessary
-   experiment.resetSettingsIfNeeded();
-
-   // in control conditions, listen to changes of the Backbone model
-   if (experiment.condition === 0)
-      bindWunderlistListeners();
-
-   model.modal.header = "Experiment";
-   model.modal.message = "In each step, you will be asked to change <b>one setting</b> of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting <b>as quickly and as accurately as possible</b>, then click the \"Next\" button.<br><br>" +
-      "You won't be able to change your mind after clicking \"Next\". You will get an extra <b>$" + experiment.bonusTrial + "</b> for each setting correctly changed.";
-   model.modal.buttonLabel = "Start";
-   model.modal.green = true;
-   model.modal.hideOnClick = false;
-   model.modal.action = (function() {
-      Sequencer.prototype.start.call(this);
-   }).bind(this);
-
-   showModal();
-}
-
-experiment.initializeTrial = function(number) {
-   // open the preferences panel or enter customization mode, in case participants had closed them
-   if (experiment.condition > 0 && !customizationMode)
-      enterCustomizationMode();
-   if (experiment.condition === 0 && !preferencesOpen)
-      openPreferences();
-
-   // hide the hooks, to prevent people from planning their next actions
-   $("#hooks").hide();
-
-   Sequencer.prototype.initializeTrial.call(this, number, function() {
-      // once the .trial has been initialized, we can start using it
-      experiment.trial.time.instructionsShown = performance.now();
-
-      // set how the options should look like if this trial was perfectly executed
-      experiment.referenceOptions[experiment.trial.targetOption.id].value = experiment.trial.targetValue;
-   });
-}
-
-experiment.startTrial = function() {
-   // ensure there is always at least one visited tab for Wunderlist
-   if (experiment.condition === 0)
-      processWunderlistTab(window.location.hash);
-
-   // show the hooks
-   $("#hooks").show();
-
-   experiment.trial.time.start = performance.now();
-
-   experiment.timeoutTimer = setTimeout(function() {
-      console.log("timeout!")
-      experiment.trial.timeout = true;
-
-      // we must ask angular to $apply() after all the variables are set
-      experiment.endTrial(function() {
-         angular.element($("#ad-hoc-panel")).scope().$apply();
-      });
-   }, experiment.maxTrialDuration);
-
-   Sequencer.prototype.startTrial.call(this);
-}
-
-experiment.endTrial = function(callback) {
-   experiment.trial.time.end = performance.now();
-   experiment.trial.success = experiment.trial.successful();
-
-   // if the trial hasn't timeout, disable the timer 
-   clearTimeout(experiment.timeoutTimer);
-
-   // close customization panel
-   if (experiment.condition > 0) {
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.closePanel();
-   }
-
-   // log
-   experiment.trials.push(experiment.trial);
-   logger.saveTrial();
-
-   // reset options to their correct values, if necessary
-   experiment.resetSettingsIfNeeded();
-
-   Sequencer.prototype.endTrial.call(this, callback);
-}
-
-experiment.end = function() {
-   Sequencer.prototype.end.call(this);
-
-   experiment.generateRecognitionQuestionnaire();
-
-   model.progressBar.message = "";
-   model.modal.header = "Congratulations!";
-   model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your verification code.";
-   model.modal.buttonLabel = "Ok";
-   model.modal.green = true;
-   model.modal.hideOnClick = false;
-   model.modal.action = function() {
-      var scope = angular.element($("#ad-hoc-panel")).scope();
-      scope.deleteAccount();
-   }
-
-   showModal();
-}
-
-/* methods that need to be implemented */
-
-experiment.getModalHeader = function() {
-   return "Please change the following setting: (" + (this.trial.number + 1) + " / " + this.optionsSequence.length + ")";
-}
-
-experiment.getInstructions = function() {
-   var option = experiment.trial.targetOption,
-      value = experiment.trial.targetValue;
-
-   // Check for explicit instructions for the "false" or values[1] case
-   if (option.instructionsReverse) {
-      // we must retrieve the label of the value, since we're storing only the string name of targetValues
-      if ((typeof value === "boolean" && value) || (typeof value !== "boolean" && getIndexOfValueInOption(option, value) === 0))
-         return option.instructions;
-      else
-         return option.instructionsReverse;
-   }
-
-   // Standard cases
-   var instructions = option.instructions;
-
-   // Other booleans: simply replace enable by disable
-   if (!option.values) {
-      if (value)
-         return instructions;
-      else
-         return instructions.replace("Enable", "Disable")
-   }
-
-   // Non-booleans options (more than 2 values)
-
-   // special case for show/hide
-   if (option.id.indexOf("smartlist_") >= 0) {
-      if (value === "visible" || value === "auto")
-         return instructions;
-      else
-         return instructions.replace("show", "hide")
-   }
-
-   // Otherwise, simply build the instructions from the value labels
-   var index = getIndexOfValueInOption(option, value);
-   return instructions + " " + option.values[index].label;
-}
-
-experiment.trialNotPerformed = function() {
-   return experiment.trial.changedOptions.length === 0;
-}
-
-experiment.trialSuccess = function() {
-   return this.trial.success;
-}
-
-experiment.notEndOfSequence = function() {
-   return this.trial.number + 1 < this.optionsSequence.length;
-}
 
 
 
 
-// -------------------------------------------- //
 
+/*    helpers for generating options sequences and questionnaires   */
 
 
 experiment.generateOptionsAndValuesSequences = function() {
@@ -338,7 +165,7 @@ experiment.complementValueOf = function(option, reverse) {
 }
 
 experiment.getTotalTrialsReward = function() {
-   return experiment.trials.reduce(function(sum, trial) {
+   return experimentTrials.trials.reduce(function(sum, trial) {
       return sum += experiment.bonusTrial * trial.success;
    }, 0)
 }
@@ -360,31 +187,28 @@ experiment.generateRecognitionQuestionnaire = function() {
 
    // 0: TESTING ONLY
    /*   for (var j = 0; j < 10; j++) {
-         experiment.trials.push({
+         experimentTrials.trials.push({
             "targetOption": experiment.optionsSequence[j],
             "success": Math.random() < 0.5
          })
       }
    */
 
-   // 1: retrieve all the trials, with their corrresponding options
-   var trials = $.extend([], experiment.trials)
-
-   // 2: turn these trials into option candidates
-   var options = trials.map(function(trial) {
+   // 1: Generate option candidates from the target options of all the trials
+   var options = experimentTrials.trials.map(function(trial) {
       var option = $.extend({}, trial.targetOption);
       option.successfullySelected = trial.success;
       return option;
    })
 
-   // 3a: sort options to consider first the ones at the top or bottom of a tab for finding ajacents
+   // 2a: sort options to consider first the ones at the top or bottom of a tab for finding ajacents
    options.sort(function(optionA, optionB) {
       var aShouldGoFirst = (optionA.index === 0 || optionA.index === optionA.tab.options.length - 1);
       var bShouldGoFirst = (optionB.index === 0 || optionB.index === optionB.tab.options.length - 1);
       return bShouldGoFirst - aShouldGoFirst;
    })
 
-   // 3b: pick the best adjacent option (best effort), setting a .adjacent.valid flag if constraints are verified
+   // 2b: pick the best adjacent option (best effort), setting a .adjacent.valid flag if constraints are verified
    options.forEach(function(option) {
       if (option.index === 0) {
          // must pick the option below the current one
@@ -425,11 +249,11 @@ experiment.generateRecognitionQuestionnaire = function() {
       }
    })
 
-   // 4: select the 5 most appropriate options
+   // 3: select the 5 most appropriate options
    shuffleArray(options);
    var filtered = [];
 
-   // 4a: get all the good ones first
+   // 3a: get all the good ones first
    i = 0;
    while (i < options.length && filtered.length < 5) {
       if (options[i].successfullySelected && options[i].adjacentOption.valid)
@@ -438,7 +262,7 @@ experiment.generateRecognitionQuestionnaire = function() {
          i++;
    }
 
-   // 4b: if necessary, also get some for which the ajacent constraint is not verified
+   // 3b: if necessary, also get some for which the ajacent constraint is not verified
    var countAdjacentInvalid = 0;
    if (filtered.length < 5) {
       i = 0;
@@ -451,14 +275,14 @@ experiment.generateRecognitionQuestionnaire = function() {
       }
    }
 
-   // 4c: get the number of necessary bad ones (not successfully selected)
+   // 3c: get the number of necessary bad ones (not successfully selected)
    var countNotSuccessfullySelected = 0;
    while (filtered.length < 5) {
       filtered.push(options.pop())
       countNotSuccessfullySelected++;
    }
 
-   // 5: prepare storage in Firebase
+   // 4: prepare storage in Firebase
    var loggable = [];
    filtered.forEach(function(option) {
       // indicate that this option is one of the adjacent ones + if its base option was successfully selected

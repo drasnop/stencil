@@ -34,6 +34,7 @@ tutorial.time = {
    "stepEnd": 0
 }
 
+
 /* overwritten methods */
 
 tutorial.start = function() {
@@ -84,10 +85,11 @@ tutorial.end = function() {
    model.modal.buttonLabel = "Ok";
    model.modal.green = true;
    model.modal.hideOnClick = false;
-   model.modal.action = experiment.start.bind(experiment);
+   model.modal.action = experimentTrials.start.bind(experimentTrials);
 
    showModal();
 }
+
 
 /* methods that need to be implemented */
 
@@ -108,40 +110,42 @@ tutorial.trialSuccess = function() {
    if (typeof sync == "undefined" || typeof sync.collections == "undefined")
       return true;
 
-   if (this.trial.number == 1)
-      return sync.collections.tasks.where({
-         title: "buy milk"
-      }).length > 0;
+   switch (this.trial.number) {
+      case 1:
+         return sync.collections.tasks.where({
+            title: "buy milk"
+         }).length > 0;
 
-   if (this.trial.number == 3)
-      return sync.collections.tasks.where({
-         title: "buy milk"
-      })[0].get("hasNote");
+      case 3:
+         return sync.collections.tasks.where({
+            title: "buy milk"
+         })[0].get("hasNote");
 
-   if (this.trial.number == 4)
-      return sync.collections.tasks.where({
-         title: "call mom"
-      }).length > 0;
+      case 4:
+         return sync.collections.tasks.where({
+            title: "call mom"
+         }).length > 0;
 
-   if (this.trial.number == 5)
-      return sync.collections.tasks.where({
-         title: "call mom"
-      })[0].get("starred");
+      case 5:
+         return sync.collections.tasks.where({
+            title: "call mom"
+         })[0].get("starred");
 
-   if (this.trial.number == 8)
-      return sync.collections.tasks.where({
-         title: "watch a good movie"
-      }).length > 0;
+      case 8:
+         return sync.collections.tasks.where({
+            title: "watch a good movie"
+         }).length > 0;
 
-   if (this.trial.number == 10)
-      return sync.collections.tasks.where({
-         title: "buy milk"
-      })[0].get("completed");
+      case 10:
+         return sync.collections.tasks.where({
+            title: "buy milk"
+         })[0].get("completed");
 
-   if (this.trial.number == 12)
-      return sync.collections.tasks.where({
-         title: "buy milk"
-      }).length === 0;
+      case 12:
+         return sync.collections.tasks.where({
+            title: "buy milk"
+         }).length === 0;
+   }
 
    return true;
 }

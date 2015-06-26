@@ -26,7 +26,7 @@ function bindWunderlistListeners() {
          dataManager.updateOption(option, newval);
 
          // log this values change, without caring for visibility of anchors
-         experiment.trial.logValueChange(option, oldval);
+         experimentTrials.trial.logValueChange(option, oldval);
 
          // notify angular of this change, to unlock the "done" button
          // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
@@ -60,7 +60,7 @@ function processWunderlistTab(locationHash) {
       tab = model.tabs[i];
 
       if (tab.hash == shortHash) {
-         experiment.trial.visitedTabs.pushStamped({
+         experimentTrials.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(tab)
          })
          break;

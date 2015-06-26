@@ -33,14 +33,14 @@
 					<input type="checkbox"
 					ng-if="!option.values" 
 					ng-model="option.value"
-					ng-click="experiment.trial.clickedOptions.pushStamped({'option_ID': option.id})"
+					ng-click="experimentTrials.trial.clickedOptions.pushStamped({'option_ID': option.id})"
 					ng-change="updateAppOption(option, '{{option.value}}')"
 					ng-class="{'blue-highlighting': option.hasHookOrCluster() && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					<select
 					ng-if="option.values"
 					ng-model="option.value"
 					ng-options="value.name as value.label for value in option.values"
-					ng-click="experiment.trial.clickedOptions.pushStamped({'option_ID': option.id})"
+					ng-click="experimentTrials.trial.clickedOptions.pushStamped({'option_ID': option.id})"
 					ng-change="updateAppOption(option, '{{option.value}}')"
 					ng-class="{'blue-highlighting': option.hasHookOrCluster() && model.fullPanel()}" ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 					</select>

@@ -97,8 +97,8 @@ function enterCustomizationMode() {
    $("#customization-layer").show();
 
    // log
-   if (experiment.trial) {
-      experiment.trial.customizationMode.pushStamped({
+   if (experimentTrials.trial) {
+      experimentTrials.trial.customizationMode.pushStamped({
          "action": "enter"
       })
    }
@@ -124,8 +124,8 @@ function exitCustomizationMode() {
    $(".special-style").remove();
 
    // log
-   if (experiment.trial) {
-      experiment.trial.customizationMode.pushStamped({
+   if (experimentTrials.trial) {
+      experimentTrials.trial.customizationMode.pushStamped({
          "action": "exit"
       })
    }
@@ -166,8 +166,8 @@ function openPreferences() {
 }
 
 function logOpenPreferences() {
-   if (experiment.trial) {
-      experiment.trial.preferencesPanel.pushStamped({
+   if (experimentTrials.trial) {
+      experimentTrials.trial.preferencesPanel.pushStamped({
          "action": "open"
       })
    }
@@ -178,7 +178,7 @@ function logOpenPreferences() {
 
 function instrumentDoneButtonWhenReady() {
    setTimeout(function() {
-      if (!experiment.trial)
+      if (!experimentTrials.trial)
          return;
 
       if ($("#settings button.full.blue.close").length < 1)
@@ -190,7 +190,7 @@ function instrumentDoneButtonWhenReady() {
             preferencesOpen = false;
 
             //log
-            experiment.trial.preferencesPanel.pushStamped({
+            experimentTrials.trial.preferencesPanel.pushStamped({
                "action": "close"
             })
          })
@@ -200,7 +200,7 @@ function instrumentDoneButtonWhenReady() {
 
 function instrumentShowMoreButtonWhenReady() {
    setTimeout(function() {
-      if (!experiment.trial)
+      if (!experimentTrials.trial)
          return;
 
       if ($("#settings button.show-advanced-shortcuts").length < 1)
@@ -212,7 +212,7 @@ function instrumentShowMoreButtonWhenReady() {
          $("#settings button.show-advanced-shortcuts").click(function() {
             model.wunderlistShowMore = !model.wunderlistShowMore;
 
-            experiment.trial.showMoreOptions.pushStamped({
+            experimentTrials.trial.showMoreOptions.pushStamped({
                "tab": "Shortcuts",
                "action": model.wunderlistShowMore ? "show" : "hide"
             })

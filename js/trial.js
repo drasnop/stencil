@@ -69,16 +69,16 @@ function Trial(number) {
       // NB: this refers to trial.time here!
 
       if (experiment.condition === 0) {
-         for (var i = 0; i < experiment.trial.preferencesPanel.length; i++) {
-            if (experiment.trial.preferencesPanel[i].action == "open")
-               return experiment.trial.preferencesPanel[i].timestamp;
+         for (var i = 0; i < experimentTrials.trial.preferencesPanel.length; i++) {
+            if (experimentTrials.trial.preferencesPanel[i].action == "open")
+               return experimentTrials.trial.preferencesPanel[i].timestamp;
          }
       }
 
       if (experiment.condition > 0) {
-         for (var i = 0; i < experiment.trial.customizationMode.length; i++) {
-            if (experiment.trial.customizationMode[i].action == "enter")
-               return experiment.trial.customizationMode[i].timestamp;
+         for (var i = 0; i < experimentTrials.trial.customizationMode.length; i++) {
+            if (experimentTrials.trial.customizationMode[i].action == "enter")
+               return experimentTrials.trial.customizationMode[i].timestamp;
          }
       }
 
