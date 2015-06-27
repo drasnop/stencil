@@ -37,8 +37,10 @@ var experimentTrials = (function() {
       if (experiment.condition > 0)
          $("#hooks").hide();
       else {
+         closePreferences();
+         //openPreferences();
          // annoying workaround to make sure the style is applied to the settings panel, which has just been created
-         $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer {visibility: hidden}</style>");
+         //$("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer {visibility: hidden}</style>");
       }
 
 
@@ -60,8 +62,10 @@ var experimentTrials = (function() {
       // show the hooks / settings panel
       if (experiment.condition > 0)
          $("#hooks").show();
-      else
+      else {
          $(".hidden-settings-style").remove();
+         openPreferences();
+      }
 
       // starts measuring duration
       this.trial.time.start = performance.now();

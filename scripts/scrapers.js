@@ -1,5 +1,5 @@
 // recursive exploration
-var list2 = function(variable) {
+var list = function(variable) {
    console.log("## " + variable);
    for (var m in variable) {
       console.log(m, variable[m]);

@@ -155,13 +155,20 @@ function toggleOptionsVisibility() {
 }
 
 
-// manually open the Wunderlist preferences panel
+// manually open the Wunderlist preferences panel, and instrument it
 function openPreferences() {
    if (window.location.hostname == "www.wunderlist.com") {
       window.location = "https://www.wunderlist.com/webapp#/preferences/general";
       preferencesOpen = true;
 
       instrumentDoneButtonWhenReady();
+   }
+}
+
+// manually close the Wunderlist preferences panel (de facto destroy it)
+function closePreferences() {
+   if (window.location.hostname == "www.wunderlist.com") {
+      window.location = "https://www.wunderlist.com/webapp#/lists/inbox";
    }
 }
 

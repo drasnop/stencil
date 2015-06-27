@@ -515,6 +515,14 @@ body.animate .popover {
     -ms-animation: none!important;
     animation: none!important;
 }
+/* prevent the slide-in animation of the menu */
+
+body.animate .dialog-wrapper .dialog {
+    -webkit-animation: none!important;
+    -ms-animation: none!important;
+    animation: none!important;
+}
+/* hide the onboarding popups */
 
 .foldersGuide .openButton {
     display: none!important;
