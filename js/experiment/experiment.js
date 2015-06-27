@@ -115,7 +115,13 @@ experiment.setupComplete = function() {
 
    model.modal.action = tutorial.start.bind(tutorial);
 
-   showModal();
+   // we may have to wait a few hundred msec for the angular app to be ready
+   (function showModalIfBootstrapped() {
+      if (typeof angular.element($("#ad-hoc-panel")).scope() != "undefined")
+         showModal();
+      else
+         setTimeout(showModalIfBootstrapped, 100);
+   })();
 }
 
 experiment.tutorialEnded = function() {
