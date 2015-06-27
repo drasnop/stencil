@@ -33,8 +33,14 @@ var experimentTrials = (function() {
       if (experiment.condition === 0 && !preferencesOpen)
          openPreferences();
 
-      // hide the hooks, to prevent people from planning their next actions
-      $("#hooks").hide();
+      // hide the hooks / settings panel, to prevent people from planning their next actions
+      if (experiment.condition > 0)
+         $("#hooks").hide();
+      else {
+         // annoying workaround to make sure the style is applied to the settings panel, which has just been created
+         $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer {visibility: hidden}</style>");
+      }
+
 
       Sequencer.prototype.initializeTrial.call(this, number, (function() {
 
@@ -51,8 +57,11 @@ var experimentTrials = (function() {
       if (experiment.condition === 0)
          processWunderlistTab(window.location.hash);
 
-      // show the hooks
-      $("#hooks").show();
+      // show the hooks / settings panel
+      if (experiment.condition > 0)
+         $("#hooks").show();
+      else
+         $(".hidden-settings-style").remove();
 
       // starts measuring duration
       this.trial.time.start = performance.now();
