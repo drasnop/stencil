@@ -19,9 +19,8 @@ var experimentTrials = (function() {
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
 
-      // in control conditions, listen to changes of the Backbone model
-      if (experiment.condition === 0)
-         bindWunderlistListeners();
+      // listen to changes of the Backbone model
+      wunderlistListeners.bindSettingsAndTabsListeners();
 
       Sequencer.prototype.start.call(this);
    }
@@ -57,7 +56,7 @@ var experimentTrials = (function() {
    experimentTrials.startTrial = function() {
       // ensure there is always at least one visited tab for Wunderlist
       if (experiment.condition === 0)
-         processWunderlistTab(window.location.hash);
+         wunderlistListeners.processWunderlistTab(window.location.hash);
 
       // show the hooks / settings panel
       if (experiment.condition > 0)

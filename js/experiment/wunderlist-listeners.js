@@ -2,75 +2,122 @@
  * logging functions that listen to options changes and tab navigation in Wunderlist
  */
 
-function bindWunderlistListeners() {
+var wunderlistListeners = (function() {
+   var wunderlistListeners = {};
 
-   // dev mode: not linked with Wunderlist backbone
-   if (typeof sync == "undefined" || typeof sync.collections == "undefined")
-      return;
+   wunderlistListeners.bindSettingsAndTabsListeners = function() {
 
-   console.log("Initializing Wunderlist listeners...")
+      // dev mode: not linked with Wunderlist backbone
+      if (typeof sync == "undefined" || typeof sync.collections == "undefined")
+         return;
 
-   // listener for each settings change in Wunderlist
-   model.options.getUserAccessibleOptions().forEach(function(option) {
-      sync.collections.settings.where({
-         key: option.id
-      })[0].attributes.watch("value", function(prop, oldval, newval) {
+      console.log("Initializing Wunderlist listeners...")
 
-         // if this change originated from the model (as a "rectification" at the end of each trial), do nothing
-         if (dataManager.formatValueForWunderlist(option.value) === newval)
+      // listener for each settings change in Wunderlist
+      model.options.getUserAccessibleOptions().forEach(function(option) {
+         sync.collections.settings.where({
+            key: option.id
+         })[0].attributes.watch("value", function(prop, oldval, newval) {
+
+            // if this change originated from the model (as a "rectification" at the end of each trial), do nothing
+            if (dataManager.formatValueForWunderlist(option.value) === newval)
+               return newval;
+
+            console.log('* ' + option.id + '.' + prop + ' changed from', oldval, 'to', newval);
+
+            // update the model accordingly
+            dataManager.updateOption(option, newval);
+
+            // log this values change, without caring for visibility of anchors
+            experimentTrials.trial.logValueChange(option, oldval);
+
+            // notify angular of this change, to unlock the "done" button
+            // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
+            var scope = angular.element($("#ad-hoc-panel")).scope();
+            if (!scope.$$phase)
+               scope.$apply();
+
+            // must return newval, since this watcher function is called instead of the setter
             return newval;
-
-         console.log('* ' + option.id + '.' + prop + ' changed from', oldval, 'to', newval);
-
-         // update the model accordingly
-         dataManager.updateOption(option, newval);
-
-         // log this values change, without caring for visibility of anchors
-         experimentTrials.trial.logValueChange(option, oldval);
-
-         // notify angular of this change, to unlock the "done" button
-         // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
-         var scope = angular.element($("#ad-hoc-panel")).scope();
-         if (!scope.$$phase)
-            scope.$apply();
-
-         // must return newval, since this watcher function is called instead of the setter
-         return newval;
-      })
-   });
-
-   // listener for tabs in preferences panel
-   window.location.watch("hash", function(prop, oldval, newval) {
-      return processWunderlistTab(newval);
-   })
-}
-
-
-function processWunderlistTab(locationHash) {
-   // we are only interested in the preferences panel
-   if (locationHash.indexOf("preferences") < 0)
-      return locationHash;
-
-   var temp = locationHash.split('/');
-   var shortHash = temp[temp.length - 1];
-
-   // find which tab is currently active
-   var tab;
-   for (var i in model.tabs) {
-      tab = model.tabs[i];
-
-      if (tab.hash == shortHash) {
-         experimentTrials.trial.visitedTabs.pushStamped({
-            "tab": logger.flattenTab(tab)
          })
-         break;
-      }
+      });
+
+      // listener for tabs in preferences panel
+      window.location.watch("hash", function(prop, oldval, newval) {
+         return wunderlistListeners.processWunderlistTab(newval);
+      })
    }
 
-   // enable logging of showMoreOptions
-   if (shortHash == "shortcuts")
-      instrumentShowMoreButtonWhenReady();
 
-   // must return locationHash, since this watcher function is called instead of the setter
-   return locationHash;
-}
+   // translates the locationHash into which tab has been activated, and log it
+   wunderlistListeners.processWunderlistTab = function(locationHash) {
+      // we are only interested in the preferences panel
+      if (locationHash.indexOf("preferences") < 0)
+         return locationHash;
+
+      var temp = locationHash.split('/');
+      var shortHash = temp[temp.length - 1];
+
+      // find which tab is currently active
+      var tab;
+      for (var i in model.tabs) {
+         tab = model.tabs[i];
+
+         if (tab.hash == shortHash) {
+            experimentTrials.trial.visitedTabs.pushStamped({
+               "tab": logger.flattenTab(tab)
+            })
+            break;
+         }
+      }
+
+      // enable logging of showMoreOptions
+      if (shortHash == "shortcuts")
+         wunderlistListeners.instrumentShowMoreButtonWhenReady();
+
+      // must return locationHash, since this watcher function is called instead of the setter
+      return locationHash;
+   }
+
+
+   wunderlistListeners.instrumentDoneButtonWhenReady = function() {
+      setTimeout(function() {
+         if (!experimentTrials.trial)
+            return;
+
+         if ($("#settings button.full.blue.close").length < 1)
+            wunderlistListeners.instrumentDoneButtonWhenReady();
+         else {
+            // log this closing event
+            $("#settings button.full.blue.close").click(closePreferences.bind(null, true));
+            // NB the panel is actually closed by Wunderlist itself, since I don't know how to disable that
+         }
+      }, 10)
+   }
+
+   wunderlistListeners.instrumentShowMoreButtonWhenReady = function() {
+      setTimeout(function() {
+         if (!experimentTrials.trial)
+            return;
+
+         if ($("#settings button.show-advanced-shortcuts").length < 1)
+            wunderlistListeners.instrumentShowMoreButtonWhenReady();
+         else {
+            console.log("instrumenting Wunderlist's showMore button...")
+            model.wunderlistShowMore = false;
+
+            $("#settings button.show-advanced-shortcuts").click(function() {
+               model.wunderlistShowMore = !model.wunderlistShowMore;
+
+               experimentTrials.trial.showMoreOptions.pushStamped({
+                  "tab": "Shortcuts",
+                  "action": model.wunderlistShowMore ? "show" : "hide"
+               })
+            })
+         }
+      }, 10)
+   }
+
+
+   return wunderlistListeners;
+})();

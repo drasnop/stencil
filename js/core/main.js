@@ -50,16 +50,17 @@ function replaceMenuEntryWhenReady() {
          replaceMenuEntryWhenReady();
       else {
          if (experiment.condition === 0) {
-            // In control condition, "Settings" reroute to the General tab
+            // In control condition, "Settings" opens the Wunderlist preferences panel
             $(".list-menu li a[data-path='preferences/account']")
                .html("<text>Settings</text>")
-               .attr("data-path", "preferences/general")
-               .on("click", logOpenPreferences)
+               .removeAttr("data-path")
+               .on("click", openPreferences.bind(null, true))
+               // neat trick to pass log=true to the openPreferences callback
          } else {
             // For all other conditions, "Customize" enters customization mode
             $(".list-menu li a[data-path='preferences/account']")
                .html("<text>Customize</text>")
-               .attr("data-path", "")
+               .removeAttr("data-path")
                .on("click", enterCustomizationMode)
          }
       }
@@ -155,75 +156,47 @@ function toggleOptionsVisibility() {
 }
 
 
-// manually open the Wunderlist preferences panel, and instrument it
-function openPreferences() {
+// Manually open the Wunderlist preferences panel, and instrument it
+// Always show the General tab, as Wunderlist would do it
+function openPreferences(log) {
+   console.log("openPreferences")
    if (window.location.hostname == "www.wunderlist.com") {
       window.location = "https://www.wunderlist.com/webapp#/preferences/general";
       preferencesOpen = true;
 
-      instrumentDoneButtonWhenReady();
+      // prepare future logging of closing the panel
+      wunderlistListeners.instrumentDoneButtonWhenReady();
+
+      // instrumentShowMoreButtonWhenReady is called when switching tabs
+      // because the showMore button itself doesn't exist when another tab is active
+
+      if (experimentTrials.trial) {
+         // since it's always the General tab, we can log it as visited
+         experimentTrials.trial.visitedTabs.pushStamped({
+            "tab": logger.flattenTab(model.tabs[0])
+         })
+
+         // log this event only if it was caused by a user action
+         if (log) {
+            experimentTrials.trial.preferencesPanel.pushStamped({
+               "action": "open"
+            })
+         }
+      }
    }
 }
 
-// manually close the Wunderlist preferences panel (de facto destroy it)
-function closePreferences() {
+// Manually close the Wunderlist preferences panel (de facto destroy it)
+function closePreferences(log) {
    if (window.location.hostname == "www.wunderlist.com") {
       window.location = "https://www.wunderlist.com/webapp#/lists/inbox";
-   }
-}
+      preferencesOpen = false;
 
-function logOpenPreferences() {
-   if (experimentTrials.trial) {
-      experimentTrials.trial.preferencesPanel.pushStamped({
-         "action": "open"
-      })
-   }
-
-   // enable logging for closing panel
-   instrumentDoneButtonWhenReady();
-}
-
-function instrumentDoneButtonWhenReady() {
-   setTimeout(function() {
-      if (!experimentTrials.trial)
-         return;
-
-      if ($("#settings button.full.blue.close").length < 1)
-         instrumentDoneButtonWhenReady();
-      else {
-         $("#settings button.full.blue.close").click(function() {
-
-            // the user is closing the preferences panel
-            preferencesOpen = false;
-
-            //log
-            experimentTrials.trial.preferencesPanel.pushStamped({
-               "action": "close"
-            })
+      // log this event only if it was caused by a user action
+      if (log) {
+         experimentTrials.trial.preferencesPanel.pushStamped({
+            "action": "close"
          })
       }
-   }, 10)
-}
-
-function instrumentShowMoreButtonWhenReady() {
-   setTimeout(function() {
-      if (!experimentTrials.trial)
-         return;
-
-      if ($("#settings button.show-advanced-shortcuts").length < 1)
-         instrumentShowMoreButtonWhenReady();
-      else {
-         console.log("instrumenting Wunderlist's showMore button...")
-         model.wunderlistShowMore = false;
-
-         $("#settings button.show-advanced-shortcuts").click(function() {
-            model.wunderlistShowMore = !model.wunderlistShowMore;
-
-            experimentTrials.trial.showMoreOptions.pushStamped({
-               "tab": "Shortcuts",
-               "action": model.wunderlistShowMore ? "show" : "hide"
-            })
-         })
-      }
-   }, 10)
+   }
 }
