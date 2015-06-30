@@ -48,6 +48,31 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          });
       })
 
+      // add a helper function to each option, used for logging
+      model.options.forEach(function(option) {
+         // use defineProperty syntax to avoid it being logged later on
+         Object.defineProperty(option, "hasVisibleHook", {
+            value: function() {
+               // 1. Find which mappings this option appears in, add the corresponding selectors to a list
+               var selectors = [];
+               model.mappings.forEach(function(mapping) {
+                  if (mapping.options.indexOf(this.id) >= 0)
+                     selectors.push(mapping.selector);
+               }, this);
+               console.log(selectors)
+
+               // 2. For each selector, test if at least one hook is present and visible
+               for (var i in selectors) {
+                  console.log($(selectors[i]).length)
+                  if ($(selectors[i]).filter(":visible").length > 0)
+                     return true;
+               }
+               return false;
+            }
+         });
+      })
+
+
       /* mappings */
 
       // set option.anchored flag (doesn't take into account flag visible so far)

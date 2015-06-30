@@ -159,14 +159,15 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
 
    // wrapper to allow cleaner logging
    $scope.updateAppOption = function(option, oldValue) {
-      // store the old value before updating the underlying option, hence updating hooks and clusters
-      var clusterCollapsed = hooksManager.isClusterCollapsed(option);
+      // store the old values before updating the underlying option, hence updating hooks and clusters
+      var clusterExpanded = hooksManager.isClusterExpanded(option);
+      var hadVisibleHook = option.hasVisibleHook();
 
       dataManager.updateAppOption(option.id, option.value, true);
 
       // log
       if (experimentTrials.trial)
-         experimentTrials.trial.logValueChange(option, oldValue, clusterCollapsed);
+         experimentTrials.trial.logValueChange(option, oldValue, hadVisibleHook, clusterExpanded);
    }
 
 

@@ -113,7 +113,8 @@ experiment.setupComplete = function() {
    model.modal.green = true;
    model.modal.hideOnClick = false;
 
-   model.modal.action = tutorial.start.bind(tutorial);
+   //model.modal.action = tutorial.start.bind(tutorial);
+   model.modal.action = experimentTrials.start.bind(experimentTrials);
 
    // we may have to wait a few hundred msec for the angular app to be ready
    (function showModalIfBootstrapped() {

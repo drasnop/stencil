@@ -183,7 +183,7 @@ function Trial(number) {
    /* helpers */
 
    // need to get hadVisibleHighlightableHook BEFORE the dataManager updates the value of the option, obviously
-   this.logValueChange = function(option, oldValue, clusterCollapsed) {
+   this.logValueChange = function(option, oldValue, hadVisibleHook, clusterExpanded) {
       var time = performance.now();
 
       // if the user has changed the correct option to the correct value
@@ -203,26 +203,44 @@ function Trial(number) {
       if (experiment.condition > 0) {
          change.panelExpanded = model.fullPanel();
          change.hookWasSelected = option.selected;
+
          change.hadHookOrCluster = option.hasHookOrCluster();
-         change.clusterCollapsed = clusterCollapsed;
-         change.hadVisibleHook = change.hadHookOrCluster && !change.clusterCollapsed;
+         change.hadVisibleHook = hadVisibleHook;
+         change.clusterExpanded = clusterExpanded;
       }
 
       /*
-      case                    absent      clusterContracted    clusterExpanded   regular
+      case                  not-anchored  absent      clusterContracted    clusterExpanded   regular
 
-      hadHookOrCluster        n           y                    y                 y
-      hadVisibleHook          n           n                    y                 y
-      ghostHook               y/n         y                    y                 n
+      hadHookOrCluster      n             n           y                    y                 y
+      hadVisibleHook        n             n           n                    y                 y
+      ghostHook             n             y/n         y                    y                 n
 
-      hadVisibleHook          n           n                    y                 y
-      hasGhostHook            n           y                    y                 n
+      hadVisibleHook        n             n           n                    y                 y
+      hasGhostHook          n             n           y                    y                 n
       > problem: we can't access hasVisibleHook after the change...
 
-      hadHookOrCluster        n           y                    y                 y
-      clusterCollapsed        null        y                    n                 null
-      > hadVisibleHook = hadHookOrCluster && !clusterCollapsed   (but it's not enough info on its own)
-                              n           n                    y                 y
+      clusterCollapsed      null          null        y                    n                 null
+      clusterExpanded       null          null        n                    y                 null   
+      hadVisibleHook        n             n           n                    y                 y
+      >  hadVisibleHook = hadHookOrCluster && !clusterCollapsed   (but it's not enough info on its own)
+
+      # final scheme
+
+      anchored              undef         y           y                    y                 y
+      hadHookOrCluster      n             n           y                    y                 y
+      hadVisibleHook        n             n           n                    y                 y
+      hideable              undef         undef       y                    y                 undef
+                            n             n           y                    y                 n
+      (then clusterExpanded can be recomputed has hideable && hadVisibleHook)
+      (because hadVisibleHook = hadHookOrCluster && !clusterCollapsed)
+
+      NB some options are not hideable themselves, yet they will be hidden in a cluster if their corresponding hooks
+      are ghostified by another option they're sharing the hook with... 
+
+      When clusterExpanded is present (i.e. ref option old value is hidden), it has the same value than hadVisibleHook
+      Otherwise (not associated with hideable option OR ref option old value = visible), so far there is no direct way to tell these two cases apart
+      Arguably these two cases have the same visual appearance, or lack thereof.
       */
 
       if (experiment.condition === 0 || model.fullPanel()) {
