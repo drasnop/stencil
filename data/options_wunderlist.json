@@ -383,7 +383,7 @@
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true,
+      "showHide": true,
       "notInExperiment": true
    },
    "smartlist_visibility_starred": {
@@ -398,7 +398,7 @@
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true,
+      "showHide": true,
       "notInExperiment": true
    },
    "smartlist_visibility_today": {
@@ -413,7 +413,7 @@
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true
+      "showHide": true
    },
    "smartlist_visibility_week": {
       "id": "smartlist_visibility_week",
@@ -427,7 +427,7 @@
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true
+      "showHide": true
    },
    "smartlist_visibility_all": {
       "id": "smartlist_visibility_all",
@@ -441,7 +441,7 @@
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true
+      "showHide": true
    },
    "smartlist_visibility_done": {
       "id": "smartlist_visibility_done",
@@ -455,7 +455,7 @@
          "name": "hidden",
          "label": "hidden"
       }],
-      "hideable": true
+      "showHide": true
    },
    "today_smart_list_visible_tasks": {
       "id": "today_smart_list_visible_tasks",

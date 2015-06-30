@@ -206,11 +206,12 @@ function Trial(number) {
 
          change.hadHookOrCluster = option.hasHookOrCluster();
          change.hadVisibleHook = hadVisibleHook;
+         change.hideable = option.hideable;
          change.clusterExpanded = clusterExpanded;
       }
 
       /*
-      case                  not-anchored  absent      clusterContracted    clusterExpanded   regular
+      case                  !anchorable   absent      clusterContracted    clusterExpanded   regular
 
       hadHookOrCluster      n             n           y                    y                 y
       hadVisibleHook        n             n           n                    y                 y
@@ -227,7 +228,7 @@ function Trial(number) {
 
       # final scheme
 
-      anchored              undef         y           y                    y                 y
+      anchorable            undef         y           y                    y                 y
       hadHookOrCluster      n             n           y                    y                 y
       hadVisibleHook        n             n           n                    y                 y
       hideable              undef         undef       y                    y                 undef

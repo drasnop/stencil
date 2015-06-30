@@ -8,7 +8,7 @@ var dataManager = {};
 dataManager.initializeDataStructuresIfAllLoaded = function() {
    if (Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0) {
 
-      /* options */
+      /* accessor and iterators on model.options, mappings and tabs */
 
       // creates a convenient enumerating (but non-enumerable!) function
       Object.defineProperty(model.options, "forEach", {
@@ -34,6 +34,28 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          }
       })
 
+      // convenient accessor for retrieving all the mappings for a particular option
+      Object.defineProperty(model.mappings, "getMappingsOf", {
+         value: function(option) {
+            return this.filter(function(mapping) {
+               return mapping.options.indexOf(option.id) >= 0;
+            });
+         }
+      })
+
+      // creates a convenient enumerating (but non-enumerable!) function
+      Object.defineProperty(model.tabs, "forEachNonBloat", {
+         value: function(callback) {
+            this.forEach(function(tab) {
+               if (!tab.bloat)
+                  callback(tab);
+            })
+         }
+      })
+
+
+      /* options methods */
+
       // add a helper function to each option, used for reverse highlighting and logging
       model.options.forEach(function(option) {
          // use defineProperty syntax to avoid it being logged later on
@@ -41,7 +63,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
             value: function() {
                // check if there is at least one hook or one cluster-marker visible
                // the hook can be a hidden ghost, though
-               return !!option.anchored && $(".highlightable").filter(function() {
+               return !!option.anchorable && $(".highlightable").filter(function() {
                   return $(this).data("options").indexOf(option) >= 0;
                }).filter(":visible").length > 0;
             }
@@ -54,16 +76,12 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          Object.defineProperty(option, "hasVisibleHook", {
             value: function() {
                // 1. Find which mappings this option appears in, add the corresponding selectors to a list
-               var selectors = [];
-               model.mappings.forEach(function(mapping) {
-                  if (mapping.options.indexOf(this.id) >= 0)
-                     selectors.push(mapping.selector);
-               }, this);
-               console.log(selectors)
+               var selectors = model.mappings.getMappingsOf(option).map(function(mapping) {
+                  return mapping.selector;
+               })
 
                // 2. For each selector, test if at least one hook is present and visible
                for (var i in selectors) {
-                  console.log($(selectors[i]).length)
                   if ($(selectors[i]).filter(":visible").length > 0)
                      return true;
                }
@@ -73,27 +91,50 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       })
 
 
-      /* mappings */
+      /* options flags */
 
-      // set option.anchored flag (doesn't take into account flag visible so far)
+      // set option.anchorable to true if this option is part of mapping
+      // (although there is no guarantee that this option will actually be anchored,
+      // it depends on the availability of an anchor of the correct type in the DOM)
       model.mappings.forEach(function(mapping) {
          mapping.options.forEach(function(option_id) {
-            model.options[option_id].anchored = true;
+            model.options[option_id].anchorable = true;
          });
       })
 
-
-      /* tabs */
-
-      // creates a convenient enumerating (but non-enumerable!) function
-      Object.defineProperty(model.tabs, "forEachNonBloat", {
-         value: function(callback) {
-            this.forEach(function(tab) {
-               if (!tab.bloat)
-                  callback(tab);
-            })
+      // set option.hideable to true if this option is mapped to a hook that can be hidden
+      // (=turned into a ghost) by an option of type show/hide
+      model.options.forEach(function(option) {
+         // 0. consider only the optionsSequence part of a mapping
+         if (!option.anchorable) {
+            option.hideable = false;
+            return;
          }
-      })
+
+         // 1. find in which mappings this option appears in, if any
+         var mappings = model.mappings.getMappingsOf(option);
+
+         // 2. test if all of these mappings contain a show/hide option
+         function allHooksCouldBeHidden(mappings) {
+            for (var m in mappings) {
+               if (!mappingContainsShowHide(mappings[m]))
+                  return false;
+            }
+            return true;
+         }
+
+         function mappingContainsShowHide(mapping) {
+            return mapping.options.filter(function(option_id) {
+               return model.options[option_id].showHide;
+            }).length > 0;
+         }
+
+         // 3. set flag
+         option.hideable = allHooksCouldBeHidden(mappings);
+      });
+
+
+      /* pointers and indexes for options and tabs */
 
       // replace tab.option_ids by pointers to actual options
       model.tabs.forEachNonBloat(function(tab) {
