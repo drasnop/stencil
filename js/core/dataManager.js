@@ -8,6 +8,7 @@ var dataManager = {};
 dataManager.initializeDataStructuresIfAllLoaded = function() {
    if (Object.keys(model.options).length > 0 && model.mappings.length > 0 && model.tabs.length > 0) {
 
+
       /* accessor and iterators on model.options, mappings and tabs */
 
       // creates a convenient enumerating (but non-enumerable!) function
@@ -38,7 +39,7 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       Object.defineProperty(model.mappings, "getMappingsOf", {
          value: function(option) {
             return this.filter(function(mapping) {
-               return mapping.options.indexOf(option.id) >= 0;
+               return mapping.options.indexOf(option) >= 0;
             });
          }
       })
@@ -52,6 +53,40 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
             })
          }
       })
+
+
+      /* pointers and indexes for options and tabs */
+
+      // replace mapping.option_ids by pointers to actual options
+      model.mappings.forEach(function(mapping) {
+         var mappingOptions = mapping.options.map(function(option_id) {
+            return model.options[option_id];
+         })
+         mapping.options = mappingOptions;
+      })
+
+      // replace tab.option_ids by pointers to actual options
+      model.tabs.forEachNonBloat(function(tab) {
+         var tabOptions = tab.options.map(function(option_id) {
+            return model.options[option_id];
+         })
+         tab.options = tabOptions;
+      })
+
+      // add pointer to tab (and index in that tab) to options
+      model.tabs.forEachNonBloat(function(tab) {
+         for (var i = 0; i < tab.options.length; i++) {
+            tab.options[i].tab = tab;
+            // the display code only uses filteredIndex (not the real .index), but this could be useful in the analysis
+            tab.options[i].index = i;
+         }
+      })
+
+      // add tab index information for future sorting
+      for (var i = 0, len = model.tabs.length; i < len; i++) {
+         model.tabs[i].index = i;
+      }
+
 
 
       /* options methods */
@@ -97,8 +132,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       // (although there is no guarantee that this option will actually be anchored,
       // it depends on the availability of an anchor of the correct type in the DOM)
       model.mappings.forEach(function(mapping) {
-         mapping.options.forEach(function(option_id) {
-            model.options[option_id].anchorable = true;
+         mapping.options.forEach(function(option) {
+            option.anchorable = true;
          });
       })
 
@@ -124,8 +159,8 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          }
 
          function mappingContainsShowHide(mapping) {
-            return mapping.options.filter(function(option_id) {
-               return model.options[option_id].showHide;
+            return mapping.options.filter(function(option) {
+               return option.showHide;
             }).length > 0;
          }
 
@@ -134,29 +169,6 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
       });
 
 
-      /* pointers and indexes for options and tabs */
-
-      // replace tab.option_ids by pointers to actual options
-      model.tabs.forEachNonBloat(function(tab) {
-         var tabOptions = tab.options.map(function(option_id) {
-            return model.options[option_id];
-         })
-         tab.options = tabOptions;
-      })
-
-      // add pointer to tab (and index in that tab) to options
-      model.tabs.forEachNonBloat(function(tab) {
-         for (var i = 0; i < tab.options.length; i++) {
-            tab.options[i].tab = tab;
-            // the display code only uses filteredIndex (not the real .index), but this could be useful in the analysis
-            tab.options[i].index = i;
-         }
-      })
-
-      // add tab index information for future sorting
-      for (var i = 0, len = model.tabs.length; i < len; i++) {
-         model.tabs[i].index = i;
-      }
 
       // sets the active tab to a default, to avoid undefined errors before the first call to showPanel()
       model.activeTab = model.tabs[0];

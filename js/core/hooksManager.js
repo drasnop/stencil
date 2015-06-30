@@ -91,9 +91,11 @@ var hooksManager = (function() {
       model.mappings.forEach(function(mapping) {
 
          mapping_anchors = $(mapping.selector);
-         if (mapping_anchors.length === 0)
-            console.log(mapping.selector, "failed to match any element for", mapping.options)
-
+         if (mapping_anchors.length === 0) {
+            console.log(mapping.selector, "failed to match any element for", mapping.options.map(function(option) {
+               return option.id;
+            }))
+         }
 
          var hook;
          mapping_anchors.each(function(i, anchor) {
@@ -110,9 +112,7 @@ var hooksManager = (function() {
             hook.data("anchor", $(anchor));
 
             // associate options (themselves) to hook
-            hook.data("options", mapping.options.map(function(option_id) {
-               return model.options[option_id];
-            }));
+            hook.data("options", mapping.options);
 
             // make sure the hook and its children are not active
             hook.find("*").addBack()
