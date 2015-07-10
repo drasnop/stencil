@@ -35,3 +35,25 @@ for (var name in options) {
       options[name].label = label
    }
 }
+
+// print the list of all user accessible options, with interesting information
+// must be called from customization mode on
+var props = ["anchorable", "hasHookOrCluster", "hasVisibleHook", "hideable", "notInExperiment"]
+
+model.options.forEachUserAccessible(function(option) {
+   var line = [option.tab.name, option.index, option.id];
+
+   var prop, value;
+   for (var i in props) {
+      prop = props[i];
+
+      if (typeof option[prop] == typeof Function)
+         value = option[prop]();
+      else
+         value = option[prop];
+
+      line.push(value ? prop : "")
+   }
+
+   console.log(line.join(","))
+})
