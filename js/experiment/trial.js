@@ -182,7 +182,7 @@ function Trial(number) {
 
    /* helpers */
 
-   // need to get hadVisibleHighlightableHook BEFORE the dataManager updates the value of the option, obviously
+   // need to get hadVisibleHook and clusterExpanded BEFORE the dataManager updates the value of the option, obviously
    this.logValueChange = function(option, oldValue, hadVisibleHook, clusterExpanded) {
       var time = performance.now();
 

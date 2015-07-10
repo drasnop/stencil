@@ -161,42 +161,40 @@ function toggleOptionsVisibility() {
 function openPreferences(log) {
    console.log("openPreferences")
    if (window.location.hostname == "www.wunderlist.com") {
-      window.location = "https://www.wunderlist.com/webapp#/preferences/general";
-      preferencesOpen = true;
+      window.location.hash = "#/preferences/general";
+      //preferencesOpen = true;
 
-      // prepare future logging of closing the panel
+/*      // prepare future logging of closing the panel
       wunderlistListeners.instrumentDoneButtonWhenReady();
+*/
 
       // instrumentShowMoreButtonWhenReady is called when switching tabs
       // because the showMore button itself doesn't exist when another tab is active
 
-      if (experimentTrials.trial) {
-         // since it's always the General tab, we can log it as visited
-         experimentTrials.trial.visitedTabs.pushStamped({
-            "tab": logger.flattenTab(model.tabs[0])
-         })
+      // A new entry will be added automatically to visitedTabs, since we're watching location.hash
 
+/*      if (experimentTrials.trial) {
          // log this event only if it was caused by a user action
          if (log) {
             experimentTrials.trial.preferencesPanel.pushStamped({
                "action": "open"
             })
          }
-      }
+      }*/
    }
 }
 
 // Manually close the Wunderlist preferences panel (de facto destroy it)
 function closePreferences(log) {
    if (window.location.hostname == "www.wunderlist.com") {
-      window.location = "https://www.wunderlist.com/webapp#/lists/inbox";
-      preferencesOpen = false;
+      window.location.hash = "#/lists/inbox";
+      //preferencesOpen = false;
 
-      // log this event only if it was caused by a user action
-      if (log) {
-         experimentTrials.trial.preferencesPanel.pushStamped({
-            "action": "close"
-         })
-      }
+      /*      // log this event only if it was caused by a user action
+            if (log) {
+               experimentTrials.trial.preferencesPanel.pushStamped({
+                  "action": "close"
+               })
+            }*/
    }
 }

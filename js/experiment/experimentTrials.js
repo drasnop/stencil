@@ -55,8 +55,8 @@ var experimentTrials = (function() {
 
    experimentTrials.startTrial = function() {
       // ensure there is always at least one visited tab for Wunderlist
-      if (experiment.condition === 0)
-         wunderlistListeners.processWunderlistTab(window.location.hash);
+      /*      if (experiment.condition === 0)
+               wunderlistListeners.processWunderlistTab(window.location.hash);*/
 
       // show the hooks / settings panel
       if (experiment.condition > 0)

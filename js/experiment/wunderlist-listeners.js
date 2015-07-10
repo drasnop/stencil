@@ -49,11 +49,54 @@ var wunderlistListeners = (function() {
    }
 
 
-   // translates the locationHash into which tab has been activated, and log it
+   // log open/close preferences events, visited tab and instrument showMoreShortcuts button
    wunderlistListeners.processWunderlistTab = function(locationHash) {
-      // we are only interested in the preferences panel
-      if (locationHash.indexOf("preferences") < 0)
+      console.log("hash changed to", locationHash)
+
+
+      /* log preferences open/close events */
+
+      // if this is not the preferences panel
+      if (locationHash.indexOf("preferences") < 0) {
+
+         // if preferences panel has just been closed, log it
+         if (preferencesOpen) {
+
+            // log this event only if it was caused by a user action
+            // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
+            if (experimentTrials.trial) {
+               experimentTrials.trial.preferencesPanel.pushStamped({
+                  "action": "close"
+               })
+            }
+         }
+
+         preferencesOpen = false;
+
+         // must return locationHash, since this watcher function is called instead of the setter
          return locationHash;
+      }
+
+      // if the preferences panel is shown
+      if (locationHash.indexOf("preferences") >= 0) {
+
+         // if preferences panel has just been opened, log it
+         if (!preferencesOpen) {
+
+            // log this event only if it was caused by a user action
+            // (this WILL not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
+            if (experimentTrials.trial) {
+               experimentTrials.trial.preferencesPanel.pushStamped({
+                  "action": "open"
+               })
+            }
+         }
+
+         preferencesOpen = true;
+      }
+
+
+      /* log visited tab */
 
       var temp = locationHash.split('/');
       var shortHash = temp[temp.length - 1];
@@ -62,14 +105,20 @@ var wunderlistListeners = (function() {
       var tab;
       for (var i in model.tabs) {
          tab = model.tabs[i];
-
-         if (tab.hash == shortHash) {
-            experimentTrials.trial.visitedTabs.pushStamped({
-               "tab": logger.flattenTab(tab)
-            })
+         if (tab.hash == shortHash)
             break;
-         }
       }
+
+      // log visited tab
+      // (this will not be when closing/opening panel to refresh it because trial hasn't been initialized yet)
+      if (experimentTrials.trial) {
+         experimentTrials.trial.visitedTabs.pushStamped({
+            "tab": logger.flattenTab(tab)
+         })
+      }
+
+
+      /* instrument showMore button */
 
       // enable logging of showMoreOptions
       if (shortHash == "shortcuts")
@@ -80,20 +129,21 @@ var wunderlistListeners = (function() {
    }
 
 
-   wunderlistListeners.instrumentDoneButtonWhenReady = function() {
-      setTimeout(function() {
-         if (!experimentTrials.trial)
-            return;
+   /*   wunderlistListeners.instrumentDoneButtonWhenReady = function() {
+         setTimeout(function() {
+            if (!experimentTrials.trial)
+               return;
 
-         if ($("#settings button.full.blue.close").length < 1)
-            wunderlistListeners.instrumentDoneButtonWhenReady();
-         else {
-            // log this closing event
-            $("#settings button.full.blue.close").click(closePreferences.bind(null, true));
-            // NB the panel is actually closed by Wunderlist itself, since I don't know how to disable that
-         }
-      }, 10)
-   }
+            if ($("#settings button.full.blue.close").length < 1)
+               wunderlistListeners.instrumentDoneButtonWhenReady();
+            else {
+               // log this closing event
+               $("#settings button.full.blue.close").click(closePreferences.bind(null, true));
+               // NB the panel is actually closed by Wunderlist itself, since I don't know how to disable that
+            }
+         }, 10)
+      }
+   */
 
    wunderlistListeners.instrumentShowMoreButtonWhenReady = function() {
       setTimeout(function() {
