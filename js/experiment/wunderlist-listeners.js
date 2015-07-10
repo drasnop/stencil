@@ -51,8 +51,7 @@ var wunderlistListeners = (function() {
 
    // log open/close preferences events, visited tab and instrument showMoreShortcuts button
    wunderlistListeners.processWunderlistTab = function(locationHash) {
-      console.log("hash changed to", locationHash)
-
+      var timestamp = performance.now();
 
       /* log preferences open/close events */
 
@@ -67,7 +66,7 @@ var wunderlistListeners = (function() {
             if (experimentTrials.trial) {
                experimentTrials.trial.preferencesPanel.pushStamped({
                   "action": "close"
-               })
+               }, timestamp)
             }
          }
 
@@ -88,7 +87,7 @@ var wunderlistListeners = (function() {
             if (experimentTrials.trial) {
                experimentTrials.trial.preferencesPanel.pushStamped({
                   "action": "open"
-               })
+               }, timestamp)
             }
          }
 
@@ -106,7 +105,7 @@ var wunderlistListeners = (function() {
       if (experimentTrials.trial) {
          experimentTrials.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(tab)
-         })
+         }, timestamp)
       }
 
 

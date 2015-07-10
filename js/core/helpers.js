@@ -213,12 +213,12 @@ function generateTabsSequenceWithoutConsecutiveTabs(numElementsPerTab) {
 }
 
 
-// Extend the Array class to automatically add timestamps on various events
+// Extend the Array class to automatically add timestamps on various events, unless an explicit timestamp has been provided
 function EventsQueue() {}
 
 EventsQueue.prototype = Object.create(Array.prototype);
-EventsQueue.prototype.pushStamped = function(object) {
-   object.timestamp = performance.now();
+EventsQueue.prototype.pushStamped = function(object, timestamp) {
+   object.timestamp = timestamp || performance.now();
    this.push(object);
 }
 EventsQueue.prototype.loggable = function() {
