@@ -63,7 +63,7 @@ experiment.initialize = function() {
 experiment.generateInitialState = function(callback) {
    // 1: for some participants, use the opposite of the default options
    if (experiment.oppositeDefaults) {
-      model.options.getUserAccessibleOptions().forEach(function(option) {
+      model.options.forEachUserAccessible(function(option) {
          option.value = sequenceGenerator.complementValueOf(option);
       });
    }

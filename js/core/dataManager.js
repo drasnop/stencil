@@ -20,18 +20,13 @@ dataManager.initializeDataStructuresIfAllLoaded = function() {
          }
       })
 
-      // convenient accessor for userAccessibleOptions
-      Object.defineProperty(model.options, "getUserAccessibleOptions", {
-         value: function() {
-            var userAccessible = {};
+      // creates a convenient enumerating (but non-enumerable!) function
+      Object.defineProperty(model.options, "forEachUserAccessible", {
+         value: function(callback) {
             this.forEach(function(option) {
-               if (typeof option.notUserAccessible === "undefined")
-                  userAccessible[option.id] = option;
-            });
-            Object.defineProperty(userAccessible, "forEach", {
-               value: model.options.forEach
+               if (!option.notUserAccessible)
+                  callback(option);
             })
-            return userAccessible;
          }
       })
 
@@ -229,11 +224,8 @@ dataManager.initializeAppOptionsFromFile = function() {
 
    console.log("Syncing options of underlying app...")
 
-   model.options.forEach(function(option) {
-
-      // don't force sync the "deep" parameters that the app uses internally
-      if (option.notUserAccessible)
-         return;
+   // don't force sync the "deep" parameters that the app uses internally
+   model.options.forEachUserAccessible(function(option) {
 
       // the value will be formatted if needed by this method
       dataManager.updateAppOption(option.id, option.value);

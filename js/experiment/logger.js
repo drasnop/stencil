@@ -99,9 +99,8 @@ var logger = (function() {
 
    logger.compressAllUserAccessibleOptions = function() {
       var compressed = {};
-      model.options.forEach(function(option) {
-         if (!option.notUserAccessible)
-            compressed[option.id] = logger.compressOption(option);
+      model.options.forEachUserAccessible(function(option) {
+         compressed[option.id] = logger.compressOption(option);
       });
       return compressed;
    }

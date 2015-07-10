@@ -14,7 +14,7 @@ var wunderlistListeners = (function() {
       console.log("Initializing Wunderlist listeners...")
 
       // listener for each settings change in Wunderlist
-      model.options.getUserAccessibleOptions().forEach(function(option) {
+      model.options.forEachUserAccessible(function(option) {
          sync.collections.settings.where({
             key: option.id
          })[0].attributes.watch("value", function(prop, oldval, newval) {
