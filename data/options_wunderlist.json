@@ -539,26 +539,6 @@
       }],
       "notUserAccessible": true
    },
-   "auto_reminder_noticeperiod": {
-      "id": "auto_reminder_noticeperiod",
-      "label": "",
-      "value": 0,
-      "values": [{
-         "name": "0",
-         "label": "0"
-      }],
-      "notUserAccessible": true
-   },
-   "auto_reminder_timeinterval": {
-      "id": "auto_reminder_timeinterval",
-      "label": "",
-      "value": 540,
-      "values": [{
-         "name": "540",
-         "label": "540"
-      }],
-      "notUserAccessible": true
-   },
    "background": {
       "id": "background",
       "label": "",
@@ -688,16 +668,6 @@
       "values": [{
          "name": "CTRL + C",
          "label": "CTRL + C"
-      }],
-      "notUserAccessible": true
-   },
-   "shortcut_cut_tasks": {
-      "id": "shortcut_cut_tasks",
-      "label": "",
-      "value": "CTRL + X",
-      "values": [{
-         "name": "CTRL + X",
-         "label": "CTRL + X"
       }],
       "notUserAccessible": true
    },
