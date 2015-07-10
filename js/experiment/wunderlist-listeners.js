@@ -84,7 +84,7 @@ var wunderlistListeners = (function() {
          if (!preferencesOpen) {
 
             // log this event only if it was caused by a user action
-            // (this WILL not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
+            // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
             if (experimentTrials.trial) {
                experimentTrials.trial.preferencesPanel.pushStamped({
                   "action": "open"
@@ -98,19 +98,11 @@ var wunderlistListeners = (function() {
 
       /* log visited tab */
 
-      var temp = locationHash.split('/');
-      var shortHash = temp[temp.length - 1];
-
-      // find which tab is currently active
-      var tab;
-      for (var i in model.tabs) {
-         tab = model.tabs[i];
-         if (tab.hash == shortHash)
-            break;
-      }
+      // detect which tab is currently active
+      var tab = wunderlistListeners.findActiveTab(locationHash);
 
       // log visited tab
-      // (this will not be when closing/opening panel to refresh it because trial hasn't been initialized yet)
+      // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
       if (experimentTrials.trial) {
          experimentTrials.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(tab)
@@ -121,29 +113,26 @@ var wunderlistListeners = (function() {
       /* instrument showMore button */
 
       // enable logging of showMoreOptions
-      if (shortHash == "shortcuts")
+      if (tab.name == "Shortcuts")
          wunderlistListeners.instrumentShowMoreButtonWhenReady();
 
       // must return locationHash, since this watcher function is called instead of the setter
       return locationHash;
    }
 
+   // detect which tab is currently active (call with window.location.hash if needed)
+   wunderlistListeners.findActiveTab = function(locationHash) {
+      var temp = locationHash.split('/');
+      var shortHash = temp[temp.length - 1];
 
-   /*   wunderlistListeners.instrumentDoneButtonWhenReady = function() {
-         setTimeout(function() {
-            if (!experimentTrials.trial)
-               return;
-
-            if ($("#settings button.full.blue.close").length < 1)
-               wunderlistListeners.instrumentDoneButtonWhenReady();
-            else {
-               // log this closing event
-               $("#settings button.full.blue.close").click(closePreferences.bind(null, true));
-               // NB the panel is actually closed by Wunderlist itself, since I don't know how to disable that
-            }
-         }, 10)
+      for (var i in model.tabs) {
+         if (model.tabs[i].hash == shortHash)
+            return model.tabs[i];
       }
-   */
+
+      return false;
+   }
+
 
    wunderlistListeners.instrumentShowMoreButtonWhenReady = function() {
       setTimeout(function() {

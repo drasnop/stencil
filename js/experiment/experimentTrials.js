@@ -19,6 +19,9 @@ var experimentTrials = (function() {
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
 
+      // refresh preferences panel - annoying workaround to update the Backbone view
+      closePreferences();
+
       // listen to changes of the Backbone model
       wunderlistListeners.bindSettingsAndTabsListeners();
 
@@ -36,10 +39,8 @@ var experimentTrials = (function() {
       if (experiment.condition > 0)
          $("#hooks").hide();
       else {
-         closePreferences();
-         //openPreferences();
-         // annoying workaround to make sure the style is applied to the settings panel, which has just been created
-         //$("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer {visibility: hidden}</style>");
+         // hide preferences - annoying workaround to make sure the style is applied to the settings panel, which has just been created
+         $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer {visibility: hidden}</style>");
       }
 
 
@@ -55,16 +56,17 @@ var experimentTrials = (function() {
 
    experimentTrials.startTrial = function() {
       // ensure there is always at least one visited tab for Wunderlist
-      /*      if (experiment.condition === 0)
-               wunderlistListeners.processWunderlistTab(window.location.hash);*/
+      if (experiment.condition === 0) {
+         this.trial.visitedTabs.pushStamped({
+            "tab": logger.flattenTab(wunderlistListeners.findActiveTab(window.location.hash))
+         })
+      }
 
       // show the hooks / settings panel
       if (experiment.condition > 0)
          $("#hooks").show();
-      else {
+      else
          $(".hidden-settings-style").remove();
-         openPreferences();
-      }
 
       // starts measuring duration
       this.trial.time.start = performance.now();
@@ -104,6 +106,9 @@ var experimentTrials = (function() {
 
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
+
+      // refresh preferences panel - annoying workaround to update the Backbone view
+      closePreferences();
 
       Sequencer.prototype.endTrial.call(this, callback);
    }

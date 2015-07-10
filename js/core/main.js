@@ -54,8 +54,7 @@ function replaceMenuEntryWhenReady() {
             $(".list-menu li a[data-path='preferences/account']")
                .html("<text>Settings</text>")
                .removeAttr("data-path")
-               .on("click", openPreferences.bind(null, true))
-               // neat trick to pass log=true to the openPreferences callback
+               .on("click", openPreferences)
          } else {
             // For all other conditions, "Customize" enters customization mode
             $(".list-menu li a[data-path='preferences/account']")
@@ -158,43 +157,22 @@ function toggleOptionsVisibility() {
 
 // Manually open the Wunderlist preferences panel, and instrument it
 // Always show the General tab, as Wunderlist would do it
-function openPreferences(log) {
-   console.log("openPreferences")
+function openPreferences() {
    if (window.location.hostname == "www.wunderlist.com") {
       window.location.hash = "#/preferences/general";
-      //preferencesOpen = true;
-
-/*      // prepare future logging of closing the panel
-      wunderlistListeners.instrumentDoneButtonWhenReady();
-*/
+      // preferencesOpen will be set to true
+      // A new entry will be added automatically to visitedTabs, since we're watching location.hash
 
       // instrumentShowMoreButtonWhenReady is called when switching tabs
       // because the showMore button itself doesn't exist when another tab is active
-
-      // A new entry will be added automatically to visitedTabs, since we're watching location.hash
-
-/*      if (experimentTrials.trial) {
-         // log this event only if it was caused by a user action
-         if (log) {
-            experimentTrials.trial.preferencesPanel.pushStamped({
-               "action": "open"
-            })
-         }
-      }*/
    }
 }
 
 // Manually close the Wunderlist preferences panel (de facto destroy it)
-function closePreferences(log) {
+function closePreferences() {
    if (window.location.hostname == "www.wunderlist.com") {
       window.location.hash = "#/lists/inbox";
-      //preferencesOpen = false;
-
-      /*      // log this event only if it was caused by a user action
-            if (log) {
-               experimentTrials.trial.preferencesPanel.pushStamped({
-                  "action": "close"
-               })
-            }*/
+      // preferencesOpen will be set to false
+      // a close event will be logged
    }
 }
