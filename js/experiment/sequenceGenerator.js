@@ -13,6 +13,9 @@ sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
       "Notifications": 1
    }
 
+   // 0: begin with a practice trial
+   experiment.optionsSequence.push(model.options["smartlist_visibility_assigned_to_me"])
+
    // 1: randomly pick an appropriate number of options in each tab, respecting some constraints
    var optionsInTab = [];
    model.tabs.forEachNonBloat(function(tab) {

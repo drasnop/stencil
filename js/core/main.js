@@ -97,8 +97,8 @@ function enterCustomizationMode() {
    $("#customization-layer").show();
 
    // log
-   if (experimentTrials.trial) {
-      experimentTrials.trial.customizationMode.pushStamped({
+   if (experiment.sequencer.trial) {
+      experiment.sequencer.trial.customizationMode.pushStamped({
          "action": "enter"
       })
    }
@@ -124,8 +124,8 @@ function exitCustomizationMode() {
    $(".special-style").remove();
 
    // log
-   if (experimentTrials.trial) {
-      experimentTrials.trial.customizationMode.pushStamped({
+   if (experiment.sequencer.trial) {
+      experiment.sequencer.trial.customizationMode.pushStamped({
          "action": "exit"
       })
    }

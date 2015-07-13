@@ -62,8 +62,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       });
 
       // log
-      if (experimentTrials.trial) {
-         experimentTrials.trial.panel.pushStamped({
+      if (experiment.sequencer.trial) {
+         experiment.sequencer.trial.panel.pushStamped({
             "action": "expanded",
             "tab": newActiveTab.name
          });
@@ -117,8 +117,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
 
 
       // log
-      if (experimentTrials.trial) {
-         experimentTrials.trial.panel.pushStamped({
+      if (experiment.sequencer.trial) {
+         experiment.sequencer.trial.panel.pushStamped({
             "action": "contracted",
             "tab": model.activeTab.name
          });
@@ -150,8 +150,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       view.positionAllOptions(delayEntrance);
 
       // saved visited tabs (count>0 indicates that the tab was highlighted)
-      if (experimentTrials.trial) {
-         experimentTrials.trial.visitedTabs.pushStamped({
+      if (experiment.sequencer.trial) {
+         experiment.sequencer.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(tab)
          });
       }
@@ -166,8 +166,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       dataManager.updateAppOption(option.id, option.value, true);
 
       // log
-      if (experimentTrials.trial)
-         experimentTrials.trial.logValueChange(option, oldValue, hadVisibleHook, clusterExpanded);
+      if (experiment.sequencer.trial)
+         experiment.sequencer.trial.logValueChange(option, oldValue, hadVisibleHook, clusterExpanded);
    }
 
 
@@ -211,8 +211,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       view.positionAllOptions();
 
       // log
-      if (experimentTrials.trial) {
-         experimentTrials.trial.showMoreOptions.pushStamped({
+      if (experiment.sequencer.trial) {
+         experiment.sequencer.trial.showMoreOptions.pushStamped({
             "tab": model.activeTab.name,
             "action": model.activeTab.showMoreOptions ? "show" : "hide"
          })
@@ -238,8 +238,8 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
          return $(this).data("options").indexOf(option) >= 0;
       }).addClass("blue-highlighted")
 
-      if (experimentTrials.trial)
-         experimentTrials.trial.reverseHighlighted.pushStamped({
+      if (experiment.sequencer.trial)
+         experiment.sequencer.trial.reverseHighlighted.pushStamped({
             "option_ID": option.id
          });
    }
@@ -302,5 +302,5 @@ app.controller('instructionsModalController', ['$scope', '$window', function($sc
 
 app.controller('progressBarController', ['$scope', '$window', function($scope, $window) {
    $scope.model = $window.model;
-   $scope.experimentTrials = $window.experimentTrials;
+   $scope.experiment = $window.experiment;
 }])

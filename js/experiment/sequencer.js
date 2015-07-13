@@ -3,13 +3,11 @@
  * Each Step is initialized, started and ended from its parent Sequencer.
  */
 
-function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor) {
+function Sequencer(name, firstTrialNumber, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback) {
    // name used to indentify the Sequencer in log messages
    this.name = name;
-   // whether this sequencer is playing (between start() and end()) 
-   this.inProgress = false;
-   // current trial (will be instantiated by initializeTrial())
-   // this.trial;
+   // starting index of the trials (0 for )
+   this.firstTrialNumber = firstTrialNumber;
    // duration of the brief pause between end of a successful trial and start of the next (in ms)
    this.trialPauseSuccess = trialPauseSuccess;
    // duration of the brief pause between end of a unsuccessful trial and start of the next (in ms)
@@ -19,7 +17,12 @@ function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, for
    // whether to force the user to redo the same trial when !.trialSuccess()
    this.forceRetry = forceRetry;
    // constructor used to create new trials
-   this.trialConstructor = trialConstructor || Step;
+   this.trialConstructor = trialConstructor;
+   // callback to be called when the last step of this sequencer has been reached
+   this.endCallback = endCallback;
+
+   // whether this sequencer is playing (between start() and end()) 
+   this.inProgress = false;
 }
 
 // generic trial constructor
@@ -39,7 +42,7 @@ Sequencer.prototype.start = function() {
    angular.element($("#progress-bar")).scope().sequencer = this;
    angular.element($("#instructions-modal")).scope().sequencer = this;
 
-   this.initializeTrial(0);
+   this.initializeTrial(this.firstTrialNumber);
 }
 
 Sequencer.prototype.initializeTrial = function(trialNumber, callback) {
@@ -94,6 +97,7 @@ Sequencer.prototype.endTrial = function(callback) {
 Sequencer.prototype.end = function() {
    this.inProgress = false;
    console.log(this.name + " ended");
+   this.endCallback();
 }
 
 // just used for display

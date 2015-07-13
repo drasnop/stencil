@@ -4,15 +4,15 @@
 
 var TrialsSequencer = (function() {
 
-   function TrialsSequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor) {
+   function TrialsSequencer(name, firstTrialNumber, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback) {
 
       // list of all the trials completed so far for the experiment
-      // Used to compute current reward, and to generate questionnaires options at the end.
+      // used to compute current reward, and to generate questionnaires options at the end.
       this.trials = [];
       // timeout trials after 2 min
       this.maxTrialDuration = 2 * 60 * 1000;
 
-      Sequencer.call(this, name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor)
+      Sequencer.call(this, name, firstTrialNumber, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback)
    }
 
    // subclass extends superclass
@@ -118,12 +118,6 @@ var TrialsSequencer = (function() {
       closePreferences();
 
       Sequencer.prototype.endTrial.call(this, callback);
-   }
-
-   TrialsSequencer.prototype.end = function() {
-      Sequencer.prototype.end.call(this);
-
-      sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
    }
 
 

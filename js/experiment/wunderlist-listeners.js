@@ -29,7 +29,7 @@ var wunderlistListeners = (function() {
             dataManager.updateOption(option, newval);
 
             // log this values change, without caring for visibility of anchors
-            experimentTrials.trial.logValueChange(option, oldval);
+            experiment.sequencer.trial.logValueChange(option, oldval);
 
             // notify angular of this change, to unlock the "done" button
             // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
@@ -63,8 +63,8 @@ var wunderlistListeners = (function() {
 
             // log this event only if it was caused by a user action
             // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
-            if (experimentTrials.trial) {
-               experimentTrials.trial.preferencesPanel.pushStamped({
+            if (experiment.sequencer.trial) {
+               experiment.sequencer.trial.preferencesPanel.pushStamped({
                   "action": "close"
                }, timestamp)
             }
@@ -84,8 +84,8 @@ var wunderlistListeners = (function() {
 
             // log this event only if it was caused by a user action
             // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
-            if (experimentTrials.trial) {
-               experimentTrials.trial.preferencesPanel.pushStamped({
+            if (experiment.sequencer.trial) {
+               experiment.sequencer.trial.preferencesPanel.pushStamped({
                   "action": "open"
                }, timestamp)
             }
@@ -102,8 +102,8 @@ var wunderlistListeners = (function() {
 
       // log visited tab
       // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
-      if (experimentTrials.trial) {
-         experimentTrials.trial.visitedTabs.pushStamped({
+      if (experiment.sequencer.trial) {
+         experiment.sequencer.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(tab)
          }, timestamp)
       }
@@ -135,7 +135,7 @@ var wunderlistListeners = (function() {
 
    wunderlistListeners.instrumentShowMoreButtonWhenReady = function() {
       setTimeout(function() {
-         if (!experimentTrials.trial)
+         if (!experiment.sequencer.trial)
             return;
 
          if ($("#settings button.show-advanced-shortcuts").length < 1)
@@ -147,7 +147,7 @@ var wunderlistListeners = (function() {
             $("#settings button.show-advanced-shortcuts").click(function() {
                model.wunderlistShowMore = !model.wunderlistShowMore;
 
-               experimentTrials.trial.showMoreOptions.pushStamped({
+               experiment.sequencer.trial.showMoreOptions.pushStamped({
                   "tab": "Shortcuts",
                   "action": model.wunderlistShowMore ? "show" : "hide"
                })

@@ -73,13 +73,13 @@ var logger = (function() {
       })
    }
 
-   // save a loggable version of experimentTrials.trial
+   // save a loggable version of experiment.sequencer.trial
    logger.saveTrial = function() {
-      logger.firebase.child("/trials").push(experimentTrials.trial.loggable(), function(error) {
+      logger.firebase.child("/trials").push(experiment.sequencer.trial.loggable(), function(error) {
          if (error) {
-            console.log("Trial " + experimentTrials.trial.number + " could not be saved." + error);
+            console.log("Trial " + experiment.sequencer.trial.number + " could not be saved." + error);
          } else {
-            console.log("Trial " + experimentTrials.trial.number + " saved successfully.");
+            console.log("Trial " + experiment.sequencer.trial.number + " saved successfully.");
          }
       });
    }

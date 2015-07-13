@@ -15,7 +15,9 @@ var experiment = {
    // list of options that users will be ask to find during the experiment
    "optionsSequence": [],
    // list of values that the options should be set at during the experiment
-   "valuesSequence": []
+   "valuesSequence": [],
+   // the current sequencer object, used to guide participants through the different steps of the experiment workflow
+   "sequencer": []
 }
 
 
@@ -76,7 +78,16 @@ experiment.generateInitialState = function(callback) {
    dataManager.initializeAppOptionsFromFile();
 
    // 4: construct a new TrialsSequencer object
-   experimentTrials = new TrialsSequencer("experimentTrials", 1000, 2000, "Wrong setting", false, Trial);
+   practiceTrial = new TrialsSequencer("practiceTrial", 0, 1000, 2000, "Wrong setting", false, Trial, experiment.practiceTrialEnded);
+   experimentTrials = new TrialsSequencer("experimentTrials", 1, 1000, 2000, "Wrong setting", false, Trial, function() {
+      // generate recognition questionnaire from the selection sequence, then callback to continue experiment
+      sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
+   });
+
+   // replace the ending condition for the practice trial sequencer (only one trial, so always finished)
+   practiceTrial.notEndOfSequence = function() {
+      return false;
+   }
 
    // 5: randomly generate selection sequences
    sequenceGenerator.generateOptionsAndValuesSequences(callback);
@@ -105,7 +116,9 @@ experiment.cancel = function(message) {
 
 // called when everything is set up, just before the tutorial starts
 experiment.setupComplete = function() {
-   //setTimeout(experimentTrials.start.bind(experimentTrials), 1000); return;
+
+   // this is a priori useless, and detrimental because we are checking if(experiment.sequencer.trial) for logging
+   // experiment.sequencer = tutorial;
 
    // popup: setup complete, start tutorial
    model.progressBar.message = "";
@@ -117,8 +130,8 @@ experiment.setupComplete = function() {
    model.modal.green = true;
    model.modal.hideOnClick = false;
 
-   //model.modal.action = tutorial.start.bind(tutorial);
-   model.modal.action = experimentTrials.start.bind(experimentTrials);
+   model.modal.action = tutorial.start.bind(tutorial);
+   //model.modal.action = experiment.showPracticeTrialInstructions;
 
    // we may have to wait a few hundred msec for the angular app to be ready
    (function showModalIfBootstrapped() {
@@ -144,19 +157,53 @@ experiment.tutorialEnded = function() {
    model.modal.header = "Congratulations!";
    model.modal.message = "You have completed the tutorial. You can now start the experiment.";
    model.modal.buttonLabel = "Ok";
-   model.modal.green = true;
+   model.modal.green = false;
    model.modal.hideOnClick = false;
 
-   model.modal.action = experiment.showInstructions;
+   model.modal.action = experiment.showPracticeTrialInstructions;
 
    showModal();
 }
 
 
-/* Step 2: experiment trials */
+/* Step 2: practice trial */
 
 // called at the end of the tutorial, just before the experiment trials start
-experiment.showInstructions = function() {
+experiment.showPracticeTrialInstructions = function() {
+
+   experiment.sequencer = practiceTrial;
+
+   // popup: experiment instructions, start experiment trials
+   model.modal.header = "Customization Mode";
+   model.modal.message = "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them.";
+   model.modal.buttonLabel = "Start";
+   model.modal.green = false;
+   model.modal.hideOnClick = false;
+   model.modal.action = practiceTrial.start.bind(practiceTrial);
+
+   showModal();
+}
+
+experiment.practiceTrialEnded = function() {
+   model.progressBar.message = "";
+   model.progressBar.buttonLabel = "";
+
+   model.modal.header = "Congratulations!";
+   model.modal.message = "You have completed the tutorial. You can now start the experiment.";
+   model.modal.buttonLabel = "Ok";
+   model.modal.green = true;
+   model.modal.hideOnClick = false;
+   model.modal.action = experiment.showExperimentTrialsInstructions;
+
+   showModal();
+}
+
+/* Step 3: experiment trials */
+
+// called at the end of the practice trial, just before the experiment trials start
+experiment.showExperimentTrialsInstructions = function() {
+
+   experiment.sequencer = experimentTrials;
 
    // popup: experiment instructions, start experiment trials
    model.modal.header = "Experiment";

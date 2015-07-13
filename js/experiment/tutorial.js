@@ -2,7 +2,7 @@
  * Instance of Sequencer that guides people through multi-step tutorial
  */
 
-var tutorial = new Sequencer("tutorial", 500, 2000, "try again", true);
+var tutorial = new Sequencer("tutorial", 0, 500, 2000, "try again", true, Step, experiment.tutorialEnded);
 
 tutorial.steps = [
    "After completing each step of this tutorial, click the blue \"Next\" button in the instructions bar (at the top of the screen). <b>Try it now!</b>",
@@ -21,8 +21,7 @@ tutorial.steps = [
 ]
 
 tutorial.stepsCustomizationMode = [
-   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose <b>Customize</b> in the menu.",
-   "You are now in Customization Mode. You can click on the highlighted items to see the settings associated with them. <b>Try it now!</b>"
+   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose <b>Customize</b> in the menu."
 ]
 
 tutorial.stepspreferences = [
@@ -61,11 +60,6 @@ tutorial.endTrial = function() {
    };
    logger.firebase.child("/tutorial").push(loggable);
    Sequencer.prototype.endTrial.call(this);
-}
-
-tutorial.end = function() {
-   Sequencer.prototype.end.call(this);
-   experiment.tutorialEnded();
 }
 
 
