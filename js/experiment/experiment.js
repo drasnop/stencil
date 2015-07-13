@@ -75,7 +75,10 @@ experiment.generateInitialState = function(callback) {
    // 3: set the Wunderlist options to the default (or opposite default) settings 
    dataManager.initializeAppOptionsFromFile();
 
-   // 4: randomly generate selection sequences
+   // 4: construct a new TrialsSequencer object
+   experimentTrials = new TrialsSequencer("experimentTrials", 1000, 2000, "Wrong setting", false, Trial);
+
+   // 5: randomly generate selection sequences
    sequenceGenerator.generateOptionsAndValuesSequences(callback);
 
    // the callback will save all of this generated data to firebase
@@ -100,6 +103,7 @@ experiment.cancel = function(message) {
 
 /* Step 1: tutorial */
 
+// called when everything is set up, just before the tutorial starts
 experiment.setupComplete = function() {
    //setTimeout(experimentTrials.start.bind(experimentTrials), 1000); return;
 
@@ -151,6 +155,7 @@ experiment.tutorialEnded = function() {
 
 /* Step 2: experiment trials */
 
+// called at the end of the tutorial, just before the experiment trials start
 experiment.showInstructions = function() {
 
    // popup: experiment instructions, start experiment trials

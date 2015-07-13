@@ -1,20 +1,27 @@
 /*
- * Instance of Sequencer that guide users through a sequence of timed trials
+ * Subclass of Sequencer that guide users through a sequence of timed trials
  */
 
-var experimentTrials = (function() {
-   var experimentTrials = new Sequencer("experimentTrials", 1000, 2000, "Wrong setting", false, Trial);
+var TrialsSequencer = (function() {
 
-   // list of all the trials completed so far for the experiment
-   // Used to compute current reward, and to generate questionnaires options at the end.
-   experimentTrials.trials = [];
-   // timeout trials after 2 min
-   experimentTrials.maxTrialDuration = 2 * 60 * 1000;
+   function TrialsSequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor) {
 
+      // list of all the trials completed so far for the experiment
+      // Used to compute current reward, and to generate questionnaires options at the end.
+      this.trials = [];
+      // timeout trials after 2 min
+      this.maxTrialDuration = 2 * 60 * 1000;
+
+      Sequencer.call(this, name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor)
+   }
+
+   // subclass extends superclass
+   TrialsSequencer.prototype = Object.create(Sequencer.prototype);
+   TrialsSequencer.prototype.constructor = TrialsSequencer;
 
    /* overwritten methods */
 
-   experimentTrials.start = function() {
+   TrialsSequencer.prototype.start = function() {
 
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
@@ -28,7 +35,7 @@ var experimentTrials = (function() {
       Sequencer.prototype.start.call(this);
    }
 
-   experimentTrials.initializeTrial = function(number) {
+   TrialsSequencer.prototype.initializeTrial = function(number) {
       // open the preferences panel or enter customization mode, in case participants had closed them
       if (experiment.condition > 0 && !customizationMode)
          enterCustomizationMode();
@@ -54,7 +61,7 @@ var experimentTrials = (function() {
       }).bind(this));
    }
 
-   experimentTrials.startTrial = function() {
+   TrialsSequencer.prototype.startTrial = function() {
       // ensure there is always at least one visited tab for Wunderlist
       if (experiment.condition === 0) {
          this.trial.visitedTabs.pushStamped({
@@ -77,7 +84,7 @@ var experimentTrials = (function() {
       Sequencer.prototype.startTrial.call(this);
    }
 
-   experimentTrials.onTimeout = function() {
+   TrialsSequencer.prototype.onTimeout = function() {
       console.log("timeout!")
       this.trial.timeout = true;
 
@@ -87,7 +94,7 @@ var experimentTrials = (function() {
       });
    }
 
-   experimentTrials.endTrial = function(callback) {
+   TrialsSequencer.prototype.endTrial = function(callback) {
       this.trial.time.end = performance.now();
       this.trial.success = this.trial.successful();
 
@@ -113,7 +120,7 @@ var experimentTrials = (function() {
       Sequencer.prototype.endTrial.call(this, callback);
    }
 
-   experimentTrials.end = function() {
+   TrialsSequencer.prototype.end = function() {
       Sequencer.prototype.end.call(this);
 
       sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
@@ -122,11 +129,11 @@ var experimentTrials = (function() {
 
    /* methods that need to be implemented */
 
-   experimentTrials.getModalHeader = function() {
+   TrialsSequencer.prototype.getModalHeader = function() {
       return "Please change the following setting: (" + (this.trial.number + 1) + " / " + experiment.optionsSequence.length + ")";
    }
 
-   experimentTrials.getInstructions = function() {
+   TrialsSequencer.prototype.getInstructions = function() {
       var option = this.trial.targetOption,
          value = this.trial.targetValue;
 
@@ -165,28 +172,28 @@ var experimentTrials = (function() {
       return instructions + " " + option.values[index].label;
    }
 
-   experimentTrials.trialNotPerformed = function() {
+   TrialsSequencer.prototype.trialNotPerformed = function() {
       return this.trial.changedOptions.length === 0;
    }
 
-   experimentTrials.trialSuccess = function() {
+   TrialsSequencer.prototype.trialSuccess = function() {
       return this.trial.success;
    }
 
-   experimentTrials.getCurrentReward = function() {
+   TrialsSequencer.prototype.getCurrentReward = function() {
       return this.trials.reduce(function(sum, trial) {
          return sum += experiment.bonusTrial * trial.success;
       }, 0)
    }
 
-   experimentTrials.notEndOfSequence = function() {
+   TrialsSequencer.prototype.notEndOfSequence = function() {
       return this.trial.number + 1 < experiment.optionsSequence.length;
    }
 
 
    /* helper function */
 
-   // this could actually be a private method
+   // private method
    function resetSettingsIfNeeded() {
       for (var id in experiment.referenceOptions) {
          if (experiment.referenceOptions[id].value !== model.options[id].value) {
@@ -199,6 +206,6 @@ var experimentTrials = (function() {
       }
    }
 
+   return TrialsSequencer;
 
-   return experimentTrials;
 })();
