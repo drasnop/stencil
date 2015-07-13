@@ -374,7 +374,7 @@
    "smartlist_visibility_assigned_to_me": {
       "id": "smartlist_visibility_assigned_to_me",
       "label": "Assigned to me",
-      "instructions": "In the left sidebar, show the list of the todos assigned to you",
+      "instructions": "In the left sidebar, show the list of todos assigned to you",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -389,7 +389,7 @@
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",
       "label": "Starred",
-      "instructions": "In the left sidebar, show the list of the todos that are starred",
+      "instructions": "In the left sidebar, show the list of todos that are starred",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -404,7 +404,7 @@
    "smartlist_visibility_today": {
       "id": "smartlist_visibility_today",
       "label": "Today",
-      "instructions": "In the left sidebar, show the list of the todos that are due today",
+      "instructions": "In the left sidebar, show the list of todos that are due today",
       "value": "visible",
       "values": [{
          "name": "visible",
@@ -418,7 +418,7 @@
    "smartlist_visibility_week": {
       "id": "smartlist_visibility_week",
       "label": "Week",
-      "instructions": "In the left sidebar, show the list of the todos that are due this week",
+      "instructions": "In the left sidebar, show the list of todos that are due this week",
       "value": "hidden",
       "values": [{
          "name": "visible",
@@ -446,7 +446,7 @@
    "smartlist_visibility_done": {
       "id": "smartlist_visibility_done",
       "label": "Completed",
-      "instructions": "In the left sidebar, show the list of the todos that are already completed",
+      "instructions": "In the left sidebar, show the list of todos that are already completed",
       "value": "visible",
       "values": [{
          "name": "visible",
