@@ -179,7 +179,7 @@ var experiment = (function() {
 
       model.modal.header = "Practice trial";
       if (experiment.condition > 0)
-         model.modal.message = "The next popup will ask you to change one setting. First, look around to find which item this setting might be related to, then click on that item.";
+         model.modal.message = "The next popup will ask you to change one setting.\nFirst, look around to find which item this setting might be related to, then click on that item.";
       else
          model.modal.message = "The next popup will ask you to change one setting. It's up to you to find in which tab it is.";
       model.modal.buttonLabel = "Ok";

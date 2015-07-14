@@ -12,7 +12,8 @@
       "new_task_location",
       "confirm_delete_entity",
       "behavior_star_tasks_to_top",
-      "print_completed_items"
+      "print_completed_items",
+      "show_subtask_progress"
    ]
 }, {
    "name": "Account",
@@ -37,6 +38,8 @@
       "shortcut_mark_task_starred",
       "shortcut_select_all_tasks",
       "shortcut_delete",
+      "shortcut_copy_tasks",
+      "shortcut_paste_tasks",
       "shortcut_goto_search",
       "shortcut_goto_preferences",
       "shortcut_send_via_email",

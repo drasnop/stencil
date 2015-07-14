@@ -14,6 +14,9 @@
    "selector": ".detail-checkbox .checkBox, .taskItem-checkboxWrapper .checkBox",
    "options": ["sound_checkoff_enabled", "shortcut_mark_task_done"]
 }, {
+   "selector": ".taskItem-titleWrapper-title",
+   "options": ["show_subtask_progress", "shortcut_copy_tasks", "shortcut_paste_tasks"]
+}, {
    "selector": ".filters-collection .sidebarItem[rel='inbox']",
    "options": ["shortcut_goto_inbox"]
 }, {

@@ -101,6 +101,13 @@
       "instructionsReverse": "Do not automatically move starred items to the top of the list",
       "value": true
    },
+   "show_subtask_progress": {
+      "id": "show_subtask_progress",
+      "label": "Show Subtask progress on items",
+      "instructions": "Show subtask progress on todo items",
+      "instructionsReverse": "Hide subtask progress on todo items",
+      "value": true
+   },
    "automatic_reminders": {
       "id": "automatic_reminders",
       "label": "Auto reminders",
@@ -199,6 +206,32 @@
       }, {
          "name": "SHIFT + BACKSPACE",
          "label": "SHIFT + BACKSPACE"
+      }]
+   },
+   "shortcut_copy_tasks": {
+      "id": "shortcut_copy_tasks",
+      "instructions": "Change shortcut for copying todos to",
+      "label": "Copy tasks",
+      "value": "CTRL + C",
+      "values": [{
+         "name": "CTRL + C",
+         "label": "CTRL + C"
+      }, {
+         "name": "SHIFT + C",
+         "label": "SHIFT + C"
+      }]
+   },
+   "shortcut_paste_tasks": {
+      "id": "shortcut_paste_tasks",
+      "instructions": "Change shortcut for pasting todos to",
+      "label": "Paste tasks",
+      "value": "CTRL + V",
+      "values": [{
+         "name": "CTRL + V",
+         "label": "CTRL + V"
+      }, {
+         "name": "SHIFT + V",
+         "label": "SHIFT + V"
       }]
    },
    "shortcut_goto_search": {
@@ -658,26 +691,6 @@
       "values": [{
          "name": "3",
          "label": "3"
-      }],
-      "notUserAccessible": true
-   },
-   "shortcut_copy_tasks": {
-      "id": "shortcut_copy_tasks",
-      "label": "",
-      "value": "CTRL + C",
-      "values": [{
-         "name": "CTRL + C",
-         "label": "CTRL + C"
-      }],
-      "notUserAccessible": true
-   },
-   "shortcut_paste_tasks": {
-      "id": "shortcut_paste_tasks",
-      "label": "",
-      "value": "CTRL + V",
-      "values": [{
-         "name": "CTRL + V",
-         "label": "CTRL + V"
       }],
       "notUserAccessible": true
    },
