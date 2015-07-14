@@ -78,7 +78,7 @@ var experiment = (function() {
       dataManager.initializeAppOptionsFromFile();
 
       // 4: construct a new TrialsSequencer object
-      practiceTrial = new TrialsSequencer("practiceTrial", 0, 1000, 2000, "Wrong setting", true, Trial, experiment.practiceTrialEnded);
+      practiceTrial = new TrialsSequencer("practiceTrial", 0, 1000, 2000, "Try again!", true, Trial, experiment.practiceTrialEnded);
       experimentTrials = new TrialsSequencer("experimentTrials", 1, 1000, 2000, "Wrong setting", false, Trial, function() {
          // generate recognition questionnaire from the selection sequence, then callback to continue experiment
          sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
@@ -185,16 +185,18 @@ var experiment = (function() {
       model.modal.buttonLabel = "Ok";
       model.modal.green = true;
       model.modal.hideOnClick = false;
-      model.modal.action = function() {
-         practiceTrial.start();
-         // explain how CM works with a few popups, triggered by various timers and listeners
-         addExplanatoryPopups();
-      }
+      model.modal.action = practiceTrial.start.bind(practiceTrial);
 
       showModal();
    }
 
    experiment.practiceTrialEnded = function() {
+
+      // just to be sure, clean up again the explanatory popups
+      clearTimeout(correctHookNotSelectedTimer);
+      model.unwatch("selectedOptions");
+      experiment.sequencer.trial.unwatch("changedOptions");
+
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";
 
@@ -242,50 +244,6 @@ var experiment = (function() {
       }
 
       showModal();
-   }
-
-
-   /*    helper   */
-
-   function addExplanatoryPopups() {
-
-      var correctHookNotSelectedTimer = setTimeout(function() {
-         alert("Hint: Left-click on the \"Assigned to me\" smart filter, in the left sidebar, to bring up the settings associated with it.")
-      }, 30 * 1000)
-
-      // watcher for correct hook selected
-      model.watch("selectedOptions", function(prop, oldval, newval) {
-
-         // if model.selectedOptions is empty, do nothing
-         if (newval.length === 0)
-            return newval;
-
-         // small timeout to ensure the options panel will appear before the alert popup
-         setTimeout(function() {
-
-            // check if this is the correct hook
-            if (newval.indexOf(experiment.sequencer.trial.targetOption) < 0) {
-               alert("The setting you are looking for is not associated with this item. Try to click on another one!")
-            } else {
-
-               // since the correct hook has been selected, clean up explanatory popups
-               clearTimeout(correctHookNotSelectedTimer);
-               model.unwatch("selectedOptions");
-
-               alert("Good job! You have found an item related to the setting you have to change!")
-
-               setTimeout(function() {
-                  if (experiment.condition == 3)
-                     alert("In this panel, the settings highlighted in *orange* are associated with the item you clicked on.\nChange the appropriate one, then click the \"Next\" button.")
-                  else
-                     alert("The settings in this orange popup are associated with the item you clicked on.\nChange the appropriate one, then click the \"Next\" button.")
-               }, 1000)
-            }
-
-         }, 50)
-
-         return newval;
-      })
    }
 
    return experiment;
