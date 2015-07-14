@@ -2,7 +2,7 @@
  * Instance of Sequencer that guides people through multi-step tutorial
  */
 
-var tutorial = new Sequencer("tutorial", 0, 500, 2000, "try again", true, Step, experiment.tutorialEnded);
+var tutorial = new Sequencer("tutorial", 0, 500, 2000, "try again", true, Step, function() {});
 
 tutorial.steps = [
    "After completing each step of this tutorial, click the blue \"Next\" button in the instructions bar (at the top of the screen). <b>Try it now!</b>",

@@ -75,7 +75,7 @@ sequenceGenerator.complementValueOf = function(option, reverse) {
 }
 
 
-// Generate a set of options to use in the recognition questionnaire, on the experiment websitesequenceGenerator.generateRecognitionQuestionnaire = function() {
+// Generate a set of options to use in the recognition questionnaire, on the experiment website
 sequenceGenerator.generateRecognitionQuestionnaire = function(callback) {
    // 0: TESTING ONLY
    /*   for (var j = 0; j < 10; j++) {
@@ -116,7 +116,7 @@ sequenceGenerator.generateRecognitionQuestionnaire = function(callback) {
          option.adjacentOption = (pickAbove(above, below) ? above : below);
       }
 
-      // set flags: valide iff not target option and hasn't been selected as adjacent before
+      // set flags: valid iff not target option and hasn't been selected as adjacent before
       option.adjacentOption.valid = (experiment.optionsSequence.indexOf(option.adjacentOption) < 0 && !option.adjacentOption.adjacent);
       option.adjacentOption.adjacent = true;
 

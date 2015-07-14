@@ -164,7 +164,7 @@ z-indexes
     position: absolute !important;
     margin: 0 !important;
     background-color: #ededed !important;
-    color: #333 !important;
+    color: #444 !important;
     /* not entirely sure about this... but would keep anchor at a reasonable size */
     
     max-width: 300px !important;

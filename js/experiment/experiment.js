@@ -77,12 +77,15 @@ var experiment = (function() {
       // 3: set the Wunderlist options to the default (or opposite default) settings 
       dataManager.initializeAppOptionsFromFile();
 
-      // 4: construct a new TrialsSequencer object
+      // 4a: construct a new TrialsSequencer object
       practiceTrial = new TrialsSequencer("practiceTrial", 0, 1000, 2000, "Try again!", true, Trial, experiment.practiceTrialEnded);
       experimentTrials = new TrialsSequencer("experimentTrials", 1, 1000, 2000, "Wrong setting", false, Trial, function() {
          // generate recognition questionnaire from the selection sequence, then callback to continue experiment
          sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
       });
+
+      // 4b: now that "experiment" exists, replace the end callback of tutorial (meh workaround)
+      tutorial.endCallback = experiment.tutorialEnded;
 
       // replace the ending condition for the practice trial sequencer (only one trial, so always finished)
       practiceTrial.notEndOfSequence = function() {
