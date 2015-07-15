@@ -15,7 +15,7 @@ tutorial.steps = [
    "To create another regular todo item, you need to go back to the Inbox. Click on \"Inbox\" in the left sidebar.",
    "Add a third todo item: \"watch a good movie\"",
    "Double-click on this todo item, and change its due date to this Saturday.",
-   "Let's say you have bought the milk. Tick the checkbox to mark the corresponding todo item as complete.",
+   "Let's say you have bought the milk. Tick the checkbox to mark the corresponding todo item as complete (= check it off)",
    "Below the list of todo items, there is a button \"1 completed item\". Click on it to reveal the todo you've just checked off.",
    "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom."
 ]
@@ -128,4 +128,72 @@ tutorial.getCurrentReward = function() {
 
 tutorial.notEndOfSequence = function() {
    return this.trial.number + 1 < this.steps.length;
+}
+
+// explain how CM works with a few popups, triggered by various timers and listeners
+tutorial.addExplanatoryPopups = function() {
+
+   correctHookNotSelectedTimer = setTimeout(function() {
+      alert("Hint: Left-click on the \"Assigned to me\" smart filter, in the left sidebar, to bring up the settings associated with it.")
+   }, 30 * 1000)
+
+   // watcher for correct hook selected
+   model.watch("selectedOptions", function(prop, oldval, newval) {
+
+      // if model.selectedOptions is empty, do nothing
+      if (newval.length === 0)
+         return newval;
+
+      // small timeout to ensure the options panel will appear before the alert popup
+      setTimeout(function() {
+
+         // check if this is the correct hook
+         if (newval.indexOf(experiment.sequencer.trial.targetOption) < 0) {
+            alert("The setting you are looking for is not associated with this item. Try to click on another one!")
+         } else {
+
+            // since the correct hook has been selected, clean up explanatory popups
+            clearTimeout(correctHookNotSelectedTimer);
+            model.unwatch("selectedOptions");
+
+            alert("Good job! You have found an item related to the setting you have to change!")
+
+            setTimeout(function() {
+               if (experiment.condition == 3)
+                  alert("In this panel, the settings highlighted in *orange* are related to the item you clicked on.\nNow hide the \"Starred\" smart filter.")
+               else
+                  alert("The settings in this orange popup are related to the item you clicked on.\nNow hide the \"Starred\" smart filter.")
+            }, 1000)
+         }
+
+      }, 50)
+
+      /*         //  watcher for changed option
+               experiment.sequencer.trial.changedOptions.watch("length", function(prop, oldval, newval) {
+
+                  setTimeout(function() {
+                     var trial = experiment.sequencer.trial;
+                     console.log(trial.changedOptions.length)
+
+                     // check if this is the correct option
+                     if (trial.changedOptions[trial.changedOptions.length - 1].option_ID != trial.targetOption.id) {
+                        alert("Sorry, this isn't the correct setting. Try another one!")
+                     } else {
+                        // check if this is the correct value
+                        if (trial.changedOptions[trial.changedOptions.length - 1].newValue != trial.targetValue) {
+                           alert("This is the setting you're looking for, but you haven't given it the correct value. Try again!")
+                        } else {
+
+                           // since the option has been sucessfully changed, clean up explanatory popups
+                           trial.unwatch("changedOptions");
+
+                           alert("Well done! Click the \"Next\" button to finish the trial.")
+                        }
+                     }
+
+                  }, 100)
+               })*/
+
+      return newval;
+   })
 }

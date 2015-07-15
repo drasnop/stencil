@@ -64,7 +64,7 @@ var TrialsSequencer = (function() {
          this.trial.time.instructionsShown = performance.now();
 
          if (this.name == "practiceTrial")
-            addExplanatoryPopups();
+            tutorial.addExplanatoryPopups();
 
          // set how the options should look like if this trial was perfectly executed
          experiment.referenceOptions[this.trial.targetOption.id].value = this.trial.targetValue;
@@ -228,74 +228,6 @@ var TrialsSequencer = (function() {
             window.location.hash = "#/tasks/" + task_id;
          }
       }
-   }
-
-   // explain how CM works with a few popups, triggered by various timers and listeners
-   function addExplanatoryPopups() {
-
-      correctHookNotSelectedTimer = setTimeout(function() {
-         alert("Hint: Left-click on the \"Assigned to me\" smart filter, in the left sidebar, to bring up the settings associated with it.")
-      }, 30 * 1000)
-
-      // watcher for correct hook selected
-      model.watch("selectedOptions", function(prop, oldval, newval) {
-
-         // if model.selectedOptions is empty, do nothing
-         if (newval.length === 0)
-            return newval;
-
-         // small timeout to ensure the options panel will appear before the alert popup
-         setTimeout(function() {
-
-            // check if this is the correct hook
-            if (newval.indexOf(experiment.sequencer.trial.targetOption) < 0) {
-               alert("The setting you are looking for is not associated with this item. Try to click on another one!")
-            } else {
-
-               // since the correct hook has been selected, clean up explanatory popups
-               clearTimeout(correctHookNotSelectedTimer);
-               model.unwatch("selectedOptions");
-
-               alert("Good job! You have found an item related to the setting you have to change!")
-
-               setTimeout(function() {
-                  if (experiment.condition == 3)
-                     alert("In this panel, the settings highlighted in *orange* are related to the item you clicked on.\nChange the appropriate one.")
-                  else
-                     alert("The settings in this orange popup are related to the item you clicked on.\nChange the appropriate one.")
-               }, 1000)
-            }
-
-         }, 50)
-
-         /*         //  watcher for changed option
-                  experiment.sequencer.trial.changedOptions.watch("length", function(prop, oldval, newval) {
-
-                     setTimeout(function() {
-                        var trial = experiment.sequencer.trial;
-                        console.log(trial.changedOptions.length)
-
-                        // check if this is the correct option
-                        if (trial.changedOptions[trial.changedOptions.length - 1].option_ID != trial.targetOption.id) {
-                           alert("Sorry, this isn't the correct setting. Try another one!")
-                        } else {
-                           // check if this is the correct value
-                           if (trial.changedOptions[trial.changedOptions.length - 1].newValue != trial.targetValue) {
-                              alert("This is the setting you're looking for, but you haven't given it the correct value. Try again!")
-                           } else {
-
-                              // since the option has been sucessfully changed, clean up explanatory popups
-                              trial.unwatch("changedOptions");
-
-                              alert("Well done! Click the \"Next\" button to finish the trial.")
-                           }
-                        }
-
-                     }, 100)
-                  })*/
-
-         return newval;
-      })
    }
 
    return TrialsSequencer;
