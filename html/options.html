@@ -15,7 +15,7 @@
 
 	<div id="options-list" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.fullPanel() && model.activeTab.bloat}" ng-style="{height: geometry.getAllOptionsHeight() + 'px'}">
 
-		<img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="/img/tabs/{{model.activeTab.image}}">
+		<img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="//{{parameters.serverURL}}/img/tabs/{{model.activeTab.image}}">
 
 		<div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
 		ng-repeat="tab in model.tabs | filter: filterOutBloatTabs" ng-show="tab==model.activeTab || !model.fullPanel()">

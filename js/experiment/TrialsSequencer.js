@@ -260,9 +260,9 @@ var TrialsSequencer = (function() {
 
                setTimeout(function() {
                   if (experiment.condition == 3)
-                     alert("In this panel, the settings highlighted in *orange* are associated with the item you clicked on.\nChange the appropriate one.")
+                     alert("In this panel, the settings highlighted in *orange* are related to the item you clicked on.\nChange the appropriate one.")
                   else
-                     alert("The settings in this orange popup are associated with the item you clicked on.\nChange the appropriate one.")
+                     alert("The settings in this orange popup are related to the item you clicked on.\nChange the appropriate one.")
                }, 1000)
             }
 
