@@ -5,17 +5,14 @@
    "selector": ".taskItem-star .icon.task-starred, .taskItem-star .wundercon.starred, .detail-star .icon.detail-starred, .detail-star .wundercon.starred",
    "options": ["behavior_star_tasks_to_top", "shortcut_mark_task_starred"]
 }, {
-   "selector": ".taskItem-duedate, .detail-date .token_0, .wundercon.date",
+   "selector": ".taskItem-duedate, .detail-date .token_0",
    "options": ["date_format", "time_format", "start_of_week"]
-}, {
-   "selector": ".detail-reminder .token_0",
-   "options": ["time_format"]
 }, {
    "selector": ".detail-checkbox .checkBox, .taskItem-checkboxWrapper .checkBox",
    "options": ["sound_checkoff_enabled", "shortcut_mark_task_done"]
 }, {
    "selector": ".taskItem-titleWrapper-title",
-   "options": ["show_subtask_progress", "shortcut_copy_tasks", "shortcut_paste_tasks"]
+   "options": ["show_subtask_progress", "shortcut_select_all_tasks", "shortcut_copy_tasks", "shortcut_paste_tasks"]
 }, {
    "selector": ".filters-collection .sidebarItem[rel='inbox']",
    "options": ["shortcut_goto_inbox"]
@@ -46,7 +43,7 @@
    "selector": ".avatar, .name.search-hidden",
    "options": ["shortcut_sync", "shortcut_goto_preferences"]
 }, {
-   "selector": "#main-toolbar #search",
+   "selector": "#main-toolbar a#search",
    "options": ["shortcut_goto_search"]
 }, {
    "selector": ".sidebarActions-addList",
@@ -58,6 +55,6 @@
    "selector": ".actionBar-bottom a.tab.last-tab, .completed-items-heading",
    "options": ["print_completed_items"]
 }, {
-   "selector": ".detail-trash .wundercon.trash",
+   "selector": ".detail-trash",
    "options": ["confirm_delete_entity", "shortcut_delete"]
 }]
