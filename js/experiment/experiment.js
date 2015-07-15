@@ -11,6 +11,8 @@ var experiment = (function() {
       "condition": "",
       // whether to use the opposite values of the default options for this participant (set by logger.initialize)
       "oppositeDefaults": "",
+      // which set of options to use: 0 or 1
+      "partition": "",
       // bonus reward when trial done correctly
       "bonusTrial": 0.1,
       // list of options that users will be ask to find during the experiment

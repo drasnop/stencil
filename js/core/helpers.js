@@ -173,6 +173,7 @@ function getIndexOfValueInOption(option, value) {
 function generateTabsSequenceWithoutConsecutiveTabs(numElementsPerTab) {
    var tabSequence;
 
+   // this loop might take a while, but in my tests the average number of trials was 14 and max ~ 100, which is still very fast
    while (true) {
       tabSequence = [];
 

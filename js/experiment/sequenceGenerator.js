@@ -4,30 +4,87 @@
 
 var sequenceGenerator = {};
 
-sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
-   // select one third of options per tab, with a maximum of 4
-   var numOptionsPerTab = {
-      "General": 3,
-      "Shortcuts": 4,
-      "Smart Lists": 2,
-      "Notifications": 1
+sequenceGenerator.numOptionsPerTab = {
+   "General": 5,
+   "Shortcuts": 10,
+   "Smart Lists": 3,
+   "Notifications": 2
+}
+
+sequenceGenerator.optionsPartition = [{
+      'General': ['date_format',
+         'start_of_week',
+         'sound_notification_enabled',
+         'new_task_location',
+         'print_completed_items'
+      ],
+      'Shortcuts': ['shortcut_add_new_task',
+         'shortcut_mark_task_starred',
+         'shortcut_select_all_tasks',
+         'shortcut_copy_tasks',
+         'shortcut_goto_search',
+         'shortcut_show_notifications',
+         'shortcut_goto_filter_assigned',
+         'shortcut_goto_filter_today',
+         'shortcut_goto_filter_all',
+         'shortcut_sync'
+      ],
+      'Smart Lists': ['smartlist_visibility_today',
+         'smartlist_visibility_all',
+         'today_smart_list_visible_tasks'
+      ],
+      'Notifications': ['notifications_email_enabled',
+         'notifications_desktop_enabled'
+      ]
+   }, {
+      'General': ['time_format',
+         'sound_checkoff_enabled',
+         'confirm_delete_entity',
+         'behavior_star_tasks_to_top',
+         'show_subtask_progress'
+      ],
+      'Shortcuts': ['shortcut_add_new_list',
+         'shortcut_mark_task_done',
+         'shortcut_delete',
+         'shortcut_paste_tasks',
+         'shortcut_goto_preferences',
+         'shortcut_send_via_email',
+         'shortcut_goto_inbox',
+         'shortcut_goto_filter_starred',
+         'shortcut_goto_filter_week',
+         'shortcut_goto_filter_completed'
+      ],
+      'Smart Lists': ['smartlist_visibility_assigned_to_me',
+         'smartlist_visibility_week',
+         'smartlist_visibility_done'
+      ],
+      'Notifications': ['notifications_push_enabled',
+         'notifications_desktop_enabled'
+      ]
    }
 
-   // 1: randomly pick an appropriate number of options in each tab, respecting some constraints
-   var optionsInTab = [];
-   model.tabs.forEachNonBloat(function(tab) {
-      // get options from this tab, excluding the forbidden options
-      var allowedOptions = tab.options.filter(function(option) {
-         return typeof option.notInExperiment === "undefined";
-      })
 
-      // randomly pick numOptionsPerTab[t] options      
-      shuffleArray(allowedOptions);
-      optionsInTab[tab.name] = allowedOptions.slice(0, numOptionsPerTab[tab.name]);
-   });
+]
+
+sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
+
+   // 1a: retrieve the correct options partition
+   var optionsInTab = sequenceGenerator.optionsPartition[experiment.partition]
+
+   // 1b: replace option_IDs by references to actual options
+   for (var tabName in optionsInTab) {
+      optionsInTab[tabName] = optionsInTab[tabName].map(function(option_ID) {
+         return model.options[option_ID];
+      })
+   }
+
+   // 1c: shuffle the options in each tab
+   for (var tabName in optionsInTab) {
+      shuffleArray(optionsInTab[tabName]);
+   }
 
    // 2: compute a sequence of tabs in which no two selections come from the same tab
-   var tabSequence = generateTabsSequenceWithoutConsecutiveTabs(numOptionsPerTab);
+   var tabSequence = generateTabsSequenceWithoutConsecutiveTabs(sequenceGenerator.numOptionsPerTab);
 
    // 3: use this sequence to order the sequence of options selections
    for (var i = 0; i < tabSequence.length; i++) {
@@ -36,17 +93,18 @@ sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
 
    console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
 
+   // 4: create the target values sequence by taking the complement of the current target options' values
    experiment.optionsSequence.forEach(function(option) {
       // if oppositeDefaults, set the reverse flag to make sure the complementValue found here is the opposite of the opposite default (hence the default)
       var value = sequenceGenerator.complementValueOf(option, experiment.oppositeDefaults);
       experiment.valuesSequence.push(value);
    })
 
-   // 4: Add a fixed practice trial at the beginning, with a fixed target value
-   experiment.optionsSequence.unshift(model.options["smartlist_visibility_assigned_to_me"]);
+   // 5: add a fixed practice trial at the beginning, with a fixed target value
+   experiment.optionsSequence.unshift(model.options["smartlist_visibility_starred"]);
    experiment.valuesSequence.unshift("hidden");
 
-   // 5: callback to tell logger that the initial state is ready to be logged
+   // 6: callback to tell logger that the initial state is ready to be logged
    callback();
 }
 

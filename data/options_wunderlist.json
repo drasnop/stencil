@@ -343,8 +343,7 @@
          "name": "SHIFT + 3",
          "label": "SHIFT + 3"
       }],
-      "more": true,
-      "notInExperiment": true
+      "more": true
    },
    "shortcut_goto_filter_week": {
       "id": "shortcut_goto_filter_week",
@@ -358,8 +357,7 @@
          "name": "SHIFT + 4",
          "label": "SHIFT + 4"
       }],
-      "more": true,
-      "notInExperiment": true
+      "more": true
    },
    "shortcut_goto_filter_all": {
       "id": "shortcut_goto_filter_all",
@@ -373,8 +371,7 @@
          "name": "SHIFT + 5",
          "label": "SHIFT + 5"
       }],
-      "more": true,
-      "notInExperiment": true
+      "more": true
    },
    "shortcut_goto_filter_completed": {
       "id": "shortcut_goto_filter_completed",
@@ -388,8 +385,7 @@
          "name": "SHIFT + 6",
          "label": "SHIFT + 6"
       }],
-      "more": true,
-      "notInExperiment": true
+      "more": true
    },
    "shortcut_sync": {
       "id": "shortcut_sync",
@@ -416,8 +412,7 @@
          "name": "hidden",
          "label": "hidden"
       }],
-      "showHide": true,
-      "notInExperiment": true
+      "showHide": true
    },
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",

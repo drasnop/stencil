@@ -37,7 +37,8 @@ var logger = (function() {
          experiment.condition = parseInt(snapshot.child("interface").val());
          model.optionsVisibility = experiment.condition;
          experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
-         console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults)
+         experiment.partition = snapshot.child("partition").val();
+         console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults + " partition: " + experiment.partition)
 
          callback();
       })
