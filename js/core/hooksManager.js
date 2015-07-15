@@ -4,7 +4,7 @@ Handles the creation/destruction/positioning/styling of hooks and clusters
 
 generateHooks()
    # init
-   - create all hooks [so far hooks are never distroyed]
+   - create all hooks
    - disable them, add proper css
 
 updateHooksStatus()
@@ -84,6 +84,10 @@ var hooksManager = (function() {
 
 
    hooksManager.generateHooks = function() {
+
+      // delete all the previous hooks
+      $(".hook").remove();
+
       // elements of the original interface that can serve to anchor (intrinsically or semantically) options
       var mapping_anchors;
 

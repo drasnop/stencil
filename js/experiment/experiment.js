@@ -79,7 +79,7 @@ var experiment = (function() {
 
       // 4a: construct a new TrialsSequencer object
       practiceTrial = new TrialsSequencer("practiceTrial", 0, 1000, 2000, "Try again!", true, Trial, experiment.practiceTrialEnded);
-      experimentTrials = new TrialsSequencer("experimentTrials", 1, 1000, 2000, "Wrong setting", false, Trial, function() {
+      experimentTrials = new TrialsSequencer("experimentTrials", 1, 1000, 1500, "Wrong setting", false, Trial, function() {
          // generate recognition questionnaire from the selection sequence, then callback to continue experiment
          sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
       });
@@ -89,7 +89,11 @@ var experiment = (function() {
 
       // replace the ending condition for the practice trial sequencer (only one trial, so always finished)
       practiceTrial.notEndOfSequence = function() {
-         return false;
+            return false;
+         }
+         // replace the reward computation function for the practice trial sequencer (no reward)
+      practiceTrial.getCurrentReward = function() {
+         return -1;
       }
 
       // 5: randomly generate selection sequences
@@ -182,7 +186,7 @@ var experiment = (function() {
 
       model.modal.header = "Practice trial";
       if (experiment.condition > 0)
-         model.modal.message = "The next popup will ask you to change one setting.\nFirst, look around to find which item this setting might be related to, then click on that item.";
+         model.modal.message = "The next popup will ask you to change one setting.<br>First, look around to find which item this setting might be related to;<br>then click on that item.";
       else
          model.modal.message = "The next popup will ask you to change one setting. It's up to you to find in which tab it is.";
       model.modal.buttonLabel = "Ok";
@@ -248,6 +252,7 @@ var experiment = (function() {
 
       showModal();
    }
+
 
    return experiment;
 })();

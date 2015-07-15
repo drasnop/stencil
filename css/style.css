@@ -522,6 +522,11 @@ body.animate .dialog-wrapper .dialog {
     -ms-animation: none!important;
     animation: none!important;
 }
+/* prevent the slide-in animation of the details panel */
+
+html #wunderlist-base .main-interface.detail-visible #detail.animated {
+    transition: none!important;
+}
 /* hide the onboarding popups */
 
 .foldersGuide .openButton {

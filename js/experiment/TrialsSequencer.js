@@ -27,7 +27,8 @@ var TrialsSequencer = (function() {
       resetSettingsIfNeeded();
 
       // refresh preferences panel - annoying workaround to update the Backbone view
-      closePreferences();
+      if (experiment.condition === 0)
+         closePreferences();
 
       // listen to changes of the Backbone model
       wunderlistListeners.bindSettingsAndTabsListeners();
@@ -37,19 +38,25 @@ var TrialsSequencer = (function() {
 
    TrialsSequencer.prototype.initializeTrial = function(number) {
       // open the preferences panel or enter customization mode, in case participants had closed them
-      if (experiment.condition > 0 && !customizationMode)
-         enterCustomizationMode();
       if (experiment.condition === 0 && !preferencesOpen)
          openPreferences();
+      if (experiment.condition > 0 && !customizationMode)
+         enterCustomizationMode();
 
       // hide the hooks / settings panel, to prevent people from planning their next actions
-      if (experiment.condition > 0)
-         $("#hooks").hide();
-      else {
-         // hide preferences - annoying workaround to make sure the style is applied to the settings panel, which has just been created
-         $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer {visibility: hidden}</style>");
-      }
+      // workaround to make sure the style is applied to the settings panel, which has just been created
+      $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer, #hooks {visibility: hidden}</style>");
 
+      if (experiment.condition > 0) {
+         // make sure the details panel is visible
+         openDetailsPanel();
+
+         // (re)create hooks and clusters for the customization layer, don't animate
+         setTimeout(function() {
+            hooksManager.generateHooks();
+            hooksManager.updateHooksAndClusters(false);
+         }, 500)
+      }
 
       Sequencer.prototype.initializeTrial.call(this, number, (function() {
 
@@ -73,10 +80,7 @@ var TrialsSequencer = (function() {
       }
 
       // show the hooks / settings panel
-      if (experiment.condition > 0)
-         $("#hooks").show();
-      else
-         $(".hidden-settings-style").remove();
+      $(".hidden-settings-style").remove();
 
       // starts measuring duration
       this.trial.time.start = performance.now();
@@ -118,7 +122,8 @@ var TrialsSequencer = (function() {
       resetSettingsIfNeeded();
 
       // refresh preferences panel - annoying workaround to update the Backbone view
-      closePreferences();
+      if (experiment.condition === 0)
+         closePreferences();
 
       Sequencer.prototype.endTrial.call(this, callback);
    }
@@ -203,6 +208,28 @@ var TrialsSequencer = (function() {
       }
    }
 
+   // if possible, make sure the details panel on the right-hand side is opened
+   function openDetailsPanel() {
+      if (typeof sync != "undefined" && typeof sync.collections != "undefined") {
+
+         // first, try to get the one we know has a due date
+         var tasks = sync.collections.tasks.where({
+            title: "watch a good movie"
+         });
+
+         // otherwise, just pick any task available
+         if (!tasks.length) {
+            tasks = sync.collections.tasks.models;
+         }
+
+         // if we've found at least one suitable task, get its id and use it to show the panel
+         if (tasks.length > 0) {
+            var task_id = tasks[0].get("online_id")
+            window.location.hash = "#/tasks/" + task_id;
+         }
+      }
+   }
+
    // explain how CM works with a few popups, triggered by various timers and listeners
    function addExplanatoryPopups() {
 
@@ -236,7 +263,7 @@ var TrialsSequencer = (function() {
                      alert("In this panel, the settings highlighted in *orange* are associated with the item you clicked on.\nChange the appropriate one.")
                   else
                      alert("The settings in this orange popup are associated with the item you clicked on.\nChange the appropriate one.")
-               }, 100)
+               }, 1000)
             }
 
          }, 50)
