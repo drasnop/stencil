@@ -130,22 +130,34 @@ tabs.forEach(function(tab) {
 console.log("sum of indices in each partition is", total1, total2)
 console.log()
 
+// prepare the two partitions
+part1 = {
+   "General": [],
+   "Shortcuts": [],
+   "Smart Lists": [],
+   "Notifications": []
+}
+part2 = {
+   "General": [],
+   "Shortcuts": [],
+   "Smart Lists": [],
+   "Notifications": []
+}
+
 // print the two partitions as a list of option_IDs
-part1 = [];
-part2 = [];
 console.log()
 tabs.forEach(function(tab) {
    for (var i = 0; i < tab.options.length; i++) {
       switch (tab.partition[i]) {
          case 1:
-            part1.push(tab.options[i]);
+            part1[tab.name].push(tab.options[i]);
             break;
          case 2:
-            part2.push(tab.options[i]);
+            part2[tab.name].push(tab.options[i]);
             break;
          case 12:
-            part1.push(tab.options[i]);
-            part2.push(tab.options[i]);
+            part1[tab.name].push(tab.options[i]);
+            part2[tab.name].push(tab.options[i]);
             break;
          case 0:
             break;
