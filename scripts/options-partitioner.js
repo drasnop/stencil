@@ -15,7 +15,7 @@ var tabs = [{
       "print_completed_items",
       "show_subtask_progress"
    ],
-   "partition": [0, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2]
+   "partition": [0, 1, 2, 1, 2, 1, 1, 2, 2, 1, 2]
 }, {
    "name": "Shortcuts",
    "hash": "shortcuts",
