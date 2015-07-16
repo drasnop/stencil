@@ -248,10 +248,16 @@ var sequenceGenerator = (function() {
       filtered.forEach(function(option) {
          // indicate that this option is one of the adjacent ones + if its base option was successfully selected
          option.adjacentOption.referenceOption = option.id;
+         // remove useless selected flag, set when an anchor was clicked
+         delete option.adjacentOption["selected"];
+         // push adjacent option
          loggable.push(logger.compressOption(option.adjacentOption));
 
          // compressOption has created a deep copy of the adjacent option, so we can replace it by just its id
          option.adjacentOption = option.adjacentOption.id;
+         // remove useless selected flag, set when an anchor was clicked
+         delete option["selected"];
+         // push based option
          loggable.push(logger.compressOption(option));
       });
       console.log("options with invalid adjacent option:", countAdjacentInvalid, "options not successfully selected:", countNotSuccessfullySelected)
