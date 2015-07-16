@@ -70,7 +70,8 @@ var sequenceGenerator = (function() {
 
    sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
 
-      // create the target option sequence
+      // create the target option sequence, by randomly ordering two blocks of options from the same partition
+      generateOptionsSequence();
       generateOptionsSequence();
 
       // create the target values sequence by taking the complement of the current target options' values

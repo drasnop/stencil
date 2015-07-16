@@ -20,7 +20,11 @@ var experiment = (function() {
       // list of values that the options should be set at during the experiment
       "valuesSequence": [],
       // the current sequencer object, used to guide participants through the different steps of the experiment workflow
-      "sequencer": []
+      "sequencer": [],
+      // a correct version of the options, used as a ground truth reference, and updated throughout the experiment
+      "referenceOptions": [],
+      // state of the options at the beginning of the first block, used to reset at the beginning of the second block
+      "initialOptions": []
    }
 
 
@@ -209,21 +213,66 @@ var experiment = (function() {
       showModal();
    }
 
-   /* Step 3: experiment trials */
+
+   /* Step 3: experiment trials, first block */
 
    // called at the end of the practice trial, just before the experiment trials start
    experiment.showExperimentTrialsInstructions = function() {
 
       // construct a new Trial sequencer
-      experiment.sequencer = new TrialsSequencer("experimentTrials", 1000, 1500, "Wrong setting", false, Trial, 1, 20, function() {
-         // generate recognition questionnaire from the selection sequence, then callback to continue experiment
-         sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
-      });
+      experiment.sequencer = new TrialsSequencer("experimentTrials", 800, 1500, "Wrong setting", false, Trial, 1, 20, experiment.firstBlockEnded);
+
+      // store the current state of the options, for the second block
+      // the use of the logger method is coincidential: it simply serves our purpose here well
+      experiment.initialOptions = logger.compressAllUserAccessibleOptions();
 
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Experiment";
       model.modal.message = "In each step, you will be asked to change <b>one setting</b> of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting <b>as quickly and as accurately as possible</b>, then click the \"Next\" button.<br><br>" +
          "You won't be able to change your mind after clicking \"Next\". You will get an extra <b>$" + experiment.bonusTrial.toFixed(2) + "</b> for each setting correctly changed.";
+      model.modal.buttonLabel = "Start";
+      model.modal.green = true;
+      model.modal.hideOnClick = false;
+      model.modal.action = experiment.sequencer.start.bind(experiment.sequencer);
+
+      showModal();
+   }
+
+   experiment.firstBlockEnded = function() {
+      model.progressBar.message = "";
+      model.progressBar.buttonLabel = "";
+
+      var img = "<img src='//" + parameters.serverURL + "/img/yawning.jpg'>";
+
+      model.modal.header = "Well done!";
+      model.modal.message = "Now would be a good time to take a mini-break :)" + img;
+      model.modal.buttonLabel = "Ok";
+      model.modal.green = true;
+      model.modal.hideOnClick = false;
+      model.modal.action = experiment.showSecondBlockInstructions;
+
+      showModal();
+   }
+
+
+   /* Step 4: experiment trials, second block */
+
+   // called at the end of the practice trial, just before the experiment trials start
+   experiment.showSecondBlockInstructions = function() {
+
+      // construct a new Trial sequencer
+      experiment.sequencer = new TrialsSequencer("experimentTrials", 500, 1500, "Wrong setting", false, Trial, 1, 20, function() {
+         // generate recognition questionnaire from the selection sequence, then callback to continue experiment
+         sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
+      });
+
+      // restore the options to their initial state
+      experiment.referenceOptions = experiment.initialOptions;
+      // resetSettingsIfNeeded will be called automatically in TrialsSequencer.start
+
+      // popup: experiment instructions, start experiment trials
+      model.modal.header = "Experiment, part 2";
+      model.modal.message = "In the second (and last) part of the experiment, you will be asked to change <b>the same settings</b> again, but in a different order.";
       model.modal.buttonLabel = "Start";
       model.modal.green = true;
       model.modal.hideOnClick = false;

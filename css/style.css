@@ -17,6 +17,8 @@ z-indexes
 #61FFED electric blue for highlighting
 
 */
+
+
 /* ----------------------  experiment  ---------------------- */
 
 #progress-bar {
@@ -33,7 +35,6 @@ z-indexes
     left: 0px;
     right: 0px;
     /* to prevent the white shadow ot the close button from overflowing onto progress bar... */
-    
     overflow: hidden;
 }
 
@@ -122,6 +123,13 @@ z-indexes
 #modal-button {
     min-width: 100px;
 }
+
+#instructions-modal img {
+    width: 100%;
+    margin-top: 15px;
+}
+
+
 /* -------------------  overlay, hooks, ghosts --------------------- */
 
 #overlay {
@@ -129,7 +137,6 @@ z-indexes
     background-color: black;
     opacity: .5;
     /* should be animated, but sadly it lags */
-    
     position: absolute;
     top: 0;
     bottom: 0;
@@ -166,7 +173,6 @@ z-indexes
     background-color: #ededed !important;
     color: #444 !important;
     /* not entirely sure about this... but would keep anchor at a reasonable size */
-    
     max-width: 300px !important;
     white-space: nowrap !important;
     transition: top 0.3s linear, left 0.3s linear;
@@ -187,7 +193,6 @@ z-indexes
    border: 1px solid #ccc  !important;
    margin-top: -1px!important;
    margin-left: -1px!important; */
-    
     background-color: #FFD5A1 !important;
 }
 
@@ -228,7 +233,6 @@ z-indexes
     color: #444;
     box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
     /* background-color 0.5s ease;   doesn't look good*/
-    
     margin-bottom: 10px;
     /*margin-top: 10px; would look better, but creates a jump when switching views */
 }
@@ -236,6 +240,8 @@ z-indexes
 #ad-hoc-panel.expanded {
     background-color: white;
 }
+
+
 /* ------------------------  tabs ------------------------ */
 
 #tabs {
@@ -307,7 +313,6 @@ z-indexes
     cursor: pointer;
     padding: 5px 6px;
     /* 3px 6px to make them less salient + use opacity .7 in the gradient*/
-    
     border-radius: 4px;
     border-radius: 8px 8px 0 0;
     width: 92px;
@@ -337,6 +342,8 @@ div.back-arrow-wrapper {
 .back-arrow:hover {
     opacity: 1;
 }
+
+
 /* -------------------- Options ----------------- */
 
 select {
@@ -346,11 +353,9 @@ select {
 #options-list {
     width: 100%;
     /* for auto scrolling */
-    
     max-height: 304px;
     overflow-y: auto;
     /* for absolute positioning of options */
-    
     position: relative;
     margin-top: 12px;
     margin-bottom: 12px;
@@ -401,7 +406,6 @@ select {
 
 #options-list.highlighted {
     /* need to highlight the full minimalist panel */
-    
     background-color: #FFD5A1;
 }
 
@@ -463,11 +467,15 @@ select {
 .preview:hover {
     opacity: 1;
 }
+
+
 /* ---------- Wunderlist-specific styles ------------- */
 
 .bloat-image {
     width: 100%;
 }
+
+
 /* "Show more" button in shortcuts tab */
 
 .wunderlist-button {
@@ -479,11 +487,12 @@ select {
     line-height: 13px;
     padding: 8px 12px;
     /*background-image: linear-gradient(to bottom, #FFF, #F5F5F5);*/
-    
     border-radius: 4px;
     border: medium none;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
 }
+
+
 /* "add item" hook: they are using an !important flag, so I have to match specificity */
 
 #wunderlist-base .chromeless[type="text"].hook {
@@ -505,6 +514,8 @@ select {
     background-color: inherit !important;
     color: inherit !important;
 }
+
+
 /* prevent animation of the menu, to avoid delays in replacing the Account Settings link by "Customize" */
 
 body.animate .popover {
@@ -515,6 +526,8 @@ body.animate .popover {
     -ms-animation: none!important;
     animation: none!important;
 }
+
+
 /* prevent the slide-in animation of the menu */
 
 body.animate .dialog-wrapper .dialog {
@@ -522,11 +535,15 @@ body.animate .dialog-wrapper .dialog {
     -ms-animation: none!important;
     animation: none!important;
 }
+
+
 /* prevent the slide-in animation of the details panel */
 
 html #wunderlist-base .main-interface.detail-visible #detail.animated {
     transition: none!important;
 }
+
+
 /* hide the onboarding popups */
 
 .foldersGuide .openButton {
@@ -543,11 +560,15 @@ html #wunderlist-base .main-interface.detail-visible #detail.animated {
 .popover.addList {
     display: none!important;
 }
+
+
 /* button.highlighted{
    background-color: rgb(39, 160, 216) !important;
    background-image: none !important;
    color: white !important;
    } */
+
+
 /* button.wunderlist{
    font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
    position: relative;
@@ -570,6 +591,8 @@ button.wunderlist:active{
 button.wunderlist:focus{
    box-shadow: 0px 0px 5px rgba(0, 154, 228, 0.3), 0px 0px 0px 1px rgba(0, 154, 228, 0.6) inset;
 } */
+
+
 /* ------------ gmail-specific styles ---------------- */
 
 #y6-y2 {
