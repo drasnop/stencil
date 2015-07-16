@@ -12,9 +12,9 @@ function Trial(number) {
    this.timeout = false;
 
    // target option (Object) (compressed to avoid infinite recursion when logging)
-   this.targetOption = experiment.optionsSequence[experiment.sequencer.getExternalTrialNumber(this.number)];
+   this.targetOption = experiment.sequencer.optionsSequence[this.number];
    // value that the target opion should be set at (boolean or string)
-   this.targetValue = experiment.valuesSequence[experiment.sequencer.getExternalTrialNumber(this.number)];
+   this.targetValue = experiment.sequencer.valuesSequence[this.number];
 
 
    /*    logging     */
@@ -170,7 +170,7 @@ function Trial(number) {
          else if (prop === "targetOption")
             loggable[prop] = this[prop].id;
          else if (prop === "number")
-            loggable[prop] = experiment.sequencer.getExternalTrialNumber(this.number);
+            loggable[prop] = experiment.sequencer.getExternalTrialNumber();
          else if (typeof this[prop].loggable === typeof Function)
             loggable[prop] = this[prop].loggable();
          else if (typeof this[prop] !== typeof Function && prop !== "done")

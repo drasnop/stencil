@@ -27,12 +27,8 @@ var TrialsSequencer = (function() {
    TrialsSequencer.prototype = Object.create(Sequencer.prototype);
    TrialsSequencer.prototype.constructor = TrialsSequencer;
 
-   TrialsSequencer.prototype.getExternalTrialNumber=function(number){
-      // When this function is called during this.trial initialization, we must pass it the trial number explicitly
-      if(typeof number != "undefined")
-         return this.startIndex + number;
-      else
-         return this.startIndex + this.trial.number;
+   TrialsSequencer.prototype.getExternalTrialNumber=function(){
+      return this.startIndex + this.trial.number;
    }
 
    /* overwritten methods */

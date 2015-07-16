@@ -156,14 +156,10 @@ tutorial.addExplanatoryPopups = function() {
             clearTimeout(correctHookNotSelectedTimer);
             model.unwatch("selectedOptions");
 
-            alert("Good job! You have found an item related to the setting you have to change!")
-
-            setTimeout(function() {
-               if (experiment.condition == 3)
-                  alert("In this panel, the settings highlighted in *orange* are related to the item you clicked on.\nNow hide the \"Starred\" smart filter.")
-               else
-                  alert("The settings in this orange popup are related to the item you clicked on.\nNow hide the \"Starred\" smart filter.")
-            }, 1000)
+            alert("Good job! You have found an appropriate item to click on!\n\n" +
+               (experiment.condition == 3 ? "In this panel, the settings highlighted in *orange* are related to the item you clicked on.\nYou can now hide the \"Starred\" smart filter easily." :
+                  "The settings in this orange popup are related to the item you clicked on.\nYou can now hide the \"Starred\" smart filter easily."
+               ))
          }
 
       }, 50)
