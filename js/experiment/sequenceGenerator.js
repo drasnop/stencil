@@ -148,15 +148,15 @@ var sequenceGenerator = (function() {
    sequenceGenerator.generateRecognitionQuestionnaire = function(callback) {
       // 0: TESTING ONLY
       /*   for (var j = 0; j < 10; j++) {
-            experiment.sequencer.trials.push({
+            experiment.trials.push({
                "targetOption": experiment.optionsSequence[j],
                "success": Math.random() < 0.5
             })
          }
       */
 
-      // 1: Generate option candidates from the target options of all the trials in the 2nd set of tasks (most recent)
-      var options = experiment.sequencer.trials.map(function(trial) {
+      // 1: Generate option candidates from the target options of all the experiment trials
+      var options = experiment.trials.map(function(trial) {
          var option = $.extend({}, trial.targetOption);
          option.successfullySelected = trial.success;
          return option;

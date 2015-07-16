@@ -24,7 +24,10 @@ var experiment = (function() {
       // a correct version of the options, used as a ground truth reference, and updated throughout the experiment
       "referenceOptions": [],
       // state of the options at the beginning of the first block, used to reset at the beginning of the second block
-      "initialOptions": []
+      "initialOptions": [],
+      // list of all the trials completed so far for the experiment
+      // used to compute current reward, and to generate questionnaires options at the end.
+      "trials": []
    }
 
 
@@ -220,7 +223,7 @@ var experiment = (function() {
    experiment.showExperimentTrialsInstructions = function() {
 
       // construct a new Trial sequencer
-      experiment.sequencer = new TrialsSequencer("experimentTrials", 800, 1500, "Wrong setting", false, Trial, 1, 20, experiment.firstBlockEnded);
+      experiment.sequencer = new TrialsSequencer("experimentTrials1", 800, 1500, "Wrong setting", false, Trial, 1, 20, experiment.firstBlockEnded);
 
       // store the current state of the options, for the second block
       // the use of the logger method is coincidential: it simply serves our purpose here well
@@ -261,7 +264,7 @@ var experiment = (function() {
    experiment.showSecondBlockInstructions = function() {
 
       // construct a new Trial sequencer
-      experiment.sequencer = new TrialsSequencer("experimentTrials", 500, 1500, "Wrong setting", false, Trial, 1, 20, function() {
+      experiment.sequencer = new TrialsSequencer("experimentTrials2", 500, 1500, "Wrong setting", false, Trial, 21, 40, function() {
          // generate recognition questionnaire from the selection sequence, then callback to continue experiment
          sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
       });

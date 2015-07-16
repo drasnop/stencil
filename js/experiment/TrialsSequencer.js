@@ -14,9 +14,6 @@ var TrialsSequencer = (function() {
       this.optionsSequence = experiment.optionsSequence.slice(startIndex, endIndex + 1);
       this.valuesSequence = experiment.valuesSequence.slice(startIndex, endIndex + 1);
 
-      // list of all the trials completed so far for the experiment
-      // used to compute current reward, and to generate questionnaires options at the end.
-      this.trials = [];
       // timeout trials after 2 min
       this.maxTrialDuration = 2 * 60 * 1000;
 
@@ -27,7 +24,7 @@ var TrialsSequencer = (function() {
    TrialsSequencer.prototype = Object.create(Sequencer.prototype);
    TrialsSequencer.prototype.constructor = TrialsSequencer;
 
-   TrialsSequencer.prototype.getExternalTrialNumber=function(){
+   TrialsSequencer.prototype.getExternalTrialNumber = function() {
       return this.startIndex + this.trial.number;
    }
 
@@ -127,8 +124,10 @@ var TrialsSequencer = (function() {
       }
 
       // log
-      this.trials.push(this.trial);
-      logger.saveTrial();
+      if (this.name != "practiceTrial") {
+         experiment.trials.push(this.trial);
+         logger.saveTrial();
+      }
 
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
@@ -195,7 +194,7 @@ var TrialsSequencer = (function() {
    }
 
    TrialsSequencer.prototype.getCurrentReward = function() {
-      return this.trials.reduce(function(sum, trial) {
+      return experiment.trials.reduce(function(sum, trial) {
          return sum += experiment.bonusTrial * trial.success;
       }, 0)
    }
