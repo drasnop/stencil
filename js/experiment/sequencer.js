@@ -3,11 +3,9 @@
  * Each Step is initialized, started and ended from its parent Sequencer.
  */
 
-function Sequencer(name, firstTrialNumber, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback) {
+function Sequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback) {
    // name used to indentify the Sequencer in log messages
    this.name = name;
-   // starting index of the trials (0 for )
-   this.firstTrialNumber = firstTrialNumber;
    // duration of the brief pause between end of a successful trial and start of the next (in ms)
    this.trialPauseSuccess = trialPauseSuccess;
    // duration of the brief pause between end of a unsuccessful trial and start of the next (in ms)
@@ -42,7 +40,7 @@ Sequencer.prototype.start = function() {
    angular.element($("#progress-bar")).scope().sequencer = this;
    angular.element($("#instructions-modal")).scope().sequencer = this;
 
-   this.initializeTrial(this.firstTrialNumber);
+   this.initializeTrial(0);
 }
 
 Sequencer.prototype.initializeTrial = function(trialNumber, callback) {

@@ -15,7 +15,7 @@ var experiment = (function() {
       "partition": "",
       // bonus reward when trial done correctly
       "bonusTrial": 0.1,
-      // list of options that users will be ask to find during the experiment
+      // list of options that users will be ask to change during the experiment
       "optionsSequence": [],
       // list of values that the options should be set at during the experiment
       "valuesSequence": [],
@@ -79,26 +79,7 @@ var experiment = (function() {
       // 3: set the Wunderlist options to the default (or opposite default) settings 
       dataManager.initializeAppOptionsFromFile();
 
-      // 4a: construct a new TrialsSequencer object
-      practiceTrial = new TrialsSequencer("practiceTrial", 0, 1000, 2000, "Try again!", true, Trial, experiment.practiceTrialEnded);
-      experimentTrials = new TrialsSequencer("experimentTrials", 1, 1000, 1500, "Wrong setting", false, Trial, function() {
-         // generate recognition questionnaire from the selection sequence, then callback to continue experiment
-         sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
-      });
-
-      // 4b: now that "experiment" exists, replace the end callback of tutorial (meh workaround)
-      tutorial.endCallback = experiment.tutorialEnded;
-
-      // replace the ending condition for the practice trial sequencer (only one trial, so always finished)
-      practiceTrial.notEndOfSequence = function() {
-            return false;
-         }
-         // replace the reward computation function for the practice trial sequencer (no reward)
-      practiceTrial.getCurrentReward = function() {
-         return -1;
-      }
-
-      // 5: randomly generate selection sequences
+      // 4: randomly generate selection sequences
       sequenceGenerator.generateOptionsAndValuesSequences(callback);
 
       // the callback will save all of this generated data to firebase
@@ -128,6 +109,9 @@ var experiment = (function() {
 
       // this is a priori useless, and detrimental because we are checking if(experiment.sequencer.trial) for logging
       // experiment.sequencer = tutorial;
+
+      // 4b: now that "experiment" exists, replace the end callback of tutorial (meh workaround)
+      tutorial.endCallback = experiment.tutorialEnded;
 
       // popup: setup complete, start tutorial
       model.progressBar.message = "";
@@ -184,7 +168,13 @@ var experiment = (function() {
    // called at the end of the tutorial, just before the experiment trials start
    experiment.showPracticeTrialInstructions = function() {
 
-      experiment.sequencer = practiceTrial;
+      // construct a new TrialsSequencer object for the practice trial
+      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 2000, "Try again!", true, Trial, 0, 0, experiment.practiceTrialEnded);
+
+      // replace the reward computation function for the practice trial sequencer (no reward)
+      experiment.sequencer.getCurrentReward = function() {
+         return -1;
+      }
 
       model.modal.header = "Practice trial";
       if (experiment.condition > 0)
@@ -194,7 +184,7 @@ var experiment = (function() {
       model.modal.buttonLabel = "Ok";
       model.modal.green = true;
       model.modal.hideOnClick = false;
-      model.modal.action = practiceTrial.start.bind(practiceTrial);
+      model.modal.action = experiment.sequencer.start.bind(experiment.sequencer);
 
       showModal();
    }
@@ -224,7 +214,11 @@ var experiment = (function() {
    // called at the end of the practice trial, just before the experiment trials start
    experiment.showExperimentTrialsInstructions = function() {
 
-      experiment.sequencer = experimentTrials;
+      // construct a new Trial sequencer
+      experiment.sequencer = new TrialsSequencer("experimentTrials", 1000, 1500, "Wrong setting", false, Trial, 1, 20, function() {
+         // generate recognition questionnaire from the selection sequence, then callback to continue experiment
+         sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
+      });
 
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Experiment";
@@ -233,7 +227,7 @@ var experiment = (function() {
       model.modal.buttonLabel = "Start";
       model.modal.green = true;
       model.modal.hideOnClick = false;
-      model.modal.action = experimentTrials.start.bind(experimentTrials);
+      model.modal.action = experiment.sequencer.start.bind(experiment.sequencer);
 
       showModal();
    }

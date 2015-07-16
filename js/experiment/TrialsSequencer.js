@@ -4,7 +4,15 @@
 
 var TrialsSequencer = (function() {
 
-   function TrialsSequencer(name, firstTrialNumber, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback) {
+   function TrialsSequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, startIndex, endIndex, endCallback) {
+
+      // which indices in the general target options sequence this sequencer covers
+      this.startIndex = startIndex;
+      this.endIndex = endIndex;
+
+      // list of options and values that users will be ask to change during this phase of the experiment
+      this.optionsSequence = experiment.optionsSequence.slice(startIndex, endIndex + 1);
+      this.valuesSequence = experiment.valuesSequence.slice(startIndex, endIndex + 1);
 
       // list of all the trials completed so far for the experiment
       // used to compute current reward, and to generate questionnaires options at the end.
@@ -12,12 +20,20 @@ var TrialsSequencer = (function() {
       // timeout trials after 2 min
       this.maxTrialDuration = 2 * 60 * 1000;
 
-      Sequencer.call(this, name, firstTrialNumber, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback)
+      Sequencer.call(this, name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback)
    }
 
    // subclass extends superclass
    TrialsSequencer.prototype = Object.create(Sequencer.prototype);
    TrialsSequencer.prototype.constructor = TrialsSequencer;
+
+   TrialsSequencer.prototype.getExternalTrialNumber=function(number){
+      // When this function is called during this.trial initialization, we must pass it the trial number explicitly
+      if(typeof number != "undefined")
+         return this.startIndex + number;
+      else
+         return this.startIndex + this.trial.number;
+   }
 
    /* overwritten methods */
 
@@ -132,7 +148,7 @@ var TrialsSequencer = (function() {
    /* methods that need to be implemented */
 
    TrialsSequencer.prototype.getModalHeader = function() {
-      return "Please change the following setting: (" + (this.trial.number + 1) + " / " + experiment.optionsSequence.length + ")";
+      return "Please change the following setting: (" + (this.trial.number + 1) + " / " + this.optionsSequence.length + ")";
    }
 
    TrialsSequencer.prototype.getInstructions = function() {
@@ -189,7 +205,7 @@ var TrialsSequencer = (function() {
    }
 
    TrialsSequencer.prototype.notEndOfSequence = function() {
-      return this.trial.number + 1 < experiment.optionsSequence.length;
+      return this.trial.number + 1 < this.optionsSequence.length;
    }
 
 

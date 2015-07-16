@@ -18,7 +18,7 @@ var logger = (function() {
          if (!snapshot.hasChild(experiment.email)) {
             console.log("Failure! MTurk firebase doesn't contain", experiment.email)
             callbackError(messageEmailUnknown);
-         } else if (snapshot.child(experiment.email).child('/trials').numChildren() >= 10) {
+         } else if (snapshot.child(experiment.email).child('/trials').numChildren() >= 21) {
             console.log("Failure! User " + experiment.email + " has already completed the experiment")
             callbackError(messageExperimentAlreadyCompleted);
          } else {
@@ -78,9 +78,9 @@ var logger = (function() {
    logger.saveTrial = function() {
       logger.firebase.child("/trials").push(experiment.sequencer.trial.loggable(), function(error) {
          if (error) {
-            console.log("Trial " + experiment.sequencer.trial.number + " could not be saved." + error);
+            console.log("Trial " + experiment.sequencer.trial.number + " (external number: "+experiment.sequencer.getExternalTrialNumber()+")" + " could not be saved." + error);
          } else {
-            console.log("Trial " + experiment.sequencer.trial.number + " saved successfully.");
+            console.log("Trial " + experiment.sequencer.trial.number + " (external number: "+experiment.sequencer.getExternalTrialNumber()+")" + " saved successfully.");
          }
       });
    }
