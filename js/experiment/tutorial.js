@@ -165,34 +165,37 @@ tutorial.addExplanatoryPopups = function() {
                ))
          }
 
-      }, 50)
-
-      /*         //  watcher for changed option
-               experiment.sequencer.trial.changedOptions.watch("length", function(prop, oldval, newval) {
-
-                  setTimeout(function() {
-                     var trial = experiment.sequencer.trial;
-                     console.log(trial.changedOptions.length)
-
-                     // check if this is the correct option
-                     if (trial.changedOptions[trial.changedOptions.length - 1].option_ID != trial.targetOption.id) {
-                        alert("Sorry, this isn't the correct setting. Try another one!")
-                     } else {
-                        // check if this is the correct value
-                        if (trial.changedOptions[trial.changedOptions.length - 1].newValue != trial.targetValue) {
-                           alert("This is the setting you're looking for, but you haven't given it the correct value. Try again!")
-                        } else {
-
-                           // since the option has been sucessfully changed, clean up explanatory popups
-                           trial.unwatch("changedOptions");
-
-                           alert("Well done! Click the \"Next\" button to finish the trial.")
-                        }
-                     }
-
-                  }, 100)
-               })*/
+      }, 100)
 
       return newval;
-   })
+   });
+
+   //  watcher for changed option
+   model.options["smartlist_visibility_starred"].watch("value", function(prop, oldval, newval) {
+      // small timeout to wait for the hiding animation to complete
+      setTimeout(function() {
+         if (newval == "hidden") {
+            var scope = angular.element($("#ad-hoc-panel")).scope();
+            scope.$apply(scope.closePanel);
+            alert("Well done! The \"Starred\" smart filter is now hidden.\nBut it is still accessible! Reveal it by clicking on the blue chevron icon (\"❯\" downwards).")
+         } else {
+            alert("Sorry, this isn't the correct value. You have to set it to \"hidden\".")
+         }
+      }, 600)
+      return newval;
+   });
+
+   // watcher for cluster expanded
+   experiment.sequencer.trial.cluster.watch("length", function(prop, oldval, newval) {
+      // small timeout to wait for the hiding animation to complete
+      setTimeout(function() {
+         if (model.options["smartlist_visibility_starred"].value == "hidden") {
+            alert("Good job! That's how you can change a setting even if its corresponding item is hidden.\nOk, click on the \"Next\" button to move on.")
+
+            experiment.sequencer.miniTutorialCompleted = true;
+            angular.element($("#ad-hoc-panel")).scope().$apply();
+         }
+      }, 600)
+      return newval;
+   });
 }

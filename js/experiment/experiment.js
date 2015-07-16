@@ -176,11 +176,16 @@ var experiment = (function() {
    experiment.showPracticeTrialInstructions = function() {
 
       // construct a new TrialsSequencer object for the practice trial
-      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 2000, "Try again!", true, Trial, 0, 0, experiment.practiceTrialEnded);
+      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 2000, "Wrong selection", false, Trial, 0, 0, experiment.practiceTrialEnded);
 
       // replace the reward computation function for the practice trial sequencer (no reward)
       experiment.sequencer.getCurrentReward = function() {
-         return -1;
+            return -1;
+         }
+         // replace the reward computation function for the practice trial sequencer (no reward)
+      experiment.sequencer.miniTutorialCompleted = false;
+      experiment.sequencer.trialNotPerformed = function() {
+         return !this.miniTutorialCompleted;
       }
 
       model.modal.header = "Practice trial";
@@ -201,7 +206,8 @@ var experiment = (function() {
       // just to be sure, clean up again the explanatory popups
       clearTimeout(correctHookNotSelectedTimer);
       model.unwatch("selectedOptions");
-      experiment.sequencer.trial.unwatch("changedOptions");
+      model.options["smartlist_visibility_starred"].unwatch("value");
+      experiment.sequencer.trial.cluster.unwatch("length");
 
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";
