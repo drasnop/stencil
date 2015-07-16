@@ -124,10 +124,8 @@ var TrialsSequencer = (function() {
       }
 
       // log
-      if (this.name != "practiceTrial") {
-         experiment.trials.push(this.trial);
-         logger.saveTrial();
-      }
+      experiment.trials.push(this.trial);
+      logger.saveTrial();
 
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
