@@ -180,7 +180,10 @@ z-indexes
     pointer-events: all !important;
 }
 
-.blue-highlighting:hover,
+.row.option .highlight-on-hover:hover {
+    box-shadow: 0px 0px 0px 1px #27A0D8;
+}
+
 .blue-highlighted {
     z-index: 1000002 !important;
     box-shadow: 0 0 3px 3px #61FFED!important;
@@ -355,6 +358,7 @@ select {
     /* for auto scrolling */
     max-height: 304px;
     overflow-y: auto;
+    overflow-x: hidden;
     /* for absolute positioning of options */
     position: relative;
     margin-top: 12px;
@@ -409,6 +413,33 @@ select {
     background-color: #FFD5A1;
 }
 
+.row.option .formControl {
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.row.option .formControl.checkbox {
+    margin-right: 7px !important;
+}
+
+.row.option label {
+    white-space: nowrap;
+    padding: 10px 0;
+}
+
+.preview {
+    opacity: 0.5;
+    vertical-align: middle;
+    height: 12px;
+    padding-left: 5px;
+}
+
+.preview:hover {
+    opacity: 1;
+}
+
 .hyperlink {
     color: #2755D8;
     text-decoration: underline;
@@ -427,45 +458,6 @@ select {
     position: absolute;
     bottom: 8px;
     right: 10px;
-}
-
-.align-left {
-    text-align: left;
-}
-
-.align-right {
-    text-align: right;
-}
-
-#options-list .cell {
-    display: inline-block;
-    box-sizing: border-box;
-    padding: 5px;
-}
-
-#options-list .cell.left-column {
-    padding-left: 10px;
-    padding-right: 5px;
-}
-
-#options-list .cell.middle-column {
-    padding-left: 5px;
-    padding-right: 10px;
-}
-
-#options-list .cell.align-right [type=checkbox] {
-    margin: 0!important;
-}
-
-.preview {
-    opacity: 0.5;
-    vertical-align: middle;
-    height: 12px;
-    padding-left: 5px;
-}
-
-.preview:hover {
-    opacity: 1;
 }
 
 

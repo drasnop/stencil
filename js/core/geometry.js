@@ -20,10 +20,15 @@ var geometry = (function() {
       return geometry.optionHeight;
    }
 
-   // add 30 to account for padding, and 2 because nothing is perfect
+   // add 10 for a margin on the right, and 2 because nothing is perfect
    geometry.getOptionWidth = function(option) {
       var optionElement = $('#' + option.id);
-      var baseWidth = optionElement.children(".left-column").width() + optionElement.find(".middle-column label").textWidth() + 30 + 2;
+
+      // need to temporarily extend the containing row element, to make sure the select is not shrunk from previous ad-hoc-panel width
+      optionElement.width(1000);
+      var baseWidth = optionElement.find(".formControl").outerWidth(true) + optionElement.find("label").textWidth() + 10 + 2;
+      optionElement.css("width", "100%")
+
       return baseWidth + (model.optionsVisibility == 2 ? geometry.linkToTabWidth : 0);
    }
 

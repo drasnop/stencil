@@ -234,10 +234,15 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       if (!model.fullPanel())
          return;
 
+      //  add blue highlight to the option checkbox / select
+      $("#" + option.id).find(".formControl").addClass("blue-highlighted")
+
+      // add blue highlight on the hooks and clusters containing this option
       $(".highlightable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).addClass("blue-highlighted")
 
+      // log
       if (experiment.sequencer.trial)
          experiment.sequencer.trial.reverseHighlighted.pushStamped({
             "option_ID": option.id
@@ -249,6 +254,10 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       if (!model.fullPanel())
          return;
 
+      //  add blue highlight to the option checkbox / select
+      $("#" + option.id).find(".formControl").removeClass("blue-highlighted")
+
+      // add blue highlight on the hooks and clusters containing this option
       $(".highlightable").filter(function() {
          return $(this).data("options").indexOf(option) >= 0;
       }).removeClass("blue-highlighted")
