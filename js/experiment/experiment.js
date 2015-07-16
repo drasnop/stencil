@@ -14,7 +14,7 @@ var experiment = (function() {
       // which set of options to use: 0 or 1
       "partition": "",
       // bonus reward when trial done correctly
-      "bonusTrial": 0.1,
+      "bonusTrial": 0.05,
       // list of options that users will be ask to change during the experiment
       "optionsSequence": [],
       // list of values that the options should be set at during the experiment

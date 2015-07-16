@@ -12,10 +12,13 @@ tutorial.steps = [
    "Add another todo item: \"call mom\"",
    "Click on the star icon to mark it as important.",
    "In the left sidebar, there is an item called \"Starred\". This is an <b>intelligent filter</b>, that shows all the todos due in the coming week. Check that \"call mom\" appears there.",
-   "To create another regular todo item, you need to go back to the Inbox. Click on \"Inbox\" in the left sidebar.",
+   "You can also create your own lists. Click on the the \"+\" button at the bottom left of the screen, and create a list called \"TV shows\"",
+   "Go back to the Inbox, by clicking on \"Inbox\" in the left sidebar.",
    "Add a third todo item: \"watch a good movie\"",
    "Double-click on this todo item, and change its due date to this Saturday.",
-   "Let's say you have bought the milk. Tick the checkbox to mark the corresponding todo item as complete (= check it off)",
+   "Click on the bell-shaped icon at the top left of the screen. This is were notifications (or \"Activities\") will be shown.",
+   "Click on the magnifier icon next to it, and search for \"movie\". Your todo item \"watch a good movie\" should appear.",
+   "Now let's say you have bought the milk. Go back to the Inbox, and tick the appropriate checkbox to mark this todo item as complete (= check it off)",
    "Below the list of todo items, there is a button \"1 completed item\". Click on it to reveal the todo you've just checked off.",
    "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom."
 ]
@@ -103,17 +106,17 @@ tutorial.trialSuccess = function() {
             title: "call mom"
          })[0].get("starred");
 
-      case 8:
+      case 9:
          return sync.collections.tasks.where({
             title: "watch a good movie"
          }).length > 0;
 
-      case 10:
+      case 13:
          return sync.collections.tasks.where({
             title: "buy milk"
          })[0].get("completed");
 
-      case 12:
+      case 15:
          return sync.collections.tasks.where({
             title: "buy milk"
          }).length === 0;
