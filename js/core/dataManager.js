@@ -234,22 +234,8 @@ dataManager.initializeAppOptionsFromFile = function() {
 
 // I am using booleans, but Wunderlist stores these options as strings!
 dataManager.updateOption = function(option, value) {
-   switch (value) {
-      case "true":
-         if (option.value !== true)
-            console.log("- updating:", option.id, true)
-         option.value = true;
-         break;
-      case "false":
-         if (option.value !== false)
-            console.log("- updating:", option.id, false)
-         option.value = false;
-         break;
-      default:
-         if (option.value !== value)
-            console.log("- updating:", option.id, value)
-         option.value = value;
-   }
+   option.value = dataManager.formatValueForModel(value);
+   console.log("- updating:", option.id, option.value)
 }
 
 // update a Wunderlist option to match its correct value, calling an update of hooks and clusters if needed
@@ -279,4 +265,16 @@ dataManager.formatValueForWunderlist = function(value) {
       return value ? "true" : "false";
    else
       return value;
+}
+
+// Convert back strings to booleans
+dataManager.formatValueForModel = function(value) {
+   switch (value) {
+      case "true":
+         return true;
+      case "false":
+         return false;
+      default:
+         return value;
+   }
 }

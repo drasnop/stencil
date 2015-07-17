@@ -195,7 +195,7 @@ function Trial(number) {
       var self = this;
       var change = {
          "option_ID": option.id,
-         "oldValue": oldValue,
+         "oldValue": dataManager.formatValueForModel(oldValue),
          "newValue": option.value,
          "correct": correct,
          "firstTime": firstTimeChanged(self, option),
