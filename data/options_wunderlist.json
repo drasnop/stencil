@@ -139,8 +139,8 @@
          "name": "CTRL + 0",
          "label": "CTRL + 0"
       }, {
-         "name": "CTRL + M",
-         "label": "CTRL + M"
+         "name": "SHIFT + N",
+         "label": "SHIFT + N"
       }]
    },
    "shortcut_add_new_list": {
@@ -178,8 +178,8 @@
          "name": "CTRL + S",
          "label": "CTRL + S"
       }, {
-         "name": "SHIFT + S",
-         "label": "SHIFT + S"
+         "name": "CTRL + M",
+         "label": "CTRL + M"
       }]
    },
    "shortcut_select_all_tasks": {
@@ -204,8 +204,8 @@
          "name": "CTRL + BACKSPACE",
          "label": "CTRL + BACKSPACE"
       }, {
-         "name": "SHIFT + BACKSPACE",
-         "label": "SHIFT + BACKSPACE"
+         "name": "SHIFT + D",
+         "label": "SHIFT + D"
       }]
    },
    "shortcut_copy_tasks": {
@@ -217,8 +217,8 @@
          "name": "CTRL + C",
          "label": "CTRL + C"
       }, {
-         "name": "SHIFT + C",
-         "label": "SHIFT + C"
+         "name": "SHIFT + M",
+         "label": "SHIFT + M"
       }]
    },
    "shortcut_paste_tasks": {
@@ -230,8 +230,8 @@
          "name": "CTRL + V",
          "label": "CTRL + V"
       }, {
-         "name": "SHIFT + V",
-         "label": "SHIFT + V"
+         "name": "SHIFT + P",
+         "label": "SHIFT + P"
       }]
    },
    "shortcut_goto_search": {
@@ -298,8 +298,8 @@
          "name": "CTRL + I",
          "label": "CTRL + I"
       }, {
-         "name": "SHIFT + I",
-         "label": "SHIFT + I"
+         "name": "SHIFT + B",
+         "label": "SHIFT + B"
       }],
       "more": true
    },
@@ -312,8 +312,8 @@
          "name": "CTRL + 1",
          "label": "CTRL + 1"
       }, {
-         "name": "SHIFT + 1",
-         "label": "SHIFT + 1"
+         "name": "SHIFT + A",
+         "label": "SHIFT + A"
       }],
       "more": true
    },
@@ -326,8 +326,8 @@
          "name": "CTRL + 2",
          "label": "CTRL + 2"
       }, {
-         "name": "SHIFT + 2",
-         "label": "SHIFT + 2"
+         "name": "SHIFT + S",
+         "label": "SHIFT + S"
       }],
       "more": true
    },
@@ -340,8 +340,8 @@
          "name": "CTRL + 3",
          "label": "CTRL + 3"
       }, {
-         "name": "SHIFT + 3",
-         "label": "SHIFT + 3"
+         "name": "SHIFT + T",
+         "label": "SHIFT + T"
       }],
       "more": true
    },
@@ -354,8 +354,8 @@
          "name": "CTRL + 4",
          "label": "CTRL + 4"
       }, {
-         "name": "SHIFT + 4",
-         "label": "SHIFT + 4"
+         "name": "SHIFT + W",
+         "label": "SHIFT + W"
       }],
       "more": true
    },
@@ -368,8 +368,8 @@
          "name": "CTRL + 5",
          "label": "CTRL + 5"
       }, {
-         "name": "SHIFT + 5",
-         "label": "SHIFT + 5"
+         "name": "SHIFT + L",
+         "label": "SHIFT + L"
       }],
       "more": true
    },
@@ -382,8 +382,8 @@
          "name": "CTRL + 6",
          "label": "CTRL + 6"
       }, {
-         "name": "SHIFT + 6",
-         "label": "SHIFT + 6"
+         "name": "SHIFT + C",
+         "label": "SHIFT + C"
       }],
       "more": true
    },
