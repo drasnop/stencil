@@ -163,11 +163,24 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       var clusterExpanded = hooksManager.isClusterExpanded(option);
       var hadVisibleHook = option.hasVisibleHook();
 
+      // 1. find all the hooks mapped to this option
+      var hooks = $(".hook").filter(function() {
+         return $(this).data("options").indexOf(option) >= 0;
+      })
+
+      // 2. test if at least one is not a ghost
+      var allGhosts = true;
+      hooks.each(function() {
+         if (!$(this).hasClass("ghost"))
+            allGhosts = false;
+      })
+      var ghost = allGhosts;
+
       dataManager.updateAppOption(option.id, option.value, true);
 
       // log
       if (experiment.sequencer.trial)
-         experiment.sequencer.trial.logValueChange(option, oldValue, hadVisibleHook, clusterExpanded);
+         experiment.sequencer.trial.logValueChange(option, oldValue, hadVisibleHook, clusterExpanded, ghost);
    }
 
 

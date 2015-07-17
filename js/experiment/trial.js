@@ -185,7 +185,7 @@ function Trial(number) {
    /* helpers */
 
    // need to get hadVisibleHook and clusterExpanded BEFORE the dataManager updates the value of the option, obviously
-   this.logValueChange = function(option, oldValue, hadVisibleHook, clusterExpanded) {
+   this.logValueChange = function(option, oldValue, hadVisibleHook, clusterExpanded, ghost) {
       var time = performance.now();
 
       // if the user has changed the correct option to the correct value
@@ -210,6 +210,8 @@ function Trial(number) {
          change.hadVisibleHook = hadVisibleHook;
          change.hideable = option.hideable;
          change.clusterExpanded = clusterExpanded;
+         change.ghost = ghost;
+         // set ghost = true if associated hook is "hidden" (although it might be revealed)
       }
 
       /*
