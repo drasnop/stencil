@@ -18,7 +18,7 @@ var logger = (function() {
          if (!snapshot.hasChild(experiment.email)) {
             console.log("Failure! MTurk firebase doesn't contain", experiment.email)
             callbackError(messageEmailUnknown);
-         } else if (snapshot.child(experiment.email).child('/trials').numChildren() >= 21) {
+         } else if (snapshot.child(experiment.email).child('/trials').numChildren() >= 41) {
             console.log("Failure! User " + experiment.email + " has already completed the experiment")
             callbackError(messageExperimentAlreadyCompleted);
          } else {
@@ -60,12 +60,6 @@ var logger = (function() {
       // make sure the trials list is empty
       logger.firebase.child("/tutorial").set(null)
       logger.firebase.child("/trials").set(null);
-
-      // save the full set of options that were used in this experiment, just to be sure
-      logger.firebase.child("/options").set(logger.compressAllUserAccessibleOptions());
-
-      // save the full set of tabs that were used in this experiment, just to be sure (+used in questionnaire)
-      logger.firebase.child("/tabs").set(logger.compressAllTabs());
 
       // save the full options and values sequences, just to be sure
       logger.firebase.child("/sequences").set({
