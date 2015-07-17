@@ -306,18 +306,24 @@ var hooksManager = (function() {
 
    function positionCluster(cluster) {
 
-      // compute barycenter
+      // compute barycenter, based on future values positions of the ghosts
       cluster.x = Math.mean(cluster.ghosts.map(function(ghost) {
          return parseInt(ghost.data("position").left) + parseInt(ghost.data("position").width) / 2;
-      }))
-      cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
-         return parseInt(ghost.data("position").top) + parseInt(ghost.data("position").height) / 2;
-      }))
+      }));
+      /*cluster.y = Math.mean(cluster.ghosts.map(function(ghost) {
+          return parseInt(ghost.data("position").top) + parseInt(ghost.data("position").height) / 2;
+       }));*/
 
-      // hack: move cluster icon away from visible anchors, so that it appears more clearly
+      // hack for Wunderlist: move cluster icon at the bottom of the list of Smartlists, for better visibility
+      var hooksToConsider = $(".sidebarItem.hook");
       if (!cluster.showGhosts)
-         cluster.y += 20;
+         hooksToConsider = hooksToConsider.filter(":not(.ghost)");
 
+      var maxY = 0;
+      hooksToConsider.each(function() {
+         maxY = Math.max(maxY, parseInt($(this).data("position").top));
+      })
+      cluster.y = maxY + $(".sidebarItem.hook").last().height();
 
       var icon = cluster.icon;
       icon.css({
