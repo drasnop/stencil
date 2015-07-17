@@ -71,11 +71,11 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
    }
 
    function animatePanelExpansionWhenReady(oldWidth, oldHeight) {
-      if (geometry.getPanelWidth() != oldWidth && geometry.getPanelHeight() != oldHeight)
+      if (geometry.getPanelWidth() !== oldWidth && geometry.getPanelHeight() !== oldHeight)
          animatePanelExpansion();
       else {
-         alert("have to wait for animatePanelExpansion")
-         setTimeout(animatePanelExpansionWhenReady, 10);
+         console.log("have to wait for animatePanelExpansion")
+         setTimeout(animatePanelExpansionWhenReady, 10, oldWidth, oldHeight);
       }
    }
 
