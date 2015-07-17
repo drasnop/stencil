@@ -13,7 +13,10 @@ var wunderlistListeners = (function() {
 
       console.log("Initializing Wunderlist listeners...")
 
-      // listener for each settings change in Wunderlist
+      /* 
+        listener for each settings change in Wunderlist
+      */
+
       model.options.forEachUserAccessible(function(option) {
          sync.collections.settings.where({
             key: option.id
@@ -42,86 +45,81 @@ var wunderlistListeners = (function() {
          })
       });
 
-      // listener for tabs in preferences panel
-      window.location.watch("hash", function(prop, oldval, newval) {
-         return wunderlistListeners.processWunderlistTab(newval);
-      })
+      /*
+        listener for tabs in preferences panel
+      */
+
+      // log open/close preferences events, visited tab and instrument showMoreShortcuts button
+      window.onhashchange = function() {
+         var timestamp = performance.now();
+
+
+         /* log preferences open/close events */
+
+         // if this is not the preferences panel
+         if (location.hash.indexOf("preferences") < 0) {
+
+            // if preferences panel has just been closed, log it
+            if (preferencesOpen) {
+
+               // log this event only if it was caused by a user action
+               // (this will not happen when closing panel to refresh it because trial has already been saved)
+               if (experiment.sequencer.trial) {
+                  experiment.sequencer.trial.preferencesPanel.pushStamped({
+                     "action": "close"
+                  }, timestamp)
+               }
+            }
+
+            preferencesOpen = false;
+            return;
+         }
+
+         // if the preferences panel is shown
+         if (location.hash.indexOf("preferences") >= 0) {
+
+            // if preferences panel has just been opened, log it
+            if (!preferencesOpen) {
+
+               // log this event only if it was caused by a user action
+               // (this should not happen when closing/opening panel to refresh it)
+               if (experiment.sequencer.trial && experiment.sequencer.trial.time.start) {
+                  experiment.sequencer.trial.preferencesPanel.pushStamped({
+                     "action": "open"
+                  }, timestamp)
+               }
+            }
+
+            preferencesOpen = true;
+
+
+            /* log visited tab */
+
+            // detect which tab is currently active
+            var tab = wunderlistListeners.findActiveTab();
+
+            // log visited tab
+            // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
+            if (experiment.sequencer.trial && experiment.sequencer.trial.time.start) {
+               experiment.sequencer.trial.visitedTabs.pushStamped({
+                  "tab": logger.flattenTab(tab)
+               }, timestamp)
+            }
+
+
+            /* instrument showMore button */
+
+            // enable logging of showMoreOptions
+            if (tab.name == "Shortcuts")
+               wunderlistListeners.instrumentShowMoreButtonWhenReady();
+         }
+      }
    }
 
 
-   // log open/close preferences events, visited tab and instrument showMoreShortcuts button
-   wunderlistListeners.processWunderlistTab = function(locationHash) {
-      var timestamp = performance.now();
-
-      /* log preferences open/close events */
-
-      // if this is not the preferences panel
-      if (locationHash.indexOf("preferences") < 0) {
-
-         // if preferences panel has just been closed, log it
-         if (preferencesOpen) {
-
-            // log this event only if it was caused by a user action
-            // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
-            if (experiment.sequencer.trial) {
-               experiment.sequencer.trial.preferencesPanel.pushStamped({
-                  "action": "close"
-               }, timestamp)
-            }
-         }
-
-         preferencesOpen = false;
-
-         // must return locationHash, since this watcher function is called instead of the setter
-         return locationHash;
-      }
-
-      // if the preferences panel is shown
-      if (locationHash.indexOf("preferences") >= 0) {
-
-         // if preferences panel has just been opened, log it
-         if (!preferencesOpen) {
-
-            // log this event only if it was caused by a user action
-            // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
-            if (experiment.sequencer.trial) {
-               experiment.sequencer.trial.preferencesPanel.pushStamped({
-                  "action": "open"
-               }, timestamp)
-            }
-         }
-
-         preferencesOpen = true;
-      }
-
-
-      /* log visited tab */
-
-      // detect which tab is currently active
-      var tab = wunderlistListeners.findActiveTab(locationHash);
-
-      // log visited tab
-      // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
-      if (experiment.sequencer.trial) {
-         experiment.sequencer.trial.visitedTabs.pushStamped({
-            "tab": logger.flattenTab(tab)
-         }, timestamp)
-      }
-
-
-      /* instrument showMore button */
-
-      // enable logging of showMoreOptions
-      if (tab.name == "Shortcuts")
-         wunderlistListeners.instrumentShowMoreButtonWhenReady();
-
-      // must return locationHash, since this watcher function is called instead of the setter
-      return locationHash;
-   }
-
-   // detect which tab is currently active (call with window.location.hash if needed)
-   wunderlistListeners.findActiveTab = function(locationHash) {
-      var temp = locationHash.split('/');
+   // detect which tab is currently active
+   wunderlistListeners.findActiveTab = function() {
+      var temp = location.hash.split('/');
       var shortHash = temp[temp.length - 1];
 
       for (var i in model.tabs) {

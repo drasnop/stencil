@@ -81,18 +81,20 @@ var TrialsSequencer = (function() {
    }
 
    TrialsSequencer.prototype.startTrial = function() {
+      var timestamp = performance.now();
+
       // ensure there is always at least one visited tab for Wunderlist
       if (experiment.condition === 0) {
          this.trial.visitedTabs.pushStamped({
             "tab": logger.flattenTab(wunderlistListeners.findActiveTab())
-         })
+         }, timestamp)
       }
 
       // show the hooks / settings panel
       $(".hidden-settings-style").remove();
 
       // starts measuring duration
-      this.trial.time.start = performance.now();
+      this.trial.time.start = timestamp;
 
       // set timer for timeout
       this.timeoutTimer = setTimeout(this.onTimeout.bind(this), this.maxTrialDuration);
