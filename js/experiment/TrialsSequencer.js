@@ -124,8 +124,9 @@ var TrialsSequencer = (function() {
       }
 
       // log
-      experiment.trials.push(this.trial);
-      logger.saveTrial();
+      var loggable = this.trial.loggable();
+      experiment.trials.push(loggable);
+      logger.saveTrial(loggable);
 
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
@@ -192,9 +193,9 @@ var TrialsSequencer = (function() {
    }
 
    TrialsSequencer.prototype.getCurrentReward = function() {
-      return experiment.trials.reduce(function(sum, trial) {
-         return sum += experiment.bonusTrial * trial.success;
-      }, 0)
+      return experiment.trials.filter(function(trial) {
+         return trial.number > 0 && trial.success;
+      }).length * experiment.bonusTrial;
    }
 
    TrialsSequencer.prototype.notEndOfSequence = function() {
