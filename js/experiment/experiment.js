@@ -117,7 +117,7 @@ var experiment = (function() {
       // this is a priori useless, and detrimental because we are checking if(experiment.sequencer.trial) for logging
       // experiment.sequencer = tutorial;
 
-      // 4b: now that "experiment" exists, replace the end callback of tutorial (meh workaround)
+      // now that "experiment" exists, replace the end callback of tutorial (meh workaround)
       tutorial.endCallback = experiment.tutorialEnded;
 
       // popup: setup complete, start tutorial
@@ -180,12 +180,14 @@ var experiment = (function() {
 
       // replace the reward computation function for the practice trial sequencer (no reward)
       experiment.sequencer.getCurrentReward = function() {
-            return -1;
+         return -1;
+      };
+      // replace the trial performed test
+      if (experiment.condition > 0) {
+         experiment.sequencer.miniTutorialCompleted = false;
+         experiment.sequencer.trialNotPerformed = function() {
+            return !this.miniTutorialCompleted;
          }
-         // replace the reward computation function for the practice trial sequencer (no reward)
-      experiment.sequencer.miniTutorialCompleted = false;
-      experiment.sequencer.trialNotPerformed = function() {
-         return !this.miniTutorialCompleted;
       }
 
       model.modal.header = "Practice trial";
@@ -204,10 +206,12 @@ var experiment = (function() {
    experiment.practiceTrialEnded = function() {
 
       // just to be sure, clean up again the explanatory popups
-      clearTimeout(correctHookNotSelectedTimer);
-      model.unwatch("selectedOptions");
-      model.options["smartlist_visibility_starred"].unwatch("value");
-      experiment.sequencer.trial.cluster.unwatch("length");
+      if (experiment.condition > 0) {
+         clearTimeout(correctHookNotSelectedTimer);
+         model.unwatch("selectedOptions");
+         model.options["smartlist_visibility_starred"].unwatch("value");
+         experiment.sequencer.trial.cluster.unwatch("length");
+      }
 
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";

@@ -72,7 +72,7 @@ var TrialsSequencer = (function() {
          // once the .trial has been initialized, we can start using it
          this.trial.time.instructionsShown = performance.now();
 
-         if (this.name == "practiceTrial")
+         if (this.name == "practiceTrial" && experiment.condition > 0)
             tutorial.addExplanatoryPopups();
 
          // set how the options should look like if this trial was perfectly executed
@@ -84,7 +84,7 @@ var TrialsSequencer = (function() {
       // ensure there is always at least one visited tab for Wunderlist
       if (experiment.condition === 0) {
          this.trial.visitedTabs.pushStamped({
-            "tab": logger.flattenTab(wunderlistListeners.findActiveTab(window.location.hash))
+            "tab": logger.flattenTab(wunderlistListeners.findActiveTab())
          })
       }
 
