@@ -554,6 +554,13 @@ html #wunderlist-base .main-interface.detail-visible #detail.animated {
 }
 
 
+/* align the star non-starred svg icon inside its parent hook */
+
+.hook.star-wrapper .starred {
+    padding: 0 !important;
+}
+
+
 /* button.highlighted{
    background-color: rgb(39, 160, 216) !important;
    background-image: none !important;
