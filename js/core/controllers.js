@@ -71,6 +71,7 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
    }
 
    function animatePanelExpansionWhenReady(oldWidth, oldHeight) {
+      console.log(geometry.getPanelWidth(), oldWidth, geometry.getPanelHeight(), oldHeight)
       if (geometry.getPanelWidth() !== oldWidth && geometry.getPanelHeight() !== oldHeight)
          animatePanelExpansion();
       else {
