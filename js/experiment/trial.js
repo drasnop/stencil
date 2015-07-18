@@ -254,8 +254,16 @@ function Trial(number) {
          change.selectBetween = numVisibleOptionsInTab(option.tab);
       } else {
          // in a minimal panel, selection occurs after clicking on a hook
-         change.selectionDuration = (time - this.selectedHooks[this.selectedHooks.length - 1].timestamp) / 1000;
-         change.selectBetween = model.selectedOptions.length;
+         if (this.selectedHooks.length > 0) {
+            change.selectionDuration = (time - this.selectedHooks[this.selectedHooks.length - 1].timestamp) / 1000;
+            change.selectBetween = model.selectedOptions.length;
+         }
+      }
+
+      // workaround: replaced undefined by "undefined", to avoid Firebase error
+      for (var prop in change) {
+         if (typeof change[prop] === "undefined")
+            change[prop] = "undefined";
       }
 
       // store all of these as one event
