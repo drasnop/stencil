@@ -208,6 +208,7 @@ var experiment = (function() {
       // just to be sure, clean up again the explanatory popups
       if (experiment.condition > 0) {
          clearTimeout(correctHookNotSelectedTimer);
+         clearTimeout(clusterExpandedTimer);
          model.unwatch("selectedOptions");
          model.options["smartlist_visibility_starred"].unwatch("value");
          experiment.sequencer.trial.cluster.unwatch("length");

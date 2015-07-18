@@ -177,7 +177,11 @@ tutorial.addExplanatoryPopups = function() {
          if (newval == "hidden") {
             var scope = angular.element($("#ad-hoc-panel")).scope();
             scope.$apply(scope.closePanel);
-            alert("Well done! The \"Starred\" smart filter is now hidden.\nBut it is still accessible! Reveal it by clicking on the blue chevron icon (\"❯\" downwards).")
+            alert("Well done! The \"Starred\" smart filter is now hidden.\nBut it is still accessible! Reveal it by clicking on the blue chevron icon (\"❯\" downwards) at the bottom of the list of filters.")
+
+            clusterExpandedTimer = setTimeout(function() {
+               alert("Hint: Click on the blue chevron icon (\"❯\" downwards) at the bottom of the list of filters, to reveal the hidden \"Starred\" smart filter.")
+            }, 20 * 1000)
          } else {
             alert("Sorry, this isn't the correct value. You have to set it to \"hidden\".")
          }
@@ -190,6 +194,10 @@ tutorial.addExplanatoryPopups = function() {
       // small timeout to wait for the hiding animation to complete
       setTimeout(function() {
          if (model.options["smartlist_visibility_starred"].value == "hidden") {
+
+            // since the cluster has been appropriately expanded, clear the timeout
+            clearTimeout(clusterExpandedTimer);
+
             alert("Good job! That's how you can change a setting even if its corresponding item is hidden.\nOk, click on the \"Next\" button to move on.")
 
             experiment.sequencer.miniTutorialCompleted = true;
