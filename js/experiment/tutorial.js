@@ -15,7 +15,7 @@ tutorial.steps = [
    "You can also create your own lists. Click on the the \"+\" button at the bottom left of the screen, and create a list called \"TV shows\"",
    "Go back to the Inbox, by clicking on \"Inbox\" in the left sidebar.",
    "Add a third todo item: \"watch a good movie\"",
-   "Double-click on this todo item, and change its due date to this Saturday.",
+   "Double-click on this todo item, and change its due date to this Sunday.",
    "Click on the bell-shaped icon at the top left of the screen. This is were notifications (or \"Activities\") will be shown.",
    "Click on the magnifier icon next to it, and search for \"movie\". Your todo item \"watch a good movie\" should appear.",
    "Now let's say you have bought the milk. Go back to the Inbox, and tick the appropriate checkbox to mark this todo item as complete (= check it off)",
@@ -137,7 +137,7 @@ tutorial.notEndOfSequence = function() {
 tutorial.addExplanatoryPopups = function() {
 
    correctHookNotSelectedTimer = setTimeout(function() {
-      alert("Hint: Left-click on the \"Assigned to me\" smart filter, in the left sidebar, to bring up the settings associated with it.")
+      alert("Hint: Left-click on the \"Starred\" smart filter, in the left sidebar, to bring up the settings associated with it.")
    }, 30 * 1000)
 
    // watcher for correct hook selected
