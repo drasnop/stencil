@@ -4,7 +4,7 @@
 
 var TrialsSequencer = (function() {
 
-   function TrialsSequencer(name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, startIndex, endIndex, endCallback) {
+   function TrialsSequencer(name, trialPauseSuccess, trialPauseFailure, timeoutMinutes, errorMessage, forceRetry, trialConstructor, startIndex, endIndex, endCallback) {
 
       // which indices in the general target options sequence this sequencer covers
       this.startIndex = startIndex;
@@ -14,8 +14,8 @@ var TrialsSequencer = (function() {
       this.optionsSequence = experiment.optionsSequence.slice(startIndex, endIndex + 1);
       this.valuesSequence = experiment.valuesSequence.slice(startIndex, endIndex + 1);
 
-      // timeout trials after 2 min
-      this.maxTrialDuration = 2 * 60 * 1000;
+      // timeout trials after a few minutes
+      this.maxTrialDuration = 60 * 1000 * timeoutMinutes;
 
       Sequencer.call(this, name, trialPauseSuccess, trialPauseFailure, errorMessage, forceRetry, trialConstructor, endCallback)
    }

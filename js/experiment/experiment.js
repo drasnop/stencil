@@ -176,7 +176,7 @@ var experiment = (function() {
    experiment.showPracticeTrialInstructions = function() {
 
       // construct a new TrialsSequencer object for the practice trial
-      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 2000, "Wrong selection", false, Trial, 0, 0, experiment.practiceTrialEnded);
+      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 2000, 4, "Error :(", false, Trial, 0, 0, experiment.practiceTrialEnded);
 
       // replace the reward computation function for the practice trial sequencer (no reward)
       experiment.sequencer.getCurrentReward = function() {
@@ -233,7 +233,7 @@ var experiment = (function() {
    experiment.showExperimentTrialsInstructions = function() {
 
       // construct a new Trial sequencer
-      experiment.sequencer = new TrialsSequencer("experimentTrials1", 800, 1500, "Wrong setting", false, Trial, 1, 20, experiment.firstBlockEnded);
+      experiment.sequencer = new TrialsSequencer("experimentTrials1", 800, 1500, 2, "Error :(", false, Trial, 1, 20, experiment.firstBlockEnded);
 
       // store the current state of the options, for the second block
       // the use of the logger method is coincidential: it simply serves our purpose here well
@@ -274,7 +274,7 @@ var experiment = (function() {
    experiment.showSecondBlockInstructions = function() {
 
       // construct a new Trial sequencer
-      experiment.sequencer = new TrialsSequencer("experimentTrials2", 500, 1500, "Wrong setting", false, Trial, 21, 40, function() {
+      experiment.sequencer = new TrialsSequencer("experimentTrials2", 500, 1500, 2, "Error :(", false, Trial, 21, 40, function() {
          // generate recognition questionnaire from the selection sequence, then callback to continue experiment
          sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
       });
