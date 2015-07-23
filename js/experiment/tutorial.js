@@ -151,7 +151,7 @@ tutorial.addExplanatoryPopups = function() {
       setTimeout(function() {
 
          // check if this is the correct hook
-         if (newval.indexOf(experiment.sequencer.trial.targetOption) < 0) {
+         if (newval.indexOf(experiment.sequencer.trial.target.option) < 0) {
             alert("The setting you are looking for is not associated with this item. Try to click on another one!")
          } else {
 

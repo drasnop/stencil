@@ -163,19 +163,7 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       // store the old values before updating the underlying option, hence updating hooks and clusters
       var clusterExpanded = hooksManager.isClusterExpanded(option);
       var hadVisibleHook = option.hasVisibleHook();
-
-      // 1. find all the hooks mapped to this option
-      var hooks = $(".hook").filter(function() {
-         return $(this).data("options").indexOf(option) >= 0;
-      })
-
-      // 2. test if at least one is not a ghost
-      var allGhosts = true;
-      hooks.each(function() {
-         if (!$(this).hasClass("ghost"))
-            allGhosts = false;
-      })
-      var ghost = allGhosts;
+      var ghost = option.ghost();
 
       dataManager.updateAppOption(option.id, option.value, true);
 

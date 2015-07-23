@@ -149,7 +149,7 @@ var sequenceGenerator = (function() {
       // 0: TESTING ONLY
       /*   for (var j = 0; j < 10; j++) {
             experiment.trials.push({
-               "targetOption": experiment.optionsSequence[j],
+               "target": {"option": experiment.optionsSequence[j]},
                "success": Math.random() < 0.5
             })
          }
@@ -157,7 +157,7 @@ var sequenceGenerator = (function() {
 
       // 1: Generate option candidates from the target options of all the experiment trials
       var options = experiment.trials.map(function(trial) {
-         var option = $.extend({}, model.options[trial.targetOption]);
+         var option = $.extend({}, model.options[trial.target.option]);
          option.successfullySelected = trial.success;
          return option;
       })

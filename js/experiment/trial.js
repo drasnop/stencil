@@ -11,11 +11,36 @@ function Trial(number) {
    // timeout
    this.timeout = false;
 
-   // target option (Object) (compressed to avoid infinite recursion when logging)
-   this.targetOption = experiment.sequencer.optionsSequence[this.number];
-   // value that the target opion should be set at (boolean or string)
-   this.targetValue = experiment.sequencer.valuesSequence[this.number];
+   /* target */
 
+   var targetOption = experiment.sequencer.optionsSequence[number];
+   this.target = {
+      // target option (Object) (compressed to avoid infinite recursion when logging)
+      "option": targetOption,
+      // value that the target opion should be set at (boolean or string)
+      "value": experiment.sequencer.valuesSequence[number],
+
+      // if there is at least one visual element in the interface that 
+      "hasHookOrCluster": targetOption.hasHookOrCluster(),
+      // whether the target option is hideable, i.e. all its hooks could be hidden
+      "hideable": targetOption.hideable,
+      // whether the target option is associated only with "hidden" hooks (true if ghost hook expanded)
+      "ghost": targetOption.ghost(),
+      // whether the option is actually visible (false if ghost hook not expanded)
+      // NB: here, if ghost is true, hasVisibleHook will always be false, because we collapse the cluster for each trial
+      "hasVisibleHook": targetOption.hasVisibleHook(),
+   }
+
+   this.target.loggable = function() {
+      var loggable = {};
+      for (var key in this) {
+         if (key === "option")
+            loggable[key] = this[key].id;
+         else if (typeof this[key] !== typeof Function)
+            loggable[key] = this[key];
+      }
+      return loggable;
+   }
 
    /*    logging     */
 
@@ -142,13 +167,13 @@ function Trial(number) {
    /* smart accessors */
 
    this.successful = function() {
-      return model.options[this.targetOption.id].value === this.targetValue;
+      return model.options[this.target.option.id].value === this.target.value;
    }
 
    this.correctHookHasBeenSelected = function() {
       for (var i in this.selectedHooks) {
          for (var j in this.selectedHooks[i].options_IDs) {
-            if (this.selectedHooks[i].options_IDs[j] == this.targetOption.id)
+            if (this.selectedHooks[i].options_IDs[j] == this.target.option.id)
                return true;
          }
       }
@@ -167,8 +192,6 @@ function Trial(number) {
             console.log("Logging error: " + prop + " is undefined")
          else if (this[prop] === null)
             loggable[prop] = null;
-         else if (prop === "targetOption")
-            loggable[prop] = this[prop].id;
          else if (prop === "number")
             loggable[prop] = experiment.sequencer.getExternalTrialNumber();
          else if (typeof this[prop].loggable === typeof Function)
@@ -189,7 +212,7 @@ function Trial(number) {
       var time = performance.now();
 
       // if the user has changed the correct option to the correct value
-      var correct = (this.targetOption.id === option.id && this.targetValue === option.value);
+      var correct = (this.target.option.id === option.id && this.target.value === option.value);
 
       // save multiple interesting information about this change, for future analysis
       var self = this;

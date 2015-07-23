@@ -76,7 +76,7 @@ var TrialsSequencer = (function() {
             tutorial.addExplanatoryPopups();
 
          // set how the options should look like if this trial was perfectly executed
-         experiment.referenceOptions[this.trial.targetOption.id].value = this.trial.targetValue;
+         experiment.referenceOptions[this.trial.target.option.id].value = this.trial.target.value;
       }).bind(this));
    }
 
@@ -148,12 +148,12 @@ var TrialsSequencer = (function() {
    }
 
    TrialsSequencer.prototype.getInstructions = function() {
-      var option = this.trial.targetOption,
-         value = this.trial.targetValue;
+      var option = this.trial.target.option,
+         value = this.trial.target.value;
 
       // Check for explicit instructions for the "false" or values[1] case
       if (option.instructionsReverse) {
-         // we must retrieve the label of the value, since we're storing only the string name of targetValues
+         // we must retrieve the label of the value, since we're storing only the string name of target values
          if ((typeof value === "boolean" && value) || (typeof value !== "boolean" && getIndexOfValueInOption(option, value) === 0))
             return option.instructions;
          else
