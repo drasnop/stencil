@@ -265,9 +265,11 @@ z-indexes
 
 #tabs .tab {
     display: inline-block;
+    box-sizing: border-box;
     padding: 8px 8px;
     font-size: 15px;
     cursor: pointer;
+    height: 36px;
     margin-top: 8px;
     margin-left: 1px;
     margin-right: 4px;
@@ -283,9 +285,10 @@ z-indexes
 
 #tabs .tab.active {
     background-color: white;
+    height: 39px;
+    margin-top: 7px;
     margin-left: 0;
     margin-right: 3px;
-    margin-top: 7px;
     border-left: 2px solid #27A0D8;
     border-right: 2px solid #27A0D8;
     border-top: 2px solid #27A0D8;
