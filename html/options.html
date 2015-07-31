@@ -47,7 +47,7 @@
             ng-change="updateAppOption(option, '{{option.value}}')"
             ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
             </select>
-            <label ng-if="option.values">{{option.label}}</label>
+            <label ng-if="option.values" ng-class="{'ghostAnchor': option.showHide && option.value == 'hidden'}">{{option.label}}</label>
 
             <img ng-if="!parameters.experiment && option.hasHookOrCluster() && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/flashlight.png" class="preview"
                ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">

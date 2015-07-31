@@ -432,6 +432,10 @@ select {
     padding: 10px 0;
 }
 
+.row.option label.ghostAnchor {
+    opacity: .6;
+}
+
 .preview {
     opacity: 0.5;
     vertical-align: middle;
