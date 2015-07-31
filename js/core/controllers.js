@@ -56,10 +56,23 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
 
       // view.positionAllOptions has been called by activateTab, asking it to delay the entrance of non-highlighted options
 
-      // need the setTimeout trick to ensure the geometry computation happens AFTER the panel is expanded by Angular
-      $scope.$evalAsync(function() {
-         animatePanelExpansionWhenReady(oldWidth, oldHeight);
-      });
+      animatePanelExpansion();
+
+      // to be safe: if the size of the panel hasn't changed after a while, re-start its animation expansion
+      setTimeout(function() {
+         if ($("#ad-hoc-panel").width() == oldWidth || $("#ad-hoc-panel").height() == oldHeight) {
+            animatePanelExpansion();
+         }
+      }, 100, oldWidth, oldHeight);
+
+      // to be super safe: if the size of the panel isn't close to what it's supposed to be, brutaly set it to full width
+      setTimeout(function() {
+         if ($("#ad-hoc-panel").width() < 0.8 * geometry.getPanelWidth() || $("#ad-hoc-panel").height() < 0.8 * geometry.getPanelHeight()) {
+            $("#ad-hoc-panel").width(geometry.getPanelWidth());
+            $("#ad-hoc-panel").height(geometry.getPanelHeight());
+            onPanelExpanded();
+         }
+      }, parameters.panelSizeChangeDuration);
 
       // log
       if (experiment.sequencer.trial) {
@@ -70,31 +83,23 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       }
    }
 
-   function animatePanelExpansionWhenReady(oldWidth, oldHeight) {
-      console.log(geometry.getPanelWidth(), oldWidth, geometry.getPanelHeight(), oldHeight)
-      if (geometry.getPanelWidth() !== oldWidth && geometry.getPanelHeight() !== oldHeight)
-         animatePanelExpansion();
-      else {
-         console.log("have to wait for animatePanelExpansion")
-         setTimeout(animatePanelExpansionWhenReady, 10, oldWidth, oldHeight);
-      }
-   }
-
    // animate the expansion of the panel, and update its position at the end if needed
    function animatePanelExpansion() {
       $("#ad-hoc-panel").animate({
          "width": geometry.getPanelWidth() + 'px',
          "height": geometry.getPanelHeight() + 'px'
-      }, parameters.panelSizeChangeDuration, function() {
+      }, parameters.panelSizeChangeDuration, onPanelExpanded)
+   }
 
-         // if necessary, re-position panel to account for the larger size
-         positionPanel();
+   // callback after panel expansion animation completed
+   function onPanelExpanded() {
+      // if necessary, re-position panel to account for the larger size
+      positionPanel();
 
-         // if necessary, scroll down to bring first highlighted element into view
-         $("#options-list").animate({
-            scrollTop: computeScrollOffset()
-         }, 300)
-      })
+      // if necessary, scroll down to bring first highlighted element into view
+      $("#options-list").animate({
+         scrollTop: computeScrollOffset()
+      }, 300)
    }
 
    $rootScope.contractFullPanel = function() {
