@@ -32,7 +32,9 @@ var wunderlistListeners = (function() {
             dataManager.updateOption(option, newval);
 
             // log this values change, without caring for visibility of anchors
-            experiment.sequencer.trial.logValueChange(option, oldval);
+            if (experiment.sequencer.trial) {
+               experiment.sequencer.trial.logValueChange(option, oldval);
+            }
 
             // notify angular of this change, to unlock the "done" button
             // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
