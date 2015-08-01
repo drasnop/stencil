@@ -44,7 +44,6 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
    }
 
    $scope.expandToFullPanel = function(tab) {
-
       // stores the size of the panel before it is expanded
       var oldWidth = geometry.getPanelWidth();
       var oldHeight = geometry.getPanelHeight();
@@ -53,26 +52,22 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
 
       var newActiveTab = tab || computeActiveTab();
       $scope.activateTab(newActiveTab, true);
-
       // view.positionAllOptions has been called by activateTab, asking it to delay the entrance of non-highlighted options
 
       animatePanelExpansion();
 
-      // to be safe: if the size of the panel hasn't changed after a while, re-start its animation expansion
+      // to be safe: if the size of the panel hasn't changed after a while, force expansion
       setTimeout(function() {
-         if ($("#ad-hoc-panel").width() == oldWidth || $("#ad-hoc-panel").height() == oldHeight) {
-            animatePanelExpansion();
-         }
-      }, 100, oldWidth, oldHeight);
+         if ($("#ad-hoc-panel").width() == oldWidth || $("#ad-hoc-panel").height() == oldHeight)
+            forceExpandPanel();
+      }, 50);
 
-      // to be super safe: if the size of the panel isn't close to what it's supposed to be, brutaly set it to full width
+      // to be super safe: if the size of the panel isn't close to what it's supposed to be, force expansion
       setTimeout(function() {
-         if ($("#ad-hoc-panel").width() < 0.8 * geometry.getPanelWidth() || $("#ad-hoc-panel").height() < 0.8 * geometry.getPanelHeight()) {
-            $("#ad-hoc-panel").width(geometry.getPanelWidth());
-            $("#ad-hoc-panel").height(geometry.getPanelHeight());
-            onPanelExpanded();
-         }
+         if ($("#ad-hoc-panel").width() < 0.8 * geometry.getPanelWidth() || $("#ad-hoc-panel").height() < 0.8 * geometry.getPanelHeight())
+            forceExpandPanel();
       }, parameters.panelSizeChangeDuration);
+
 
       // log
       if (experiment.sequencer.trial) {
@@ -91,6 +86,13 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       }, parameters.panelSizeChangeDuration, onPanelExpanded)
    }
 
+   // skip the animation and set panel to full width
+   function forceExpandPanel() {
+      $("#ad-hoc-panel").width(geometry.getPanelWidth());
+      $("#ad-hoc-panel").height(geometry.getPanelHeight());
+      onPanelExpanded();
+   }
+
    // callback after panel expansion animation completed
    function onPanelExpanded() {
       // if necessary, re-position panel to account for the larger size
@@ -102,7 +104,12 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       }, 300)
    }
 
+
    $rootScope.contractFullPanel = function() {
+      // stores the size of the panel before it is expanded
+      var oldWidth = geometry.getPanelWidth();
+      var oldHeight = geometry.getPanelHeight();
+
       model.panelExpanded = false;
 
       // need this trick to make sure the non-selected options disappear immediately
@@ -110,16 +117,21 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       setTimeout(function() {
          // we must update the filtered index first, to compute the new size of the panel      
          view.positionAllOptions(true);
-
-         // animate the contraction of the panel, and update its position at the end if needed
-         $("#ad-hoc-panel").animate({
-            "width": geometry.getPanelWidth() + 'px',
-            "height": geometry.getPanelHeight() + 'px'
-         }, parameters.panelSizeChangeDuration, function() {
-            positionPanel();
-            angular.element($("#ad-hoc-panel")).scope().$apply();
-         })
+         animatePanelContraction();
       }, 0)
+
+
+      // to be safe: if the size of the panel hasn't changed after a while, force contraction
+      setTimeout(function() {
+         if ($("#ad-hoc-panel").width() == oldWidth || $("#ad-hoc-panel").height() == oldHeight)
+            forceContractPanel();
+      }, 50, oldWidth, oldHeight);
+
+      // to be super safe: if the size of the panel isn't close to what it's supposed to be, force contraction
+      setTimeout(function() {
+         if ($("#ad-hoc-panel").width() > 1.2 * geometry.getPanelWidth() || $("#ad-hoc-panel").height() > 1.2 * geometry.getPanelHeight())
+            forceContractPanel();
+      }, parameters.panelSizeChangeDuration);
 
 
       // log
@@ -130,6 +142,28 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
          });
       }
    }
+
+   // animate the contraction of the panel, and update its position at the end if needed
+   function animatePanelContraction() {
+      $("#ad-hoc-panel").animate({
+         "width": geometry.getPanelWidth() + 'px',
+         "height": geometry.getPanelHeight() + 'px'
+      }, parameters.panelSizeChangeDuration, onPanelContracted);
+   }
+
+   // skip the animation and set panel to minimal width
+   function forceContractPanel() {
+      $("#ad-hoc-panel").width(geometry.getPanelWidth());
+      $("#ad-hoc-panel").height(geometry.getPanelHeight());
+      onPanelContracted();
+   }
+
+   // Update the position of the panel after contracting it, if needed
+   function onPanelContracted() {
+      positionPanel();
+      angular.element($("#ad-hoc-panel")).scope().$apply();
+   }
+
 
    $scope.activateTab = function(tab, delayEntrance) {
 
