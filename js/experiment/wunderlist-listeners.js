@@ -159,3 +159,30 @@ var wunderlistListeners = (function() {
 
    return wunderlistListeners;
 })();
+
+
+/*
+
+Since the state of Wunderlist UI seems, sometimes, to be disconnected from Wunderlist Backbone model,
+I may have no choice but to implement the listeners (and setters!) myself.
+
+Difficulties:
+- they would have to be recreated every time a tab is visited
+- What about shortcuts?
+
+Annoyances:
+- need to manually find the ids of each option (not standardized it seems)
+- programatically changing the value of radios buttons, select and checkboxes DOES NOT update the Wunderlist model
+  -> so I can only use it to make sure settings looks what they values are
+
+$("select#edit-start-of-week").val("sun")
+$("#edit-sound-checkoff-enabled").prop("checked", false)
+
+For radio buttons, it seems that I need to use two functions:
+// the short form without :checked doesn't work, because not part of a group
+$("div[aria-label='settings_general_time_format'] input:checked").val()
+
+$("div[aria-label='settings_general_time_format'] input[value='24 hour']").prop("checked",true)
+OR
+$("div[aria-label='settings_general_time_format'] input").val(["12 hour", "12 hour"])
+*/
