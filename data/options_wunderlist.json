@@ -1,6 +1,7 @@
 {
    "language": {
       "id": "language",
+      "formElement": "edit-language",
       "label": "Language",
       "instructions": "Change the language to",
       "value": "en_US",
@@ -12,6 +13,7 @@
    },
    "date_format": {
       "id": "date_format",
+      "formElement": "edit-date-format",
       "label": "Date Format",
       "instructions": "Change the date format to",
       "value": "DD.MM.YYYY",
@@ -34,6 +36,7 @@
    },
    "time_format": {
       "id": "time_format",
+      "formElement": "radio-time-format",
       "label": "Time Format",
       "instructions": "Change the time format to",
       "value": "12 hour",
@@ -47,6 +50,7 @@
    },
    "start_of_week": {
       "id": "start_of_week",
+      "formElement": "edit-start-of-week",
       "label": "Start of the Week",
       "instructions": "Change the first day of the week to be",
       "value": "sun",
@@ -63,18 +67,21 @@
    },
    "sound_checkoff_enabled": {
       "id": "sound_checkoff_enabled",
+      "formElement": "edit-sound-checkoff-enabled",
       "label": "Enable sound for checking-off an item",
       "instructions": "Enable sound when checking-off a todo",
       "value": true
    },
    "sound_notification_enabled": {
       "id": "sound_notification_enabled",
+      "formElement": "edit-sound-notification-enabled",
       "label": "Enable sound for new notifications",
       "instructions": "Enable sound for new notifications",
       "value": true
    },
    "new_task_location": {
       "id": "new_task_location",
+      "formElement": "edit-new-task-location",
       "label": "Add Items",
       "instructions": "When creating a new todo, add it at the top of the current list",
       "instructionsReverse": "When creating a new todo, add it at the bottom of the current list",
@@ -89,6 +96,7 @@
    },
    "confirm_delete_entity": {
       "id": "confirm_delete_entity",
+      "formElement": "edit-ask-before-delete",
       "label": "Confirm before deleting items",
       "instructions": "When deleting an item, ask me for confirmation",
       "instructionsReverse": "When deleting an item, don't ask me for confirmation",
@@ -96,42 +104,31 @@
    },
    "behavior_star_tasks_to_top": {
       "id": "behavior_star_tasks_to_top",
+      "formElement": "edit-star-tasks-behavior",
       "label": "Star moves item to top",
       "instructions": "When starring an item, move it to the top of the list",
       "instructionsReverse": "Do not automatically move starred items to the top of the list",
       "value": true
    },
-   "show_subtask_progress": {
-      "id": "show_subtask_progress",
-      "label": "Show Subtask progress on items",
-      "instructions": "Show subtask progress on todo items",
-      "instructionsReverse": "Hide subtask progress on todo items",
-      "value": true
-   },
-   "automatic_reminders": {
-      "id": "automatic_reminders",
-      "label": "Auto reminders",
-      "instructions": "Enable automatic reminders",
-      "instructionsReverse": "Disable automatic reminders",
-      "value": "on",
-      "values": [{
-         "name": "on",
-         "label": "on"
-      }, {
-         "name": "off",
-         "label": "off"
-      }],
-      "notUserAccessible": true
-   },
    "print_completed_items": {
       "id": "print_completed_items",
+      "formElement": "edit-print-completed-items",
       "label": "Print completed items",
       "instructions": "When printing a todo list, print also the completed todo items",
       "instructionsReverse": "When printing a todo list, do not print the completed todo items",
       "value": false
    },
+   "show_subtask_progress": {
+      "id": "show_subtask_progress",
+      "formElement": "edit-show-subtask-progress",
+      "label": "Show Subtask progress on items",
+      "instructions": "Show subtask progress on todo items",
+      "instructionsReverse": "Hide subtask progress on todo items",
+      "value": true
+   },
    "shortcut_add_new_task": {
       "id": "shortcut_add_new_task",
+      "formElement": "shortcut-add-new-task",
       "label": "Add a New Item",
       "instructions": "Change shortcut for adding a new todo to",
       "value": "CTRL + 0",
@@ -145,6 +142,7 @@
    },
    "shortcut_add_new_list": {
       "id": "shortcut_add_new_list",
+      "formElement": "shortcut-add-new-list",
       "label": "Add a New List",
       "instructions": "Change shortcut for creating a new list to ",
       "value": "CTRL + L",
@@ -158,6 +156,7 @@
    },
    "shortcut_mark_task_done": {
       "id": "shortcut_mark_task_done",
+      "formElement": "shortcut-mark-task-done",
       "label": "Mark Selected Items as 'Completed'",
       "instructions": "Change shortcut for checking off todos to",
       "value": "CTRL + D",
@@ -171,6 +170,7 @@
    },
    "shortcut_mark_task_starred": {
       "id": "shortcut_mark_task_starred",
+      "formElement": "shortcut-mark-task-starred",
       "label": "Mark Selected Items as 'Starred'",
       "instructions": "Change shortcut for starring todos to",
       "value": "CTRL + S",
@@ -184,6 +184,7 @@
    },
    "shortcut_select_all_tasks": {
       "id": "shortcut_select_all_tasks",
+      "formElement": "shortcut-select-all-tasks",
       "label": "Select All Items",
       "instructions": "Change shortcut for selecting all todos to",
       "value": "CTRL + A",
@@ -197,6 +198,7 @@
    },
    "shortcut_delete": {
       "id": "shortcut_delete",
+      "formElement": "shortcut-delete",
       "label": "Delete Selected List or Item",
       "instructions": "Change shortcut for deleting a list or a todo to",
       "value": "CTRL + BACKSPACE",
@@ -209,6 +211,7 @@
       }]
    },
    "shortcut_copy_tasks": {
+      "formElement": "shortcut-copy-tasks",
       "id": "shortcut_copy_tasks",
       "instructions": "Change shortcut for copying todos to",
       "label": "Copy tasks",
@@ -222,6 +225,7 @@
       }]
    },
    "shortcut_paste_tasks": {
+      "formElement": "shortcut-paste-tasks",
       "id": "shortcut_paste_tasks",
       "instructions": "Change shortcut for pasting todos to",
       "label": "Paste tasks",
@@ -236,6 +240,7 @@
    },
    "shortcut_goto_search": {
       "id": "shortcut_goto_search",
+      "formElement": "shortcut-goto-search",
       "label": "Focus Search",
       "instructions": "Change shortcut for selecting the search box to",
       "value": "CTRL + F",
@@ -249,6 +254,7 @@
    },
    "shortcut_goto_preferences": {
       "id": "shortcut_goto_preferences",
+      "formElement": "shortcut-goto-preferences",
       "label": "Open Preferences",
       "instructions": "Change shortcut for opening preferences to",
       "value": "CTRL + P",
@@ -263,6 +269,7 @@
    },
    "shortcut_send_via_email": {
       "id": "shortcut_send_via_email",
+      "formElement": "shortcut-send-via-email",
       "label": "Email List",
       "instructions": "Change shortcut for sharing a list via email to",
       "value": "CTRL + E",
@@ -277,6 +284,7 @@
    },
    "shortcut_show_notifications": {
       "id": "shortcut_show_notifications",
+      "formElement": "shortcut-show-notifications",
       "label": "Show Activities",
       "instructions": "Change shortcut for showing the activities panel to",
       "value": "CTRL + SHIFT + A",
@@ -291,6 +299,7 @@
    },
    "shortcut_goto_inbox": {
       "id": "shortcut_goto_inbox",
+      "formElement": "shortcut-goto-inbox",
       "label": "Open Inbox",
       "instructions": "Change shortcut for going to inbox to",
       "value": "CTRL + I",
@@ -305,6 +314,7 @@
    },
    "shortcut_goto_filter_assigned": {
       "id": "shortcut_goto_filter_assigned",
+      "formElement": "shortcut-goto-filter-assigned",
       "label": "Open 'Assigned to Me' Smart List",
       "instructions": "Change shortcut for showing the list of the todos assigned to you to",
       "value": "CTRL + 1",
@@ -319,6 +329,7 @@
    },
    "shortcut_goto_filter_starred": {
       "id": "shortcut_goto_filter_starred",
+      "formElement": "shortcut-goto-filter-starred",
       "label": "Open 'Starred' Smart List",
       "instructions": "Change shortcut for showing the list of the todos that are starred to",
       "value": "CTRL + 2",
@@ -333,6 +344,7 @@
    },
    "shortcut_goto_filter_today": {
       "id": "shortcut_goto_filter_today",
+      "formElement": "shortcut-goto-filter-today",
       "label": "Open 'Today' Smart List",
       "instructions": "Change shortcut for showing the list of the todos due today to",
       "value": "CTRL + 3",
@@ -347,6 +359,7 @@
    },
    "shortcut_goto_filter_week": {
       "id": "shortcut_goto_filter_week",
+      "formElement": "shortcut-goto-filter-week",
       "label": "Open 'Week' Smart List",
       "instructions": "Change shortcut for showing the list of the todos due this week to",
       "value": "CTRL + 4",
@@ -361,6 +374,7 @@
    },
    "shortcut_goto_filter_all": {
       "id": "shortcut_goto_filter_all",
+      "formElement": "shortcut-goto-filter-all",
       "label": "Open 'All' Smart List",
       "instructions": "Change shortcut for showing the list of all the todos to",
       "value": "CTRL + 5",
@@ -375,6 +389,7 @@
    },
    "shortcut_goto_filter_completed": {
       "id": "shortcut_goto_filter_completed",
+      "formElement": "shortcut-goto-filter-done",
       "label": "Open 'Completed' Smart List",
       "instructions": "Change shortcut for showing the list of the completed todos to",
       "value": "CTRL + 6",
@@ -389,6 +404,7 @@
    },
    "shortcut_sync": {
       "id": "shortcut_sync",
+      "formElement": "shortcut-sync",
       "label": "Sync",
       "instructions": "Change shortcut for syncing with the server to",
       "value": "R",
@@ -402,6 +418,7 @@
    },
    "smartlist_visibility_assigned_to_me": {
       "id": "smartlist_visibility_assigned_to_me",
+      "formElement": "edit-smartlist-visibility-assigned_to_me",
       "label": "Assigned to me",
       "instructions": "In the left sidebar, show the list of todos assigned to you",
       "value": "visible",
@@ -416,6 +433,7 @@
    },
    "smartlist_visibility_starred": {
       "id": "smartlist_visibility_starred",
+      "formElement": "edit-smartlist-visibility-starred",
       "label": "Starred",
       "instructions": "In the left sidebar, show the list of todos that are starred",
       "value": "visible",
@@ -431,6 +449,7 @@
    },
    "smartlist_visibility_today": {
       "id": "smartlist_visibility_today",
+      "formElement": "edit-smartlist-visibility-today",
       "label": "Today",
       "instructions": "In the left sidebar, show the list of todos that are due today",
       "value": "visible",
@@ -445,6 +464,7 @@
    },
    "smartlist_visibility_week": {
       "id": "smartlist_visibility_week",
+      "formElement": "edit-smartlist-visibility-week",
       "label": "Week",
       "instructions": "In the left sidebar, show the list of todos that are due this week",
       "value": "hidden",
@@ -459,6 +479,7 @@
    },
    "smartlist_visibility_all": {
       "id": "smartlist_visibility_all",
+      "formElement": "edit-smartlist-visibility-all",
       "label": "All",
       "instructions": "In the left sidebar, show the list of all the todos",
       "value": "hidden",
@@ -473,6 +494,7 @@
    },
    "smartlist_visibility_done": {
       "id": "smartlist_visibility_done",
+      "formElement": "edit-smartlist-visibility-done",
       "label": "Completed",
       "instructions": "In the left sidebar, show the list of todos that are already completed",
       "value": "visible",
@@ -487,6 +509,7 @@
    },
    "today_smart_list_visible_tasks": {
       "id": "today_smart_list_visible_tasks",
+      "formElement": "edit-smartlist-visibility-",
       "label": "Week & Today Settings",
       "instructions": "In the lists of tasks due today and this week, show all items",
       "instructionsReverse": "In the lists of tasks due today and this week, show only the todos assigned to me",
@@ -501,18 +524,21 @@
    },
    "notifications_email_enabled": {
       "id": "notifications_email_enabled",
+      "formElement": "edit-notifications-email-enabled",
       "label": "Email Notifications",
       "instructions": "Enable email notifications",
       "value": true
    },
    "notifications_push_enabled": {
       "id": "notifications_push_enabled",
+      "formElement": "edit-notifications-push-enabled",
       "label": "Push Notifications",
       "instructions": "Enable push notifications",
       "value": true
    },
    "notifications_desktop_enabled": {
       "id": "notifications_desktop_enabled",
+      "formElement": "edit-notifications-desktop-enabled",
       "label": "Desktop Notifications",
       "instructions": "Enable desktop notifications",
       "value": true
@@ -524,7 +550,19 @@
 
 
 
-
+   "automatic_reminders": {
+      "id": "automatic_reminders",
+      "label": "Auto reminders",
+      "value": "on",
+      "values": [{
+         "name": "on",
+         "label": "on"
+      }, {
+         "name": "off",
+         "label": "off"
+      }],
+      "notUserAccessible": true
+   },
    "_locale": {
       "id": "_locale",
       "label": "",

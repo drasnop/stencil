@@ -17,6 +17,11 @@ var wunderlistListeners = (function() {
         listener for each settings change in Wunderlist
       */
 
+      // new
+      bindFormElementsRectifiers();
+      bindSettingsListeners();
+
+      // old
       model.options.forEachUserAccessible(function(option) {
          sync.collections.settings.where({
             key: option.id
@@ -109,10 +114,12 @@ var wunderlistListeners = (function() {
             }
 
 
-            /* instrument showMore button */
+            /* instrument showMore button and form elements*/
+
+            if (tab.name == "General")
 
             // enable logging of showMoreOptions
-            if (tab.name == "Shortcuts")
+               if (tab.name == "Shortcuts")
                wunderlistListeners.instrumentShowMoreButtonWhenReady();
          }
       }
@@ -157,6 +164,65 @@ var wunderlistListeners = (function() {
    }
 
 
+   // ensure that the UI reflects the state of the Backbone model
+   function bindFormElementsRectifiers() {
+
+      // create an observer instance
+      var observer = new MutationObserver(function(mutations) {
+         mutations.forEach(function(mutation) {
+
+            // find the div containing all the form elements
+            if (mutation.addedNodes)
+               for (var i = 0; i < mutation.addedNodes.length; i++) {
+                  if ($(mutation.addedNodes[i]).hasClass("settings-content-inner")) {
+
+                     // check select elements
+                     $(mutation.addedNodes[i]).find("select").each(function() {
+                        console.log($(this).prop('id'))
+                     })
+
+                     // check checkbox elements
+                     $(mutation.addedNodes[i]).find("input[type=checkbox]").each(function() {
+                        console.log($(this).prop('id'))
+                     })
+
+                     // check text input elements used for shortcuts
+                     $(mutation.addedNodes[i]).find("input.shortcut").each(function() {
+                        console.log($(this).prop('id'))
+                     })
+                  }
+               }
+         });
+      });
+
+      // configure the observer
+      var target = document.querySelector('#modals');
+      var config = {
+         childList: true,
+         subtree: true
+      };
+
+      observer.observe(target, config);
+   }
+
+
+   function bindSettingsListeners() {
+
+
+      /*      formElements.forEach(function(selector) {
+
+               $(document).on()
+                  // Check if displayed value corresponds to the one in the model; otherwise update it
+               if (selector.indexOf("select#") >= 0)
+                  console.log($(selector).val());
+               else if (selector.indexOf("input#") >= 0)
+                  console.log($(selector).prop("checked"));
+            });*/
+   }
+
+
+
+
    return wunderlistListeners;
 })();
 
@@ -167,7 +233,7 @@ Since the state of Wunderlist UI seems, sometimes, to be disconnected from Wunde
 I may have no choice but to implement the listeners (and setters!) myself.
 
 Difficulties:
-- they would have to be recreated every time a tab is visited
+- they would have to be recreated every time a tab is visited -> not even! 
 - What about shortcuts?
 
 Annoyances:
@@ -175,8 +241,8 @@ Annoyances:
 - programatically changing the value of radios buttons, select and checkboxes DOES NOT update the Wunderlist model
   -> so I can only use it to make sure settings looks what they values are
 
-$("select#edit-start-of-week").val("sun")
-$("#edit-sound-checkoff-enabled").prop("checked", false)
+$("select#"edit-start-of-week").val("sun")",
+$("#"edit-sound-checkoff-enabled").prop("checked", false)",
 
 For radio buttons, it seems that I need to use two functions:
 // the short form without :checked doesn't work, because not part of a group
