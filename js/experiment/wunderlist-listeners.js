@@ -167,6 +167,12 @@ var wunderlistListeners = (function() {
    // ensure that the UI reflects the state of the Backbone model
    function bindFormElementsRectifiers() {
 
+      // create a reverse map of the options associated to a given formElement's id
+      wunderlistListeners.associatedOptions = {};
+      model.options.forEach(function(option) {
+         wunderlistListeners.associatedOptions[option.formElement] = option;
+      });
+
       // create an observer instance
       var observer = new MutationObserver(function(mutations) {
          mutations.forEach(function(mutation) {
@@ -176,20 +182,7 @@ var wunderlistListeners = (function() {
                for (var i = 0; i < mutation.addedNodes.length; i++) {
                   if ($(mutation.addedNodes[i]).hasClass("settings-content-inner")) {
 
-                     // check select elements
-                     $(mutation.addedNodes[i]).find("select").each(function() {
-                        console.log($(this).prop('id'))
-                     })
-
-                     // check checkbox elements
-                     $(mutation.addedNodes[i]).find("input[type=checkbox]").each(function() {
-                        console.log($(this).prop('id'))
-                     })
-
-                     // check text input elements used for shortcuts
-                     $(mutation.addedNodes[i]).find("input.shortcut").each(function() {
-                        console.log($(this).prop('id'))
-                     })
+                     rectify($(mutation.addedNodes[i]))
                   }
                }
          });
@@ -203,6 +196,45 @@ var wunderlistListeners = (function() {
       };
 
       observer.observe(target, config);
+   }
+
+   function rectify(arg) {
+      var staticAncestor = arg || $(".settings-content-inner");
+
+      // check select elements
+      staticAncestor.find("select").each(function() {
+         rectifyUIifNeeded($(this), $(this).val)
+      })
+
+      // check text input elements used for shortcuts
+      staticAncestor.find("input.shortcut").each(function() {
+         rectifyUIifNeeded($(this), $(this).val)
+      })
+
+      // check checkbox elements
+      staticAncestor.find("input[type=checkbox]").each(function() {
+         rectifyUIifNeeded($(this), curry($(this).prop, "checked"))
+      })
+   }
+
+   function curry(fn, prop) {
+      return function(arg) {
+         console.log("curried function", prop, "called with arg", arg)
+         if (typeof arg == "undefined")
+            return fn(prop);
+         else
+            return fn(prop, arg);
+      }
+   }
+
+   function rectifyUIifNeeded(formElement, accessor) {
+      var id = formElement.prop('id');
+      var option = wunderlistListeners.associatedOptions[id];
+
+      if (accessor() != option.value) {
+         console.log("Rectifying UI state of", option.id, "from", accessor(), "to", option.value)
+         accessor(option.value);
+      }
    }
 
 
