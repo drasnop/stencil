@@ -35,10 +35,6 @@ var TrialsSequencer = (function() {
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
 
-      // refresh preferences panel - annoying workaround to update the Backbone view
-      if (experiment.condition === 0)
-         closePreferences();
-
       // listen to changes of the Backbone model
       wunderlistListeners.bindSettingsAndTabsListeners();
 
@@ -55,6 +51,10 @@ var TrialsSequencer = (function() {
       // hide the hooks / settings panel, to prevent people from planning their next actions
       // workaround to make sure the style is applied to the settings panel, which has just been created
       $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer, #hooks {visibility: hidden}</style>");
+
+      // always start from the general tab (for internal and ecological validity)
+      if (experiment.condition === 0)
+         window.location.hash = "#/preferences/general";
 
       if (experiment.condition > 0) {
          // make sure the details panel is visible
@@ -90,6 +90,10 @@ var TrialsSequencer = (function() {
          }, timestamp)
       }
 
+      // refresh preferences panel - workaround to update the Backbone view
+      if (experiment.condition === 0)
+         wunderlistListeners.rectifyUIifNeeded();
+
       // show the hooks / settings panel
       $(".hidden-settings-style").remove();
 
@@ -105,14 +109,10 @@ var TrialsSequencer = (function() {
    TrialsSequencer.prototype.onTimeout = function() {
       console.log("timeout!")
       this.trial.timeout = true;
-
-      // we must ask angular to $apply() after all the variables are set
-      this.endTrial(function() {
-         angular.element($("#ad-hoc-panel")).scope().$apply();
-      });
+      this.endTrial();
    }
 
-   TrialsSequencer.prototype.endTrial = function(callback) {
+   TrialsSequencer.prototype.endTrial = function() {
       this.trial.time.end = performance.now();
       this.trial.success = this.trial.successful();
 
@@ -130,14 +130,8 @@ var TrialsSequencer = (function() {
       experiment.trials.push(loggable);
       logger.saveTrial(loggable);
 
-      // reset options to their correct values, if necessary
-      resetSettingsIfNeeded();
-
-      // refresh preferences panel - annoying workaround to update the Backbone view
-      if (experiment.condition === 0)
-         closePreferences();
-
-      Sequencer.prototype.endTrial.call(this, callback);
+      // reset settings if needed after printring the "trial ended" statement
+      Sequencer.prototype.endTrial.call(this, resetSettingsIfNeeded);
    }
 
 

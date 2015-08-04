@@ -182,7 +182,7 @@ var wunderlistListeners = (function() {
                for (var i = 0; i < mutation.addedNodes.length; i++) {
                   if ($(mutation.addedNodes[i]).hasClass("settings-content-inner")) {
 
-                     wunderlistListeners.rectify($(mutation.addedNodes[i]))
+                     wunderlistListeners.rectifyUIifNeeded($(mutation.addedNodes[i]))
                   }
                }
          });
@@ -199,64 +199,48 @@ var wunderlistListeners = (function() {
    }
 
 
-   wunderlistListeners.rectify = function(ancestor) {
-      var staticAncestor = ancestor || $(".settings-content-inner");
+   wunderlistListeners.rectifyUIifNeeded = function(ancestor) {
+      ancestor = ancestor || $(".settings-content-inner");
 
       // check select elements
-      staticAncestor.find("select").each(function() {
-         rectifyVal(this.id, "val");
+      ancestor.find("select").each(function() {
+         rectifyVal($(this), $.fn.val);
       })
 
       // check text input elements used for shortcuts
-      staticAncestor.find("input.shortcut").each(function() {
-         rectifyVal(this.id, "val");
+      ancestor.find("input.shortcut").each(function() {
+         rectifyVal($(this), $.fn.val);
       })
 
       // check checkbox elements
-      staticAncestor.find("input[type=checkbox]").each(function() {
-         var id = $(this).prop('id');
-         var option = wunderlistListeners.associatedOptions[id];
-
-         if ($(this).prop("checked") != option.value) {
-            console.log("Rectifying UI state of", option.id, "from", $(this).prop("checked"), "to", option.value)
-            $(this).prop("checked", option.value);
-         }
+      ancestor.find("input[type=checkbox]").each(function() {
+         rectifyVal($(this), curry($.fn.prop, "checked"));
       })
    }
 
-   function rectifyVal(id, accessor) {
-      var formElement = $("#" + id);
-      var option = wunderlistListeners.associatedOptions[id];
 
-      if (formElement[accessor]() != option.value) {
-         console.log("Rectifying UI state of", option.id, "from", formElement[accessor](), "to", option.value)
-         formElement[accessor](option.value);
+   function rectifyVal(formElement, accessor) {
+      var option = wunderlistListeners.associatedOptions[formElement.prop("id")];
+
+      if (accessor.call(formElement) != option.value) {
+         console.log("Rectifying UI state of", option.id, "from", accessor.call(formElement), "to", option.value);
+         accessor.call(formElement, option.value);
       }
    }
 
-   /*   function curry(fn, prop) {
-         return function(arg) {
-            console.log("curried function", prop, "called with arg", arg)
-            if (typeof arg == "undefined")
-               return fn(prop);
-            else
-               return fn(prop, arg);
-         }
-      }
+   // Inspired from http://www.drdobbs.com/open-source/currying-and-partial-functions-in-javasc/231001821?pgno=2
+   function curry(fn) {
+      var stored_args = Array.prototype.slice.call(arguments, 1);
 
-      function rectifyUIifNeeded(formElement, accessor) {
-         var id = formElement.prop('id');
-         var option = wunderlistListeners.associatedOptions[id];
-
-         if (accessor() != option.value) {
-            console.log("Rectifying UI state of", option.id, "from", accessor(), "to", option.value)
-            accessor(option.value);
-         }
-      }
-   */
+      return function() {
+         var new_args = Array.prototype.slice.call(arguments);
+         var args = stored_args.concat(new_args);
+         //console.log("curried function called with args", args, "and this", this)
+         return fn.apply(this, args);
+      };
+   }
 
    function bindSettingsListeners() {
-
 
       /*      formElements.forEach(function(selector) {
 
@@ -282,8 +266,8 @@ Since the state of Wunderlist UI seems, sometimes, to be disconnected from Wunde
 I may have no choice but to implement the listeners (and setters!) myself.
 
 Difficulties:
-- they would have to be recreated every time a tab is visited -> not even! 
-- What about shortcuts?
+- they would have to be recreated every time a tab is visited -> not even, thanks to global .on()!
+- What about shortcuts? -> just text fields
 
 Annoyances:
 - need to manually find the ids of each option (not standardized it seems)

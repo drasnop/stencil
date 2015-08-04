@@ -76,7 +76,11 @@ Sequencer.prototype.endTrial = function(callback) {
    console.log(this.name + " trial " + this.trial.number + " ended")
    this.trial.done = true;
 
-   // this callback is used to update the view, after the model has been changed by setTimeout
+   // update the angular view when all variables are set (REQUIRED when timeout)
+   if (experiment.condition > 0)
+      angular.element($("#ad-hoc-panel")).scope().$apply();
+
+   // this callback rectify the settings of Wunderlist, in case of incorrect selection(s)
    if (typeof callback === typeof Function)
       callback();
 
