@@ -182,7 +182,7 @@ var wunderlistListeners = (function() {
                for (var i = 0; i < mutation.addedNodes.length; i++) {
                   if ($(mutation.addedNodes[i]).hasClass("settings-content-inner")) {
 
-                     rectify($(mutation.addedNodes[i]))
+                     wunderlistListeners.rectify($(mutation.addedNodes[i]))
                   }
                }
          });
@@ -198,45 +198,62 @@ var wunderlistListeners = (function() {
       observer.observe(target, config);
    }
 
-   function rectify(arg) {
-      var staticAncestor = arg || $(".settings-content-inner");
+
+   wunderlistListeners.rectify = function(ancestor) {
+      var staticAncestor = ancestor || $(".settings-content-inner");
 
       // check select elements
       staticAncestor.find("select").each(function() {
-         rectifyUIifNeeded($(this), $(this).val)
+         rectifyVal(this.id, "val");
       })
 
       // check text input elements used for shortcuts
       staticAncestor.find("input.shortcut").each(function() {
-         rectifyUIifNeeded($(this), $(this).val)
+         rectifyVal(this.id, "val");
       })
 
       // check checkbox elements
       staticAncestor.find("input[type=checkbox]").each(function() {
-         rectifyUIifNeeded($(this), curry($(this).prop, "checked"))
+         var id = $(this).prop('id');
+         var option = wunderlistListeners.associatedOptions[id];
+
+         if ($(this).prop("checked") != option.value) {
+            console.log("Rectifying UI state of", option.id, "from", $(this).prop("checked"), "to", option.value)
+            $(this).prop("checked", option.value);
+         }
       })
    }
 
-   function curry(fn, prop) {
-      return function(arg) {
-         console.log("curried function", prop, "called with arg", arg)
-         if (typeof arg == "undefined")
-            return fn(prop);
-         else
-            return fn(prop, arg);
-      }
-   }
-
-   function rectifyUIifNeeded(formElement, accessor) {
-      var id = formElement.prop('id');
+   function rectifyVal(id, accessor) {
+      var formElement = $("#" + id);
       var option = wunderlistListeners.associatedOptions[id];
 
-      if (accessor() != option.value) {
-         console.log("Rectifying UI state of", option.id, "from", accessor(), "to", option.value)
-         accessor(option.value);
+      if (formElement[accessor]() != option.value) {
+         console.log("Rectifying UI state of", option.id, "from", formElement[accessor](), "to", option.value)
+         formElement[accessor](option.value);
       }
    }
 
+   /*   function curry(fn, prop) {
+         return function(arg) {
+            console.log("curried function", prop, "called with arg", arg)
+            if (typeof arg == "undefined")
+               return fn(prop);
+            else
+               return fn(prop, arg);
+         }
+      }
+
+      function rectifyUIifNeeded(formElement, accessor) {
+         var id = formElement.prop('id');
+         var option = wunderlistListeners.associatedOptions[id];
+
+         if (accessor() != option.value) {
+            console.log("Rectifying UI state of", option.id, "from", accessor(), "to", option.value)
+            accessor(option.value);
+         }
+      }
+   */
 
    function bindSettingsListeners() {
 
