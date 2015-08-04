@@ -36,7 +36,7 @@
    },
    "time_format": {
       "id": "time_format",
-      "formElement": "edit-time-format",
+      "formElement": "settings_general_time_format",
       "label": "Time Format",
       "instructions": "Change the time format to",
       "value": "12 hour",
@@ -206,8 +206,8 @@
          "name": "CTRL + BACKSPACE",
          "label": "CTRL + BACKSPACE"
       }, {
-         "name": "SHIFT + D",
-         "label": "SHIFT + D"
+         "name": "SHIFT + BACKSPACE",
+         "label": "SHIFT + BACKSPACE"
       }]
    },
    "shortcut_copy_tasks": {

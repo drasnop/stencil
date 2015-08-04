@@ -31,6 +31,7 @@ var wunderlistListeners = (function() {
       bindSettingsListeners();
 
       // old
+      /*
       model.options.forEachUserAccessible(function(option) {
          sync.collections.settings.where({
             key: option.id
@@ -60,6 +61,7 @@ var wunderlistListeners = (function() {
             return newval;
          })
       });
+*/
 
       /*
         listener for tabs in preferences panel
@@ -203,7 +205,7 @@ var wunderlistListeners = (function() {
 
    // Ancestor provided when called after changing tabs, when settings-content-inner has just been created
    wunderlistListeners.rectifyUIifNeeded = function(ancestor) {
-      console.log("### rectifying UI if needed")
+      // console.log("### rectifying UI if needed")
       ancestor = ancestor || $(".settings-content-inner");
 
       // check select elements
@@ -234,8 +236,9 @@ var wunderlistListeners = (function() {
       if (accessor.call(formElement) != option.value) {
          console.log("-- rectifying UI state of", option.id, "from", accessor.call(formElement), "to", option.value);
          accessor.call(formElement, option.value);
-      } else
-         console.log(option.id, "is", accessor.call(formElement), "==", option.value)
+      }
+      /*else
+              console.log(option.id, "is", accessor.call(formElement), "==", option.value)*/
    }
 
    // Inspired from http://www.drdobbs.com/open-source/currying-and-partial-functions-in-javasc/231001821?pgno=2
@@ -262,16 +265,38 @@ var wunderlistListeners = (function() {
 
    function bindSettingsListeners() {
 
-      /*      formElements.forEach(function(selector) {
+      model.options.forEachUserAccessible(function(option) {
 
-               $(document).on()
-                  // Check if displayed value corresponds to the one in the model; otherwise update it
-               if (selector.indexOf("select#") >= 0)
-                  console.log($(selector).val());
-               else if (selector.indexOf("input#") >= 0)
-                  console.log($(selector).prop("checked"));
-            });*/
+         $("#modals").on("change", "#" + option.formElement, function(event) {
+            var newval;
+            if (option.values)
+               newval = $("#" + option.formElement).val();
+            else
+               newval = $("#" + option.formElement).prop("checked");
+
+            // update the model accordingly
+            oldval = option.value;
+            option.value = newval;
+            console.log("- updating:", option.id, "from", oldval, "to", option.value)
+
+            // log this values change, without caring for visibility of anchors
+            if (experiment.sequencer.trial) {
+               experiment.sequencer.trial.logValueChange(option, oldval);
+            }
+
+            // notify angular of this change, to unlock the "done" button
+            // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
+            var scope = angular.element($("#ad-hoc-panel")).scope();
+            if (!scope.$$phase)
+               scope.$apply();
+
+         })
+
+      });
+
    }
+
+
 
 
    return wunderlistListeners;
