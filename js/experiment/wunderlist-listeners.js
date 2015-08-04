@@ -14,11 +14,19 @@ var wunderlistListeners = (function() {
       console.log("Initializing Wunderlist listeners...")
 
       /* 
-        listener for each settings change in Wunderlist
+        listeners for settings in Wunderlist UI
       */
 
-      // new
-      bindFormElementsRectifiers();
+      // create a reverse map of the options associated to a given formElement's id
+      wunderlistListeners.associatedOptions = {};
+      model.options.forEach(function(option) {
+         wunderlistListeners.associatedOptions[option.formElement] = option;
+      });
+
+      // ensure that the UI reflects the state of the Backbone model
+      bindUIRectifiersOnTabChange();
+
+      // listener for each settings change in Wunderlist UI
       bindSettingsListeners();
 
       // old
@@ -164,14 +172,8 @@ var wunderlistListeners = (function() {
    }
 
 
-   // ensure that the UI reflects the state of the Backbone model
-   function bindFormElementsRectifiers() {
-
-      // create a reverse map of the options associated to a given formElement's id
-      wunderlistListeners.associatedOptions = {};
-      model.options.forEach(function(option) {
-         wunderlistListeners.associatedOptions[option.formElement] = option;
-      });
+   // ensure that the UI reflects the state of the Backbone model, when changing tabs or opening the panel
+   function bindUIRectifiersOnTabChange() {
 
       // create an observer instance
       var observer = new MutationObserver(function(mutations) {
@@ -198,34 +200,36 @@ var wunderlistListeners = (function() {
       observer.observe(target, config);
    }
 
-
+   // Ancestor provided when called after changing tabs, when settings-content-inner has just been created
    wunderlistListeners.rectifyUIifNeeded = function(ancestor) {
+      console.log("### rectifying UI if needed")
       ancestor = ancestor || $(".settings-content-inner");
 
       // check select elements
       ancestor.find("select").each(function() {
-         rectifyVal($(this), $.fn.val);
+         rectifyFormElement($(this), $.fn.val);
       })
 
       // check text input elements used for shortcuts
       ancestor.find("input.shortcut").each(function() {
-         rectifyVal($(this), $.fn.val);
+         rectifyFormElement($(this), $.fn.val);
       })
 
       // check checkbox elements
       ancestor.find("input[type=checkbox]").each(function() {
-         rectifyVal($(this), curry($.fn.prop, "checked"));
+         rectifyFormElement($(this), curry($.fn.prop, "checked"));
       })
    }
 
 
-   function rectifyVal(formElement, accessor) {
+   function rectifyFormElement(formElement, accessor) {
       var option = wunderlistListeners.associatedOptions[formElement.prop("id")];
 
       if (accessor.call(formElement) != option.value) {
-         console.log("Rectifying UI state of", option.id, "from", accessor.call(formElement), "to", option.value);
+         console.log("-- rectifying UI state of", option.id, "from", accessor.call(formElement), "to", option.value);
          accessor.call(formElement, option.value);
-      }
+      } else
+         console.log(option.id, "is", accessor.call(formElement), "==", option.value)
    }
 
    // Inspired from http://www.drdobbs.com/open-source/currying-and-partial-functions-in-javasc/231001821?pgno=2
