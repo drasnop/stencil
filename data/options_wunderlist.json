@@ -36,7 +36,7 @@
    },
    "time_format": {
       "id": "time_format",
-      "formElement": "radio-time-format",
+      "formElement": "edit-time-format",
       "label": "Time Format",
       "instructions": "Change the time format to",
       "value": "12 hour",

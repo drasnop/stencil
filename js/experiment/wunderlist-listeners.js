@@ -219,11 +219,16 @@ var wunderlistListeners = (function() {
       ancestor.find("input[type=checkbox]").each(function() {
          rectifyFormElement($(this), curry($.fn.prop, "checked"));
       })
+
+      // check the radio buttons group (here $(this) contains both radio buttons, so call only once)
+      ancestor.find("div[aria-label='settings_general_time_format'] input").first().each(function() {
+         rectifyFormElement($(this), radioButtonsAccessor);
+      })
    }
 
-
    function rectifyFormElement(formElement, accessor) {
-      var option = wunderlistListeners.associatedOptions[formElement.prop("id")];
+      // get the corresponding, either with the elements #id or its name (for the radio buttons)
+      var option = wunderlistListeners.associatedOptions[formElement.prop("id") || formElement.prop("name")];
 
       if (accessor.call(formElement) != option.value) {
          console.log("-- rectifying UI state of", option.id, "from", accessor.call(formElement), "to", option.value);
@@ -244,6 +249,15 @@ var wunderlistListeners = (function() {
       };
    }
 
+   // because of the way radio buttons work, I cannot simply use currying
+   function radioButtonsAccessor(arg) {
+      if (typeof arg == "undefined")
+         return $(this).filter(":checked").val();
+      else
+         return $(this).val([arg, arg]);
+   }
+
+
    function bindSettingsListeners() {
 
       /*      formElements.forEach(function(selector) {
@@ -258,14 +272,11 @@ var wunderlistListeners = (function() {
    }
 
 
-
-
    return wunderlistListeners;
 })();
 
 
 /*
-
 Since the state of Wunderlist UI seems, sometimes, to be disconnected from Wunderlist Backbone model,
 I may have no choice but to implement the listeners (and setters!) myself.
 
@@ -277,15 +288,4 @@ Annoyances:
 - need to manually find the ids of each option (not standardized it seems)
 - programatically changing the value of radios buttons, select and checkboxes DOES NOT update the Wunderlist model
   -> so I can only use it to make sure settings looks what they values are
-
-$("select#"edit-start-of-week").val("sun")",
-$("#"edit-sound-checkoff-enabled").prop("checked", false)",
-
-For radio buttons, it seems that I need to use two functions:
-// the short form without :checked doesn't work, because not part of a group
-$("div[aria-label='settings_general_time_format'] input:checked").val()
-
-$("div[aria-label='settings_general_time_format'] input[value='24 hour']").prop("checked",true)
-OR
-$("div[aria-label='settings_general_time_format'] input").val(["12 hour", "12 hour"])
 */
