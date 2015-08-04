@@ -221,15 +221,15 @@ var wunderlistListeners = (function() {
          rectifyFormElement($(this), curry($.fn.prop, "checked"));
       })
 
-      // check the radio buttons group (here $(this) contains both radio buttons, so call only once)
-      ancestor.find("div[aria-label='settings_general_time_format'] input").first().each(function() {
+      // check the radio buttons group (should be called only once)
+      ancestor.find("div[aria-label='settings_general_time_format']").each(function() {
          rectifyFormElement($(this), radioButtonsAccessor);
       })
    }
 
    function rectifyFormElement(formElement, accessor) {
-      // get the corresponding, either with the elements #id or its name (for the radio buttons)
-      var option = wunderlistListeners.associatedOptions[formElement.prop("id") || formElement.prop("name")];
+      // get the corresponding, either with the elements #id or by the stupid aria label (for the radio buttons group)
+      var option = wunderlistListeners.associatedOptions[formElement.prop("id") || formElement.attr("aria-label")];
 
       if (accessor.call(formElement) != option.value) {
          console.log("-- rectifying UI state of", option.id, "from", accessor.call(formElement), "to", option.value);
@@ -253,9 +253,10 @@ var wunderlistListeners = (function() {
    // because of the way radio buttons work, I cannot simply use currying
    function radioButtonsAccessor(arg) {
       if (typeof arg == "undefined")
-         return $(this).filter(":checked").val();
-      else
-         return $(this).val([arg, arg]);
+         return $(this).children("input").filter(":checked").val();
+      else {
+         return $(this).children("input").val([arg, arg]);
+      }
    }
 
 

@@ -121,6 +121,44 @@ function getscope() {
    scope = angular.element($("#ad-hoc-panel")).scope();
 }
 
+// Debug only
+function getvalue(id) {
+   var ancestor = $(".settings-content-inner");
+   var ui;
+
+   // check select elements
+   ancestor.find("select").each(function() {
+      if ($(this).prop("id") == model.options[id].formElement)
+         ui = $(this).val();
+   })
+
+   // check text input elements used for shortcuts
+   ancestor.find("input.shortcut").each(function() {
+      if ($(this).prop("id") == model.options[id].formElement)
+         ui = $(this).val();
+   })
+
+   // check checkbox elements
+   ancestor.find("input[type=checkbox]").each(function() {
+      if ($(this).prop("id") == model.options[id].formElement)
+         ui = $(this).prop("checked");
+   })
+
+   // check the radio buttons group (here $(this) contains both radio buttons, so call only once)
+   ancestor.find("div[aria-label='settings_general_time_format']").each(function() {
+      if ($(this).attr("aria-label") == model.options[id].formElement)
+         ui = $(this).children("input").filter(":checked").val();
+   })
+
+   var wunderlist = sync.collections.settings.where({
+      key: id
+   })[0].get("value");
+   var mine = model.options[id].value;
+
+   console.log(id, ui, wunderlist, mine);
+   return;
+}
+
 function showModal() {
    angular.element($("#ad-hoc-panel")).scope().$evalAsync(function() {
       $("#instructions-modal").modal('show');
