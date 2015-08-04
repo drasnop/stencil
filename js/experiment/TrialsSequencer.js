@@ -119,7 +119,7 @@ var TrialsSequencer = (function() {
       // if the trial hasn't timeout, disable the timer 
       clearTimeout(this.timeoutTimer);
 
-      // close customization panel
+      // close customization panel (which reverts it to minimal)
       if (experiment.condition > 0) {
          var scope = angular.element($("#ad-hoc-panel")).scope();
          scope.closePanel();

@@ -20,7 +20,8 @@ var wunderlistListeners = (function() {
       // create a reverse map of the options associated to a given formElement's id
       wunderlistListeners.associatedOptions = {};
       model.options.forEach(function(option) {
-         wunderlistListeners.associatedOptions[option.formElement] = option;
+         if (option.formElement)
+            wunderlistListeners.associatedOptions[option.formElement] = option;
       });
 
       // ensure that the UI reflects the state of the Backbone model
