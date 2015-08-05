@@ -57,6 +57,8 @@ var TrialsSequencer = (function() {
       // workaround to make sure the style is applied to the settings panel, which has just been created
       $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer, #hooks {visibility: hidden}</style>");
 
+      // reset options to their correct values, if necessary
+      resetSettingsIfNeeded();
 
       // Initialize this.trial and show the instructions modal
       Sequencer.prototype.initializeTrial.call(this, number, (function() {
@@ -66,9 +68,6 @@ var TrialsSequencer = (function() {
 
          if (this.name == "practiceTrial" && experiment.condition > 0)
             tutorial.addExplanatoryPopups();
-
-         // reset options to their correct values, if necessary
-         resetSettingsIfNeeded();
 
          // set how the options should look like at the end of this trial, if it was perfectly executed
          experiment.referenceOptions[this.trial.target.option.id].value = this.trial.target.value;

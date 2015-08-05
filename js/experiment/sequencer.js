@@ -72,17 +72,13 @@ Sequencer.prototype.startTrial = function() {
 }
 
 // called when the user clicks the "done" button in the progress bar
-Sequencer.prototype.endTrial = function(callback) {
+Sequencer.prototype.endTrial = function() {
    console.log(this.name + " trial " + this.trial.number + " ended")
    this.trial.done = true;
 
    // update the angular view when all variables are set (REQUIRED when timeout)
    if (experiment.condition > 0)
       angular.element($("#ad-hoc-panel")).scope().$apply();
-
-   // this callback rectify the settings of Wunderlist, in case of incorrect selection(s)
-   if (typeof callback === typeof Function)
-      callback();
 
    if (this.forceRetry && !this.trialSuccess()) {
       setTimeout(this.initializeTrial.bind(this), 1000, this.trial.number);
