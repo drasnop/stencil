@@ -129,6 +129,12 @@ var wunderlistListeners = (function() {
       }
       /*else
               console.log(option.id, "is", accessor.call(formElement), "==", option.value)*/
+
+      // if the underlying Wunderlist model is not correct, try to fix it
+      if (dataManager.getAppValue(option.id) != option.value) {
+         console.log("-- rectifying Wunderlist setting", option.id, "from", dataManager.getAppValue(option.id), "to", option.value);
+         dataManager.updateAppOption(option.id, option.value, false);
+      }
    }
 
    // Inspired from http://www.drdobbs.com/open-source/currying-and-partial-functions-in-javasc/231001821?pgno=2
