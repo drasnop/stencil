@@ -150,9 +150,7 @@ function getvalue(id) {
          ui = $(this).children("input").filter(":checked").val();
    })
 
-   var wunderlist = sync.collections.settings.where({
-      key: id
-   })[0].get("value");
+   var wunderlist = dataManager.getAppValue(id);
    var mine = model.options[id].value;
 
    console.log(id, ui, wunderlist, mine);

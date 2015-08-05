@@ -221,11 +221,7 @@ var dataManager = (function() {
 
       var value;
       model.options.forEach(function(option) {
-
-         value = sync.collections.settings.where({
-            key: option.id
-         })[0].get("value")
-
+         value = dataManager.getAppValue(option.id);
          dataManager.updateOption(option, value);
       })
    }
@@ -251,7 +247,7 @@ var dataManager = (function() {
 
    // I am using booleans, but Wunderlist stores these options as strings!
    dataManager.updateOption = function(option, value) {
-      option.value = dataManager.formatValueForModel(value);
+      option.value = value;
       console.log("- updating:", option.id, option.value)
    }
 
@@ -259,11 +255,7 @@ var dataManager = (function() {
    dataManager.updateAppOption = function(id, value, updateHooksAndClusters) {
 
       if (typeof sync != "undefined" && typeof sync.collections != "undefined") {
-         sync.collections.settings.where({
-            key: id
-         })[0].set({
-            value: dataManager.formatValueForWunderlist(value)
-         })
+         dataManager.setAppValue(id, value)
       } else {
          // dev mode: not linked with Wunderlist backbone
          console.log("no underlying application settings to update for: ", id)
@@ -274,6 +266,28 @@ var dataManager = (function() {
          if (value == "hidden" || value == "visible" || value == "auto")
             hooksManager.updateHooksAndClusters(true);
       }
+   }
+
+   /* API to access and change Wunderlist settings */
+
+   dataManager.getAppValue = function(id) {
+      return dataManager.formatValueForModel(getRawAppValue(id));
+   }
+
+   function getRawAppValue(id) {
+      return getAppSetting(id).get("value");
+   }
+
+   function getAppSetting(id) {
+      return sync.collections.settings.where({
+         key: id
+      })[0];
+   }
+
+   dataManager.setAppValue = function(id, value) {
+      return getAppSetting(id).set({
+         value: dataManager.formatValueForWunderlist(value)
+      })
    }
 
    // Must convert boolean into strings for Wunderlist...
