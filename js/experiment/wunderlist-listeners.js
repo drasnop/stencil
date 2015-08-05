@@ -64,105 +64,35 @@ var wunderlistListeners = (function() {
 */
 
       /*
-        listener for tabs in preferences panel
+        listeners for tabs in preferences panel
       */
 
       // log show/hide for the "show more" button in the Shortcuts tab
       instrumentShowMoreButton();
 
       // log open/close preferences events, visited tab and instrument showMoreShortcuts button
-      window.onhashchange = function() {
-         var timestamp = performance.now();
-
-
-         /* log preferences open/close events */
-
-         // if this is not the preferences panel
-         if (location.hash.indexOf("preferences") < 0) {
-
-            // if preferences panel has just been closed, log it
-            if (preferencesOpen) {
-
-               // log this event only if it was caused by a user action
-               // (this will not happen when closing panel to refresh it because trial has already been saved)
-               if (experiment.sequencer.trial) {
-                  experiment.sequencer.trial.preferencesPanel.pushStamped({
-                     "action": "close"
-                  }, timestamp)
-               }
-            }
-
-            preferencesOpen = false;
-            return;
-         }
-
-         // if the preferences panel is shown
-         if (location.hash.indexOf("preferences") >= 0) {
-
-            // if preferences panel has just been opened, log it
-            if (!preferencesOpen) {
-
-               // log this event only if it was caused by a user action
-               // (this should not happen when closing/opening panel to refresh it)
-               if (experiment.sequencer.trial && experiment.sequencer.trial.time.start) {
-                  experiment.sequencer.trial.preferencesPanel.pushStamped({
-                     "action": "open"
-                  }, timestamp)
-               }
-            }
-
-            preferencesOpen = true;
-
-
-            /* log visited tab */
-
-            // detect which tab is currently active
-            var tab = wunderlistListeners.findActiveTab();
-
-            // log visited tab
-            // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
-            if (experiment.sequencer.trial && experiment.sequencer.trial.time.start) {
-               experiment.sequencer.trial.visitedTabs.pushStamped({
-                  "tab": logger.flattenTab(tab)
-               }, timestamp)
-            }
-
-
-            /* switching tabs always resets the showMore button */
-
-            model.wunderlistShowMore = false;
-         }
-      }
+      bindLocationHashListener();
    }
 
 
-   // detect which tab is currently active
-   wunderlistListeners.findActiveTab = function() {
-      var temp = location.hash.split('/');
-      var shortHash = temp[temp.length - 1];
+   ////////////////////////////////////////////////
+   ///  Listeners for settings in preferences panel 
+   ////////////////////////////////////////////////
 
-      for (var i in model.tabs) {
-         if (model.tabs[i].hash == shortHash)
-            return model.tabs[i];
-      }
 
-      return false;
-   }
+   /*
+   Since the state of Wunderlist UI seems, sometimes, to be disconnected from Wunderlist Backbone model,
+   I may have no choice but to implement the listeners (and setters!) myself.
 
-   function instrumentShowMoreButton() {
-      console.log("instrumenting Wunderlist's showMore button...")
+   Difficulties:
+   - they would have to be recreated every time a tab is visited -> not even, thanks to global .on()!
+   - What about shortcuts? -> just text fields
 
-      $("#modals").on("click", "#settings button.show-advanced-shortcuts", function() {
-         model.wunderlistShowMore = !model.wunderlistShowMore;
-
-         if (experiment.sequencer.trial) {
-            experiment.sequencer.trial.showMoreOptions.pushStamped({
-               "tab": "Shortcuts",
-               "action": model.wunderlistShowMore ? "show" : "hide"
-            })
-         }
-      })
-   }
+   Annoyances:
+   - need to manually find the ids of each option (not standardized it seems)
+   - programatically changing the value of radios buttons, select and checkboxes DOES NOT update the Wunderlist model
+     -> so I can only use it to make sure settings looks what they values are
+   */
 
 
    // ensure that the UI reflects the state of the Backbone model, when changing tabs or opening the panel
@@ -287,22 +217,106 @@ var wunderlistListeners = (function() {
    }
 
 
+   ////////////////////////////////////////////
+   ///  Listeners for tabs in preferences panel 
+   ////////////////////////////////////////////
+
+
+   function bindLocationHashListener() {
+      window.onhashchange = function() {
+         var timestamp = performance.now();
+
+
+         /* log preferences open/close events */
+
+         // if this is not the preferences panel
+         if (location.hash.indexOf("preferences") < 0) {
+
+            // if preferences panel has just been closed, log it
+            if (preferencesOpen) {
+
+               // log this event only if it was caused by a user action
+               // (this will not happen when closing panel to refresh it because trial has already been saved)
+               if (experiment.sequencer.trial) {
+                  experiment.sequencer.trial.preferencesPanel.pushStamped({
+                     "action": "close"
+                  }, timestamp)
+               }
+            }
+
+            preferencesOpen = false;
+            return;
+         }
+
+         // if the preferences panel is shown
+         if (location.hash.indexOf("preferences") >= 0) {
+
+            // if preferences panel has just been opened, log it
+            if (!preferencesOpen) {
+
+               // log this event only if it was caused by a user action
+               // (this should not happen when closing/opening panel to refresh it)
+               if (experiment.sequencer.trial && experiment.sequencer.trial.time.start) {
+                  experiment.sequencer.trial.preferencesPanel.pushStamped({
+                     "action": "open"
+                  }, timestamp)
+               }
+            }
+
+            preferencesOpen = true;
+
+
+            /* log visited tab */
+
+            // detect which tab is currently active
+            var tab = wunderlistListeners.findActiveTab();
+
+            // log visited tab
+            // (this will not happen when closing/opening panel to refresh it because trial hasn't been initialized yet)
+            if (experiment.sequencer.trial && experiment.sequencer.trial.time.start) {
+               experiment.sequencer.trial.visitedTabs.pushStamped({
+                  "tab": logger.flattenTab(tab)
+               }, timestamp)
+            }
+
+
+            /* switching tabs always resets the showMore button */
+
+            model.wunderlistShowMore = false;
+         }
+      }
+
+   }
+
+   // detect which tab is currently active
+   wunderlistListeners.findActiveTab = function() {
+      var temp = location.hash.split('/');
+      var shortHash = temp[temp.length - 1];
+
+      for (var i in model.tabs) {
+         if (model.tabs[i].hash == shortHash)
+            return model.tabs[i];
+      }
+
+      return false;
+   }
+
+   function instrumentShowMoreButton() {
+      console.log("instrumenting Wunderlist's showMore button...")
+
+      $("#modals").on("click", "#settings button.show-advanced-shortcuts", function() {
+         model.wunderlistShowMore = !model.wunderlistShowMore;
+
+         if (experiment.sequencer.trial) {
+            experiment.sequencer.trial.showMoreOptions.pushStamped({
+               "tab": "Shortcuts",
+               "action": model.wunderlistShowMore ? "show" : "hide"
+            })
+         }
+      })
+   }
+
 
 
    return wunderlistListeners;
 })();
-
-
-/*
-Since the state of Wunderlist UI seems, sometimes, to be disconnected from Wunderlist Backbone model,
-I may have no choice but to implement the listeners (and setters!) myself.
-
-Difficulties:
-- they would have to be recreated every time a tab is visited -> not even, thanks to global .on()!
-- What about shortcuts? -> just text fields
-
-Annoyances:
-- need to manually find the ids of each option (not standardized it seems)
-- programatically changing the value of radios buttons, select and checkboxes DOES NOT update the Wunderlist model
-  -> so I can only use it to make sure settings looks what they values are
-*/
