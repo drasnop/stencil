@@ -13,9 +13,8 @@ var wunderlistListeners = (function() {
 
       console.log("Initializing Wunderlist listeners...")
 
-      /* 
-        listeners for settings in Wunderlist UI
-      */
+
+      /*    listeners for settings in Wunderlist UI   */
 
       // create a reverse map of the options associated to a given formElement's id
       wunderlistListeners.associatedOptions = {};
@@ -30,12 +29,8 @@ var wunderlistListeners = (function() {
       // listener for each settings change in Wunderlist UI
       bindSettingsListenersToUI();
 
-      // Alas, it doesn't work for shortucts. For these we keep watching the model
-      bingSettingsListenersToModel();
 
-      /*
-        listeners for tabs in preferences panel
-      */
+      /*    listeners for tabs in preferences panel    */
 
       // log show/hide for the "show more" button in the Shortcuts tab
       instrumentShowMoreButton();
@@ -168,7 +163,10 @@ var wunderlistListeners = (function() {
          if (option.id == "time_format")
             selector = "div[aria-label='settings_general_time_format']";
 
-         $("#modals").on("change", selector, function(event) {
+         // select, checkboxes and radio buttons use the "change" event; shortcuts textboxes the "blur" one
+         var eventType = (option.tab.name == "Shortcuts") ? "blur" : "change";
+
+         $("#modals").on(eventType, selector, function(event) {
             var formElement = $(selector);
 
             var newval;
@@ -179,8 +177,12 @@ var wunderlistListeners = (function() {
             else
                newval = formElement.prop("checked");
 
-            // update the model accordingly
+            // check if the model has actually changed (shortcuts will indeed trigger a blur event, not necessarily on change)
             oldval = option.value;
+            if (oldval == newval)
+               return;
+
+            // update the model accordingly
             option.value = newval;
             console.log("- updating:", option.id, "from", oldval, "to", option.value)
 
@@ -195,40 +197,6 @@ var wunderlistListeners = (function() {
             if (!scope.$$phase)
                scope.$apply();
          });
-      });
-   }
-
-   function bingSettingsListenersToModel() {
-
-      model.tabs[3].options.forEach(function(option) {
-
-         sync.collections.settings.where({
-            key: option.id
-         })[0].attributes.watch("value", function(prop, oldval, newval) {
-
-            // if this change originated from the model (as a "rectification" at the end of each trial), do nothing
-            if (option.value === dataManager.formatValueForModel(newval))
-               return newval;
-
-            console.log('* ' + option.id + '.' + prop + ' changed from', oldval, 'to', newval);
-
-            // update the model accordingly
-            dataManager.updateOption(option, newval);
-
-            // log this values change, without caring for visibility of anchors
-            if (experiment.sequencer.trial) {
-               experiment.sequencer.trial.logValueChange(option, oldval);
-            }
-
-            // notify angular of this change, to unlock the "done" button
-            // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
-            var scope = angular.element($("#ad-hoc-panel")).scope();
-            if (!scope.$$phase)
-               scope.$apply();
-
-            // must return newval, since this watcher function is called instead of the setter
-            return newval;
-         })
       });
    }
 
