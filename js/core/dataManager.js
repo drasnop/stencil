@@ -275,17 +275,17 @@ var dataManager = (function() {
    }
 
    dataManager.getRawAppValue = function(id) {
-      return getAppSetting(id).get("value");
+      return dataManager.getAppSetting(id).get("value");
    }
 
-   function getAppSetting(id) {
+   dataManager.getAppSetting = function(id) {
       return sync.collections.settings.where({
          key: id
       })[0];
    }
 
    dataManager.setAppValue = function(id, value) {
-      return getAppSetting(id).set({
+      return dataManager.getAppSetting(id).set({
          value: dataManager.formatValueForWunderlist(value)
       })
    }

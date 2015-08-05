@@ -164,7 +164,6 @@ var wunderlistListeners = (function() {
 
          $("#modals").on("change", selector, function(event) {
             var formElement = $(selector);
-            console.log(formElement)
 
             var newval;
             if (option.id == "time_format")
