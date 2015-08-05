@@ -48,15 +48,6 @@ var wunderlistListeners = (function() {
    /*
    Since the state of Wunderlist UI seems, sometimes, to be disconnected from Wunderlist Backbone model,
    I may have no choice but to implement the listeners (and setters!) myself.
-
-   Difficulties:
-   - they would have to be recreated every time a tab is visited -> not even, thanks to global .on()!
-   - What about shortcuts? -> just text fields
-
-   Annoyances:
-   - need to manually find the ids of each option (not standardized it seems)
-   - programatically changing the value of radios buttons, select and checkboxes DOES NOT update the Wunderlist model
-     -> so I can only use it to make sure settings looks what they values are
    */
 
 
@@ -166,19 +157,21 @@ var wunderlistListeners = (function() {
          // select, checkboxes and radio buttons use the "change" event; shortcuts textboxes the "blur" one
          var eventType = (option.tab.name == "Shortcuts") ? "blur" : "change";
 
+         // the accessor for reading the new value is different for radio buttons, select/textboxes and checkboxes
+         var accessor;
+         if (option.id == "time_format")
+            accessor = radioButtonsAccessor;
+         else if (option.values)
+            accessor = $.fn.val;
+         else
+            accessor = curry($.fn.prop, "checked");
+
          $("#modals").on(eventType, selector, function(event) {
             var formElement = $(selector);
-
-            var newval;
-            if (option.id == "time_format")
-               newval = radioButtonsAccessor.call(formElement);
-            else if (option.values)
-               newval = formElement.val();
-            else
-               newval = formElement.prop("checked");
+            var oldval = option.value;
+            var newval = accessor.call(formElement);
 
             // check if the model has actually changed (shortcuts will indeed trigger a blur event, not necessarily on change)
-            oldval = option.value;
             if (oldval == newval)
                return;
 
