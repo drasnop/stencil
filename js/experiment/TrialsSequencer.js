@@ -35,9 +35,6 @@ var TrialsSequencer = (function() {
       // reset options to their correct values, if necessary
       resetSettingsIfNeeded();
 
-      // listen to changes of the Backbone model
-      wunderlistListeners.bindSettingsAndTabsListeners();
-
       Sequencer.prototype.start.call(this);
    }
 

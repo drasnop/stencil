@@ -61,6 +61,10 @@ var experiment = (function() {
             experiment.generateInitialState(function() {
                logger.saveInitialState();
 
+               // add listeners to Wunderlist in the Control condition
+               if (experiment.condition === 0)
+                  wunderlistListeners.bindSettingsAndTabsListeners();
+
                // no need to wait for the Firebase acknowledgement to notify the user
                experiment.setupComplete();
             });
