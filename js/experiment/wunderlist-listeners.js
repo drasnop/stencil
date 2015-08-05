@@ -28,40 +28,10 @@ var wunderlistListeners = (function() {
       bindUIRectifiersOnTabChange();
 
       // listener for each settings change in Wunderlist UI
-      bindSettingsListeners();
+      bindSettingsListenersToUI();
 
-      // old
-      /*
-      model.options.forEachUserAccessible(function(option) {
-         sync.collections.settings.where({
-            key: option.id
-         })[0].attributes.watch("value", function(prop, oldval, newval) {
-
-            // if this change originated from the model (as a "rectification" at the end of each trial), do nothing
-            if (dataManager.formatValueForWunderlist(option.value) === newval)
-               return newval;
-
-            console.log('* ' + option.id + '.' + prop + ' changed from', oldval, 'to', newval);
-
-            // update the model accordingly
-            dataManager.updateOption(option, newval);
-
-            // log this values change, without caring for visibility of anchors
-            if (experiment.sequencer.trial) {
-               experiment.sequencer.trial.logValueChange(option, oldval);
-            }
-
-            // notify angular of this change, to unlock the "done" button
-            // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
-            var scope = angular.element($("#ad-hoc-panel")).scope();
-            if (!scope.$$phase)
-               scope.$apply();
-
-            // must return newval, since this watcher function is called instead of the setter
-            return newval;
-         })
-      });
-*/
+      // Alas, it doesn't work for shortucts. For these we keep watching the model
+      bingSettingsListenersToModel();
 
       /*
         listeners for tabs in preferences panel
@@ -183,7 +153,7 @@ var wunderlistListeners = (function() {
    }
 
 
-   function bindSettingsListeners() {
+   function bindSettingsListenersToUI() {
 
       model.options.forEachUserAccessible(function(option) {
 
@@ -209,11 +179,42 @@ var wunderlistListeners = (function() {
             var scope = angular.element($("#ad-hoc-panel")).scope();
             if (!scope.$$phase)
                scope.$apply();
-
-         })
-
+         });
       });
+   }
 
+   function bingSettingsListenersToModel() {
+
+      model.tabs[3].options.forEach(function(option) {
+
+         sync.collections.settings.where({
+            key: option.id
+         })[0].attributes.watch("value", function(prop, oldval, newval) {
+
+            // if this change originated from the model (as a "rectification" at the end of each trial), do nothing
+            if (option.value === dataManager.formatValueForModel(newval))
+               return newval;
+
+            console.log('* ' + option.id + '.' + prop + ' changed from', oldval, 'to', newval);
+
+            // update the model accordingly
+            dataManager.updateOption(option, newval);
+
+            // log this values change, without caring for visibility of anchors
+            if (experiment.sequencer.trial) {
+               experiment.sequencer.trial.logValueChange(option, oldval);
+            }
+
+            // notify angular of this change, to unlock the "done" button
+            // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
+            var scope = angular.element($("#ad-hoc-panel")).scope();
+            if (!scope.$$phase)
+               scope.$apply();
+
+            // must return newval, since this watcher function is called instead of the setter
+            return newval;
+         })
+      });
    }
 
 

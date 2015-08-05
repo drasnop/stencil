@@ -221,7 +221,7 @@ var dataManager = (function() {
 
       var value;
       model.options.forEach(function(option) {
-         value = dataManager.getAppValue(option.id);
+         value = dataManager.getRawAppValue(option.id);
          dataManager.updateOption(option, value);
       })
    }
@@ -247,7 +247,7 @@ var dataManager = (function() {
 
    // I am using booleans, but Wunderlist stores these options as strings!
    dataManager.updateOption = function(option, value) {
-      option.value = value;
+      option.value = dataManager.formatValueForModel(value);
       console.log("- updating:", option.id, option.value)
    }
 
@@ -271,10 +271,10 @@ var dataManager = (function() {
    /* API to access and change Wunderlist settings */
 
    dataManager.getAppValue = function(id) {
-      return dataManager.formatValueForModel(getRawAppValue(id));
+      return dataManager.formatValueForModel(dataManager.getRawAppValue(id));
    }
 
-   function getRawAppValue(id) {
+   dataManager.getRawAppValue = function(id) {
       return getAppSetting(id).get("value");
    }
 
