@@ -67,6 +67,9 @@ var wunderlistListeners = (function() {
         listener for tabs in preferences panel
       */
 
+      // log show/hide for the "show more" button in the Shortcuts tab
+      instrumentShowMoreButton();
+
       // log open/close preferences events, visited tab and instrument showMoreShortcuts button
       window.onhashchange = function() {
          var timestamp = performance.now();
@@ -125,13 +128,9 @@ var wunderlistListeners = (function() {
             }
 
 
-            /* instrument showMore button and form elements*/
+            /* switching tabs always resets the showMore button */
 
-            if (tab.name == "General")
-
-            // enable logging of showMoreOptions
-               if (tab.name == "Shortcuts")
-               wunderlistListeners.instrumentShowMoreButtonWhenReady();
+            model.wunderlistShowMore = false;
          }
       }
    }
@@ -150,28 +149,19 @@ var wunderlistListeners = (function() {
       return false;
    }
 
+   function instrumentShowMoreButton() {
+      console.log("instrumenting Wunderlist's showMore button...")
 
-   wunderlistListeners.instrumentShowMoreButtonWhenReady = function() {
-      setTimeout(function() {
-         if (!experiment.sequencer.trial)
-            return;
+      $("#modals").on("click", "#settings button.show-advanced-shortcuts", function() {
+         model.wunderlistShowMore = !model.wunderlistShowMore;
 
-         if ($("#settings button.show-advanced-shortcuts").length < 1)
-            wunderlistListeners.instrumentShowMoreButtonWhenReady();
-         else {
-            console.log("instrumenting Wunderlist's showMore button...")
-            model.wunderlistShowMore = false;
-
-            $("#settings button.show-advanced-shortcuts").click(function() {
-               model.wunderlistShowMore = !model.wunderlistShowMore;
-
-               experiment.sequencer.trial.showMoreOptions.pushStamped({
-                  "tab": "Shortcuts",
-                  "action": model.wunderlistShowMore ? "show" : "hide"
-               })
+         if (experiment.sequencer.trial) {
+            experiment.sequencer.trial.showMoreOptions.pushStamped({
+               "tab": "Shortcuts",
+               "action": model.wunderlistShowMore ? "show" : "hide"
             })
          }
-      }, 10)
+      })
    }
 
 

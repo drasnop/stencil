@@ -162,9 +162,6 @@ function openPreferences() {
       window.location.hash = "#/preferences/general";
       // preferencesOpen will be set to true
       // A new entry will be added automatically to visitedTabs, since we're watching location.hash
-
-      // instrumentShowMoreButtonWhenReady is called when switching tabs
-      // because the showMore button itself doesn't exist when another tab is active
    }
 }
 
