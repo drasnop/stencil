@@ -30,14 +30,6 @@ var TrialsSequencer = (function() {
 
    /* overwritten methods */
 
-   TrialsSequencer.prototype.start = function() {
-
-      // reset options to their correct values, if necessary
-      resetSettingsIfNeeded();
-
-      Sequencer.prototype.start.call(this);
-   }
-
    TrialsSequencer.prototype.initializeTrial = function(number) {
       // open the preferences panel or enter customization mode, in case participants had closed them
       if (experiment.condition === 0 && !preferencesOpen)
@@ -45,14 +37,11 @@ var TrialsSequencer = (function() {
       if (experiment.condition > 0 && !customizationMode)
          enterCustomizationMode();
 
-      // hide the hooks / settings panel, to prevent people from planning their next actions
-      // workaround to make sure the style is applied to the settings panel, which has just been created
-      $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer, #hooks {visibility: hidden}</style>");
-
       // always start from the general tab (for internal and ecological validity)
       if (experiment.condition === 0)
          window.location.hash = "#/preferences/general";
 
+      // ensure that all hooks are available in customization mode
       if (experiment.condition > 0) {
          // make sure the details panel is visible
          openDetailsPanel();
@@ -64,6 +53,12 @@ var TrialsSequencer = (function() {
          }, 500)
       }
 
+      // hide the hooks / settings panel, to prevent people from planning their next actions
+      // workaround to make sure the style is applied to the settings panel, which has just been created
+      $("head").append("<style class='hidden-settings-style'> #settings .content, #settings .content-footer, #hooks {visibility: hidden}</style>");
+
+
+      // Initialize this.trial and show the instructions modal
       Sequencer.prototype.initializeTrial.call(this, number, (function() {
 
          // once the .trial has been initialized, we can start using it
@@ -72,7 +67,10 @@ var TrialsSequencer = (function() {
          if (this.name == "practiceTrial" && experiment.condition > 0)
             tutorial.addExplanatoryPopups();
 
-         // set how the options should look like if this trial was perfectly executed
+         // reset options to their correct values, if necessary
+         resetSettingsIfNeeded();
+
+         // set how the options should look like at the end of this trial, if it was perfectly executed
          experiment.referenceOptions[this.trial.target.option.id].value = this.trial.target.value;
       }).bind(this));
    }
@@ -127,8 +125,7 @@ var TrialsSequencer = (function() {
       experiment.trials.push(loggable);
       logger.saveTrial(loggable);
 
-      // reset settings if needed after printring the "trial ended" statement
-      Sequencer.prototype.endTrial.call(this, resetSettingsIfNeeded);
+      Sequencer.prototype.endTrial.call(this);
    }
 
 

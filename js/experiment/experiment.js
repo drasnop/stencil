@@ -286,7 +286,7 @@ var experiment = (function() {
 
       // restore the options to their initial state
       experiment.referenceOptions = experiment.initialOptions;
-      // resetSettingsIfNeeded will be called automatically in TrialsSequencer.start
+      // resetSettingsIfNeeded will be called automatically in TrialsSequencer.initializeTrial
 
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Experiment, part 2";
