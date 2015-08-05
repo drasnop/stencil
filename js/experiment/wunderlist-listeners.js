@@ -147,15 +147,14 @@ var wunderlistListeners = (function() {
 
    function bindSettingsListenersToUI() {
 
-      model.options.forEachUserAccessible(function(option) {
+      $("#modals").on("change blur", "input, select", function(event) {
+         // retrieve the form element that was changed. For radio buttons, we take their parent (the group)
+         var formElement = $(event.target);
+         if (formElement.attr("type") == "radio")
+            formElement = formElement.parent();
 
-         // all formElements are selected via their ids, except time_format
-         var selector = "#" + option.formElement;
-         if (option.id == "time_format")
-            selector = "div[aria-label='settings_general_time_format']";
-
-         // select, checkboxes and radio buttons use the "change" event; shortcuts textboxes the "blur" one
-         var eventType = (option.tab.name == "Shortcuts") ? "blur" : "change";
+         // get the corresponding, either with the elements #id or by the stupid aria label (for the radio buttons group)
+         var option = wunderlistListeners.associatedOptions[formElement.prop("id") || formElement.attr("aria-label")];
 
          // the accessor for reading the new value is different for radio buttons, select/textboxes and checkboxes
          var accessor;
@@ -166,30 +165,26 @@ var wunderlistListeners = (function() {
          else
             accessor = curry($.fn.prop, "checked");
 
-         $("#modals").on(eventType, selector, function(event) {
-            var formElement = $(selector);
-            var oldval = option.value;
-            var newval = accessor.call(formElement);
+         // check if the model has actually changed (shortcuts will indeed trigger a blur event, not necessarily on change)
+         var oldval = option.value;
+         var newval = accessor.call(formElement);
+         if (oldval == newval)
+            return;
 
-            // check if the model has actually changed (shortcuts will indeed trigger a blur event, not necessarily on change)
-            if (oldval == newval)
-               return;
+         // update the model accordingly
+         option.value = newval;
+         console.log("- updating:", option.id, "from", oldval, "to", option.value)
 
-            // update the model accordingly
-            option.value = newval;
-            console.log("- updating:", option.id, "from", oldval, "to", option.value)
+         // log this values change, without caring for visibility of anchors
+         if (experiment.sequencer.trial) {
+            experiment.sequencer.trial.logValueChange(option, oldval);
+         }
 
-            // log this values change, without caring for visibility of anchors
-            if (experiment.sequencer.trial) {
-               experiment.sequencer.trial.logValueChange(option, oldval);
-            }
-
-            // notify angular of this change, to unlock the "done" button
-            // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
-            var scope = angular.element($("#ad-hoc-panel")).scope();
-            if (!scope.$$phase)
-               scope.$apply();
-         });
+         // notify angular of this change, to unlock the "done" button
+         // the test for existing $digest cycle is for weird cases with INVALID shortcuts...
+         var scope = angular.element($("#ad-hoc-panel")).scope();
+         if (!scope.$$phase)
+            scope.$apply();
       });
    }
 
