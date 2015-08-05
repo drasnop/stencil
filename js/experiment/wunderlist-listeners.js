@@ -157,12 +157,22 @@ var wunderlistListeners = (function() {
 
       model.options.forEachUserAccessible(function(option) {
 
-         $("#modals").on("change", "#" + option.formElement, function(event) {
+         // all formElements are selected via their ids, except time_format
+         var selector = "#" + option.formElement;
+         if (option.id == "time_format")
+            selector = "div[aria-label='settings_general_time_format']";
+
+         $("#modals").on("change", selector, function(event) {
+            var formElement = $(selector);
+            console.log(formElement)
+
             var newval;
-            if (option.values)
-               newval = $("#" + option.formElement).val();
+            if (option.id == "time_format")
+               newval = radioButtonsAccessor.call(formElement);
+            else if (option.values)
+               newval = formElement.val();
             else
-               newval = $("#" + option.formElement).prop("checked");
+               newval = formElement.prop("checked");
 
             // update the model accordingly
             oldval = option.value;
