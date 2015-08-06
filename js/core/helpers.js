@@ -25,36 +25,6 @@ function sameElements(a, b) {
    return true;
 }
 
-// Resize the panel to create a vertical scrollbar instead of overflowing
-function adjustPanelHeight() {
-
-   // Do not reposition minimal panel; simply reposition it
-   if (!model.fullPanel()) {
-      positionPanel();
-      return;
-   }
-
-   // we leave a margin of 30px below the panel
-   var wh = window.innerHeight - 30;
-   var top = $("#ad-hoc-panel").offset().top;
-
-   $("#options-list").css("height", "");
-   // we want to keep the tabs always visible, so resize only the options list
-   if (top + $("#ad-hoc-panel").height() > wh) {
-      $("#options-list").height(wh - top - $("#tabs").height());
-
-
-      if ($("#ad-hoc-panel").offset().top < 30) {
-         $("#ad-hoc-panel").offset({
-            "top": 30
-         });
-         $("#options-list").height(wh - $("#ad-hoc-panel").offset().top - $("#tabs").height());
-      }
-   }
-
-   //console.log("after adjustPanelHeight", $("#ad-hoc-panel").offset().top, $("#options-list").height())
-}
-
 // position the panel at the top right of the current anchor, if possible; otherwise flipfit it
 function positionPanel() {
    $("#ad-hoc-panel").position({

@@ -134,7 +134,7 @@ var hooksManager = (function() {
 
       });
 
-      bindHooksListeners();
+      listeners.bindHooksListeners();
 
       if (model.gmail)
          gmailSpecific();
@@ -293,7 +293,7 @@ var hooksManager = (function() {
       })
 
       // add interactivity
-      bindClustersListeners();
+      listeners.bindClustersListeners();
    }
 
 

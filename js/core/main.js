@@ -29,6 +29,9 @@ function initialize() {
    // hide the newly-created customization layer
    $("#customization-layer").hide();
 
+   // listen for Esc key and window resize
+   listeners.bindGlobalListeners();
+
    // add experiment software
    if (parameters.experiment) {
       $("body>*").wrapAll("<div id='progress-bar-pusher'></div")
