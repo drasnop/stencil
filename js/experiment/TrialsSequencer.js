@@ -36,7 +36,7 @@ var TrialsSequencer = (function() {
       experiment.referenceOptions = $.extend({}, experiment.initialOptions);
       // resetSettingsIfNeeded will be called automatically in TrialsSequencer.initializeTrial
 
-      Sequencer.prototype.call(this);
+      Sequencer.prototype.start.call(this);
    }
 
    TrialsSequencer.prototype.initializeTrial = function(number) {
