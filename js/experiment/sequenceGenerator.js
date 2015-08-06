@@ -14,59 +14,57 @@ var sequenceGenerator = (function() {
    }
 
    sequenceGenerator.optionsPartition = [{
-         'General': ['date_format',
-            'start_of_week',
-            'sound_notification_enabled',
-            'new_task_location',
-            'print_completed_items'
-         ],
-         'Shortcuts': ['shortcut_add_new_task',
-            'shortcut_mark_task_starred',
-            'shortcut_select_all_tasks',
-            'shortcut_copy_tasks',
-            'shortcut_goto_search',
-            'shortcut_show_notifications',
-            'shortcut_goto_filter_assigned',
-            'shortcut_goto_filter_today',
-            'shortcut_goto_filter_all',
-            'shortcut_sync'
-         ],
-         'Smart Lists': ['smartlist_visibility_today',
-            'smartlist_visibility_all',
-            'today_smart_list_visible_tasks'
-         ],
-         'Notifications': ['notifications_email_enabled',
-            'notifications_desktop_enabled'
-         ]
-      }, {
-         'General': ['time_format',
-            'sound_checkoff_enabled',
-            'confirm_delete_entity',
-            'behavior_star_tasks_to_top',
-            'show_subtask_progress'
-         ],
-         'Shortcuts': ['shortcut_add_new_list',
-            'shortcut_mark_task_done',
-            'shortcut_delete',
-            'shortcut_paste_tasks',
-            'shortcut_goto_preferences',
-            'shortcut_send_via_email',
-            'shortcut_goto_inbox',
-            'shortcut_goto_filter_starred',
-            'shortcut_goto_filter_week',
-            'shortcut_goto_filter_completed'
-         ],
-         'Smart Lists': ['smartlist_visibility_assigned_to_me',
-            'smartlist_visibility_week',
-            'smartlist_visibility_done'
-         ],
-         'Notifications': ['notifications_push_enabled',
-            'notifications_desktop_enabled'
-         ]
-      }
+      'General': ['date_format',
+         'start_of_week',
+         'sound_notification_enabled',
+         'new_task_location',
+         'print_completed_items'
+      ],
+      'Shortcuts': ['shortcut_add_new_task',
+         'shortcut_mark_task_starred',
+         'shortcut_select_all_tasks',
+         'shortcut_copy_tasks',
+         'shortcut_goto_search',
+         'shortcut_show_notifications',
+         'shortcut_goto_filter_assigned',
+         'shortcut_goto_filter_today',
+         'shortcut_goto_filter_all',
+         'shortcut_sync'
+      ],
+      'Smart Lists': ['smartlist_visibility_today',
+         'smartlist_visibility_all',
+         'today_smart_list_visible_tasks'
+      ],
+      'Notifications': ['notifications_email_enabled',
+         'notifications_desktop_enabled'
+      ]
+   }, {
+      'General': ['time_format',
+         'sound_checkoff_enabled',
+         'confirm_delete_entity',
+         'behavior_star_tasks_to_top',
+         'show_subtask_progress'
+      ],
+      'Shortcuts': ['shortcut_add_new_list',
+         'shortcut_mark_task_done',
+         'shortcut_delete',
+         'shortcut_paste_tasks',
+         'shortcut_goto_preferences',
+         'shortcut_send_via_email',
+         'shortcut_goto_inbox',
+         'shortcut_goto_filter_starred',
+         'shortcut_goto_filter_week',
+         'shortcut_goto_filter_completed'
+      ],
+      'Smart Lists': ['smartlist_visibility_assigned_to_me',
+         'smartlist_visibility_week',
+         'smartlist_visibility_done'
+      ],
+      'Notifications': ['notifications_push_enabled',
+         'notifications_desktop_enabled'
+      ]
+   }]
 
-
-   ]
 
    sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
 
@@ -118,6 +116,50 @@ var sequenceGenerator = (function() {
       console.log("generated a random sequence of " + experiment.optionsSequence.length + " options")
    }
 
+   // arg: associate array {"tabName": number}
+   // returns: array of tabNames
+   function generateTabsSequenceWithoutConsecutiveTabs(numElementsPerTab) {
+      var tabSequence;
+
+      // this loop might take a while, but in my tests the average number of trials was 14 and max ~ 100, which is still very fast
+      while (true) {
+         tabSequence = [];
+
+         // 1: generate array of elements to pick from
+         var elements = [];
+         for (var tab in numElementsPerTab) {
+            for (var j = 0; j < numElementsPerTab[tab]; j++) {
+               elements.push(tab);
+            }
+         }
+
+         // 2: pick non-consecutive elements, trying up to 10 times before giving up
+         var index;
+         var element = "";
+         var count = 0;
+
+         while (elements.length && count < 10) {
+
+            index = randomIndexFrom(elements);
+            if (elements[index] !== element) {
+               element = elements.splice(index, 1)[0];
+               tabSequence.push(element);
+               count = 0;
+            } else {
+               // try again, with a maximum of 10 times
+               count++;
+            }
+         }
+
+         if (count == 10)
+            console.log("Tab sequence rejected", tabSequence.toString())
+         else
+            break;
+      }
+
+      console.log("Valid tab sequence found", tabSequence.toString())
+      return tabSequence;
+   }
 
    // returns a boolean value or a String (the name of the value)
    // in the case of more than 2 values, the reverse flag is used so that complementValueOf(complementValueOf(option),true)=option.valuesequenceGenerator.complementValueOf = function(option, reverse) {
@@ -274,6 +316,24 @@ var sequenceGenerator = (function() {
       })
 
    }
+
+
+   /* randomness helpers */
+
+   function randomIndexFrom(array) {
+      return Math.floor(Math.random() * array.length);
+   }
+
+   function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+         var j = Math.floor(Math.random() * (i + 1));
+         var temp = array[i];
+         array[i] = array[j];
+         array[j] = temp;
+      }
+      return;
+   }
+
 
    return sequenceGenerator;
 })();

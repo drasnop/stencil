@@ -346,5 +346,32 @@ var hooksManager = (function() {
    }
 
 
+   /* helpers */
+
+   var parentCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left",
+      "border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
+      "margin-top", "margin-right", "margin-bottom", "margin-left",
+      "box-sizing", "display", "float", "list-style",
+      "text-align", "font-size"
+   ];
+
+   function getRelevantCSS(obj, relevantCSS) {
+      var rules = {};
+      for (var i in relevantCSS) {
+         rules[relevantCSS[i]] = obj.css(relevantCSS[i]);
+      }
+      rules["box-sizing"] = "content-box";
+      return rules;
+   }
+
+   // computes the Euclidian distance between two ghost anchors
+   function distance(ghost1, ghost2) {
+      var x1 = parseInt(ghost1.css("left")) + ghost1.robustWidth() / 2;
+      var x2 = parseInt(ghost2.css("left")) + ghost2.robustWidth() / 2;
+      var y1 = parseInt(ghost1.css("top")) + ghost1.robustHeight() / 2;
+      var y2 = parseInt(ghost2.css("top")) + ghost2.robustHeight() / 2;
+      return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+   }
+
    return hooksManager;
 })();

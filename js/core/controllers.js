@@ -304,14 +304,6 @@ app.controller('panelController', ['$scope', '$rootScope', '$window', '$timeout'
       }).removeClass("blue-highlighted")
    }
 
-   $scope.adjustPanelHeightAsync = function() {
-      //console.log("before", $("#options-list").height())
-      /*      $timeout(function() {
-               //console.log("timeout", $("#options-list").height())
-               $scope.$eval(adjustPanelHeight());
-            }, 10)*/
-   }
-
    $scope.filterOutBloatTabs = function(tab) {
       return !tab.bloat;
    }

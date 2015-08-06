@@ -1,21 +1,5 @@
 ///////////    helper functions     ////////////////////
 
-var parentCSS = ["padding-top", "padding-right", "padding-bottom", "padding-left",
-   "border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
-   "margin-top", "margin-right", "margin-bottom", "margin-left",
-   "box-sizing", "display", "float", "list-style",
-   "text-align", "font-size"
-];
-
-function getRelevantCSS(obj, relevantCSS) {
-   var rules = {};
-   for (var i in relevantCSS) {
-      rules[relevantCSS[i]] = obj.css(relevantCSS[i]);
-   }
-   rules["box-sizing"] = "content-box";
-   return rules;
-}
-
 // return the objects that have the same options that the ones passed in argument
 function haveSameOptions(input, options, reverse) {
    return input.filter(function() {
@@ -106,15 +90,6 @@ Math.mean = function(array) {
    return sum / array.length;
 }
 
-// computes the Euclidian distance between two ghost anchors
-function distance(ghost1, ghost2) {
-   var x1 = parseInt(ghost1.css("left")) + ghost1.robustWidth() / 2;
-   var x2 = parseInt(ghost2.css("left")) + ghost2.robustWidth() / 2;
-   var y1 = parseInt(ghost1.css("top")) + ghost1.robustHeight() / 2;
-   var y2 = parseInt(ghost2.css("top")) + ghost2.robustHeight() / 2;
-   return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-}
-
 
 // Debug only
 function getscope() {
@@ -172,27 +147,6 @@ function showModal() {
    })
 }
 
-
-/* randomness */
-
-function randomElementFrom(array) {
-   return array[randomIndexFrom(array)];
-}
-
-function randomIndexFrom(array) {
-   return Math.floor(Math.random() * array.length);
-}
-
-function shuffleArray(array) {
-   for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-   }
-   return;
-}
-
 function getIndexOfValueInOption(option, value) {
    var index;
    for (var i = 0; i < option.values.length; i++) {
@@ -202,51 +156,6 @@ function getIndexOfValueInOption(option, value) {
       }
    }
    return index;
-}
-
-// arg: associate array {"tabName": number}
-// returns: array of tabNames
-function generateTabsSequenceWithoutConsecutiveTabs(numElementsPerTab) {
-   var tabSequence;
-
-   // this loop might take a while, but in my tests the average number of trials was 14 and max ~ 100, which is still very fast
-   while (true) {
-      tabSequence = [];
-
-      // 1: generate array of elements to pick from
-      var elements = [];
-      for (var tab in numElementsPerTab) {
-         for (var j = 0; j < numElementsPerTab[tab]; j++) {
-            elements.push(tab);
-         }
-      }
-
-      // 2: pick non-consecutive elements, trying up to 10 times before giving up
-      var index;
-      var element = "";
-      var count = 0;
-
-      while (elements.length && count < 10) {
-
-         index = randomIndexFrom(elements);
-         if (elements[index] !== element) {
-            element = elements.splice(index, 1)[0];
-            tabSequence.push(element);
-            count = 0;
-         } else {
-            // try again, with a maximum of 10 times
-            count++;
-         }
-      }
-
-      if (count == 10)
-         console.log("Tab sequence rejected", tabSequence.toString())
-      else
-         break;
-   }
-
-   console.log("Valid tab sequence found", tabSequence.toString())
-   return tabSequence;
 }
 
 

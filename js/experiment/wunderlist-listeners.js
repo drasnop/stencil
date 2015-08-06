@@ -274,7 +274,7 @@ var wunderlistListeners = (function() {
    }
 
    function instrumentShowMoreButton() {
-      console.log("instrumenting Wunderlist's showMore button...")
+      console.log("Instrumenting Wunderlist's showMore button...")
 
       $("#modals").on("click", "#settings button.show-advanced-shortcuts", function() {
          model.wunderlistShowMore = !model.wunderlistShowMore;
