@@ -65,12 +65,58 @@ var sequenceGenerator = (function() {
       ]
    }]
 
+   // These sequences have been optimized to alternate the tabs
+   sequenceGenerator.tabsSequences = [
+      ["Shortcuts",
+         "General",
+         "Shortcuts",
+         "Smart Lists",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Notifications",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Smart Lists",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Notifications",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Smart Lists"
+      ],
+      ["Shortcuts",
+         "Smart Lists",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Notifications",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Smart Lists",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Notifications",
+         "Shortcuts",
+         "General",
+         "Shortcuts",
+         "Smart Lists",
+         "Shortcuts",
+         "General"
+      ]
+   ];
+
 
    sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
 
       // create the target option sequence, by randomly ordering two blocks of options from the same partition
-      generateOptionsSequence();
-      generateOptionsSequence();
+      generateOptionsSequence(0);
+      generateOptionsSequence(1);
 
       // create the target values sequence by taking the complement of the current target options' values
       experiment.optionsSequence.forEach(function(option) {
@@ -87,7 +133,7 @@ var sequenceGenerator = (function() {
       callback();
    }
 
-   function generateOptionsSequence() {
+   function generateOptionsSequence(tabSequenceIndex) {
 
       // 1a: retrieve the correct options partition
       var partition = sequenceGenerator.optionsPartition[experiment.partition]
@@ -106,7 +152,8 @@ var sequenceGenerator = (function() {
       }
 
       // 3: compute a sequence of tabs in which no two selections come from the same tab
-      var tabSequence = generateTabsSequenceWithoutConsecutiveTabs(sequenceGenerator.numOptionsPerTab);
+      // var tabSequence = generateTabsSequenceWithoutConsecutiveTabs(sequenceGenerator.numOptionsPerTab);
+      var tabSequence = sequenceGenerator.tabsSequences[tabSequenceIndex];
 
       // 4: use this sequence to order the sequence of options selections
       for (var i = 0; i < tabSequence.length; i++) {
