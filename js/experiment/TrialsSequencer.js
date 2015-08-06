@@ -30,6 +30,15 @@ var TrialsSequencer = (function() {
 
    /* overwritten methods */
 
+   TrialsSequencer.prototype.start = function() {
+
+      // restore the reference options to their initial state
+      experiment.referenceOptions = $.extend({}, experiment.initialOptions);
+      // resetSettingsIfNeeded will be called automatically in TrialsSequencer.initializeTrial
+
+      Sequencer.prototype.call(this);
+   }
+
    TrialsSequencer.prototype.initializeTrial = function(number) {
       // open the preferences panel or enter customization mode, in case participants had closed them
       if (experiment.condition === 0 && !preferencesOpen)

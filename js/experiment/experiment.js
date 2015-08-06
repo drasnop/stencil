@@ -85,7 +85,7 @@ var experiment = (function() {
 
       // 2: store a correct version of the options, for future reference
       // the use of the logger method is coincidential: it simply serves our purpose here well
-      experiment.referenceOptions = logger.compressAllUserAccessibleOptions();
+      experiment.initialOptions = logger.compressAllUserAccessibleOptions();
 
       // 3: set the Wunderlist options to the default (or opposite default) settings 
       dataManager.initializeAppOptionsFromFile();
@@ -240,10 +240,6 @@ var experiment = (function() {
       // construct a new Trial sequencer
       experiment.sequencer = new TrialsSequencer("experimentTrials1", 800, 1500, 2, "Error :(", false, Trial, 1, 20, experiment.firstBlockEnded);
 
-      // store the current state of the options, for the second block
-      // the use of the logger method is coincidential: it simply serves our purpose here well
-      experiment.initialOptions = logger.compressAllUserAccessibleOptions();
-
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Experiment";
       model.modal.message = "In each step, you will be asked to change <b>one setting</b> of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting <b>as quickly and as accurately as possible</b>, then click the \"Next\" button.<br><br>" +
@@ -283,10 +279,6 @@ var experiment = (function() {
          // generate recognition questionnaire from the selection sequence, then callback to continue experiment
          sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
       });
-
-      // restore the options to their initial state
-      experiment.referenceOptions = experiment.initialOptions;
-      // resetSettingsIfNeeded will be called automatically in TrialsSequencer.initializeTrial
 
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Experiment, part 2";
