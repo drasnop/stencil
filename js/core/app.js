@@ -54,7 +54,7 @@ app.run(['$location', '$http', '$q', '$rootScope', function($location, $http, $q
 
       $http.delete("https://a.wunderlist.com/api/v1/user", {
          params: {
-            "password": "experiment"
+            "password": "experiment!"
          },
          headers: {
             "x-client-id": sync.options.clientID,
