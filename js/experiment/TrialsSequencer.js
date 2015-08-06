@@ -32,8 +32,8 @@ var TrialsSequencer = (function() {
 
    TrialsSequencer.prototype.start = function() {
 
-      // restore the reference options to their initial state
-      experiment.referenceOptions = $.extend({}, experiment.initialOptions);
+      // restore the reference options to their initial state, by deep-copying the initial options
+      experiment.referenceOptions = $.extend(true, {}, experiment.initialOptions);
       // resetSettingsIfNeeded will be called automatically in TrialsSequencer.initializeTrial
 
       Sequencer.prototype.start.call(this);
