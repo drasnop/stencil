@@ -76,8 +76,9 @@ Sequencer.prototype.endTrial = function() {
    console.log(this.name + " trial " + this.trial.number + " ended")
    this.trial.done = true;
 
-   // update the angular view when all variables are set (REQUIRED when timeout)
-   if (experiment.condition > 0)
+   // In case of timeout, no user action was recorded by angular
+   // so we must call $apply() manually to update the angular view
+   if (this.trialTimeout() && experiment.condition > 0)
       angular.element($("#ad-hoc-panel")).scope().$apply();
 
    if (this.forceRetry && !this.trialSuccess()) {
