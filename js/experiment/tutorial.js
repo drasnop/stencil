@@ -19,7 +19,7 @@ tutorial.steps = [
    "Click on the bell-shaped icon at the top left of the screen. This is were notifications (or \"Activities\") will be shown.",
    "Click on the magnifier icon next to it, and search for \"movie\". Your todo item \"watch a good movie\" should appear.",
    "Now let's say you have bought the milk. Go back to the Inbox, and tick the appropriate checkbox to mark this todo item as complete (= check it off)",
-   "Below the list of todo items, there is a button \"1 completed item\". Click on it to reveal the todo you've just checked off.",
+   "Below the list of todo items, there is a button \"Show completed items\". Click on it to reveal the todo you've just checked off.",
    "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom."
 ]
 
