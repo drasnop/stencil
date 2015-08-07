@@ -7,11 +7,21 @@ var list = function(variable) {
    return;
 }
 
+// recursive exploration, print non-empty and non-functions
+function list(variable) {
+   console.log("## " + variable);
+   for (var m in variable) {
+      if (variable[m] != null && typeof variable[m] != typeof Function)
+         console.log(m, variable[m]);
+   }
+   return;
+}
+
 // list all options, values
 var listm = function(collection) {
    var models = collection.models;
    for (var m in models) {
-      console.log(m, models[m].attributes.key, models[m].attributes.value)
+      console.log(m, models[m].attributes.name, models[m].attributes.key, models[m].attributes.value)
    }
    return;
 }
