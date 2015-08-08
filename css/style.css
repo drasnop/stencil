@@ -568,6 +568,28 @@ html #wunderlist-base .main-interface.detail-visible #detail.animated {
 }
 
 
+/* overwrite display classes for some wunderlist settings */
+
+ul.filters-collection .sidebarItem.force-animate-down {
+    height: 34px!important;
+}
+
+ul.filters-collection .sidebarItem.force-animate-up {
+    height: 0!important;
+}
+
+
+/*#settings .filter-setting.force-disabled .label,
+#settings .filter-setting.force-disabled svg {
+    opacity: 0.6!important;
+}
+
+#settings .filter-setting.force-enabled .label,
+#settings .filter-setting.force-enabled svg {
+    opacity: 1!important;
+}*/
+
+
 /* button.highlighted{
    background-color: rgb(39, 160, 216) !important;
    background-image: none !important;

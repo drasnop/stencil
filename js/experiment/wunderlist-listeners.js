@@ -127,6 +127,13 @@ var wunderlistListeners = (function() {
             console.log("-- rectifying Wunderlist setting", option.id, "from", dataManager.getAppValue(option.id), "to", option.value);
             dataManager.updateAppOption(option.id, option.value, false);
          }
+
+      }
+
+      // we must even rectify the appearance of the damn labels!
+      if (option.showHide) {
+         $(".settings-content-inner.sidebar .filter-setting:eq(" + option.index + ")").toggleClass("disabled", option.value == "hidden");
+         //dataManager.forceVisibilityOfSmartlists();
       }
    }
 
@@ -185,6 +192,10 @@ var wunderlistListeners = (function() {
          // update the model accordingly
          option.value = newval;
          console.log("- updating:", option.id, "from", oldval, "to", option.value)
+
+         // update the view
+         if (option.showHide)
+            dataManager.forceVisibilityOfSmartlists();
 
          // log this values change, without caring for visibility of anchors
          if (experiment.sequencer.trial) {

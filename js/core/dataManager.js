@@ -261,11 +261,9 @@ var dataManager = (function() {
          console.log("no underlying application settings to update for: ", id)
       }
 
-      if (updateHooksAndClusters) {
-         // if the visibility of the corresponding hook has changed, update hooks and clusters, with animation
-         if (value == "hidden" || value == "visible" || value == "auto")
-            hooksManager.updateHooksAndClusters(true);
-      }
+      // if the visibility of the corresponding hook has changed, update hooks and clusters, with animation
+      if (model.options[id].showHide && updateHooksAndClusters)
+         hooksManager.updateHooksAndClusters(true);
    }
 
    /* API to access and change Wunderlist settings */
@@ -315,6 +313,16 @@ var dataManager = (function() {
             return value;
       }
    }
+
+   dataManager.forceVisibilityOfSmartlists = function() {
+      model.options.forEachUserAccessible(function(option) {
+         if (option.showHide) {
+            $("ul.filters-collection .sidebarItem:eq(" + (option.index + 1) + ")").toggleClass("force-animate-up", option.value == "hidden");
+            $("ul.filters-collection .sidebarItem:eq(" + (option.index + 1) + ")").toggleClass("force-animate-down", option.value != "hidden");
+         }
+      })
+   }
+
 
    return dataManager;
 })();

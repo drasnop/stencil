@@ -214,6 +214,9 @@ var TrialsSequencer = (function() {
             dataManager.updateAppOption(id, model.options[id].value, true);
          }
       }
+
+      // we must even rectify the appearance of the damn labels!
+      dataManager.forceVisibilityOfSmartlists();
    }
 
    // if possible, make sure the details panel on the right-hand side is opened
