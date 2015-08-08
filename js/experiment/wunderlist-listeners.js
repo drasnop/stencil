@@ -121,9 +121,9 @@ var wunderlistListeners = (function() {
 
       // if the underlying Wunderlist model is not correct, try to fix it
       if (dataManager.getAppValue(option.id) != option.value) {
-         if (dataManager.getAppValue(option.id) === "UNDEFINED")
-            console.log("-- cannot rectify Wunderlist setting", option.id, ": it is", dataManager.getAppValue(option.id));
-         else {
+         if (dataManager.getAppValue(option.id) === "UNDEFINED") {
+            // console.log("-- cannot rectify Wunderlist setting", option.id, ": it is", dataManager.getAppValue(option.id));
+         } else {
             console.log("-- rectifying Wunderlist setting", option.id, "from", dataManager.getAppValue(option.id), "to", option.value);
             dataManager.updateAppOption(option.id, option.value, false);
          }
