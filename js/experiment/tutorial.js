@@ -6,25 +6,25 @@ var tutorial = new Sequencer("tutorial", 500, 2000, "try again", true, Step, fun
 
 tutorial.steps = [
    "After completing each step of this tutorial, click the blue \"Next\" button in the instructions bar (at the top of the screen). <b>Try it now!</b>",
-   "Type \"buy milk\" in the input field, and press Enter to add a new todo item.",
-   "Double-click on the todo item you added to show the details panel on the right.",
+   "Type \"buy milk\" in the input field, and press Enter to add a new to-do.",
+   "Double-click on the to-do you added to show the details panel on the right.",
    "Write a more detailed description in the <b>yellow area</b> on the right: \"for the cake\"",
-   "Add another todo item: \"call mom\"",
+   "Add another to-do: \"call mom\"",
    "Click on the star icon to mark it as important.",
-   "In the left sidebar, there is an item called \"Starred\". This is an <b>intelligent filter</b>, that shows all the todos due in the coming week. Check that \"call mom\" appears there.",
+   "In the left sidebar, there is a to-do called \"Starred\". This is an <b>intelligent filter</b>, that shows all the to-dos due in the coming week. Check that \"call mom\" appears there.",
    "You can also create your own lists. Click on the the \"+\" button at the bottom left of the screen, and create a list called \"TV shows\"",
    "Go back to the Inbox, by clicking on \"Inbox\" in the left sidebar.",
-   "Add a third todo item: \"watch a good movie\"",
-   "Double-click on this todo item, and change its due date to this Sunday.",
+   "Add a third to-do: \"watch a good movie\"",
+   "Double-click on this to-do, and change its due date to this Sunday.",
    "Click on the bell-shaped icon at the top left of the screen. This is were notifications (or \"Activities\") will be shown.",
-   "Click on the magnifier icon next to it, and search for \"movie\". Your todo item \"watch a good movie\" should appear.",
-   "Now let's say you have bought the milk. Go back to the Inbox, and tick the appropriate checkbox to mark this todo item as complete (= check it off)",
-   "Below the list of todo items, there is a button \"Show completed items\". Click on it to reveal the todo you've just checked off.",
-   "Delete the todo item \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom."
+   "Click on the magnifier icon next to it, and search for \"movie\". Your to-do \"watch a good movie\" should appear.",
+   "Now let's say you have bought the milk. Go back to the Inbox, and tick the appropriate checkbox to mark this to-do as complete (= check it off)",
+   "Below the list of to-dos, there is a button \"Show completed to-dos\". Click on it to reveal the to-do you've just checked off.",
+   "Delete the to-do \"buy milk\": double-click on it to open the details panel, then click the trash icon at the bottom."
 ]
 
 tutorial.stepsCustomizationMode = [
-   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose <b>Customize</b> in the menu."
+   "To change the settings, click on \"Ann Onymous ▼\" in the top left corner, and choose <b>Customize</b> in the menu. <b>Try it now!</b>"
 ]
 
 tutorial.stepspreferences = [
