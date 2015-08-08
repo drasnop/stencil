@@ -19,16 +19,18 @@ function Trial(number) {
       "option": targetOption,
       // value that the target opion should be set at (boolean or string)
       "value": experiment.sequencer.valuesSequence[number],
+   }
 
+   if (experiment.condition > 0) {
       // if there is at least one visual element in the interface that 
-      "hasHookOrCluster": targetOption.hasHookOrCluster(),
+      this.target.hasHookOrCluster = targetOption.hasHookOrCluster();
       // whether the target option is hideable, i.e. all its hooks could be hidden
-      "hideable": targetOption.hideable,
+      this.target.hideable = targetOption.hideable;
       // whether the target option is associated only with "hidden" hooks (true if ghost hook expanded)
-      "ghost": targetOption.ghost(),
+      this.target.ghost = targetOption.ghost();
       // whether the option is actually visible (false if ghost hook not expanded)
       // NB: here, if ghost is true, hasVisibleHook will always be false, because we collapse the cluster for each trial
-      "hasVisibleHook": targetOption.hasVisibleHook(),
+      this.target.hasVisibleHook = targetOption.hasVisibleHook();
    }
 
    this.target.loggable = function() {
