@@ -275,7 +275,10 @@ var dataManager = (function() {
    }
 
    dataManager.getRawAppValue = function(id) {
-      return dataManager.getAppSetting(id).get("value");
+      if (dataManager.getAppSetting(id))
+         return dataManager.getAppSetting(id).get("value");
+      else
+         return "UNDEFINED";
    }
 
    dataManager.getAppSetting = function(id) {
@@ -285,9 +288,12 @@ var dataManager = (function() {
    }
 
    dataManager.setAppValue = function(id, value) {
-      return dataManager.getAppSetting(id).set({
-         value: dataManager.formatValueForWunderlist(value)
-      })
+      if (dataManager.getAppSetting(id))
+         dataManager.getAppSetting(id).set({
+            value: dataManager.formatValueForWunderlist(value)
+         })
+      else
+         console.log("no underlying Wunderlist settings to update for:", id)
    }
 
    // Must convert boolean into strings for Wunderlist...

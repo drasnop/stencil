@@ -18,9 +18,8 @@ var wunderlistListeners = (function() {
 
       // create a reverse map of the options associated to a given formElement's id
       wunderlistListeners.associatedOptions = {};
-      model.options.forEach(function(option) {
-         if (option.formElement)
-            wunderlistListeners.associatedOptions[option.formElement] = option;
+      model.options.forEachUserAccessible(function(option) {
+         wunderlistListeners.associatedOptions[option.formElement] = option;
       });
 
       // ensure that the UI reflects the state of the Backbone model
@@ -109,6 +108,10 @@ var wunderlistListeners = (function() {
       // get the corresponding, either with the elements #id or by the stupid aria label (for the radio buttons group)
       var option = wunderlistListeners.associatedOptions[formElement.prop("id") || formElement.attr("aria-label")];
 
+      // if this formElement doesn't correspond to one of model.options (e.g. if it's a new setting), do nothing
+      if (!option)
+         return;
+
       if (accessor.call(formElement) != option.value) {
          console.log("-- rectifying UI state of", option.id, "from", accessor.call(formElement), "to", option.value);
          accessor.call(formElement, option.value);
@@ -118,8 +121,12 @@ var wunderlistListeners = (function() {
 
       // if the underlying Wunderlist model is not correct, try to fix it
       if (dataManager.getAppValue(option.id) != option.value) {
-         console.log("-- rectifying Wunderlist setting", option.id, "from", dataManager.getAppValue(option.id), "to", option.value);
-         dataManager.updateAppOption(option.id, option.value, false);
+         if (dataManager.getAppValue(option.id) === "UNDEFINED")
+            console.log("-- cannot rectify Wunderlist setting", option.id, ": it is", dataManager.getAppValue(option.id));
+         else {
+            console.log("-- rectifying Wunderlist setting", option.id, "from", dataManager.getAppValue(option.id), "to", option.value);
+            dataManager.updateAppOption(option.id, option.value, false);
+         }
       }
    }
 
@@ -155,6 +162,10 @@ var wunderlistListeners = (function() {
 
          // get the corresponding, either with the elements #id or by the stupid aria label (for the radio buttons group)
          var option = wunderlistListeners.associatedOptions[formElement.prop("id") || formElement.attr("aria-label")];
+
+         // if this formElement doesn't correspond to one of model.options (e.g. if it's a new setting), do nothing
+         if (!option)
+            return;
 
          // the accessor for reading the new value is different for radio buttons, select/textboxes and checkboxes
          var accessor;
