@@ -41,7 +41,7 @@ var model = {
    /* other display variables */
 
    "progressBar": {
-      "message": "Almost done...",
+      "message": "Loading... (should not take more than 10 seconds)",
       "buttonLabel": ""
    },
    "modal": {

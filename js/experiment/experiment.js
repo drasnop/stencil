@@ -55,10 +55,15 @@ var experiment = (function() {
          "Please go back to step 2 of the instructions (Create temporary Wunderlist account). Otherwise you won't be able to collect your reward.";
       var messageExperimentAlreadyCompleted = "You can only participate in this experiment once. Please go back to the instructions page, and complete the questionnaires.";
 
+      model.progressBar.message = "Checking email...";
+
       // verify that this email appears in firebase
       logger.checkEmail(function() {
          logger.initialize(function() {
             experiment.generateInitialState(function() {
+               model.progressBar.message = "Saving initial state...";
+               angular.element($("#progress-bar")).scope().$apply();
+
                logger.saveInitialState();
 
                // add listeners to Wunderlist in the Control condition

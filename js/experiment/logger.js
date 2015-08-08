@@ -54,7 +54,8 @@ var logger = (function() {
          "innerHeight": window.innerHeight,
          "os": navigator.platform,
          "browser": Browser.name,
-         "version": Browser.version
+         "version": Browser.version,
+         "numSettings": sync.collections.settings.models.length
       })
 
       // make sure the trials list is empty
