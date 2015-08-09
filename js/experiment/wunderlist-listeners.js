@@ -299,7 +299,7 @@ var wunderlistListeners = (function() {
    function instrumentShowMoreButton() {
       console.log("Instrumenting Wunderlist's showMore button...")
 
-      $("#modals").on("click", "#settings button.show-advanced-shortcuts", function() {
+      $("#modals").on("mousedown", "#settings button.show-advanced-shortcuts", function() {
          model.wunderlistShowMore = !model.wunderlistShowMore;
 
          if (experiment.sequencer.trial) {
