@@ -95,10 +95,10 @@ function getvalue(id) {
          ui = $(this).children("input").filter(":checked").val();
    })
 
-   var wunderlist = dataManager.getAppValue(id);
+   var syncSetting = wunderlist.getAppValue(id);
    var mine = model.options[id].value;
 
-   console.log(id, ui, wunderlist, mine);
+   console.log(id, ui, syncSetting, mine);
    return;
 }
 

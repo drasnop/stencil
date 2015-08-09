@@ -220,7 +220,7 @@ function Trial(number) {
       var self = this;
       var change = {
          "option_ID": option.id,
-         "oldValue": dataManager.formatValueForModel(oldValue),
+         "oldValue": wunderlist.formatValueForModel(oldValue),
          "newValue": option.value,
          "correct": correct,
          "firstTime": firstTimeChanged(self, option),

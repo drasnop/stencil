@@ -175,9 +175,6 @@ var dataManager = (function() {
 
          console.log("All data pre-processed")
 
-         // For debug purposes
-         //enterCustomizationMode();
-
          // initialize experiment
          if (parameters.experiment)
             experiment.initialize();
@@ -221,7 +218,7 @@ var dataManager = (function() {
 
       var value;
       model.options.forEach(function(option) {
-         value = dataManager.getRawAppValue(option.id);
+         value = wunderlist.getRawAppValue(option.id);
          dataManager.updateOption(option, value);
       })
    }
@@ -247,7 +244,7 @@ var dataManager = (function() {
 
    // I am using booleans, but Wunderlist stores these options as strings!
    dataManager.updateOption = function(option, value) {
-      option.value = dataManager.formatValueForModel(value);
+      option.value = wunderlist.formatValueForModel(value);
       console.log("- updating:", option.id, option.value)
    }
 
@@ -255,7 +252,7 @@ var dataManager = (function() {
    dataManager.updateAppOption = function(id, value, updateHooksAndClusters) {
 
       if (typeof sync != "undefined" && typeof sync.collections != "undefined") {
-         dataManager.setAppValue(id, value)
+         wunderlist.setAppValue(id, value)
       } else {
          // dev mode: not linked with Wunderlist backbone
          console.log("no underlying application settings to update for: ", id)
@@ -266,69 +263,6 @@ var dataManager = (function() {
          hooksManager.updateHooksAndClusters(true);
    }
 
-   /* API to access and change Wunderlist settings */
-
-   dataManager.getAppValue = function(id) {
-      return dataManager.formatValueForModel(dataManager.getRawAppValue(id));
-   }
-
-   dataManager.getRawAppValue = function(id) {
-      if (dataManager.getAppSetting(id))
-         return dataManager.getAppSetting(id).get("value");
-      else
-         return "UNDEFINED";
-   }
-
-   dataManager.getAppSetting = function(id) {
-      return sync.collections.settings.where({
-         key: id
-      })[0];
-   }
-
-   dataManager.setAppValue = function(id, value) {
-      if (dataManager.getAppSetting(id))
-         dataManager.getAppSetting(id).set({
-            value: dataManager.formatValueForWunderlist(value)
-         })
-      else
-         console.log("no underlying Wunderlist settings to update for:", id)
-   }
-
-   // Must convert boolean into strings for Wunderlist...
-   dataManager.formatValueForWunderlist = function(value) {
-      if (typeof value === "boolean")
-         return value ? "true" : "false";
-      else
-         return value;
-   }
-
-   // Convert back strings to booleans
-   dataManager.formatValueForModel = function(value) {
-      switch (value) {
-         case "true":
-            return true;
-         case "false":
-            return false;
-         default:
-            return value;
-      }
-   }
-
-   dataManager.forceVisibilityOfSmartlists = function() {
-      model.options.forEachUserAccessible(function(option) {
-         if (option.showHide) {
-            $("ul.filters-collection .sidebarItem:eq(" + (option.index + 1) + ")").toggleClass("force-animate-up", option.value == "hidden");
-            $("ul.filters-collection .sidebarItem:eq(" + (option.index + 1) + ")").toggleClass("force-animate-down", option.value != "hidden");
-         }
-      })
-   }
-
-   dataManager.restoreVisibilityOfSmartlists = function() {
-      $("ul.filters-collection .sidebarItem").each(function() {
-         $(this).removeClass("force-animate-up");
-         $(this).removeClass("force-animate-down");
-      });
-   }
 
    return dataManager;
 })();

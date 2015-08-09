@@ -217,7 +217,7 @@ var TrialsSequencer = (function() {
 
       // we must even rectify the appearance of the damn lists!
       if (experiment.condition === 0)
-         dataManager.forceVisibilityOfSmartlists();
+         wunderlist.forceVisibilityOfSmartlists();
    }
 
    // if possible, make sure the details panel on the right-hand side is opened

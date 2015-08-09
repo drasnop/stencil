@@ -120,11 +120,11 @@ var wunderlistListeners = (function() {
               console.log(option.id, "is", accessor.call(formElement), "==", option.value)*/
 
       // if the underlying Wunderlist model is not correct, try to fix it
-      if (dataManager.getAppValue(option.id) != option.value) {
-         if (dataManager.getAppValue(option.id) === "UNDEFINED") {
-            // console.log("-- cannot rectify Wunderlist setting", option.id, ": it is", dataManager.getAppValue(option.id));
+      if (wunderlist.getAppValue(option.id) != option.value) {
+         if (wunderlist.getAppValue(option.id) === "UNDEFINED") {
+            // console.log("-- cannot rectify Wunderlist setting", option.id, ": it is", wunderlist.getAppValue(option.id));
          } else {
-            console.log("-- rectifying Wunderlist setting", option.id, "from", dataManager.getAppValue(option.id), "to", option.value);
+            console.log("-- rectifying Wunderlist setting", option.id, "from", wunderlist.getAppValue(option.id), "to", option.value);
             dataManager.updateAppOption(option.id, option.value, false);
          }
 
@@ -135,7 +135,7 @@ var wunderlistListeners = (function() {
          $(".settings-content-inner.sidebar .filter-setting:eq(" + option.index + ")").toggleClass("disabled", option.value == "hidden");
 
          // just to be safe - in theory, my model shouldn't have been changed indirectly, except while resetting settings
-         dataManager.forceVisibilityOfSmartlists();
+         wunderlist.forceVisibilityOfSmartlists();
       }
    }
 
@@ -197,7 +197,7 @@ var wunderlistListeners = (function() {
 
          // update the view
          if (option.showHide)
-            dataManager.forceVisibilityOfSmartlists();
+            wunderlist.forceVisibilityOfSmartlists();
 
          // log this values change, without caring for visibility of anchors
          if (experiment.sequencer.trial) {
