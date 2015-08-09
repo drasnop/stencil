@@ -323,6 +323,12 @@ var dataManager = (function() {
       })
    }
 
+   dataManager.restoreVisibilityOfSmartlists = function() {
+      $("ul.filters-collection .sidebarItem").each(function() {
+         $(this).removeClass("force-animate-up");
+         $(this).removeClass("force-animate-down");
+      });
+   }
 
    return dataManager;
 })();

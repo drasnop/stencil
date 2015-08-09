@@ -88,6 +88,9 @@ function enterCustomizationMode() {
    $("head").append("<style class='special-style'> #wunderlist-base::before{" +
       "-webkit-filter: grayscale(70%); filter: grayscale(70%);} </style>");
 
+   // remove all the extra css we added to make Smart Lists look as they should
+   dataManager.restoreVisibilityOfSmartlists();
+
    // Wunderlist-specific: remove the animation class (use show/hide instead of height 0)
    $("head").append("<style class='special-style'> .sidebarItem.animate-up{" +
       "height: auto !important; transition: none !important} </style>");
@@ -125,6 +128,9 @@ function exitCustomizationMode() {
    // return interface to its normal state
    $(".dimmed").removeClass("dimmed");
    $(".special-style").remove();
+
+   // make sure the Smart Lists look as they should
+   dataManager.forceVisibilityOfSmartlists();
 
    // log
    if (experiment.sequencer.trial) {

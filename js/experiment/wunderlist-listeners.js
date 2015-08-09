@@ -133,7 +133,9 @@ var wunderlistListeners = (function() {
       // we must even rectify the appearance of the damn labels!
       if (option.showHide) {
          $(".settings-content-inner.sidebar .filter-setting:eq(" + option.index + ")").toggleClass("disabled", option.value == "hidden");
-         //dataManager.forceVisibilityOfSmartlists();
+
+         // just to be safe - in theory, my model shouldn't have been changed indirectly, except while resetting settings
+         dataManager.forceVisibilityOfSmartlists();
       }
    }
 
