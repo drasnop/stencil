@@ -127,7 +127,6 @@ var wunderlistListeners = (function() {
             console.log("-- rectifying Wunderlist setting", option.id, "from", wunderlist.getAppValue(option.id), "to", option.value);
             dataManager.updateAppOption(option.id, option.value, false);
          }
-
       }
 
       // we must even rectify the appearance of the damn labels!
