@@ -11,7 +11,7 @@
    "selector": ".detail-checkbox .checkBox, .taskItem-checkboxWrapper .checkBox",
    "options": ["sound_checkoff_enabled", "shortcut_mark_task_done"]
 }, {
-   "selector": ".taskItem-titleWrapper-title",
+   "selector": ".taskItem-titleWrapper",
    "options": ["show_subtask_progress", "shortcut_select_all_tasks", "shortcut_copy_tasks", "shortcut_paste_tasks"]
 }, {
    "selector": ".filters-collection .sidebarItem[rel='inbox']",
@@ -43,7 +43,7 @@
    "selector": ".user-avatar, .user-name, .user-arrow",
    "options": ["shortcut_sync", "shortcut_goto_preferences"]
 }, {
-   "selector": "#user-toolbar a#search",
+   "selector": "#search-toolbar .search-icon",
    "options": ["shortcut_goto_search"]
 }, {
    "selector": ".sidebarActions-addList",

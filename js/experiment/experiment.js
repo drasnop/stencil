@@ -216,9 +216,9 @@ var experiment = (function() {
 
       // just to be sure, clean up again the explanatory popups
       if (experiment.condition > 0) {
-         if (correctHookNotSelectedTimer)
+         if (typeof correctHookNotSelectedTimer != "undefined")
             clearTimeout(correctHookNotSelectedTimer);
-         if (clusterExpandedTimer)
+         if (typeof clusterExpandedTimer != "undefined")
             clearTimeout(clusterExpandedTimer);
          model.unwatch("selectedOptions");
          model.options["smartlist_visibility_starred"].unwatch("value");

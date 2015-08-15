@@ -352,7 +352,7 @@ var hooksManager = (function() {
       "border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius",
       "margin-top", "margin-right", "margin-bottom", "margin-left",
       "box-sizing", "display", "float", "list-style",
-      "text-align", "font-size", "line-height", "vertical-align", "fill"
+      "text-align", "font-size", "line-height", "vertical-align"
    ];
 
    function getRelevantCSS(obj, relevantCSS) {
