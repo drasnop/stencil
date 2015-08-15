@@ -185,7 +185,7 @@ var experiment = (function() {
    experiment.showPracticeTrialInstructions = function() {
 
       // construct a new TrialsSequencer object for the practice trial
-      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 2000, 4, "Error :(", false, Trial, 0, 0, experiment.practiceTrialEnded);
+      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 3000, 4, "Error :(", false, Trial, 0, 0, experiment.practiceTrialEnded);
 
       // replace the reward computation function for the practice trial sequencer (no reward)
       experiment.sequencer.getCurrentReward = function() {
@@ -216,8 +216,10 @@ var experiment = (function() {
 
       // just to be sure, clean up again the explanatory popups
       if (experiment.condition > 0) {
-         clearTimeout(correctHookNotSelectedTimer);
-         clearTimeout(clusterExpandedTimer);
+         if (correctHookNotSelectedTimer)
+            clearTimeout(correctHookNotSelectedTimer);
+         if (clusterExpandedTimer)
+            clearTimeout(clusterExpandedTimer);
          model.unwatch("selectedOptions");
          model.options["smartlist_visibility_starred"].unwatch("value");
          experiment.sequencer.trial.cluster.unwatch("length");

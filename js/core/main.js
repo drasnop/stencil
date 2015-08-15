@@ -3,7 +3,7 @@ function initialize() {
    preferencesOpen = false;
 
    // hack into Wunderlist menu to create an access point to Customization Mode
-   $("#user, .name.search-hidden").on("click", function() {
+   $(".user-avatar, .user-name").on("click", function() {
       // we must do this every time the menu is open, because it is apparently recreated
       replaceMenuEntryWhenReady();
    })
@@ -13,9 +13,9 @@ function initialize() {
    $("#customization-layer").append("<div id='overlay'></div>")
       .append("<div id='hooks'></div>")
       .append("<div ad-hoc-panel></div")
-      .append("<div id='close-icon' title='Exit customization mode'></div>")
-   $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
-      .on("click", exitCustomizationMode)
+      /*   .append("<div id='close-icon' title='Exit customization mode'></div>")
+      $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
+         .on("click", exitCustomizationMode)*/
 
    // setup interaction for overlay
    $("#overlay").click(function() {

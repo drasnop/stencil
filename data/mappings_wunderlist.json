@@ -2,7 +2,7 @@
    "selector": ".addTask-input",
    "options": ["new_task_location", "shortcut_add_new_task"]
 }, {
-   "selector": ".taskItem-star .icon.task-starred, .taskItem-star .star-wrapper, .detail-star .icon.detail-starred, .detail-star .wundercon.starred",
+   "selector": ".starred-wrapper, .star-wrapper",
    "options": ["behavior_star_tasks_to_top", "shortcut_mark_task_starred"]
 }, {
    "selector": ".taskItem-duedate, .detail-date .token_0",
@@ -35,15 +35,15 @@
    "selector": ".filters-collection .sidebarItem[rel='week']",
    "options": ["smartlist_visibility_week", "shortcut_goto_filter_week", "today_smart_list_visible_tasks"]
 }, {
-   "selector": "#main-toolbar .activities-count, .detail-reminder .wundercon.reminder",
+   "selector": "#user-toolbar .activities-count, .detail-reminder .wundercon.reminder",
    "options": ["notifications_desktop_enabled", "notifications_email_enabled",
       "notifications_push_enabled", "sound_notification_enabled", "shortcut_show_notifications"
    ]
 }, {
-   "selector": ".avatar, .name.search-hidden",
+   "selector": ".user-avatar, .user-name, .user-arrow",
    "options": ["shortcut_sync", "shortcut_goto_preferences"]
 }, {
-   "selector": "#main-toolbar a#search",
+   "selector": "#user-toolbar a#search",
    "options": ["shortcut_goto_search"]
 }, {
    "selector": ".sidebarActions-addList",

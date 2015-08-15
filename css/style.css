@@ -560,6 +560,10 @@ html #wunderlist-base .main-interface.detail-visible #detail.animated {
     display: none!important;
 }
 
+#wunderlist-base .tooltip {
+    display: none!important;
+}
+
 
 /* align the star non-starred svg icon inside its parent hook */
 
