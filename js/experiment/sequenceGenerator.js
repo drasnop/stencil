@@ -13,7 +13,7 @@ var sequenceGenerator = (function() {
       "Notifications": 2
    }
 
-   sequenceGenerator.optionsPartition = [{
+   sequenceGenerator.optionsPartitions = [{
       'General': ['date_format',
          'start_of_week',
          'sound_notification_enabled',
@@ -114,9 +114,13 @@ var sequenceGenerator = (function() {
 
    sequenceGenerator.generateOptionsAndValuesSequences = function(callback) {
 
-      // create the target option sequence, by randomly ordering two blocks of options from the same partition
-      generateOptionsSequence(0);
-      generateOptionsSequence(1);
+      // choose a random order of selection of the option partition
+      var partitions = [0, 1];
+      shuffleArray(partitions);
+
+      // create the target option sequence, by randomly ordering two blocks of options from the two partitions
+      generateOptionsSequence(0, partitions[0]);
+      generateOptionsSequence(1, partitions[1]);
 
       // create the target values sequence by taking the complement of the current target options' values
       experiment.optionsSequence.forEach(function(option) {
@@ -124,6 +128,12 @@ var sequenceGenerator = (function() {
          var value = sequenceGenerator.complementValueOf(option, experiment.oppositeDefaults);
          experiment.valuesSequence.push(value);
       })
+
+      // must handle the case of the second appearance of notifications_desktop_enabled (target value should be the original value)
+      var secondIndex = experiment.optionsSequence.map(function(option) {
+         return option.id
+      }).indexOf("notifications_desktop_enabled", 20);
+      experiment.valuesSequence[secondIndex] = model.options["notifications_desktop_enabled"].value;
 
       // add a fixed practice trial at the beginning, with a fixed target value
       experiment.optionsSequence.unshift(model.options["smartlist_visibility_starred"]);
@@ -133,10 +143,10 @@ var sequenceGenerator = (function() {
       callback();
    }
 
-   function generateOptionsSequence(tabSequenceIndex) {
+   function generateOptionsSequence(tabSequenceIndex, partitionIndex) {
 
       // 1a: retrieve the correct options partition
-      var partition = sequenceGenerator.optionsPartition[experiment.partition]
+      var partition = sequenceGenerator.optionsPartitions[partitionIndex];
 
       // 1b: replace option_IDs by references to actual options, creating a new array
       var optionsInTab = [];
