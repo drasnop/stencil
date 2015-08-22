@@ -8,7 +8,7 @@
    "selector": ".taskItem-duedate, .detail-date .token_0",
    "options": ["date_format", "time_format", "start_of_week"]
 }, {
-   "selector": ".detail-checkbox .checkBox, .taskItem-checkboxWrapper .checkBox",
+   "selector": ".detail-checkbox.checkBox, .taskItem-checkboxWrapper.checkBox",
    "options": ["sound_checkoff_enabled", "shortcut_mark_task_done"]
 }, {
    "selector": ".taskItem-titleWrapper",

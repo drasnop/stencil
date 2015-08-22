@@ -7,6 +7,8 @@ var experiment = (function() {
    var experiment = {
       // random sequence of 8 numbers and letters used to identify participants (read from Wunderlist app if possible)
       "email": "lotaculi",
+      // participantID, from 1 to 12 (0 is dev)
+      "pid": 0,
       // 0=control, 1=minimal, 2=mixed, 3=highlighted (set by logger.initialize)
       "condition": "",
       // whether to use the opposite values of the default options for this participant (set by logger.initialize)
@@ -27,8 +29,27 @@ var experiment = (function() {
       "initialOptions": [],
       // list of all the trials completed so far for the experiment
       // used to compute current reward, and to generate questionnaires options at the end.
-      "trials": []
+      "trials": [],
+      // current block (from 0 to experiment.conditions[].length, -1 before it starts)
+      "block": -1
    }
+
+   // all orders of conditions, blocked by interface type, for participants 1 to 12 (0 is dev)
+   experiment.conditions = [
+      [0, 1, 2, 3],
+      [0, 1, 2, 3],
+      [0, 1, 3, 2],
+      [0, 2, 1, 3],
+      [0, 2, 3, 1],
+      [0, 3, 1, 2],
+      [0, 3, 2, 1],
+      [1, 2, 3, 0],
+      [1, 3, 2, 0],
+      [2, 1, 3, 0],
+      [2, 3, 1, 0],
+      [3, 1, 2, 0],
+      [3, 2, 1, 0]
+   ];
 
 
    /* Step 0: initialize experiment and logger, generate and save initial state, cancel experiment if needed   */
@@ -239,18 +260,39 @@ var experiment = (function() {
    }
 
 
-   /* Step 3: experiment trials, first block */
+   /* Step 3: four blocks of experiment trials */
 
    // called at the end of the practice trial, just before the experiment trials start
    experiment.showExperimentTrialsInstructions = function() {
 
-      // construct a new Trial sequencer
-      experiment.sequencer = new TrialsSequencer("experimentTrials1", 800, 1500, 2, "Error :(", false, Trial, 1, 20, experiment.firstBlockEnded);
-
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Experiment";
       model.modal.message = "In each step, you will be asked to change <b>one setting</b> of Wunderlist. Take your time to read the instructions, then click \"Go!\" to begin. Please change the setting <b>as quickly and as accurately as possible</b>, then click the \"Next\" button.<br><br>" +
-         "You won't be able to change your mind after clicking \"Next\". You will get an extra <b>$" + experiment.bonusTrial.toFixed(2) + "</b> for each setting correctly changed.";
+         "Note: you won't be able to change your mind after clicking \"Next\".";
+      model.modal.buttonLabel = "Start";
+      model.modal.green = true;
+      model.modal.hideOnClick = false;
+      model.modal.action = experiment.startBlock;
+
+      showModal();
+   }
+
+   // loop through the different blocks of the experiment
+   experiment.startBlock = function() {
+
+      // update parameters for the current block
+      experiment.block++;
+      experiment.condition = experiment.conditions[experiment.pid][experiment.block];
+      model.optionsVisibility = experiment.condition;
+      var startIndex = experiment.block * 10 + 1;
+      var endIndex = (experiment.block + 1) * 10;
+
+      // construct a new Trial sequencer
+      experiment.sequencer = new TrialsSequencer("experimentTrials" + experiment.block, 800, 1500, 2, "Error :(", false, Trial, startIndex, endIndex, experiment.blockEnded);
+
+      // popup: experiment instructions, start experiment trials
+      model.modal.header = "Block " + (experiment.block + 1) + "/4";
+      model.modal.message = "Please complete the following 10 trials";
       model.modal.buttonLabel = "Start";
       model.modal.green = true;
       model.modal.hideOnClick = false;
@@ -259,7 +301,16 @@ var experiment = (function() {
       showModal();
    }
 
-   experiment.firstBlockEnded = function() {
+
+   // at the end of a block, offer a mini-break or end experiment
+   experiment.blockEnded = function() {
+
+      if (experiment.blocks + 1 >= 4) {
+         // generate recognition questionnaire from the selection sequence, then callback to finish experiment
+         sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
+         return;
+      }
+
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";
 
@@ -270,33 +321,14 @@ var experiment = (function() {
       model.modal.buttonLabel = "Ok";
       model.modal.green = true;
       model.modal.hideOnClick = false;
-      model.modal.action = experiment.showSecondBlockInstructions;
+
+      model.modal.action = experiment.startBlock;
 
       showModal();
    }
 
 
-   /* Step 4: experiment trials, second block */
-
-   // called at the end of the practice trial, just before the experiment trials start
-   experiment.showSecondBlockInstructions = function() {
-
-      // construct a new Trial sequencer
-      experiment.sequencer = new TrialsSequencer("experimentTrials2", 500, 1500, 2, "Error :(", false, Trial, 21, 40, function() {
-         // generate recognition questionnaire from the selection sequence, then callback to continue experiment
-         sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
-      });
-
-      // popup: experiment instructions, start experiment trials
-      model.modal.header = "Experiment, part 2";
-      model.modal.message = "In the second (and last) part of the experiment, you will be asked to change <b>the same settings</b> again, but in a different order.";
-      model.modal.buttonLabel = "Start";
-      model.modal.green = true;
-      model.modal.hideOnClick = false;
-      model.modal.action = experiment.sequencer.start.bind(experiment.sequencer);
-
-      showModal();
-   }
+   /* Step 4: end experiment */
 
    experiment.experimentTrialsEnded = function() {
       model.progressBar.message = "";
