@@ -30,15 +30,6 @@ var TrialsSequencer = (function() {
 
    /* overwritten methods */
 
-   TrialsSequencer.prototype.start = function() {
-
-      // restore the reference options to their initial state, by deep-copying the initial options
-      experiment.referenceOptions = $.extend(true, {}, experiment.initialOptions);
-      // resetSettingsIfNeeded will be called automatically in TrialsSequencer.initializeTrial
-
-      Sequencer.prototype.start.call(this);
-   }
-
    TrialsSequencer.prototype.initializeTrial = function(number) {
       // open the preferences panel or enter customization mode, in case participants had closed them
       if (experiment.condition === 0 && !preferencesOpen)
@@ -218,6 +209,8 @@ var TrialsSequencer = (function() {
       // we must even rectify the appearance of the damn lists!
       if (experiment.condition === 0)
          wunderlist.forceVisibilityOfSmartlists();
+      else
+         wunderlist.restoreVisibilityOfSmartlists();
    }
 
    // if possible, make sure the details panel on the right-hand side is opened

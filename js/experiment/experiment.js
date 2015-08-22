@@ -25,8 +25,6 @@ var experiment = (function() {
       "sequencer": [],
       // a correct version of the options, used as a ground truth reference, and updated throughout the experiment
       "referenceOptions": [],
-      // state of the options at the beginning of the first block, used to reset at the beginning of the second block
-      "initialOptions": [],
       // list of all the trials completed so far for the experiment
       // used to compute current reward, and to generate questionnaires options at the end.
       "trials": [],
@@ -111,7 +109,7 @@ var experiment = (function() {
 
       // 2: store a correct version of the options, for future reference
       // the use of the logger method is coincidential: it simply serves our purpose here well
-      experiment.initialOptions = logger.compressAllUserAccessibleOptions();
+      experiment.referenceOptions = logger.compressAllUserAccessibleOptions();
 
       // 3: set the Wunderlist options to the default (or opposite default) settings 
       dataManager.initializeAppOptionsFromFile();
@@ -177,93 +175,23 @@ var experiment = (function() {
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";
 
-      if (experiment.condition > 0) {
-
-         // enter customization mode, in case participants had closed it
-         if (!customizationMode)
-            enterCustomizationMode();
-
-         // popup to explain what Customization Mode is
-         model.modal.header = "Customization Mode";
-         model.modal.message = "You are now in Customization Mode. The items that appear in white are customizable. Clicking on them brings up the settings associated with them.";
-         model.modal.buttonLabel = "Ok";
-         model.modal.green = false;
-         model.modal.hideOnClick = false;
-
-         model.modal.action = experiment.showPracticeTrialInstructions;
-
-         showModal();
-      } else {
-         // otherwise, continue directly to the practice trial
-         experiment.showPracticeTrialInstructions();
-      }
-   }
-
-
-   /* Step 2: practice trial */
-
-   // called at the end of the tutorial, just before the experiment trials start
-   experiment.showPracticeTrialInstructions = function() {
-
-      // construct a new TrialsSequencer object for the practice trial
-      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 3000, 4, "Error :(", false, Trial, 0, 0, experiment.practiceTrialEnded);
-
-      // replace the reward computation function for the practice trial sequencer (no reward)
-      experiment.sequencer.getCurrentReward = function() {
-         return -1;
-      };
-      // replace the trial performed test
-      if (experiment.condition > 0) {
-         experiment.sequencer.miniTutorialCompleted = false;
-         experiment.sequencer.trialNotPerformed = function() {
-            return !this.miniTutorialCompleted;
-         }
-      }
-
-      model.modal.header = "Practice trial";
-      if (experiment.condition > 0)
-         model.modal.message = "The next popup will ask you to change one setting.<br>First, look around to find which item this setting might be related to;<br>then click on that item.";
-      else
-         model.modal.message = "The next popup will ask you to change one setting. It's up to you to find in which tab it is.";
-      model.modal.buttonLabel = "Ok";
-      model.modal.green = true;
-      model.modal.hideOnClick = false;
-      model.modal.action = experiment.sequencer.start.bind(experiment.sequencer);
-
-      showModal();
-   }
-
-   experiment.practiceTrialEnded = function() {
-
-      // just to be sure, clean up again the explanatory popups
-      if (experiment.condition > 0) {
-         if (typeof correctHookNotSelectedTimer != "undefined")
-            clearTimeout(correctHookNotSelectedTimer);
-         if (typeof clusterExpandedTimer != "undefined")
-            clearTimeout(clusterExpandedTimer);
-         model.unwatch("selectedOptions");
-         model.options["smartlist_visibility_starred"].unwatch("value");
-         experiment.sequencer.trial.cluster.unwatch("length");
-      }
-
-      model.progressBar.message = "";
-      model.progressBar.buttonLabel = "";
-
+      // popup to explain what Customization Mode is
       model.modal.header = "Congratulations!";
       model.modal.message = "You have completed the tutorial. You can now start the experiment.";
       model.modal.buttonLabel = "Ok";
       model.modal.green = true;
       model.modal.hideOnClick = false;
-      model.modal.action = experiment.showExperimentTrialsInstructions;
+
+      model.modal.action = experiment.showExperimentInstructions;
 
       showModal();
    }
 
 
-   /* Step 3: four blocks of experiment trials */
+   /* Step 2: practice trial */
 
    // called at the end of the practice trial, just before the experiment trials start
-   experiment.showExperimentTrialsInstructions = function() {
+   experiment.showExperimentInstructions = function() {
 
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Experiment";
@@ -272,27 +200,40 @@ var experiment = (function() {
       model.modal.buttonLabel = "Start";
       model.modal.green = true;
       model.modal.hideOnClick = false;
-      model.modal.action = experiment.startBlock;
+      model.modal.action = experiment.initializeBlock;
 
       showModal();
    }
 
-   // loop through the different blocks of the experiment
-   experiment.startBlock = function() {
+
+   /* Step 2a: four blocks of experiment trials */
+
+   // loop through the different blocks of the experiment, inserting the practice trial when needed
+   experiment.initializeBlock = function() {
 
       // update parameters for the current block
       experiment.block++;
       experiment.condition = experiment.conditions[experiment.pid][experiment.block];
       model.optionsVisibility = experiment.condition;
-      var startIndex = experiment.block * 10 + 1;
-      var endIndex = (experiment.block + 1) * 10;
+
+      // decide whether to do the practice trial or start the block directly
+      if ((experiment.pid <= 6 && experiment.block === 1) || (experiment.pid > 6 && experiment.block === 0))
+         experiment.showPracticeTrialInstructions();
+      else
+         experiment.startBlock();
+
+   }
+
+   experiment.startBlock = function() {
 
       // construct a new Trial sequencer
+      var startIndex = experiment.block * 10 + 1;
+      var endIndex = (experiment.block + 1) * 10;
       experiment.sequencer = new TrialsSequencer("experimentTrials" + experiment.block, 800, 1500, 2, "Error :(", false, Trial, startIndex, endIndex, experiment.blockEnded);
 
       // popup: experiment instructions, start experiment trials
       model.modal.header = "Block " + (experiment.block + 1) + "/4";
-      model.modal.message = "Please complete the following 10 trials";
+      model.modal.message = "Please complete the following 10 trials.";
       model.modal.buttonLabel = "Start";
       model.modal.green = true;
       model.modal.hideOnClick = false;
@@ -322,13 +263,84 @@ var experiment = (function() {
       model.modal.green = true;
       model.modal.hideOnClick = false;
 
+      model.modal.action = experiment.initializeBlock;
+
+      showModal();
+   }
+
+
+   /* Step 2b: practice trial */
+
+   // called at the end of the tutorial, just before the experiment trials start
+   experiment.showPracticeTrialInstructions = function() {
+
+      // construct a new TrialsSequencer object for the practice trial
+      experiment.sequencer = new TrialsSequencer("practiceTrial", 1000, 3000, 4, "Error :(", false, Trial, 0, 0, experiment.practiceTrialEnded);
+
+      // replace the reward computation function for the practice trial sequencer (no reward)
+      experiment.sequencer.getCurrentReward = function() {
+         return -1;
+      };
+      // replace the trial performed test
+      if (experiment.condition > 0) {
+         experiment.sequencer.miniTutorialCompleted = false;
+         experiment.sequencer.trialNotPerformed = function() {
+            return !this.miniTutorialCompleted;
+         }
+      }
+
+      // before showing the instructions, give participants some time to digest the customization mode
+      $("#instructions-modal").modal('hide');
+      $(".hidden-settings-style").remove();
+      if (preferencesOpen)
+         closePreferences();
+      if (!customizationMode)
+         enterCustomizationMode();
+
+      setTimeout(function() {
+         model.modal.header = "Practice trial";
+         model.modal.message = "You are now in Customization Mode. The items that appear in white are customizable. Clicking on them brings up the settings associated with them.";
+         //model.modal.message = "The next popup will ask you to change one setting.<br>First, look around to find which item this setting might be related to;<br>then click on that item.";
+         model.modal.buttonLabel = "Ok";
+         model.modal.green = true;
+         model.modal.hideOnClick = true;
+         model.modal.action = function() {
+            setTimeout(experiment.sequencer.start.bind(experiment.sequencer), 2000);
+         };
+
+         showModal();
+      }, 3000)
+
+   }
+
+   experiment.practiceTrialEnded = function() {
+
+      // just to be sure, clean up again the explanatory popups
+      if (experiment.condition > 0) {
+         if (typeof correctHookNotSelectedTimer != "undefined")
+            clearTimeout(correctHookNotSelectedTimer);
+         if (typeof clusterExpandedTimer != "undefined")
+            clearTimeout(clusterExpandedTimer);
+         model.unwatch("selectedOptions");
+         model.options["smartlist_visibility_starred"].unwatch("value");
+         experiment.sequencer.trial.cluster.unwatch("length");
+      }
+
+      model.progressBar.message = "";
+      model.progressBar.buttonLabel = "";
+
+      model.modal.header = "Good job!";
+      model.modal.message = "Now you can move on to the actual trials.";
+      model.modal.buttonLabel = "Ok";
+      model.modal.green = true;
+      model.modal.hideOnClick = false;
       model.modal.action = experiment.startBlock;
 
       showModal();
    }
 
 
-   /* Step 4: end experiment */
+   /* Step 3: end experiment */
 
    experiment.experimentTrialsEnded = function() {
       model.progressBar.message = "";

@@ -41,7 +41,7 @@ tutorial.time = {
 
 tutorial.start = function() {
 
-   if (experiment.condition > 0)
+   if (experiment.conditions[experiment.pid][0] > 0)
       this.steps.push.apply(this.steps, this.stepsCustomizationMode);
    else
       this.steps.push.apply(this.steps, this.stepspreferences);
@@ -160,7 +160,7 @@ tutorial.addExplanatoryPopups = function() {
             model.unwatch("selectedOptions");
 
             alert("Good job! You have found an appropriate item to click on!\n\n" +
-               (experiment.condition == 3 ? "In this panel, the settings highlighted in *orange* are related to the item you clicked on.\nYou can now hide the \"Starred\" smart filter easily." :
+               (experiment.conditions[experiment.pid][0] == 3 ? "In this p[0]anel, the settings highlighted in *orange* are related to the item you clicked on.\nYou can now hide the \"Starred\" smart filter easily." :
                   "The settings in this orange popup are related to the item you clicked on.\nYou can now hide the \"Starred\" smart filter easily."
                ))
          }
