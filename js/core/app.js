@@ -89,3 +89,10 @@ app.directive('progressBar', ['$sce', function($sce) {
       templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/progress-bar.html')
    };
 }])
+
+app.directive('intermediate', ['$sce', function($sce) {
+   return {
+      replace: true,
+      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/intermediate.html')
+   };
+}])

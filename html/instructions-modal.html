@@ -4,8 +4,11 @@
       <div class="modal-header">
         <h4 class="modal-title">{{model.modal.header}}</h4>
       </div>
-      <div class="modal-body" ng-bind-html="model.modal.message"></div>
-      <div class="modal-footer">
+      <div class="modal-body">
+        <div ng-bind-html="model.modal.message" ng-show="!model.modal.showIntermediate"></div>
+        <intermediate ng-show="model.modal.showIntermediate"></intermediate>
+      </div>
+      <div class="modal-footer" ng-show="!model.modal.showIntermediate">
         <div type="button" id="modal-button" class="btn btn-primary" disabled="disabled" data-dismiss="modal" ng-if="model.modal.hideOnClick" ng-click="model.modal.action()">{{model.modal.buttonLabel}}</div>
         <div type="button" id="modal-button" class="btn btn-primary" disabled="disabled" ng-if="!model.modal.hideOnClick" ng-click="model.modal.action()">{{model.modal.buttonLabel}}</div>
       </div>

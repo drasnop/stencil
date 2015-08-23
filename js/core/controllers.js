@@ -346,3 +346,21 @@ app.controller('progressBarController', ['$scope', '$window', function($scope, $
    $scope.model = $window.model;
    $scope.experiment = $window.experiment;
 }])
+
+app.controller('intermediateCtrl', function($scope) {
+
+   $scope.likertScale = [-3, -2, -1, 0, 1, 2, 3];
+
+   $scope.data = {};
+
+   $scope.isDataValid = function() {
+      return $scope.data.hasOwnProperty("easeOfUse") && $scope.data.hasOwnProperty("liking");
+   }
+
+   $scope.submitAndContinue = function() {
+      console.log($scope.data);
+      logger.firebase.child("/questionnaires/intermediate").child(experiment.condition).set($scope.data);
+      $scope.data = {};
+      model.modal.showIntermediate = false;
+   }
+})

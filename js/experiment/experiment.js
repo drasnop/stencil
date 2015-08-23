@@ -259,9 +259,10 @@ var experiment = (function() {
 
       model.modal.header = "Well done!";
       model.modal.message = "Now would be a good time to take a mini-break :)" + img;
-      model.modal.buttonLabel = "Ok";
+      model.modal.buttonLabel = "Continue";
       model.modal.green = true;
       model.modal.hideOnClick = false;
+      model.modal.showIntermediate = true;
 
       model.modal.action = experiment.initializeBlock;
 

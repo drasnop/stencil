@@ -129,6 +129,32 @@ z-indexes
     margin-top: 15px;
 }
 
+.likert-scale {
+    margin: 10px 0;
+}
+
+.likert-scale .outer-label {
+    vertical-align: top;
+    margin: 0px 10px;
+    font-weight: 400;
+}
+
+.likert-scale label {
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.likert-scale .step {
+    display: inline-block;
+    margin: 0 7px;
+}
+
+.likert-scale .step .legend {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
 
 /* -------------------  overlay, hooks, ghosts --------------------- */
 
