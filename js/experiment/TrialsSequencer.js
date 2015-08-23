@@ -66,9 +66,6 @@ var TrialsSequencer = (function() {
          // once the .trial has been initialized, we can start using it
          this.trial.time.instructionsShown = performance.now();
 
-         if (this.name == "practiceTrial" && experiment.condition > 0)
-            tutorial.addExplanatoryPopups();
-
          // set how the options should look like at the end of this trial, if it was perfectly executed
          experiment.referenceOptions[this.trial.target.option.id].value = this.trial.target.value;
       }).bind(this));
@@ -90,6 +87,10 @@ var TrialsSequencer = (function() {
 
       // show the hooks / settings panel
       $(".hidden-settings-style").remove();
+
+      // add popups to practice trial
+      if (this.name == "practiceTrial" && experiment.condition > 0)
+         tutorial.addExplanatoryPopups();
 
       // starts measuring duration
       this.trial.time.start = timestamp;

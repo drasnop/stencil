@@ -7,10 +7,6 @@ var wunderlistListeners = (function() {
 
    wunderlistListeners.bindSettingsAndTabsListeners = function() {
 
-      // dev mode: not linked with Wunderlist backbone
-      if (typeof sync == "undefined" || typeof sync.collections == "undefined")
-         return;
-
       console.log("Initializing Wunderlist listeners...")
 
 
