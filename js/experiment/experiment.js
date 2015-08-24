@@ -245,11 +245,8 @@ var experiment = (function() {
    // at the end of a block, offer a mini-break or end experiment
    experiment.blockEnded = function() {
 
-      if (experiment.blocks + 1 >= 4) {
-         // generate recognition questionnaire from the selection sequence, then callback to finish experiment
-         sequenceGenerator.generateRecognitionQuestionnaire(experiment.experimentTrialsEnded);
-         return;
-      }
+      if (experiment.block + 1 >= 4)
+         return experiment.experimentTrialsEnded();
 
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";
@@ -309,7 +306,7 @@ var experiment = (function() {
          };
 
          showModal();
-      }, 3000)
+      }, 2000)
 
    }
 
@@ -347,14 +344,10 @@ var experiment = (function() {
       model.progressBar.buttonLabel = "";
 
       model.modal.header = "Congratulations!";
-      model.modal.message = "You have completed the experiment. Please go back to the instructions page to answer a questionnaire and get your verification code.";
+      model.modal.message = "You have completed the experiment.";
       model.modal.buttonLabel = "Ok";
       model.modal.green = true;
-      model.modal.hideOnClick = false;
-      model.modal.action = function() {
-         var scope = angular.element($("#ad-hoc-panel")).scope();
-         scope.deleteAccount();
-      }
+      model.modal.hideOnClick = true;
 
       showModal();
    }

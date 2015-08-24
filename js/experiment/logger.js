@@ -33,12 +33,12 @@ var logger = (function() {
       logger.firebase = new Firebase("https://incandescent-torch-4042.firebaseio.com/stencil-experiment/mturk/" + experiment.email);
       console.log("Initializing logging to " + logger.firebase.toString() + "...")
 
-      logger.firebase.child("condition").once('value', function(snapshot) {
-         experiment.condition = parseInt(snapshot.child("interface").val());
+      logger.firebase.once('value', function(snapshot) {
+         experiment.pid = parseInt(snapshot.child("pid").val());
+         experiment.oppositeDefaults = false;
+         experiment.condition = experiment.conditions[experiment.pid][0];
          model.optionsVisibility = experiment.condition;
-         experiment.oppositeDefaults = snapshot.child("oppositeDefaults").val();
-         experiment.partition = snapshot.child("partition").val();
-         console.log("Success! Condition: " + experiment.condition + "  oppositeDefaults: " + experiment.oppositeDefaults + " partition: " + experiment.partition)
+         console.log("Success! Participant: " + experiment.email + "  pid: " + experiment.pid);
 
          callback();
       })
@@ -59,8 +59,9 @@ var logger = (function() {
       })
 
       // make sure the trials list is empty
-      logger.firebase.child("/tutorial").set(null)
-      logger.firebase.child("/trials").set(null);
+      logger.firebase.child("/tutorial").set(null);
+      logger.firebase.child("/tutorial").set(null);
+      logger.firebase.child("/questionnaires/intermediate").set(null);
 
       // save the full options and values sequences, just to be sure
       logger.firebase.child("/sequences").set({

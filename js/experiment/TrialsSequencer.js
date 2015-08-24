@@ -32,8 +32,10 @@ var TrialsSequencer = (function() {
 
    TrialsSequencer.prototype.initializeTrial = function(number) {
       // open the preferences panel or enter customization mode, in case participants had closed them
-      if (experiment.condition === 0 && !preferencesOpen)
+      if (experiment.condition === 0 && !preferencesOpen) {
+         exitCustomizationMode();
          openPreferences();
+      }
       if (experiment.condition > 0 && !customizationMode)
          enterCustomizationMode();
 
