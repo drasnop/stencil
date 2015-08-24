@@ -129,14 +129,29 @@ z-indexes
     margin-top: 15px;
 }
 
+.form-group label {
+    font-style: italic;
+}
+
 .likert-scale {
     margin: 10px 0;
 }
 
 .likert-scale .outer-label {
+    display: inline-block;
     vertical-align: top;
-    margin: 0px 10px;
-    font-weight: 400;
+    font-weight: bold;
+    width: 100px;
+}
+
+.likert-scale .outer-label.text-align-right {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.likert-scale .outer-label.text-align-left {
+    text-align: left;
+    margin-left: 10px;
 }
 
 .likert-scale label {
