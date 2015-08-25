@@ -348,6 +348,7 @@ var experiment = (function() {
       model.modal.buttonLabel = "Ok";
       model.modal.green = true;
       model.modal.hideOnClick = true;
+      model.modal.action = "";
 
       showModal();
    }

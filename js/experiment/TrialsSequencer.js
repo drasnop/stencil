@@ -113,7 +113,7 @@ var TrialsSequencer = (function() {
       this.trial.time.end = performance.now();
       this.trial.success = this.trial.successful();
 
-      // if the trial hasn't timeout, disable the timer 
+      // disable the timer 
       clearTimeout(this.timeoutTimer);
 
       // close customization panel (which reverts it to minimal)
