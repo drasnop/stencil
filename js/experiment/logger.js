@@ -35,7 +35,7 @@ var logger = (function() {
 
       logger.firebase.once('value', function(snapshot) {
          experiment.pid = parseInt(snapshot.child("pid").val());
-         experiment.oppositeDefaults = false;
+         experiment.oppositeDefaults = true;
          experiment.condition = experiment.conditions[experiment.pid][0];
          model.optionsVisibility = experiment.condition;
          console.log("Success! Participant: " + experiment.email + "  pid: " + experiment.pid);
