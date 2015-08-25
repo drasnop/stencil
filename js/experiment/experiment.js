@@ -245,9 +245,6 @@ var experiment = (function() {
    // at the end of a block, offer a mini-break or end experiment
    experiment.blockEnded = function() {
 
-      if (experiment.block + 1 >= 4)
-         return experiment.experimentTrialsEnded();
-
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";
 
@@ -260,7 +257,10 @@ var experiment = (function() {
       model.modal.hideOnClick = false;
       model.modal.showIntermediate = true;
 
-      model.modal.action = experiment.initializeBlock;
+      if (experiment.block + 1 < 4)
+         model.modal.action = experiment.initializeBlock;
+      else
+         model.modal.action = experiment.experimentTrialsEnded;
 
       showModal();
    }
