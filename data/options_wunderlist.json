@@ -129,7 +129,7 @@
    "shortcut_add_new_task": {
       "id": "shortcut_add_new_task",
       "formElement": "shortcut-add-new-task",
-      "label": "Add a New Item",
+      "label": "Add a New To-do",
       "instructions": "Change shortcut for adding a new todo to",
       "value": "CTRL + 0",
       "values": [{
@@ -157,7 +157,7 @@
    "shortcut_mark_task_done": {
       "id": "shortcut_mark_task_done",
       "formElement": "shortcut-mark-task-done",
-      "label": "Mark Selected Items as 'Completed'",
+      "label": "Mark Selected To-dos as 'Completed'",
       "instructions": "Change shortcut for checking off todos to",
       "value": "CTRL + D",
       "values": [{
@@ -171,7 +171,7 @@
    "shortcut_mark_task_starred": {
       "id": "shortcut_mark_task_starred",
       "formElement": "shortcut-mark-task-starred",
-      "label": "Mark Selected Items as 'Starred'",
+      "label": "Mark Selected To-dos as 'Starred'",
       "instructions": "Change shortcut for starring todos to",
       "value": "CTRL + S",
       "values": [{
@@ -185,7 +185,7 @@
    "shortcut_select_all_tasks": {
       "id": "shortcut_select_all_tasks",
       "formElement": "shortcut-select-all-tasks",
-      "label": "Select All Items",
+      "label": "Select All To-dos",
       "instructions": "Change shortcut for selecting all todos to",
       "value": "CTRL + A",
       "values": [{
@@ -199,7 +199,7 @@
    "shortcut_delete": {
       "id": "shortcut_delete",
       "formElement": "shortcut-delete",
-      "label": "Delete Selected List or Item",
+      "label": "Delete Selected List or To-do",
       "instructions": "Change shortcut for deleting a list or a todo to",
       "value": "CTRL + BACKSPACE",
       "values": [{
