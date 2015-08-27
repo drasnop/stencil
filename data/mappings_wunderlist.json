@@ -52,8 +52,11 @@
    "selector": ".actionBar-bottom a.tab.share",
    "options": ["shortcut_send_via_email"]
 }, {
-   "selector": ".actionBar-bottom a.tab.last-tab, .completed-items-heading",
+   "selector": ".completed-items-heading",
    "options": ["print_completed_items"]
+}, {
+   "selector": ".actionBar-bottom a.tab.last-tab",
+   "options": ["print_completed_items", "shortcut_copy_tasks", "shortcut_paste_tasks"]
 }, {
    "selector": ".detail-trash",
    "options": ["confirm_delete_entity", "shortcut_delete"]
