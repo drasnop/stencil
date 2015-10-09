@@ -13,9 +13,9 @@ function initialize() {
    $("#customization-layer").append("<div id='overlay'></div>")
       .append("<div id='hooks'></div>")
       .append("<div ad-hoc-panel></div")
-      /*   .append("<div id='close-icon' title='Exit customization mode'></div>")
-      $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
-         .on("click", exitCustomizationMode)*/
+      .append("<div id='close-icon' title='Exit customization mode'></div>")
+   $("#close-icon").css("background-image", "url(//" + parameters.serverURL + "/img/close.png)")
+      .on("click", exitCustomizationMode)
 
    // setup interaction for overlay
    $("#overlay").click(function() {

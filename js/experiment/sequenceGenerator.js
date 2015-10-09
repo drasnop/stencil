@@ -219,7 +219,7 @@ var sequenceGenerator = (function() {
    }
 
    // returns a boolean value or a String (the name of the value)
-   // in the case of more than 2 values, the reverse flag is used so that complementValueOf(complementValueOf(option),true)=option.valuesequenceGenerator.complementValueOf = function(option, reverse) {
+   // in the case of more than 2 values, the reverse flag is used so that complementValueOf(complementValueOf(option),true)=option.value
    sequenceGenerator.complementValueOf = function(option, reverse) {
 
       // do not touch options that aren't part of the experiment

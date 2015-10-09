@@ -60,7 +60,7 @@ var parameters = {
    "serverURL": "localhost:8888",
    //"serverURL": "tequila.cs.ubc.ca/stencil",
    // whether the system is currently used to conduct an experiment
-   "experiment": true,
+   "experiment": false,
    // distance (in px) below which ghost anchors are bundled in clusters
    "distance": 200,
    // height (in px) of the experiment progress bar, necessary to offset the position of the hooks

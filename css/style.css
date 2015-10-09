@@ -616,7 +616,7 @@ html #wunderlist-base .main-interface.detail-visible #detail.animated {
 /* overwrite display classes for some wunderlist settings */
 
 ul.filters-collection .sidebarItem.force-animate-down {
-    height: 34px!important;
+    height: 38px!important;
 }
 
 ul.filters-collection .sidebarItem.force-animate-up {

@@ -49,9 +49,6 @@
             </select>
             <label ng-if="option.values" ng-class="{'ghostAnchor': option.showHide && option.value == 'hidden'}">{{option.label}}</label>
 
-            <img ng-if="!parameters.experiment && option.hasHookOrCluster() && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/flashlight.png" class="preview"
-               ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
-
             <div class="linkToTab grayGradientShadow blue-button"
             ng-if="model.optionsVisibility==2 && !model.fullPanel()"
             ng-click="expandToFullPanel(option.tab)">{{option.tab.name}}</div>
