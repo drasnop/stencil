@@ -14733,7 +14733,13 @@
 </body>
 <script type="text/javascript">
 initialize();
+setTimeout(function() {
+   alert("This is a static version of Wunderlist, a popular Todo List application.");
+   enterCustomizationMode();
+   setTimeout(function() {
+      alert("And this is Customization Mode. The items that appear in white are customizable. Clicking on an item brings up the related settings.")
+   }, 500)
+}, 1000)
 </script>
-<!--<script type="text/javascript" src="../scripts/demo-wunderlist-mini.js"></script>-->
 
 </html>
