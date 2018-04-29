@@ -41,7 +41,7 @@ app.run(['$location', '$http', '$q', '$rootScope', function($location, $http, $q
    }
 
    function requestJSON(applicationName, objectName) {
-      return $http.get('//' + parameters.serverURL + '/data/' + objectName + '_' + applicationName + '.json').success(function(data) {
+      return $http.get(parameters.serverURL + '/data/' + objectName + '_' + applicationName + '.json').success(function(data) {
          console.log("Retrieved ", objectName)
          model[objectName] = data;
       });
@@ -76,27 +76,27 @@ app.run(['$location', '$http', '$q', '$rootScope', function($location, $http, $q
 app.directive('adHocPanel', ['$sce', function($sce) {
    return {
       replace: true,
-      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/options.html')
+      templateUrl: $sce.trustAsResourceUrl(parameters.serverURL + '/html/options.html')
    };
 }])
 
 app.directive('instructionsModal', ['$sce', function($sce) {
    return {
       replace: true,
-      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/instructions-modal.html')
+      templateUrl: $sce.trustAsResourceUrl(parameters.serverURL + '/html/instructions-modal.html')
    };
 }])
 
 app.directive('progressBar', ['$sce', function($sce) {
    return {
       replace: true,
-      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/progress-bar.html')
+      templateUrl: $sce.trustAsResourceUrl(parameters.serverURL + '/html/progress-bar.html')
    };
 }])
 
 app.directive('intermediate', ['$sce', function($sce) {
    return {
       replace: true,
-      templateUrl: $sce.trustAsResourceUrl('//' + parameters.serverURL + '/html/intermediate.html')
+      templateUrl: $sce.trustAsResourceUrl(parameters.serverURL + '/html/intermediate.html')
    };
 }])

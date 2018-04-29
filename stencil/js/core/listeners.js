@@ -131,7 +131,7 @@ var listeners = (function() {
          // toggle the cluster mark 
          cluster.showGhosts = !cluster.showGhosts;
          $(this).css("background-image",
-            cluster.showGhosts ? "url(//" + parameters.serverURL + "/img/chevron_collapse.png)" : "url(//" + parameters.serverURL + "/img/chevron_expand.png)")
+            cluster.showGhosts ? "url(" + parameters.serverURL + "/img/chevron_collapse.png)" : "url(" + parameters.serverURL + "/img/chevron_expand.png)")
 
          // update its ghosts, with animation
          hooksManager.updateGhostsVisibility(cluster.ghosts, cluster.showGhosts, true);

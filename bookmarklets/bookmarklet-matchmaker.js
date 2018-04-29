@@ -18,18 +18,18 @@ javascript:(function(e,a,g,h,f,c,b,d){
    window.jQuery=j;
    window.$=window.jQuery;
 
-   if ($("link[href='//localhost:8888/scripts/matchmaker-style.css']").length>0)
-      $("link[href='//localhost:8888/scripts/matchmaker-style.css']").remove();
+   if ($("link[href='scripts/matchmaker-style.css']").length>0)
+      $("link[href='scripts/matchmaker-style.css']").remove();
 
    $('<link/>', {
       rel: 'stylesheet',
       type: 'text/css',
       crossorigin: 'anonymous',
-      href: '//localhost:8888/scripts/matchmaker-style.css'
+      href: 'scripts/matchmaker-style.css'
    }).appendTo('head');
 
    $.when(
-      $.getScript("//localhost:8888/scripts/matchmaker.js"),
+      $.getScript("scripts/matchmaker.js"),
       $.Deferred(function( deferred ){
          $( deferred.resolve );
       })

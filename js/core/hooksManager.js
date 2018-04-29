@@ -280,7 +280,7 @@ var hooksManager = (function() {
       // Create one cluster marker icon per cluster (even if it contains only one elements)
       hooksManager.clusters.forEach(function(cluster) {
          var icon = $("<div class='cluster-marker'>").appendTo("#hooks")
-            .css("background-image", "url(//" + parameters.serverURL + "/img/chevron_expand.png)")
+            .css("background-image", "url(" + parameters.serverURL + "/img/chevron_expand.png)")
 
          icon.data("cluster", cluster);
          cluster.icon = icon;

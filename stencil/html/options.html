@@ -3,7 +3,7 @@
 
    <ul id="tabs" ng-show="model.fullPanel()">
       <div class="back-arrow-wrapper" ng-if="model.fullPanel() && model.optionsVisibility < 3" ng-click="contractFullPanel()">
-         <img class="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
+         <img class="back-arrow" ng-src="{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
       </div>
       <li class="tab"
       ng-repeat="tab in model.tabs"
@@ -15,7 +15,7 @@
 
    <div id="options-list" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.fullPanel() && model.activeTab.bloat}" ng-style="{height: geometry.getAllOptionsHeight() + 'px'}">
 
-      <img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="//{{parameters.serverURL}}/img/tabs/{{model.activeTab.image}}">
+      <img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="{{parameters.serverURL}}/img/tabs/{{model.activeTab.image}}">
 
       <div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
       ng-repeat="tab in model.tabs | filter: filterOutBloatTabs" ng-show="tab==model.activeTab || !model.fullPanel()">
@@ -49,7 +49,7 @@
             </select>
             <label ng-if="option.values" ng-class="{'ghostAnchor': option.showHide && option.value == 'hidden'}">{{option.label}}</label>
 
-            <img ng-if="!parameters.experiment && option.hasHookOrCluster() && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/flashlight.png" class="preview"
+            <img ng-if="!parameters.experiment && option.hasHookOrCluster() && model.fullPanel()" ng-src="{{parameters.serverURL}}/img/flashlight.png" class="preview"
                ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
 
             <div class="linkToTab grayGradientShadow blue-button"

@@ -248,7 +248,7 @@ var experiment = (function() {
       model.progressBar.message = "";
       model.progressBar.buttonLabel = "";
 
-      var img = "<img src='//" + parameters.serverURL + "/img/yawning.jpg'>";
+      var img = "<img src='" + parameters.serverURL + "/img/yawning.jpg'>";
 
       model.modal.header = "Well done!";
       model.modal.message = "Now would be a good time to take a mini-break :)" + img;
