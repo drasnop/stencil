@@ -57,7 +57,7 @@ var model = {
 
 var parameters = {
    // server base url
-   "serverURL": "",
+   "serverURL": ".",
    //"serverURL": "//tequila.cs.ubc.ca/stencil",
    // whether the system is currently used to conduct an experiment
    "experiment": false,
