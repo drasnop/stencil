@@ -1,4 +1,3 @@
-console.log('script');
 initialize();
 setTimeout(function() {
    alert("This is a static version of Wunderlist, a popular Todo List application.");

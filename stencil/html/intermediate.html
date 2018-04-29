@@ -1,0 +1,44 @@
+<div ng-controller="intermediateCtrl">
+
+<div class="form-group">
+  <label>In this customization interface, how easy or hard was it to find the settings you were looking for? </label>
+  <div class="likert-scale">
+    <span class="outer-label text-align-right">difficult</span>
+    <label class="step" ng-repeat="step in likertScale">
+      <input type="radio" ng-model="data.easeOfUse" value="{{step}}">
+      <br>
+      <div class="legend">{{step}}</div>
+    </label>
+    <span class="outer-label text-align-left">easy</span>
+  </div>
+</div>
+
+<div class="form-group">
+  <label>How quickly or slowly were you able to find the settings you were looking for? </label>
+  <div class="likert-scale">
+    <span class="outer-label text-align-right">slow</span>
+    <label class="step" ng-repeat="step in likertScale">
+      <input type="radio" ng-model="data.speed" value="{{step}}">
+      <br>
+      <div class="legend">{{step}}</div>
+    </label>
+    <span class="outer-label text-align-left">fast</span>
+  </div>
+</div>
+
+<div class="form-group">
+  <label> Please rate how you liked or disliked this customization interface: </label>
+  <div class="likert-scale">
+    <span class="outer-label text-align-right">didn't like it</span>
+    <label class="step" ng-repeat="step in likertScale">
+      <input type="radio" ng-model="data.liking" value="{{step}}">
+      <br>
+      <div class="legend">{{step}}</div>
+    </label>
+    <span class="outer-label text-align-left">liked it</span>
+  </div>
+</div>
+
+<button class="btn btn-primary" ng-click="submitAndContinue()" ng-disabled="!isDataValid()"> Submit </button>
+
+<div>

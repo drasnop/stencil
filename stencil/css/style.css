@@ -1,0 +1,677 @@
+/*
+z-indexes
+1 000 000 overlay
+1 000 001 hooks.hook
+1 000 002 hooks:hover
+1 000 004 plus
+1 000 005 ad-hoc-panel
+1 000 006 close-icon
+1 000 007 modal-backdrop
+1 000 008 modal
+
+#FFCC39 orange halo
+#FFD5A1 light orange background color
+#FF9900 number of highlighted options
+#27A0D8 blue
+#2755D8 hyperlink blue
+#61FFED electric blue for highlighting
+
+*/
+
+
+/* ----------------------  experiment  ---------------------- */
+
+#progress-bar {
+    height: 45px;
+    background-color: rgb(68, 68, 68);
+    color: lightgray;
+    text-align: center;
+}
+
+#progress-bar-pusher {
+    position: absolute;
+    top: 45px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    /* to prevent the white shadow ot the close button from overflowing onto progress bar... */
+    overflow: hidden;
+}
+
+#progress-bar > div {
+    display: inline-block;
+    padding-top: 5px;
+}
+
+#progress-bar .instructions {
+    display: inline-block;
+    min-width: 400px;
+}
+
+#button-trial-done {
+    display: inline-block;
+    margin-left: 30px;
+    box-sizing: border-box;
+    width: 120px;
+    height: 34px;
+    border-radius: 4px;
+}
+
+#progress-bar .trial-bonus {
+    color: #08FF08;
+    margin-left: 30px;
+}
+
+.btn-blue {
+    background-color: #27A0D8;
+    color: white!important;
+}
+
+.btn-blue[disabled] {
+    opacity: 1;
+    background-color: #7BC1E3;
+}
+
+.btn-blue:hover,
+.btn-blue:active {
+    background-color: #2392C7;
+}
+
+.btn-green {
+    opacity: 1!important;
+    background-color: #449D44;
+    color: white!important;
+}
+
+.btn-red {
+    opacity: 1!important;
+    background-color: #C9302C;
+    color: white!important;
+}
+
+#instructions-modal {
+    z-index: 1000008;
+    font-size: 16px;
+}
+
+.modal-dialog {
+    margin: 45px auto;
+}
+
+.modal-content.green-modal {
+    background-color: #A6FFA7;
+    color: #017D01;
+}
+
+.modal-header {
+    border: none;
+}
+
+.modal-footer {
+    border: none;
+}
+
+.modal-backdrop {
+    z-index: 1000007;
+    background-color: white;
+}
+
+.modal-backdrop.in {
+    opacity: 0.3;
+}
+
+#modal-button {
+    min-width: 100px;
+}
+
+#instructions-modal img {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.form-group label {
+    font-style: italic;
+}
+
+.likert-scale {
+    margin: 10px 0;
+}
+
+.likert-scale .outer-label {
+    display: inline-block;
+    vertical-align: top;
+    font-weight: bold;
+    width: 100px;
+}
+
+.likert-scale .outer-label.text-align-right {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.likert-scale .outer-label.text-align-left {
+    text-align: left;
+    margin-left: 10px;
+}
+
+.likert-scale label {
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.likert-scale .step {
+    display: inline-block;
+    margin: 0 7px;
+}
+
+.likert-scale .step .legend {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+
+/* -------------------  overlay, hooks, ghosts --------------------- */
+
+#overlay {
+    z-index: 1000000;
+    background-color: black;
+    opacity: .5;
+    /* should be animated, but sadly it lags */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.dimmed {
+    -webkit-filter: grayscale(70%);
+    filter: grayscale(70%);
+}
+
+#close-icon {
+    z-index: 1000006;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    box-shadow: 0 0 5px 5px #ededed;
+    background-position: 0px 0px;
+}
+
+#close-icon:hover {
+    box-shadow: 0 0 5px 5px yellow;
+    background-position: -32px 0px;
+}
+
+.hook {
+    z-index: 1000001 !important;
+    position: absolute !important;
+    margin: 0 !important;
+    background-color: #ededed !important;
+    color: #444 !important;
+    /* not entirely sure about this... but would keep anchor at a reasonable size */
+    max-width: 300px !important;
+    white-space: nowrap !important;
+    transition: top 0.3s linear, left 0.3s linear;
+    cursor: pointer !important;
+    pointer-events: all !important;
+}
+
+.row.option .highlight-on-hover:hover {
+    box-shadow: 0px 0px 0px 1px #27A0D8;
+}
+
+.blue-highlighted {
+    z-index: 1000002 !important;
+    box-shadow: 0 0 3px 3px #61FFED!important;
+}
+
+.hook:hover,
+.hook.hovered {
+    z-index: 1000002 !important;
+    /*box-shadow: 0 0 3px 3px #FFCC39!important;
+   border: 1px solid #ccc  !important;
+   margin-top: -1px!important;
+   margin-left: -1px!important; */
+    background-color: #FFD5A1 !important;
+}
+
+.ghost {
+    background-color: #D5D5D5 !important;
+    color: rgba(68, 68, 68, .6) !important;
+}
+
+.hook * {
+    background-color: transparent !important;
+    color: #333 !important;
+}
+
+.cluster-marker {
+    z-index: 1000004;
+    position: absolute;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px 2px #ededed;
+    background-position: 0px 0px;
+    transition: top 0.3s linear, left 0.3s linear;
+}
+
+.cluster-marker:hover {
+    box-shadow: 0 0 1px 2px #FFCC39;
+    background-position: -36px 0px;
+}
+
+#ad-hoc-panel {
+    z-index: 1000005;
+    position: absolute;
+    min-height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #FFD5A1;
+    color: #444;
+    box-shadow: 1px 1px 2px 3px rgba(68, 68, 68, 0.5);
+    /* background-color 0.5s ease;   doesn't look good*/
+    margin-bottom: 10px;
+    /*margin-top: 10px; would look better, but creates a jump when switching views */
+}
+
+#ad-hoc-panel.expanded {
+    background-color: white;
+}
+
+
+/* ------------------------  tabs ------------------------ */
+
+#tabs {
+    box-sizing: border-box;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 0;
+    height: 46px;
+    background-color: #f3f3f3;
+    border-bottom: 2px solid #27A0D8;
+}
+
+.grayGradientShadow {
+    background-image: linear-gradient(to bottom, #FFF, #E9E9E9);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid #BBB;
+}
+
+#tabs .tab {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 8px 8px;
+    font-size: 15px;
+    cursor: pointer;
+    height: 36px;
+    margin-top: 8px;
+    margin-left: 1px;
+    margin-right: 4px;
+    border-radius: 8px 8px 0 0;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-top: 1px solid transparent;
+}
+
+#tabs .tab:hover {
+    border-color: #27A0D8 #27A0D8 transparent;
+}
+
+#tabs .tab.active {
+    background-color: white;
+    height: 39px;
+    margin-top: 7px;
+    margin-left: 0;
+    margin-right: 3px;
+    border-left: 2px solid #27A0D8;
+    border-right: 2px solid #27A0D8;
+    border-top: 2px solid #27A0D8;
+    border-bottom: 2px solid transparent;
+}
+
+#tabs .tab.highlighted {
+    background-color: #FFD5A1;
+    background-image: none;
+}
+
+#tabs .tab:first-child {
+    margin-left: 4px;
+}
+
+#tabs .tab:first-child.active {
+    margin-left: 3px;
+}
+
+.blue-button:hover,
+.blue-button.active {
+    background-color: #27A0D8;
+    color: white;
+    background-image: none;
+}
+
+.linkToTab {
+    cursor: pointer;
+    padding: 5px 6px;
+    /* 3px 6px to make them less salient + use opacity .7 in the gradient*/
+    border-radius: 4px;
+    border-radius: 8px 8px 0 0;
+    width: 92px;
+    text-align: center;
+    position: absolute;
+    top: 4px;
+    right: 10px;
+}
+
+div.back-arrow-wrapper {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0;
+    text-align: center;
+    width: 48px;
+    vertical-align: bottom;
+}
+
+.back-arrow {
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 9px;
+    opacity: .8;
+}
+
+.back-arrow:hover {
+    opacity: 1;
+}
+
+
+/* -------------------- Options ----------------- */
+
+select {
+    padding: 5px;
+}
+
+#options-list {
+    width: 100%;
+    /* for auto scrolling */
+    max-height: 304px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* for absolute positioning of options */
+    position: relative;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+#options-list.bloat {
+    margin: 0;
+}
+
+#ad-hoc-panel.minimal #options-list {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    overflow-y: hidden;
+}
+
+#ad-hoc-panel.mixed #options-list {
+    overflow-y: hidden;
+}
+
+.tab-description {
+    padding: 0 10px;
+    width: 550px;
+}
+
+.row.option {
+    position: absolute;
+    width: 100%;
+    height: 38px;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.row.option.highlighted {
+    background-color: #FFD5A1;
+}
+
+.show-more-shortcuts {
+    position: absolute;
+    right: 17px;
+    bottom: 10px;
+    background-color: inherit;
+}
+
+#options-list.highlighted {
+    /* need to highlight the full minimalist panel */
+    background-color: #FFD5A1;
+}
+
+.row.option .formControl {
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.row.option .formControl.checkbox {
+    margin-right: 7px !important;
+}
+
+.row.option label {
+    white-space: nowrap;
+    padding: 10px 0;
+}
+
+.row.option label.ghostAnchor {
+    opacity: .6;
+}
+
+.preview {
+    opacity: 0.5;
+    vertical-align: middle;
+    height: 12px;
+    padding-left: 5px;
+}
+
+.preview:hover {
+    opacity: 1;
+}
+
+.hyperlink {
+    color: #2755D8;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.hyperlink:hover {
+    color: #612B9C;
+}
+
+.right-column .hyperlink {
+    padding: 0 5px;
+}
+
+#show-all {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+}
+
+
+/* ---------- Wunderlist-specific styles ------------- */
+
+.bloat-image {
+    width: 100%;
+}
+
+
+/* "Show more" button in shortcuts tab */
+
+.wunderlist-button {
+    font-family: "Lato", "Helvetica Neue", Helvetica, "Arial", sans-serif;
+    cursor: pointer;
+    color: #737272;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 13px;
+    padding: 8px 12px;
+    /*background-image: linear-gradient(to bottom, #FFF, #F5F5F5);*/
+    border-radius: 4px;
+    border: medium none;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
+}
+
+
+/* "add item" hook: they are using an !important flag, so I have to match specificity */
+
+#wunderlist-base .chromeless[type="text"].hook {
+    background-color: #ededed !important;
+}
+
+#wunderlist-base .chromeless[type="text"].blue-highlighted {
+    z-index: 1000002 !important;
+    box-shadow: 0 0 3px 3px #61FFED!important;
+}
+
+#wunderlist-base .chromeless[type="text"].hook:hover,
+#wunderlist-base .chromeless[type="text"].hook.hovered {
+    z-index: 1000002 !important;
+    background-color: #FFD5A1 !important;
+}
+
+#wunderlist-base .chromeless[type="text"].hook * {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+
+/* prevent animation of the menu, to avoid delays in replacing the Account Settings link by "Customize" */
+
+body.animate .popover {
+    -webkit-transform: none!important;
+    -ms-transform: none!important;
+    transform: none!important;
+    -webkit-animation: none!important;
+    -ms-animation: none!important;
+    animation: none!important;
+}
+
+
+/* prevent the slide-in animation of the menu */
+
+body.animate .dialog-wrapper .dialog {
+    -webkit-animation: none!important;
+    -ms-animation: none!important;
+    animation: none!important;
+}
+
+
+/* prevent the slide-in animation of the details panel */
+
+html #wunderlist-base .main-interface.detail-visible #detail.animated {
+    transition: none!important;
+}
+
+
+/* hide the onboarding popups */
+
+.foldersGuide .openButton {
+    display: none!important;
+}
+
+.conversations-count .count,
+.activities-count .count {
+    display: none!important;
+}
+
+.popover.addItem,
+.popover.AddPeople,
+.popover.addList {
+    display: none!important;
+}
+
+#wunderlist-base .tooltip {
+    display: none!important;
+}
+
+
+/* align the star non-starred svg icon inside its parent hook */
+
+.hook.star-wrapper .starred {
+    padding: 0 !important;
+}
+
+
+/* overwrite display classes for some wunderlist settings */
+
+ul.filters-collection .sidebarItem.force-animate-down {
+    height: 34px!important;
+}
+
+ul.filters-collection .sidebarItem.force-animate-up {
+    height: 0!important;
+}
+
+
+/*#settings .filter-setting.force-disabled .label,
+#settings .filter-setting.force-disabled svg {
+    opacity: 0.6!important;
+}
+
+#settings .filter-setting.force-enabled .label,
+#settings .filter-setting.force-enabled svg {
+    opacity: 1!important;
+}*/
+
+
+/* button.highlighted{
+   background-color: rgb(39, 160, 216) !important;
+   background-image: none !important;
+   color: white !important;
+   } */
+
+
+/* button.wunderlist{
+   font-family: "Lato","Helvetica Neue",Helvetica,"Arial",sans-serif;
+   position: relative;
+   cursor: pointer;
+   color: #737272;
+   font-weight: bold;
+   font-size: 13px;
+   line-height: 13px;
+   padding: 8px 12px;
+   background-image: linear-gradient(to bottom, #FFF, #F5F5F5);
+   border: medium none;
+   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
+}
+
+button.wunderlist:active{
+   background-image: linear-gradient(to bottom, #F5F5F5, #FFF);
+   box-shadow: 0px 1px 1px transparent, 0px 0px 0px 1px rgba(0, 0, 0, 0.15) inset;
+}
+
+button.wunderlist:focus{
+   box-shadow: 0px 0px 5px rgba(0, 154, 228, 0.3), 0px 0px 0px 1px rgba(0, 154, 228, 0.6) inset;
+} */
+
+
+/* ------------ gmail-specific styles ---------------- */
+
+#y6-y2 {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}

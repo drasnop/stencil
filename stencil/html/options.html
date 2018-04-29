@@ -1,0 +1,68 @@
+<div id='ad-hoc-panel' ng-controller='panelController'
+ ng-show='model.showPanel' ng-class="{'expanded': model.fullPanel(), 'contracted': !model.fullPanel(), 'with-back-arrow': model.optionsVisibility < 3 && model.fullPanel(), 'minimal': model.optionsVisibility==1 && !model.fullPanel(), 'mixed': model.optionsVisibility==2 && !model.fullPanel()}">
+
+   <ul id="tabs" ng-show="model.fullPanel()">
+      <div class="back-arrow-wrapper" ng-if="model.fullPanel() && model.optionsVisibility < 3" ng-click="contractFullPanel()">
+         <img class="back-arrow" ng-src="//{{parameters.serverURL}}/img/back-arrow.png" alt="Go back to minimal panel" >
+      </div>
+      <li class="tab"
+      ng-repeat="tab in model.tabs"
+      ng-class="{'highlighted': tab.count>0, 'active': tab==model.activeTab}"
+      ng-click="activateTab(tab)">
+      <span>{{tab.name}}</span>
+      </li>
+   </ul>
+
+   <div id="options-list" ng-class="{'highlighted': !model.fullPanel(), 'bloat':model.fullPanel() && model.activeTab.bloat}" ng-style="{height: geometry.getAllOptionsHeight() + 'px'}">
+
+      <img class="bloat-image" ng-if="model.fullPanel() && model.activeTab.bloat" ng-src="//{{parameters.serverURL}}/img/tabs/{{model.activeTab.image}}">
+
+      <div class="tab" ng-class="{'highlighted': model.fullPanel() && tab.count>0}"
+      ng-repeat="tab in model.tabs | filter: filterOutBloatTabs" ng-show="tab==model.activeTab || !model.fullPanel()">
+
+         <div class="tab-description" ng-bind-html="tab.description"
+         ng-if="model.fullPanel() && tab.description">
+         </div>
+
+         <div class="row option" id="{{option.id}}"
+         ng-class="{'highlighted': option.selected}"
+         ng-show="view.isOptionVisible(option)"
+         ng-repeat="option in tab.options">
+
+            <label ng-if="!option.values">
+            <input type="checkbox"
+            class="formControl checkbox highlight-on-hover" 
+            ng-model="option.value"
+            ng-click="experiment.sequencer.trial.clickedOptions.pushStamped({'option_ID': option.id})"
+            ng-change="updateAppOption(option, '{{option.value}}')"
+            ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+            {{option.label}}</label>
+
+            <select
+            class="formControl"
+            ng-if="option.values"
+            ng-model="option.value"
+            ng-options="value.name as value.label for value in option.values"
+            ng-click="experiment.sequencer.trial.clickedOptions.pushStamped({'option_ID': option.id})"
+            ng-change="updateAppOption(option, '{{option.value}}')"
+            ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+            </select>
+            <label ng-if="option.values" ng-class="{'ghostAnchor': option.showHide && option.value == 'hidden'}">{{option.label}}</label>
+
+            <img ng-if="!parameters.experiment && option.hasHookOrCluster() && model.fullPanel()" ng-src="//{{parameters.serverURL}}/img/flashlight.png" class="preview"
+               ng-mouseenter="reverseHighlight(option)" ng-mouseleave="removeReverseHighlight(option)">
+
+            <div class="linkToTab grayGradientShadow blue-button"
+            ng-if="model.optionsVisibility==2 && !model.fullPanel()"
+            ng-click="expandToFullPanel(option.tab)">{{option.tab.name}}</div>
+         </div>
+
+      </div>
+
+   </div>
+
+   <div class="show-more-shortcuts wunderlist-button blue-button" ng-if="model.fullPanel() && model.activeTab.hasMoreOptions"
+   ng-click="toggleShowMoreOptions()">{{model.activeTab.showMoreOptions? "Hide" : "Show More"}}</div>
+
+   <a id="show-all" class="hyperlink" ng-if="!model.fullPanel() && model.optionsVisibility==1" ng-click="expandToFullPanel()">show all</a>
+</div>
