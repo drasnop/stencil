@@ -9,16 +9,20 @@ var app = angular.module('myApp', ['ngSanitize']);
 app.run(['$location', '$http', '$q', '$rootScope', function($location, $http, $q, $rootScope) {
 
    // sets application flags based on the url, then load the appropriate data
-   if ($location.absUrl().indexOf("wunderlist") != -1) {
-      model.wunderlist = true;
-      model.gmail = false;
-      loadData("wunderlist");
-   } else if ($location.absUrl().indexOf("gmail") != -1) {
+   // if ($location.absUrl().indexOf("wunderlist") != -1) {
+   //    model.wunderlist = true;
+   //    model.gmail = false;
+   //    loadData("wunderlist");
+   // } 
+   if ($location.absUrl().indexOf("gmail") != -1) {
       model.gmail = true;
       model.wunderlist = false;
       loadData("gmail");
-   } else
-      console.log("No options and mappings found for this website.")
+   } else {
+      model.wunderlist = true;
+      model.gmail = false;
+      loadData("wunderlist");
+   }
 
 
    // retrieves the correct json files, populates the model and (so far) enterCustomizationMode
